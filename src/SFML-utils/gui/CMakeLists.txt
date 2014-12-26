@@ -1,0 +1,66 @@
+set(INCROOT ${PROJECT_SOURCE_DIR}/include/${CMAKE_PROJECT_NAME}/gui)
+set(SRCROOT ${PROJECT_SOURCE_DIR}/src/${CMAKE_PROJECT_NAME}/gui)
+
+set(LIBS ${LIBS} ${CMAKE_PROJECT_NAME}-core)
+
+set(FILES_HEADER
+    ${INCROOT}/Button.hpp
+    ${INCROOT}/Container.hpp
+    ${INCROOT}/Frame.hpp
+    ${INCROOT}/Label.hpp
+    ${INCROOT}/Layout.hpp
+    ${INCROOT}/TextButton.hpp
+    ${INCROOT}/VLayout.hpp
+    ${INCROOT}/Widget.hpp
+)
+
+set(FILES_SRC
+    ${SRCROOT}/Button.cpp
+    ${SRCROOT}/Container.cpp
+    ${SRCROOT}/Frame.cpp
+    ${SRCROOT}/Label.cpp
+    ${SRCROOT}/Layout.cpp
+    ${SRCROOT}/TextButton.cpp
+    ${SRCROOT}/VLayout.cpp
+    ${SRCROOT}/Widget.cpp
+
+)
+
+set(LIB_NAME "${CMAKE_PROJECT_NAME}-gui")
+
+add_library(${LIB_NAME} SHARED ${FILES_SRC} ${FILES_HEADER})
+SET_TARGET_PROPERTIES(${LIB_NAME}
+    PROPERTIES
+    OUTPUT_NAME ${LIB_NAME}
+    CLEAN_DIRECT_OUTPUT 1
+    VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}
+    SOVERSION ${VERSION_MAJOR}.${VERSION_MINOR}
+)
+target_link_libraries(${LIB_NAME} ${LIBS})
+INSTALL(TARGETS ${LIB_NAME}
+    DESTINATION lib
+)
+
+add_library(${LIB_NAME}-static STATIC ${FILES_HEADER} ${FILES_SRC})
+SET_TARGET_PROPERTIES(${LIB_NAME}-static
+    PROPERTIES
+    OUTPUT_NAME ${LIB_NAME}
+    CLEAN_DIRECT_OUTPUT 1
+    VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}
+    SOVERSION ${VERSION_MAJOR}.${VERSION_MINOR}
+)
+target_link_libraries(${LIB_NAME}-static ${LIBS})
+INSTALL(TARGETS ${LIB_NAME}-static
+    DESTINATION lib
+)
+
+file(GLOB DEPLOY_FILES_AND_DIRS ${INCROOT})
+foreach(ITEM ${DEPLOY_FILES_AND_DIRS})
+   IF( IS_DIRECTORY "${ITEM}" )
+      LIST( APPEND DIRS_TO_DEPLOY "${ITEM}" )
+   ELSE()
+      LIST( APPEND FILES_TO_DEPLOY "${ITEM}" )
+   ENDIF()
+endforeach()
+INSTALL( FILES ${FILES_TO_DEPLOY} DESTINATION include/${CMAKE_PROJECT_NAME} )
+INSTALL( DIRECTORY ${DIRS_TO_DEPLOY} DESTINATION include/${CMAKE_PROJECT_NAME} )
