@@ -18,7 +18,11 @@ int main(int argc,char* argv[])
 
     {
         sfutils::VLayout* layout = new sfutils::VLayout;
-        layout->setSpace(25);
+        layout->setSpace(70);
+
+        sfutils::Label* label = new sfutils::Label("Hello World !",fonts.get(Fonts::Gui));
+        label->setCharacterSize(72);
+        layout->add(label);
 
         sfutils::TextButton* exit = new sfutils::TextButton("Exit",fonts.get(Fonts::Gui));
         exit->on_click = [&window](const sf::Event&, sfutils::Button& button){
