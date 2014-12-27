@@ -3,6 +3,7 @@
 
 #include <SFML-utils/gui/Button.hpp>
 #include <SFML-utils/gui/Label.hpp>
+#include <SFML-utils/gui/Configuration.hpp>
 
 
 namespace sfutils

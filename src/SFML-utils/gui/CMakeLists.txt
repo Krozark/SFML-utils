@@ -11,8 +11,9 @@ set(FILES_HEADER
     ${INCROOT}/Label.hpp
     ${INCROOT}/Layout.hpp
     ${INCROOT}/TextButton.hpp
-    ${INCROOT}/VLayout.hpp
+    ${INCROOT}/SpriteButton.hpp
     ${INCROOT}/HLayout.hpp
+    ${INCROOT}/VLayout.hpp
     ${INCROOT}/Widget.hpp
 )
 
@@ -24,8 +25,9 @@ set(FILES_SRC
     ${SRCROOT}/Label.cpp
     ${SRCROOT}/Layout.cpp
     ${SRCROOT}/TextButton.cpp
-    ${SRCROOT}/VLayout.cpp
+    ${SRCROOT}/SpriteButton.cpp
     ${SRCROOT}/HLayout.cpp
+    ${SRCROOT}/VLayout.cpp
     ${SRCROOT}/Widget.cpp
 
 )

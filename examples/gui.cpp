@@ -6,6 +6,9 @@ int main(int argc,char* argv[])
     sf::RenderWindow window(sf::VideoMode(600,800),"Example GUI");
     sfutils::Frame frame(window);
 
+    sf::Texture texture;
+    texture.loadFromFile("media/img/hello.png");
+
     {
         sfutils::VLayout* layout = new sfutils::VLayout;
         layout->setSpacing(70);
@@ -46,6 +49,9 @@ int main(int argc,char* argv[])
             label->setCharacterSize(36);
             label->setTextColor(sf::Color(180,28,90));
             layout->add(label);
+
+            sfutils::SpriteButton* sprbutton = new sfutils::SpriteButton(texture);
+            layout->add(sprbutton);
 
             container->setLayout(layout);
         }
