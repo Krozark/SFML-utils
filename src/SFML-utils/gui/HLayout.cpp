@@ -1,4 +1,4 @@
-#include <SFML-utils/gui/VLayout.hpp>
+#include <SFML-utils/gui/HLayout.hpp>
 
 #include <SFML-utils/gui/Widget.hpp>
 
@@ -6,11 +6,11 @@ namespace sfutils
 {
     namespace gui
     {
-        VLayout::VLayout(Widget* parent) : Layout(parent)
+        HLayout::HLayout(Widget* parent) : Layout(parent)
         {
         }
 
-        VLayout::~VLayout()
+        HLayout::~HLayout()
         {
             for(Widget* widget : _widgets)
             {
@@ -19,36 +19,37 @@ namespace sfutils
             }
         }
         
-        void VLayout::add(Widget* widget)
+        void HLayout::add(Widget* widget)
         {
             widget->_parent = this;
             _widgets.emplace_back(widget);
             updateShape();
         }
 
-        Widget* VLayout::at(unsigned int index)const
+        Widget* HLayout::at(unsigned int index)const
         {
             return _widgets.at(index);
         }
 
-        sf::Vector2f VLayout::getSize()const
+
+        sf::Vector2f HLayout::getSize()const
         {
-            float max_x = 0;
-            float y = 0;
+            float max_y = 0;
+            float x = 0;
             for(Widget* widget : _widgets)
             {
                 if(widget->_is_visible)
                 {
                     sf::Vector2f size = widget->getSize();
-                    if(size.x > max_x)
-                        max_x = size.x;
-                    y+= _spacing + size.y;
+                    if(size.y > max_y)
+                        max_y = size.y;
+                    x+= _spacing + size.x;
                 }
             }
-            return sf::Vector2f(max_x + _spacing*2,y + _spacing);
+            return sf::Vector2f(x + _spacing, max_y + _spacing*2);
         }
 
-        bool VLayout::processEvent(const sf::Event& event,const sf::Vector2f& parent_pos)
+        bool HLayout::processEvent(const sf::Event& event,const sf::Vector2f& parent_pos)
         {
             if(_is_visible)
             {
@@ -61,7 +62,7 @@ namespace sfutils
             return false;
         }
 
-        void VLayout::processEvents(const sf::Vector2f& parent_pos)
+        void HLayout::processEvents(const sf::Vector2f& parent_pos)
         {
             if(_is_visible)
             {
@@ -71,38 +72,38 @@ namespace sfutils
             }
         }
 
-        void VLayout::updateShape()
+        void HLayout::updateShape()
         {
-            float max_x = (_parent?_parent->getSize().x:0);
+            float max_y = (_parent?_parent->getSize().y:0);
             for(Widget* widget : _widgets)
             {
                 if(widget->_is_visible)
                 {
                     sf::Vector2f size = widget->getSize();
-                    float widget_x = size.x;
+                    float widget_y = size.y;
 
-                    if(widget_x > max_x)
-                        max_x = widget_x;
+                    if(widget_y > max_y)
+                        max_y = widget_y;
                 }
             }
 
-            float pos_y = _spacing;
+            float pos_x = _spacing;
             if(_parent)
-                pos_y = (_parent->getSize().y - getSize().y)/2.f;
+                pos_x = (_parent->getSize().x - getSize().x)/2.f;
 
             for(Widget* widget : _widgets)
             {
                 if(widget->_is_visible)
                 {
                     sf::Vector2f size = widget->getSize();
-                    widget->setPosition((max_x-size.x)/2.0,pos_y);
-                    pos_y += size.y + _spacing;
+                    widget->setPosition(pos_x,(max_y-size.y)/2.0);
+                    pos_x += size.x + _spacing;
                 }
             }
             Widget::updateShape();
         }
 
-        void VLayout::draw(sf::RenderTarget& target, sf::RenderStates states) const
+        void HLayout::draw(sf::RenderTarget& target, sf::RenderStates states) const
         {
             if(_is_visible)
             {
@@ -111,6 +112,7 @@ namespace sfutils
                         target.draw(*widget,states);
             }
         }
+
 
     }
 }

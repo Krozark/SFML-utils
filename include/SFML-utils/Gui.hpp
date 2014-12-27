@@ -10,6 +10,7 @@
 
 //layouts
 #include <SFML-utils/gui/Layout.hpp>
+#include <SFML-utils/gui/HLayout.hpp>
 #include <SFML-utils/gui/VLayout.hpp>
 
 namespace sfutils {

@@ -30,6 +30,26 @@ int main(int argc,char* argv[])
         };
         layout->add(button2);
 
+        sfutils::Container* container = new sfutils::Container;
+        {
+            sfutils::HLayout* layout = new sfutils::HLayout;
+            layout->setSpacing(20);
+
+            sfutils::Label* label = new sfutils::Label("This another text");
+            label->setCharacterSize(36);
+            layout->add(label);
+
+            sfutils::TextButton* button = new sfutils::TextButton("Button");
+            layout->add(button);
+
+            label = new sfutils::Label("blah blah");
+            label->setCharacterSize(36);
+            label->setTextColor(sf::Color(180,28,90));
+            layout->add(label);
+
+            container->setLayout(layout);
+        }
+        layout->add(container);
 
         frame.setLayout(layout);
     }

@@ -13,7 +13,7 @@ namespace gui {
     float Configuration::Colors::lighting = 1.4;
 
     unsigned int Configuration::Sizes::button_outline_thickness = 5;
-    unsigned int Configuration::Sizes::layout_spacing = 5;
+    unsigned int Configuration::Sizes::layout_spacing = 10;
 
     
     void Configuration::initFont()
