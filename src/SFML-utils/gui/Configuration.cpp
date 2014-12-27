@@ -2,6 +2,7 @@
 
 namespace sfutils
 {
+namespace gui {
     ResourceManager<sf::Font,int> Configuration::default_fonts;
     ActionMap<int> Configuration::default_gui_inputs;
     Configuration::__Initiatiser Configuration::__initiatiser__;
@@ -30,4 +31,5 @@ namespace sfutils
         initFont();
         initEvents();
     }
+}
 }

@@ -1,3 +1,5 @@
+#include <SFML-utils/gui/Configuration.hpp>
+
 #include <SFML-utils/gui/Widget.hpp>
 ///buttons
 #include <SFML-utils/gui/Button.hpp>
