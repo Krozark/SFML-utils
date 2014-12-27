@@ -30,17 +30,30 @@ int main(int argc,char* argv[])
         };
         layout->add(exit);
 
+        sfutils::Label* label2 = new sfutils::Label("This text can be hide",fonts.get(Fonts::Gui));
+        label2->setCharacterSize(72);
+        layout->add(label2);
+
+        sfutils::TextButton* button2 = new sfutils::TextButton("Hide/Show text",fonts.get(Fonts::Gui));
+        button2->on_click = [label2](const sf::Event&, sfutils::Button& button){
+            label2->toggle();
+        };
+        layout->add(button2);
+
+
         frame.setLayout(layout);
     }
 
-
+    
+    sf::Text text("pwet",fonts.get(Fonts::Gui));
     while (window.isOpen())
     {
         window.clear();
 
         frame.processEvents();
 
-        window.draw(frame);
+        frame.draw();
+        window.draw(text);
 
         window.display();
     }

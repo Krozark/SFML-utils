@@ -1,11 +1,20 @@
 #include <SFML-utils/gui/Frame.hpp>
+#include <SFML-utils/gui/Layout.hpp>
 
 namespace sfutils
 {
     namespace gui
     {
-        Frame::Frame(sf::RenderWindow& window,const ActionMap<int>& map) : Container(nullptr), ActionTarget(map), _window(window)
+        Frame::Frame(sf::RenderWindow& window,const ActionMap<int>& map) : Container(nullptr), ActionTarget(map), _window(window), _view(_window.getDefaultView())
         {
+            ActionTarget::bind(Action(sf::Event::Resized),[this](const sf::Event& event){
+
+                sf::FloatRect visibleArea(0, 0, event.size.width, event.size.height);
+                this->_view = sf::View(visibleArea);
+
+                if(Layout* layout = getLayout())
+                    layout->updateShape();
+           });
         }
 
         Frame::~Frame()
@@ -14,7 +23,15 @@ namespace sfutils
 
         void Frame::draw()
         {
-            _window.draw(*this);
+            if(_is_visible)
+            {
+                sf::View view = _window.getView();
+                _window.setView(_view);
+
+                _window.draw(*this);
+
+                _window.setView(view);
+            }
         }
 
         void Frame::processEvents()
@@ -48,22 +65,30 @@ namespace sfutils
 
         bool Frame::processEvent(const sf::Event& event,const sf::Vector2f& parent_pos)
         {
-            bool res = ActionTarget::processEvent(event);
-            if(not res)
-                res = Container::processEvent(event,parent_pos);
+            bool res = false;
+            if(_is_visible)
+            {
+                res = ActionTarget::processEvent(event);
+                if(not res)
+                    res = Container::processEvent(event,parent_pos);
+            }
             return res;
         }
 
         void Frame::processEvents(const sf::Vector2f& parent_pos)
         {
-            ActionTarget::processEvents();
-            Container::processEvents(parent_pos);
+            if(_is_visible)
+            {
+                ActionTarget::processEvents();
+                Container::processEvents(parent_pos);
 
-            sf::Event event;
-            while(_window.pollEvent(event))
-                Container::processEvent(event,parent_pos);
+                sf::Event event;
+                while(_window.pollEvent(event))
+                {
+                    if(not ActionTarget::processEvent(event));
+                        Container::processEvent(event,parent_pos);
+                }
+            }
         }
-
-
     }
 }

@@ -8,22 +8,35 @@ namespace sfutils
     template<typename T>
     bool ActionTarget<T>::processEvent(const sf::Event& event)const
     {
-        bool res = false;
+        for(auto& pair : _events_poll_action)
+        {
+            if(pair.first == event)
+            {
+                pair.second(event);
+                return true;
+            }
+        }
+
         for(auto& pair : _events_poll)
         {
             if(_action_map.get(pair.first) == event)
             {
                 pair.second(event);
-                res = true;
-                break;
+                return true;
             }
         }
-        return res;
+        return false;
     }
 
     template<typename T>
     void ActionTarget<T>::processEvents()const
     {
+        for(auto& pair : _events_real_time_action)
+        {
+            if(pair.first.test())
+                pair.second(pair.first._event);
+        }
+        
         for(auto& pair : _events_real_time)
         {
             const Action& action = _action_map.get(pair.first);
@@ -36,10 +49,29 @@ namespace sfutils
     void ActionTarget<T>::bind(const T& key,const FuncType& callback)
     {
         const Action& action = _action_map.get(key);
+        bind(_action_map.get(key),callback);
         if(action._type & Action::Type::RealTime)
             _events_real_time.emplace_back(key,callback);
         else
             _events_poll.emplace_back(key,callback);
+    }
+
+    template<typename T>
+    void ActionTarget<T>::bind(const Action& action,const FuncType& callback)
+    {
+        if(action._type & Action::Type::RealTime)
+            _events_real_time_action.emplace_back(action,callback);
+        else
+            _events_poll_action.emplace_back(action,callback);
+    }
+
+    template<typename T>
+    void ActionTarget<T>::bind(Action&& action,const FuncType& callback)
+    {
+        if(action._type & Action::Type::RealTime)
+            _events_real_time_action.emplace_back(std::move(action),callback);
+        else
+            _events_poll_action.emplace_back(std::move(action),callback);
     }
 
     template<typename T>

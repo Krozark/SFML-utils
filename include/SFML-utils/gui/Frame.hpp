@@ -33,6 +33,7 @@ namespace sfutils
 
             private:
                 sf::RenderWindow& _window;
+                sf::View _view;
 
 
                 virtual bool processEvent(const sf::Event& event,const sf::Vector2f& parent_pos)override;

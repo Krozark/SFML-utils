@@ -22,6 +22,12 @@ namespace sfutils
 
                 virtual sf::Vector2f getSize()const = 0;
 
+                void hide();
+                bool isHidden()const;
+                void show();
+                bool isVisible()const;
+                void toggle();
+
             protected:
                 friend class Containers;
                 friend class VLayout;
@@ -33,6 +39,7 @@ namespace sfutils
 
                 Widget* _parent;
                 sf::Vector2f _position;
+                bool _is_visible;
         };
     }
 }

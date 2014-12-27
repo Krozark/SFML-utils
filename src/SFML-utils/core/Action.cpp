@@ -15,10 +15,10 @@ namespace sfutils
         return *this;
     }
 
-    /*Action::Action(const sf::Event::EventType& event,int type) : _type(type)
+    Action::Action(const sf::Event::EventType& event) : _type(Type::Pressed)
     {
         _event.type = event;
-    }*/
+    }
 
     Action::Action(const sf::Keyboard::Key& key,int type) : _type(type)
     {
@@ -32,12 +32,30 @@ namespace sfutils
         std::memcpy(&_event.mouseButton,&button,sizeof(sf::Mouse::Button));
     }
 
+    Action::Action(int joyID,unsigned int button,int type) : _type(type)
+    {
+        _event.type = sf::Event::JoystickButtonPressed;
+        _event.joystickButton.joystickId = joyID;
+        _event.joystickButton.button = button;
+    }
+
     bool Action::operator==(const sf::Event& event)const
     {
         bool res = false;
 
         switch(event.type)
         {
+            case sf::Event::Closed :
+            case sf::Event::Resized :
+            case sf::Event::LostFocus :
+            case sf::Event::GainedFocus :
+            case sf::Event::TextEntered :
+            case sf::Event::MouseWheelMoved :
+            case sf::Event::MouseEntered :
+            case sf::Event::MouseLeft:
+            {
+                res = event.type == _event.type;
+            }break;
             /*case sf::Event::EventType::TextEntered:
             {
                 if(_event.type == sf::Event::EventType::TextEntered)
@@ -68,17 +86,21 @@ namespace sfutils
                 if(_type & Type::Released and _event.type == sf::Event::EventType::MouseButtonPressed)
                     res = event.mouseButton.button == _event.mouseButton.button;
             }break;
-            /*case sf::Event::EventType::JoystickButtonPressed:
+            case sf::Event::EventType::JoystickButtonPressed:
             {
                 if(_type & Type::Pressed and _event.type == sf::Event::EventType::JoystickButtonPressed)
-                    res = event.joystickButton.button == _event.joystickButton.button;
+                    res = (event.joystickButton.joystickId == _event.joystickButton.joystickId) and (event.joystickButton.button == _event.joystickButton.button);
             }break;
             case sf::Event::EventType::JoystickButtonReleased:
             {
-                if(_type & Type::Releaseed and _event.type == sf::Event::EventType::JoystickButtonPressed)
-                    res = event.joystickButton.button == _event.joystickButton.button;
-            }break;*/
+                if(_type & Type::Released and _event.type == sf::Event::EventType::JoystickButtonPressed)
+                    res = (event.joystickButton.joystickId == _event.joystickButton.joystickId) and (event.joystickButton.button == _event.joystickButton.button);
+            }break;
             default: break;
+            /*MouseMoved,
+            JoystickMoved,
+            JoystickConnected,
+            JoystickDisconnected,*/
             /*{
                 res = event.type == _event.type;
             }break;*/
@@ -104,11 +126,11 @@ namespace sfutils
             if(_type & Type::Pressed)
                 res = sf::Mouse::isButtonPressed(_event.mouseButton.button);
         }
-        /*else if (_event.type == sf::Event::EventType::JoystickButtonPressed)
+        else if (_event.type == sf::Event::EventType::JoystickButtonPressed)
         {
             if(_type & Type::Pressed)
-                res = sf::Joystick::isButtonPressed(0,_event.joystickButton.button);
-        }*/
+                res = sf::Joystick::isButtonPressed(_event.joystickButton.joystickId,_event.joystickButton.button);
+        }
         return res;
     }
 }

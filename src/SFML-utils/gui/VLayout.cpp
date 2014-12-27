@@ -37,20 +37,26 @@ namespace sfutils
             float y = 0;
             for(Widget* widget : _widgets)
             {
-                sf::Vector2f size = widget->getSize();
-                if(size.x > max_x)
-                    max_x = size.x;
-                y+= _space + size.y;
+                if(widget->_is_visible)
+                {
+                    sf::Vector2f size = widget->getSize();
+                    if(size.x > max_x)
+                        max_x = size.x;
+                    y+= _space + size.y;
+                }
             }
             return sf::Vector2f(max_x + _space*2,y+_space);
         }
 
         bool VLayout::processEvent(const sf::Event& event,const sf::Vector2f& parent_pos)
         {
-            for(Widget* widget : _widgets)
+            if(_is_visible)
             {
-                if(widget->processEvent(event,parent_pos))
-                    return true;
+                for(Widget* widget : _widgets)
+                {
+                    if(widget->_is_visible and widget->processEvent(event,parent_pos))
+                        return true;
+                }
             }
 
             return false;
@@ -58,8 +64,12 @@ namespace sfutils
 
         void VLayout::processEvents(const sf::Vector2f& parent_pos)
         {
-            for(Widget* widget : _widgets)
-                widget->processEvents(parent_pos);
+            if(_is_visible)
+            {
+                for(Widget* widget : _widgets)
+                    if(widget->_is_visible)
+                        widget->processEvents(parent_pos);
+            }
         }
 
         void VLayout::updateShape()
@@ -67,11 +77,14 @@ namespace sfutils
             float max_x = (_parent?_parent->getSize().x:0);
             for(Widget* widget : _widgets)
             {
-                sf::Vector2f size = widget->getSize();
-                float widget_x = size.x;
+                if(widget->_is_visible)
+                {
+                    sf::Vector2f size = widget->getSize();
+                    float widget_x = size.x;
 
-                if(widget_x > max_x)
-                    max_x = widget_x;
+                    if(widget_x > max_x)
+                        max_x = widget_x;
+                }
             }
 
             float pos_y = _space;
@@ -80,9 +93,12 @@ namespace sfutils
 
             for(Widget* widget : _widgets)
             {
-                sf::Vector2f size = widget->getSize();
-                widget->setPosition((max_x-size.x)/2.0,pos_y);
-                pos_y += size.y + _space;
+                if(widget->_is_visible)
+                {
+                    sf::Vector2f size = widget->getSize();
+                    widget->setPosition((max_x-size.x)/2.0,pos_y);
+                    pos_y += size.y + _space;
+                }
             }
 
             Widget::updateShape();
@@ -91,8 +107,12 @@ namespace sfutils
 
         void VLayout::draw(sf::RenderTarget& target, sf::RenderStates states) const
         {
-            for(Widget* widget : _widgets)
-                target.draw(*widget,states);
+            if(_is_visible)
+            {
+                for(Widget* widget : _widgets)
+                    if(widget->_is_visible)
+                        target.draw(*widget,states);
+            }
         }
 
     }

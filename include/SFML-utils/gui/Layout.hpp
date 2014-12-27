@@ -22,6 +22,7 @@ namespace sfutils
 
             protected:
                 friend class Container;
+                friend class Frame;
 
                 float _space;
         };

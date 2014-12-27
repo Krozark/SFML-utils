@@ -24,11 +24,15 @@ namespace sfutils
             void processEvents()const;
 
             void bind(const T& key,const FuncType& callback);
+            void bind(const Action& action,const FuncType& callback);
+            void bind(Action&& action,const FuncType& callback);
             void unbind(const T& key);
 
         private:
             std::list<std::pair<T,FuncType>> _events_real_time;
+            std::list<std::pair<Action,FuncType>> _events_real_time_action;
             std::list<std::pair<T,FuncType>> _events_poll;
+            std::list<std::pair<Action,FuncType>> _events_poll_action;
 
             const ActionMap<T>& _action_map;
     };

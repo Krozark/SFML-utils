@@ -49,24 +49,22 @@ namespace sfutils
         
         void Container::draw(sf::RenderTarget& target, sf::RenderStates states) const
         {
-            if(_layout)
+            if(_is_visible and _layout)
                 target.draw(*_layout,states);
         }
 
         bool Container::processEvent(const sf::Event& event,const sf::Vector2f& parent_pos)
         {
             bool res = false;
-            if(not res and _layout)
+            if(_is_visible and _layout)
                 res = _layout->processEvent(event,parent_pos);
             return res;
         }
 
         void Container::processEvents(const sf::Vector2f& parent_pos)
         {
-            if(_layout)
-            {
+            if(_is_visible and _layout)
                 _layout->processEvents(parent_pos);
-            }
         }
     }
 }

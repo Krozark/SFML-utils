@@ -4,7 +4,7 @@ namespace sfutils
 {
     namespace gui
     {
-        Widget::Widget(Widget* parent) : _parent(parent)
+        Widget::Widget(Widget* parent) : _parent(parent), _is_visible(true)
         {
         }
 
@@ -27,6 +27,41 @@ namespace sfutils
         {
             return _position;
         }
+
+        void Widget::hide()
+        {
+            if(_is_visible == true)
+            {
+                _is_visible = false;
+                updateShape();
+            }
+        }
+
+        void Widget::show()
+        {
+            if(_is_visible == false)
+            {
+                _is_visible = true;
+                updateShape();
+            }
+        }
+
+        bool Widget::isHidden()const
+        {
+            return not _is_visible;
+        }
+
+        bool Widget::isVisible()const
+        {
+            return _is_visible;
+        }
+
+        void Widget::toggle()
+        {
+            _is_visible = not _is_visible;
+            updateShape();
+        }
+
 
         bool Widget::processEvent(const sf::Event& event,const sf::Vector2f& parent_pos)
         {
