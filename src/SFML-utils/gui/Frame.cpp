@@ -23,15 +23,7 @@ namespace sfutils
 
         void Frame::draw()
         {
-            if(_is_visible)
-            {
-                sf::View view = _window.getView();
-                _window.setView(_view);
-
-                _window.draw(*this);
-
-                _window.setView(view);
-            }
+            _window.draw(*this);
         }
 
         void Frame::processEvents()
@@ -88,6 +80,19 @@ namespace sfutils
                     if(not ActionTarget::processEvent(event));
                         Container::processEvent(event,parent_pos);
                 }
+            }
+        }
+
+        void Frame::draw(sf::RenderTarget& target, sf::RenderStates states) const
+        {
+            if(_is_visible)
+            {
+                sf::View view = target.getView();
+                target.setView(_view);
+
+                Container::draw(target,states);
+
+                target.setView(view);
             }
         }
     }

@@ -45,7 +45,6 @@ int main(int argc,char* argv[])
     }
 
     
-    sf::Text text("pwet",fonts.get(Fonts::Gui));
     while (window.isOpen())
     {
         window.clear();
@@ -53,7 +52,7 @@ int main(int argc,char* argv[])
         frame.processEvents();
 
         frame.draw();
-        window.draw(text);
+        //equivalent to : window.draw(frame);
 
         window.display();
     }

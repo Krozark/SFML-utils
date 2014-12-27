@@ -38,6 +38,8 @@ namespace sfutils
 
                 virtual bool processEvent(const sf::Event& event,const sf::Vector2f& parent_pos)override;
                 virtual void processEvents(const sf::Vector2f& parent_pos)override;
+
+                virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
         };
     }
 }
