@@ -6,9 +6,9 @@ namespace sfutils
     {
         TextButton::TextButton(const std::string& text,sf::Font& font,Widget* parent) : Button(parent), _label(text,font,this)
         {
-            setFillColor(sf::Color(86,20,19));
-            setOutlineThickness(5);
-            setOutlineColor(sf::Color(146,20,19));
+            setFillColor(Configuration::Colors::button_fill);
+            setOutlineThickness(Configuration::Sizes::button_outline_thickness);
+            setOutlineColor(Configuration::Colors::button_outline);
         }
 
         TextButton::~TextButton()
@@ -73,7 +73,7 @@ namespace sfutils
 
         void TextButton::onMouseEntered()
         {
-            const float light = 1.4;
+            const float light = Configuration::Colors::lighting;
 
             _shape.setOutlineColor(sf::Color(_outlineColor.r*light,
                                              _outlineColor.g*light,

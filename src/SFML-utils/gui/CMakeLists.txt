@@ -5,6 +5,7 @@ set(LIBS ${LIBS} ${CMAKE_PROJECT_NAME}-core)
 
 set(FILES_HEADER
     ${INCROOT}/Button.hpp
+    ${INCROOT}/Configuration.hpp
     ${INCROOT}/Container.hpp
     ${INCROOT}/Frame.hpp
     ${INCROOT}/Label.hpp
@@ -16,6 +17,7 @@ set(FILES_HEADER
 
 set(FILES_SRC
     ${SRCROOT}/Button.cpp
+    ${SRCROOT}/Configuration.cpp
     ${SRCROOT}/Container.cpp
     ${SRCROOT}/Frame.cpp
     ${SRCROOT}/Label.cpp

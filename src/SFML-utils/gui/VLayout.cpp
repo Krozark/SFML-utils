@@ -42,10 +42,10 @@ namespace sfutils
                     sf::Vector2f size = widget->getSize();
                     if(size.x > max_x)
                         max_x = size.x;
-                    y+= _space + size.y;
+                    y+= _spacing + size.y;
                 }
             }
-            return sf::Vector2f(max_x + _space*2,y+_space);
+            return sf::Vector2f(max_x + _spacing*2,y+_spacing);
         }
 
         bool VLayout::processEvent(const sf::Event& event,const sf::Vector2f& parent_pos)
@@ -87,7 +87,7 @@ namespace sfutils
                 }
             }
 
-            float pos_y = _space;
+            float pos_y = _spacing;
             if(_parent)
                 pos_y = (_parent->getSize().y - getSize().y)/2.f;
 
@@ -97,7 +97,7 @@ namespace sfutils
                 {
                     sf::Vector2f size = widget->getSize();
                     widget->setPosition((max_x-size.x)/2.0,pos_y);
-                    pos_y += size.y + _space;
+                    pos_y += size.y + _spacing;
                 }
             }
 

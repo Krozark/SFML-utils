@@ -18,13 +18,13 @@ namespace sfutils
                 Layout(Widget* parent=nullptr);
                 virtual ~Layout();
 
-                void setSpace(float pixels);
+                void setSpacing(float pixels);
 
             protected:
                 friend class Container;
                 friend class Frame;
 
-                float _space;
+                float _spacing;
         };
     }
 }

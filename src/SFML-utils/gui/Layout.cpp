@@ -1,4 +1,5 @@
 #include <SFML-utils/gui/Layout.hpp>
+#include <SFML-utils/gui/Configuration.hpp>
 
 #include <stdexcept>
 
@@ -7,7 +8,7 @@ namespace sfutils
 {
     namespace gui
     {
-        Layout::Layout(Widget* parent): Widget(parent), _space(5)
+        Layout::Layout(Widget* parent): Widget(parent), _spacing(Configuration::Sizes::layout_spacing)
         {
         }
 
@@ -15,11 +16,11 @@ namespace sfutils
         {
         }
 
-        void Layout::setSpace(float pixels)
+        void Layout::setSpacing(float pixels)
         {
             if(pixels >= 0)
             {
-                _space = pixels;
+                _spacing = pixels;
                 updateShape();
             }
             else

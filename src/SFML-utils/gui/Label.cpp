@@ -9,7 +9,7 @@ namespace sfutils
             _text.setFont(font);
 
             setText(text);
-            setTextColor(sf::Color(180,93,23));
+            setTextColor(Configuration::Colors::label_text);
         }
 
         Label::~Label()

@@ -4,6 +4,8 @@
 #include <SFML-utils/gui/Container.hpp>
 #include <SFML-utils/core/ActionTarget.hpp>
 
+#include <SFML-utils/gui/Configuration.hpp>
+
 namespace sfutils
 {
     namespace gui
@@ -16,7 +18,7 @@ namespace sfutils
 
                 using ActionTarget<int>::FuncType;
                 
-                Frame(sf::RenderWindow& window,const ActionMap<int>& map);
+                Frame(sf::RenderWindow& window,const ActionMap<int>& map = Configuration::default_gui_inputs);
 
                 virtual ~Frame();
 
