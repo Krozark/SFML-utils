@@ -20,6 +20,15 @@ namespace sfutils
         return *_map.at(id);
     }
 
+    template<typename RESOURCE,typename IDENTIFIER>
+    template<typename ... Args>
+    RESOURCE& ResourceManager<RESOURCE,IDENTIFIER>::getOrLoad(const IDENTIFIER& id,Args&& ... args)
+    {
+        if(_map.count(id) == 0)
+            load(id,args...);
+        return get(id);
+    }
+
     //sf::Music special case
 
     template<typename IDENTIFIER>
@@ -38,5 +47,14 @@ namespace sfutils
     sf::Music& ResourceManager<sf::Music,IDENTIFIER>::get(const IDENTIFIER& id) const
     {
         return *_map.at(id);
+    }
+
+    template<typename IDENTIFIER>
+    template<typename ... Args>
+    sf::Music& ResourceManager<sf::Music,IDENTIFIER>::getOrLoad(const IDENTIFIER& id,Args&& ... args)
+    {
+        if(_map.count(id) == 0)
+            load(id,args...);
+        return get(id);
     }
 }

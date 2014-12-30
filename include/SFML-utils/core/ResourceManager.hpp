@@ -23,6 +23,9 @@ namespace sfutils
 
             RESOURCE& get(const IDENTIFIER& id)const;
 
+            template<typename ... Args>
+            RESOURCE& getOrLoad(const IDENTIFIER& id,Args&& ... args);
+
         private:
             std::unordered_map<IDENTIFIER,std::unique_ptr<RESOURCE>> _map;
     };
@@ -40,6 +43,9 @@ namespace sfutils
             void load(const IDENTIFIER& id,Args&& ... args);
 
             sf::Music& get(const IDENTIFIER& id)const;
+
+            template<typename ... Args>
+            sf::Music& getOrLoad(const IDENTIFIER& id,Args&& ... args);
 
         private:
             std::unordered_map<IDENTIFIER,std::unique_ptr<sf::Music>> _map;
