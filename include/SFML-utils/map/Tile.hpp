@@ -23,7 +23,7 @@ namespace sfutils
                 static sf::Vector2f mapCoordsToPixel(int x,int y);
                 static sf::Vector2f mapCoordsToPixel(const sf::Vector2i& pos);
 
-                Tile(int pos_x,int pos_y);
+                Tile(int pos_x,int pos_y,float scale);
                 
                 template< typename ...Args>
                 inline void setFillColor(Args&& ... args);
@@ -32,9 +32,13 @@ namespace sfutils
                 void setPosition(Args&& ... args);
 
                 template< typename ...Args>
-                sf::Vector2i getPosition(Args&& ... args);
+                sf::Vector2f getPosition(Args&& ... args)const;
 
                 void setTexture(const sf::Texture *texture,bool resetRect=false);
+                void setTextureRect(const sf::IntRect& rect);
+
+                sf::FloatRect getGlobalBounds()const;
+                sf::FloatRect getLocalBounds()const;
 
 
             private:

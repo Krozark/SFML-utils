@@ -1,0 +1,42 @@
+{
+    "name" : "test",
+    "geometry" :
+    {
+        "name" :"HexaIso",
+        "size" : 50.0
+    },
+    "layers" : 
+    [
+        {
+            "content" : "tile",
+            "height" : 5,
+            "width" : 5,
+            "texture" : 
+            {
+                "img" :"media/img/ground.png",
+                "x" : 10,
+                "y" : 5
+            }
+        },
+        {
+            "content" : "sprite",
+            "datas" : 
+            [
+                {
+                    "x" : 12,
+                    "y" : 14,
+                    "ox" : 0.5,
+                    "oy" : 1.0,
+                    "img" : "media/img/tree/tree1.png"
+                },
+                {
+                    "x" : 12,
+                    "y" : 15,
+                    "ox" : 0.5,
+                    "oy" : 1.0,
+                    "img" : "media/img/tree/bush1.png"
+                }
+            ]
+        }
+    ]
+}

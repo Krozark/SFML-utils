@@ -28,12 +28,14 @@ namespace sfutils
         }
 
         template<typename GEOMETRY>
-        Tile<GEOMETRY>::Tile(int pos_x,int pos_y)
+        Tile<GEOMETRY>::Tile(int pos_x,int pos_y,float scale)
         {
             _shape = GEOMETRY::getShape();
 
             _shape.setOutlineColor(sf::Color(0,0,0,175));
-            _shape.setOutlineThickness(2);
+            _shape.setOutlineThickness(2.f/scale);
+
+            _shape.setScale(scale,scale);
 
             setPosition(pos_x,pos_y);
         }
@@ -49,13 +51,39 @@ namespace sfutils
         template< typename ...Args>
         void Tile<GEOMETRY>::setPosition(Args&& ... args)
         {
-            _shape.setPosition(mapCoordsToPixel(std::forward<Args&>(args)...));
+            sf::Vector2f pos = mapCoordsToPixel(args...) * _shape.getScale().x;
+            _shape.setPosition(pos);
+        }
+
+        template<typename GEOMETRY>
+        template< typename ...Args>
+        sf::Vector2f Tile<GEOMETRY>::getPosition(Args&& ... args)const
+        {
+            return _shape.getPosition(args...);
         }
 
         template<typename GEOMETRY>
         void Tile<GEOMETRY>::setTexture(const sf::Texture *texture,bool resetRect)
         {
             _shape.setTexture(texture,resetRect);
+        }
+
+        template<typename GEOMETRY>
+        void Tile<GEOMETRY>::setTextureRect(const sf::IntRect& rect)
+        {
+            _shape.setTextureRect(rect);
+        }
+
+        template<typename GEOMETRY>
+        sf::FloatRect Tile<GEOMETRY>::getGlobalBounds()const
+        {
+            return _shape.getGlobalBounds();
+        }
+
+        template<typename GEOMETRY>
+        sf::FloatRect Tile<GEOMETRY>::getLocalBounds()const
+        {
+            return _shape.getLocalBounds();
         }
 
         template<typename GEOMETRY>

@@ -7,8 +7,6 @@ namespace sfutils
 {
     namespace map
     {
-        template<typename GEOMETRY> class Map;
-        template<typename GEOMETRY>
         class VLayer : public sf::Drawable
         {
             public:
@@ -19,10 +17,9 @@ namespace sfutils
                 virtual ~VLayer();
 
             private:
-                friend class Map<GEOMETRY>;
+                friend class VMap;
                 virtual void sort() = 0;
         };
     }
 }
-#include <SFML-utils/map/VLayer.tpl>
 #endif

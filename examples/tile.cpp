@@ -1,17 +1,19 @@
 #include <SFML-utils/Map.hpp>
 
 #include <list>
+#include <iostream>
 
 int main(int argc,char* argv[])
 {
     sf::RenderWindow window(sf::VideoMode(1600,900),"Example Tile");
 
-    std::list<sfutils::Tile<sfutils::HexaIso>> tiles;
+    sfutils::VMap* map = sfutils::createMapFromFile("./map.json");
+    if(not map)
+    {
+        std::cerr<<"unable to load map"<<std::endl;
+        return 0;
+    }
 
-    for(int y = 0;y<10;++y)
-        for(int x=0;x<10;++x)
-            tiles.emplace_back(x,y);
-    
     while (window.isOpen())
     {
         window.clear();
@@ -24,8 +26,7 @@ int main(int argc,char* argv[])
                 window.close();
         }
 
-        for(auto& tile : tiles)
-            window.draw(tile);
+        window.draw(*map);
 
 
         window.display();

@@ -9,7 +9,7 @@ namespace sfutils
     namespace map
     {
         template<typename GEOMETRY,typename CONTENT>
-        class Layer : public VLayer<GEOMETRY>
+        class Layer : public VLayer
         {
             public:
                 Layer(const Layer&) = delete;
@@ -18,12 +18,15 @@ namespace sfutils
                 Layer();
                 virtual ~Layer();
 
+                void add(CONTENT&& content);
+
                 //load
 
             private:
                 std::vector<CONTENT> _content;
                 
                 virtual void sort() override;
+                virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
         };
     }
 }

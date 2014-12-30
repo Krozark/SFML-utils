@@ -1,32 +1,23 @@
 #ifndef SFUTILS_MAP_MAP_HPP
 #define SFUTILS_MAP_MAP_HPP
 
-#include <string>
-#include <SFML-utils/map/VLayer.hpp>
 
-#include <utils/json/Driver.hpp>
+#include <SFML-utils/map/VMap.hpp>
+#include <SFML-utils/map/Layer.hpp>
+#include <SFML-utils/map/Tile.hpp>
 
 namespace sfutils
 {
     namespace map
     {
         template<typename GEOMETRY>
-        class Map : public sf::Drawable
+        class Map : public VMap
         {
             public:
                 Map(const Map&) = delete;
                 Map& operator=(const Map&) = delete;
 
-                Map();
-                ~Map();
-
-                bool loadFromFile(const std::string &filename);
-
-            private:
-                virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
-                void sortLayers();
-
-                std::vector<VLayer<GEOMETRY>*> _layers;
+                Map(const utils::json::Object& root,float size);
         };
     }
 }
