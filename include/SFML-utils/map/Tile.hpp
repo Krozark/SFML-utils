@@ -14,6 +14,9 @@ namespace sfutils
                 Tile(const Tile&) = delete;
                 Tile& operator=(const Tile&) = delete;
 
+                Tile(Tile&&) = default;
+                Tile& operator=(Tile&&) = default;
+
                 static sf::Vector2i mapPixelToCoords(int x,int y);
                 static sf::Vector2i mapPixelToCoords(const sf::Vector2i& pos);
 
@@ -28,6 +31,9 @@ namespace sfutils
                 template< typename ...Args>
                 void setPosition(Args&& ... args);
 
+                template< typename ...Args>
+                sf::Vector2i getPosition(Args&& ... args);
+
                 void setTexture(const sf::Texture *texture,bool resetRect=false);
 
 
@@ -35,7 +41,6 @@ namespace sfutils
                 sf::ConvexShape _shape;
 
                 virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
-
         };
     }
 }

@@ -8,6 +8,48 @@ macro(set_option var default type docstring)
     set(${var} ${${var}} CACHE ${type} ${docstring} FORCE)
 endmacro()
 
+function(Compile arg shared_libs static_libs)
+    #shared
+    add_library(${arg} SHARED ${FILES_SRC} ${FILES_HEADER})
+    SET_TARGET_PROPERTIES(${arg}
+        PROPERTIES
+        OUTPUT_NAME ${arg}
+        CLEAN_DIRECT_OUTPUT 1
+        VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}
+        SOVERSION ${VERSION_MAJOR}.${VERSION_MINOR}
+        )
+    target_link_libraries(${arg} ${LIBS} ${shared_libs})
+    INSTALL(TARGETS ${arg}
+        DESTINATION lib
+    )
+    #static
+    add_library(${arg}-static STATIC ${FILES_HEADER} ${FILES_SRC})
+    SET_TARGET_PROPERTIES(${arg}-static
+        PROPERTIES
+        OUTPUT_NAME ${arg}
+        CLEAN_DIRECT_OUTPUT 1
+        VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}
+        SOVERSION ${VERSION_MAJOR}.${VERSION_MINOR}
+        )
+    target_link_libraries(${arg}-static ${LIBS} ${static_libs})
+    INSTALL(TARGETS ${arg}-static
+    DESTINATION lib
+    )
+    #install
+    file(GLOB DEPLOY_FILES_AND_DIRS ${INCROOT})
+    foreach(ITEM ${DEPLOY_FILES_AND_DIRS})
+       IF( IS_DIRECTORY "${ITEM}" )
+          LIST( APPEND DIRS_TO_DEPLOY "${ITEM}" )
+       ELSE()
+          LIST( APPEND FILES_TO_DEPLOY "${ITEM}" )
+       ENDIF()
+    endforeach()
+    INSTALL( FILES ${FILES_TO_DEPLOY} DESTINATION include/${CMAKE_PROJECT_NAME} )
+    INSTALL( DIRECTORY ${DIRS_TO_DEPLOY} DESTINATION include/${CMAKE_PROJECT_NAME} )
+endfunction()
+
+
+
 # project name
 project (SFML-utils)
 
