@@ -27,8 +27,7 @@ int main(int argc,char* argv[])
         }
 
         window.draw(*map);
-
-
+        
         window.display();
     }
 

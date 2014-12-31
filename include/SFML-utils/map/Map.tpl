@@ -1,5 +1,3 @@
-#include <iostream>
-
 namespace sfutils
 {
     namespace map
@@ -19,16 +17,16 @@ namespace sfutils
                     int width = layer["width"];
                     const utils::json::Object& texture = layer["texture"];
 
-                    int tex_x = texture["x"];
-                    int tex_y = texture["y"];
                     std::string img = texture["img"];
 
                     sf::Texture& tex = _textures.getOrLoad(img,img);
                     tex.setRepeated(true);
 
+                    /*int tex_x = texture["x"];
+                    int tex_y = texture["y"];
                     sf::Vector2u tex_size = tex.getSize();
                     int tex_size_tile_x = tex_size.x/tex_x;
-                    int tex_size_tile_y = tex_size.y/tex_y;
+                    int tex_size_tile_y = tex_size.y/tex_y;*/
 
                     auto current_layer = new Layer<GEOMETRY,Tile<GEOMETRY>>;
 
@@ -37,17 +35,9 @@ namespace sfutils
                         for(int x=0;x<width;++x)
                         {
                             Tile<GEOMETRY> tile(x,y,tile_size);
-                            sf::FloatRect rect = tile.getBounds();
-                            std::cout<<y<<":"<<x<<" = "<<rect.top<<" : "<<rect.left<<" : "<<rect.width<<" : "<<rect.height<<std::endl;
                             tile.setTexture(&tex);
-                            /*tile.setTextureRect(sf::IntRect(x*tex_size_tile_x,
-                                                            y*tex_size_tile_y,
-                                                            tex_size_tile_x,
-                                                            tex_size_tile_y));*/
-                            tile.setTextureRect(sf::IntRect(rect.top*tex_size_tile_y,
-                                                            rect.left*tex_size_tile_x,
-                                                            tex_size_tile_y,
-                                                            tex_size_tile_y));
+                            tile.setTextureRect(GEOMETRY::getTextureRect(x,y,tile_size));
+
                             current_layer->add(std::move(tile));
                         }
                     }
@@ -63,8 +53,15 @@ namespace sfutils
                         const utils::json::Object& data = value;
                         int x = data["x"];
                         int y = data["y"];
-                        float ox = data["ox"].as_float();
-                        float oy = data["oy"].as_float();
+                        float ox = 0.5;
+                        float oy = 1;
+                        try{
+                            ox = data["ox"].as_float();
+                        }catch(...){}
+
+                        try{
+                            oy = data["oy"].as_float();
+                        }catch(...){}
 
                         std::string img = data["img"];
 

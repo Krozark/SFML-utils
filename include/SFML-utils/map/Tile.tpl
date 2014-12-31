@@ -32,7 +32,7 @@ namespace sfutils
         {
             _shape = GEOMETRY::getShape();
 
-            _shape.setOutlineColor(sf::Color(0,0,0,175));
+            _shape.setOutlineColor(sf::Color(255,255,255,25));
             _shape.setOutlineThickness(2.f/scale);
 
             _shape.setScale(scale,scale);

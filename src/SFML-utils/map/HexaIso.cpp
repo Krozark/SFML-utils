@@ -25,7 +25,8 @@ namespace sfutils
 
         sf::Vector2f HexaIso::mapCoordsToPixel(int X,int Y)
         {
-            return sf::Vector2f(Y*delta_x+X*delta_y,Y*delta_y/2+X*delta_x/2);
+            return sf::Vector2f(Y*delta_x + X*delta_y,
+                                Y*delta_y/2 + X*delta_x/2);
         }
 
         sf::Vector2i HexaIso::mapPixelToCoords(int X,int Y)
@@ -36,6 +37,16 @@ namespace sfutils
             const float y= (2*b-x*delta_x)/delta_y;
 
             return sf::Vector2i((x<0)?x-1:x,(y<0)?y-1:y);
+        }
+
+        sf::IntRect HexaIso::getTextureRect(int x,int y,float scale)
+        {
+            sf::Vector2f pos = mapCoordsToPixel(x,y);
+            sf::IntRect res(pos.x * scale,
+                          pos.y * scale,
+                          height * scale,
+                          height/2 * scale);
+            return res;
         }
 
         void HexaIso::init()

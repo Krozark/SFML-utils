@@ -9,13 +9,11 @@
     [
         {
             "content" : "tile",
-            "height" : 5,
-            "width" : 5,
+            "height" : 20,
+            "width" : 50,
             "texture" : 
             {
-                "img" :"media/img/ground.png",
-                "x" : 10,
-                "y" : 5
+                "img" :"media/img/ground.png"
             }
         },
         {
@@ -23,17 +21,15 @@
             "datas" : 
             [
                 {
-                    "x" : 12,
-                    "y" : 14,
+                    "x" : 2,
+                    "y" : 4,
                     "ox" : 0.5,
                     "oy" : 1.0,
                     "img" : "media/img/tree/tree1.png"
                 },
                 {
-                    "x" : 12,
-                    "y" : 15,
-                    "ox" : 0.5,
-                    "oy" : 1.0,
+                    "x" : 2,
+                    "y" : 5,
                     "img" : "media/img/tree/bush1.png"
                 }
             ]
