@@ -13,32 +13,36 @@ namespace sfutils
                 
                 if(content == "tile")
                 {
-                    int height = layer["height"];
-                    int width = layer["width"];
-                    const utils::json::Object& texture = layer["texture"];
-
-                    std::string img = texture["img"];
-
-                    sf::Texture& tex = _textures.getOrLoad(img,img);
-                    tex.setRepeated(true);
-
-                    /*int tex_x = texture["x"];
-                    int tex_y = texture["y"];
-                    sf::Vector2u tex_size = tex.getSize();
-                    int tex_size_tile_x = tex_size.x/tex_x;
-                    int tex_size_tile_y = tex_size.y/tex_y;*/
-
                     auto current_layer = new Layer<GEOMETRY,Tile<GEOMETRY>>;
-
-                    for(int y=0;y<height;++y)
+                    const utils::json::Array& textures = layer["texture"];
+                    for(const utils::json::Object& texture : textures)
                     {
-                        for(int x=0;x<width;++x)
-                        {
-                            Tile<GEOMETRY> tile(x,y,tile_size);
-                            tile.setTexture(&tex);
-                            tile.setTextureRect(GEOMETRY::getTextureRect(x,y,tile_size));
+                        int tex_x = texture["x"];
+                        int tex_y = texture["y"];
+                        int height = std::max<int>(0,texture["height"].as_int());
+                        int width = std::max<int>(0,texture["width"].as_int());
+                        std::string img = texture["img"];
 
-                            current_layer->add(std::move(tile));
+                        sf::Texture& tex = _textures.getOrLoad(img,img);
+                        tex.setRepeated(true);
+
+                        /*int tex_x = texture["x"];
+                        int tex_y = texture["y"];
+                        sf::Vector2u tex_size = tex.getSize();
+                        int tex_size_tile_x = tex_size.x/tex_x;
+                        int tex_size_tile_y = tex_size.y/tex_y;*/
+
+
+                        for(int y=tex_y;y< tex_y + height;++y)
+                        {
+                            for(int x=tex_x;x<tex_x + width;++x)
+                            {
+                                Tile<GEOMETRY> tile(x,y,tile_size);
+                                tile.setTexture(&tex);
+                                tile.setTextureRect(GEOMETRY::getTextureRect(x,y,tile_size));
+
+                                current_layer->add(std::move(tile));
+                            }
                         }
                     }
                     _layers.emplace_back(current_layer);

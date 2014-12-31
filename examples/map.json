@@ -9,12 +9,16 @@
     [
         {
             "content" : "tile",
-            "height" : 20,
-            "width" : 50,
             "texture" : 
-            {
-                "img" :"media/img/ground.png"
-            }
+            [
+                {
+                    "img" :"media/img/ground.png",
+                    "x" : 0,
+                    "y" : 0,
+                    "width" : 5,
+                    "height" : 2
+                }
+            ]
         },
         {
             "content" : "sprite",
