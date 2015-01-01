@@ -15,8 +15,8 @@
                     "img" :"media/img/ground.png",
                     "x" : 0,
                     "y" : 0,
-                    "width" : 5,
-                    "height" : 2
+                    "width" : 100,
+                    "height" : 100
                 }
             ]
         },
@@ -34,7 +34,7 @@
                 {
                     "x" : 2,
                     "y" : 5,
-                    "img" : "media/img/tree/bush1.png"
+                    "img" : "media/img/tree/tree1.png"
                 }
             ]
         }

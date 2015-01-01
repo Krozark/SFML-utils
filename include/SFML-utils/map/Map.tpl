@@ -41,11 +41,11 @@ namespace sfutils
                                 tile.setTexture(&tex);
                                 tile.setTextureRect(GEOMETRY::getTextureRect(x,y,tile_size));
 
-                                current_layer->add(std::move(tile));
+                                current_layer->add(std::move(tile),false);
                             }
                         }
                     }
-                    _layers.emplace_back(current_layer);
+                    addLayer(current_layer);
                 }
                 else if(content == "sprite")
                 {
@@ -75,10 +75,10 @@ namespace sfutils
                         sf::FloatRect rec = spr.getLocalBounds();
                         spr.setOrigin(rec.width*ox,rec.height*oy);
 
-                        current_layer->add(std::move(spr));
+                        current_layer->add(std::move(spr),false);
 
                     }
-                    _layers.emplace_back(current_layer);
+                    addLayer(current_layer);
                 }
             }
             sortLayers();

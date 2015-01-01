@@ -7,7 +7,7 @@ namespace sfutils
 {
     namespace map
     {
-        class VLayer : public sf::Drawable
+        class VLayer
         {
             public:
                 VLayer(const VLayer&) = delete;
@@ -19,6 +19,7 @@ namespace sfutils
             private:
                 friend class VMap;
                 virtual void sort() = 0;
+                virtual void draw(sf::RenderTarget& target, sf::RenderStates states,const sf::FloatRect& viewport) const = 0;
         };
     }
 }

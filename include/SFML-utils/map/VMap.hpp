@@ -11,7 +11,7 @@ namespace sfutils
 {
     namespace map
     {
-        class VMap : public sf::Drawable
+        class VMap
         {
             public:
                 VMap(const VMap&) = delete;
@@ -20,17 +20,20 @@ namespace sfutils
                 VMap(const utils::json::Object& root,float size);
                 virtual ~VMap();
 
+                void addLayer(VLayer* layer);
+
 
             protected:
                 std::string name;
-                std::vector<VLayer*> _layers;
                 void sortLayers();
                 const float tile_size;
                 
                 ResourceManager<sf::Texture,std::string> _textures;
                 
             private:
-                virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+                friend class MapViewer;
+                void draw(sf::RenderTarget& target, sf::RenderStates states,const sf::FloatRect& viewport) const;
+                std::vector<VLayer*> _layers;
         };
 
         VMap* createMapFromFile(const std::string& filename);

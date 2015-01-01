@@ -18,16 +18,25 @@ namespace sfutils
                 delete(layer);
         }
 
+        void VMap::addLayer(VLayer* layer)
+        {
+            _layers.emplace_back(layer);
+        }
+
         void VMap::sortLayers()
         {
             for(VLayer* layer : _layers)
                 layer->sort();
         }
 
-        void VMap::draw(sf::RenderTarget& target, sf::RenderStates states) const
+        void VMap::draw(sf::RenderTarget& target, sf::RenderStates states,const sf::FloatRect& viewport) const
         {
+            sf::FloatRect delta_viewport(viewport.left - tile_size,
+                                        viewport.top - tile_size,
+                                        viewport.width + tile_size*2,
+                                        viewport.height + tile_size*2); 
             for(VLayer* layer : _layers)
-                target.draw(*layer,states);
+                layer->draw(target,states,delta_viewport);
         }
 
         
