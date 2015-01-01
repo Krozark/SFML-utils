@@ -26,7 +26,12 @@ namespace sfutils
 
                 void move(float offsetX, float offsetY);
                 void move(const sf::Vector2f& offset);
+
+                void setPosition(float posX, float posY);
+                void setPosition(const sf::Vector2f& pos);
+
                 void zoom(float factor);
+
                 void setSize(float width,float height);
                 void setSize(const sf::Vector2f& size);
 

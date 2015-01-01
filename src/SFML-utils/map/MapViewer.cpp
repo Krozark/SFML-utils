@@ -41,6 +41,16 @@ namespace sfutils
             _view.move(offset);
         }
 
+        void MapViewer::setPosition(float posX, float posY)
+        {
+            _view.setCenter(posX,posY);
+        }
+
+        void MapViewer::setPosition(const sf::Vector2f& pos)
+        {
+            _view.setCenter(pos);
+        }
+
         void MapViewer::zoom(float factor)
         {
             _view.zoom(factor);
@@ -49,13 +59,11 @@ namespace sfutils
         void MapViewer::setSize(float width,float height)
         {
             _view.setSize(width,height);
-            //_view.setCenter(width/2,height/2);
         }
 
         void MapViewer::setSize(const sf::Vector2f& size)
         {
             _view.setSize(size);
-            //_view.setCenter(size/2.f);
         }
 
         void MapViewer::draw(sf::RenderTarget& target, sf::RenderStates states) const
