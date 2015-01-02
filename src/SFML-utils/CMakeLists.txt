@@ -1,4 +1,5 @@
 add_subdirectory(core)
+add_subdirectory(es)
 add_subdirectory(gui)
 add_subdirectory(map)
 
