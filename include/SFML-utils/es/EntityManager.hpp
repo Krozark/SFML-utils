@@ -25,6 +25,10 @@ namespace sfutils
 
                 Entity& create();
                 void remove(Entity& e);
+                void remove(std::size_t id);
+
+                const Entity& get(std::size_t id)const;
+                Entity& get(std::size_t id);
 
                 template<typename COMPONENT,typename ... Args>
                 void addComponent(Entity& e,Args&& ... args);

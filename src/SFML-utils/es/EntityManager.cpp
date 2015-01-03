@@ -56,6 +56,21 @@ namespace sfutils
             }
         }
 
+        void EntityManager::remove(std::size_t id)
+        {
+            remove(_entities_alocated.at(id));
+        }
+
+        const Entity& EntityManager::get(std::size_t id) const
+        {
+            return _entities_alocated.at(id);
+        }
+
+        Entity& EntityManager::get(std::size_t id)
+        {
+            return _entities_alocated.at(id);
+        }
+
         void EntityManager::reset()
         {
             _entities_index_free.clear();
