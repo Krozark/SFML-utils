@@ -5,10 +5,13 @@ namespace sfutils
 {
     namespace es
     {
-        const std::uint64_t Entity::invalidId = 0;
-        
-        Entity::Entity(EntityManager* manager,std::uint64_t id) : _id(id), _manager(manager)
+        Entity::Entity(EntityManager* manager,std::uint32_t id) : _id(id), _manager(manager)
         {
+        }
+
+        Entity::~Entity()
+        {
+            reset();
         }
 
         bool Entity::operator==(const Entity& other)const
@@ -26,9 +29,9 @@ namespace sfutils
             _manager->remove(*this);
         }
 
-        bool Entity::isValid()const
+        void Entity::reset()
         {
-            return _id != invalidId;
+            _components_mask.reset();
         }
     }
 }

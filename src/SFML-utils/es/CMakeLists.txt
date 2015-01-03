@@ -5,9 +5,12 @@ set(SRCROOT ${PROJECT_SOURCE_DIR}/src/${CMAKE_PROJECT_NAME}/es)
 
 set(FILES_HEADER
     ${INCROOT}/Component.hpp
+    ${INCROOT}/Component.tpl
     ${INCROOT}/Entity.hpp
+    ${INCROOT}/Entity.tpl
     ${INCROOT}/EntityManager.hpp
     ${INCROOT}/System.hpp
+    ${INCROOT}/System.tpl
 )
 
 set(FILES_SRC

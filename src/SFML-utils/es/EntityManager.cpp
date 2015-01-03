@@ -1,38 +1,57 @@
 #include <SFML-utils/es/EntityManager.hpp>
 #include <algorithm>
 
+#include <SFML-utils/es/Entity.hpp>
+
 namespace sfutils
 {
     namespace es
     {
         EntityManager::EntityManager()
         {
-            next_entity_id = Entity::invalidId;
+        }
+
+        EntityManager::~EntityManager()
+        {
+            reset();
         }
 
         Entity& EntityManager::create()
         {
-            if(not _entities_free.empty())
+            std::uint32_t index = 0;
+            if(not _entities_index_free.empty())
             {
-                Entity& e(_entities_free.front());
-                _entities_free.pop_front();
-                _entities.emplace_front(e);
+                //reuse existing entity
+                index = _entities_index_free.front();
+                _entities_index_free.pop_front();
             }
             else
             {
-                _entities.emplace_front(this,++next_entity_id);
+                //create new entity
+                index = _entities_alocated.size();
+                _entities_alocated.emplace_back(this,index);
             }
-            return _entities.front();
+            _entities_index.emplace_front(index);
+            return _entities_alocated[index];
         }
 
         void EntityManager::remove(Entity& e)
         {
-            auto it = std::find(_entities.begin(),_entities.end(),e);
-            if(it != _entities.end())
+            auto it = std::find(_entities_alocated.begin(),_entities_alocated.end(),e);
+            if(it != _entities_alocated.end())
             {
-                _entities_free.emplace_front(e);
-                _entities.remove(e);
+                _entities_index_free.emplace_front(e._id);
+                _entities_index.remove(e._id);
+
+                e.reset();
             }
+        }
+
+        void EntityManager::reset()
+        {
+            _entities_index_free.clear();
+            _entities_index.clear();
+            _entities_alocated.clear();
         }
     }
 }

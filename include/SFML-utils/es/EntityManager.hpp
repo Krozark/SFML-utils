@@ -2,27 +2,35 @@
 #define SFUTILS_ES_ENTITYMANAGER_HPP
 
 #include <forward_list>
-#include <SFML-utils/es/Entity.hpp>
+#include <vector>
+#include <cstdint>
 
 namespace sfutils
 {
     namespace es
     {
+        class Entity;
         class EntityManager
         {
             public:
-                EntityManager();
                 EntityManager(const EntityManager&) = delete;
                 EntityManager& operator=(const EntityManager&) = delete;
 
+                EntityManager();
+                ~EntityManager();
+
                 Entity& create();
                 void remove(Entity& e);
+
+                template<typename COMPONENT_TYPE,typename ... Args>
+                void addComponent(Entity& e,Args&& ... args);
+
+                void reset();
                 
             private:
-                std::forward_list<Entity> _entities;
-                std::forward_list<Entity> _entities_free;
-
-                static std::uint64_t next_entity_id;
+                std::vector<Entity> _entities_alocated;
+                std::forward_list<std::uint32_t> _entities_index;
+                std::forward_list<std::uint32_t> _entities_index_free;
         };
     }
 }

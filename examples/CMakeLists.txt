@@ -7,4 +7,7 @@ target_link_libraries(gui ${CMAKE_PROJECT_NAME}-gui)
 add_executable(tile tile.cpp)
 target_link_libraries(tile ${CMAKE_PROJECT_NAME}-map)
 
+add_executable(es es.cpp)
+target_link_libraries(es ${CMAKE_PROJECT_NAME}-es)
+
 

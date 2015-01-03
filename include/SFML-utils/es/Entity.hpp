@@ -2,33 +2,49 @@
 #define SFUTILS_ES_ENTITY_HPP
 
 #include <cstdint>
+#include <bitset>
+#include <SFML-utils/es/defines.hpp>
 
 namespace sfutils
 {
     namespace es
     {
+
         class EntityManager;
+        template<typename T> class Component;
         class Entity
         {
             public:
-                Entity(const Entity&) = default;
-                Entity& operator=(const Entity&) = default;
+                Entity(Entity&&) = default;
+                Entity& operator=(Entity&&) = default;
 
-                Entity(EntityManager* manager,std::uint64_t id);
+                Entity(EntityManager* manager,std::uint32_t id);
+                ~Entity();
 
                 bool operator==(const Entity& other)const;
                 bool operator!=(const Entity& other)const;
 
                 void remove();
-                bool isValid()const;
 
-                const static std::uint64_t invalidId;
+                template<typename COMPONENT_TYPE,typename ... Args>
+                void add(Args&& ... args);
+
+                template<typename COMPONENT_TYPE>
+                void remove();
+
+                void reset();
                 
             private:
-                std::uint64_t _id;
-                
+                friend class EntityManager;
+
+                std::uint32_t _id;    
                 EntityManager* _manager;
+
+                std::bitset<MAX_COMPONENTS> _components_mask;
+
+                
         };
     }
 }
+#include <SFML-utils/es/Entity.tpl>
 #endif
