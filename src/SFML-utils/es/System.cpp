@@ -4,13 +4,13 @@ namespace sfutils
 {
     namespace es
     {
-        Family BaseSystem::_familyCounter = 0;
+        Family VSystem::_familyCounter = 0;
 
-        BaseSystem::BaseSystem()
+        VSystem::VSystem()
         {
         }
 
-        BaseSystem::~BaseSystem()
+        VSystem::~VSystem()
         {
         }
     }

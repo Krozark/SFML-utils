@@ -6,17 +6,17 @@ namespace sfutils
 {
     namespace es
     {
-        Family BaseComponent::_familyCounter = 0;
+        Family VComponent::_familyCounter = 0;
 
-        BaseComponent::BaseComponent(Entity& owner) : _owner(owner)
+        VComponent::VComponent(Entity& owner) : _owner(owner)
         {
         }
 
-        BaseComponent::~BaseComponent()
+        VComponent::~VComponent()
         {
         }
 
-        Entity& BaseComponent::owner()const
+        Entity& VComponent::owner()const
         {
             return _owner;
         }

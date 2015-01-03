@@ -2,7 +2,6 @@
 #define SFUTILS_ES_ENTITY_HPP
 
 #include <cstdint>
-#include <bitset>
 #include <SFML-utils/es/defines.hpp>
 
 namespace sfutils
@@ -26,10 +25,10 @@ namespace sfutils
 
                 void remove();
 
-                template<typename COMPONENT_TYPE,typename ... Args>
+                template<typename COMPONENT,typename ... Args>
                 void add(Args&& ... args);
 
-                template<typename COMPONENT_TYPE>
+                template<typename COMPONENT>
                 void remove();
 
                 void reset();
@@ -40,7 +39,6 @@ namespace sfutils
                 std::uint32_t _id;    
                 EntityManager* _manager;
 
-                std::bitset<MAX_COMPONENTS> _components_mask;
 
                 
         };

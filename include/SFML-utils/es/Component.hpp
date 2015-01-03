@@ -9,12 +9,12 @@ namespace sfutils
     {
         class Entity;
 
-        class BaseComponent
+        class VComponent
         {
 
             public:
-                BaseComponent(Entity& owner);
-                virtual ~BaseComponent();
+                VComponent(Entity& owner);
+                virtual ~VComponent();
 
                 Entity& owner()const;
 
@@ -25,14 +25,14 @@ namespace sfutils
                 Entity& _owner;
         };
 
-        template<typename T>
-        class Component : public BaseComponent
+        template<typename COMPONENT>
+        class Component : public VComponent
         {
             public:
                 Component(const Component&) = delete;
                 Component& operator=(const Component&) = delete;
                 
-                using BaseComponent::BaseComponent;
+                using VComponent::VComponent;
 
                 void remove();
                 static Family family();

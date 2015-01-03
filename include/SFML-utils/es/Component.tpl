@@ -5,14 +5,14 @@ namespace sfutils
 {
     namespace es
     {
-        template<typename T>
-        void Component<T>::remove()
+        template<typename COMPONENT>
+        void Component<COMPONENT>::remove()
         {
-            _owner.remove<T>();
+            _owner.remove<COMPONENT>();
         }
 
-        template<typename T>
-        Family Component<T>::family()
+        template<typename COMPONENT>
+        Family Component<COMPONENT>::family()
         {
             static Family family = _familyCounter++;
             assert(family > MAX_COMPONENTS);

@@ -8,14 +8,14 @@ namespace sfutils
     namespace es
     {
 
-        class BaseSystem
+        class VSystem
         {
             public:
-                BaseSystem(const BaseSystem&) = delete;
-                BaseSystem& operator=(const BaseSystem&) = delete;
+                VSystem(const VSystem&) = delete;
+                VSystem& operator=(const VSystem&) = delete;
 
-                BaseSystem();
-                virtual ~BaseSystem();
+                VSystem();
+                virtual ~VSystem();
 
                 virtual void update(float deltaTime) = 0;
             protected:
@@ -24,14 +24,14 @@ namespace sfutils
             private:
         };
 
-        template<typename T>
-        class System : public BaseSystem
+        template<typename COMPONENT>
+        class System : public VSystem
         {
             public:
                 System(const System&) = delete;
                 System& operator=(const System&) = delete;
 
-                using BaseSystem::BaseSystem;
+                using VSystem::VSystem;
                 
                 static Family family();
         };

@@ -4,15 +4,16 @@ namespace sfutils
 {
     namespace es
     {
-        template<typename COMPONENT_TYPE, typename ... Args>
+        template<typename COMPONENT, typename ... Args>
         void Entity::add(Args&& ... args)
         {
-            _manager->addComponent<COMPONENT_TYPE>(args ...);    
+            _manager->addComponent<COMPONENT>(*this,args ...);    
         }
 
-        template<typename COMPONENT_TYPE>
+        template<typename COMPONENT>
         void Entity::remove()
         {
+            _manager->removeComponent<COMPONENT>(*this);
         }
     }
 }

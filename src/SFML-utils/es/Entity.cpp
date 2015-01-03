@@ -31,7 +31,7 @@ namespace sfutils
 
         void Entity::reset()
         {
-            _components_mask.reset();
+            _manager->reset(*this);
         }
     }
 }

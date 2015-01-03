@@ -4,8 +4,8 @@ namespace sfutils
 {
     namespace es
     {
-        template<typename T>
-        Family System<T>::family()
+        template<typename COMPONENT>
+        Family System<COMPONENT>::family()
         {
             static Family family = _familyCounter++;
             assert(family > MAX_COMPONENTS);

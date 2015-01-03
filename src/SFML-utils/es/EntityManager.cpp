@@ -30,6 +30,7 @@ namespace sfutils
                 //create new entity
                 index = _entities_alocated.size();
                 _entities_alocated.emplace_back(this,index);
+                _entities_components_mask.emplace_back();
             }
             _entities_index.emplace_front(index);
             return _entities_alocated[index];
@@ -43,7 +44,7 @@ namespace sfutils
                 _entities_index_free.emplace_front(e._id);
                 _entities_index.remove(e._id);
 
-                e.reset();
+                reset(e);
             }
         }
 
@@ -51,7 +52,14 @@ namespace sfutils
         {
             _entities_index_free.clear();
             _entities_index.clear();
+
             _entities_alocated.clear();
+            _entities_components_mask.clear();
+        }
+
+        void EntityManager::reset(Entity& e)
+        {
+            _entities_components_mask[e._id].reset();
         }
     }
 }
