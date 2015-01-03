@@ -31,6 +31,14 @@ namespace sfutils
                 index = _entities_alocated.size();
                 _entities_alocated.emplace_back(this,index);
                 _entities_components_mask.emplace_back();
+
+                //resize components
+                auto comp_size = _components_entities.size();
+                for(std::size_t i=0;i<comp_size;++i)
+                {
+                    if(_components_entities[i] != nullptr and _components_entities[i]->size() < index)
+                        _components_entities[i]->resize(index);
+                }
             }
             _entities_index.emplace_front(index);
             return _entities_alocated[index];
@@ -41,8 +49,8 @@ namespace sfutils
             auto it = std::find(_entities_alocated.begin(),_entities_alocated.end(),e);
             if(it != _entities_alocated.end())
             {
-                _entities_index_free.emplace_front(e._id);
-                _entities_index.remove(e._id);
+                _entities_index_free.emplace_front(e.id());
+                _entities_index.remove(e.id());
 
                 reset(e);
             }
@@ -59,7 +67,7 @@ namespace sfutils
 
         void EntityManager::reset(Entity& e)
         {
-            _entities_components_mask[e._id].reset();
+            _entities_components_mask[e.id()].reset();
         }
     }
 }

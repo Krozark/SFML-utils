@@ -15,5 +15,10 @@ namespace sfutils
         {
             _manager->removeComponent<COMPONENT>(*this);
         }
+
+        inline std::uint32_t Entity::id()const
+        {
+            return _id;
+        }
     }
 }

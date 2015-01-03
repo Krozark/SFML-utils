@@ -32,10 +32,10 @@ namespace sfutils
                 void remove();
 
                 void reset();
+
+                inline std::uint32_t id()const;
                 
             private:
-                friend class EntityManager;
-
                 std::uint32_t _id;    
                 EntityManager* _manager;
 

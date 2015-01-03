@@ -43,6 +43,9 @@ namespace sfutils
 
                 std::forward_list<std::uint32_t> _entities_index;
                 std::forward_list<std::uint32_t> _entities_index_free;
+
+                template<typename COMPONENT>
+                inline void checkComponent();
         };
     }
 }
