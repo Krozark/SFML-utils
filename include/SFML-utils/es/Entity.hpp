@@ -2,6 +2,7 @@
 #define SFUTILS_ES_ENTITY_HPP
 
 #include <cstdint>
+#include <tuple>
 #include <SFML-utils/es/defines.hpp>
 
 namespace sfutils
@@ -40,6 +41,9 @@ namespace sfutils
 
                 template<typename COMPONENT>
                 ComponentHandle<COMPONENT> component();
+
+                template<typename ... COMPONENT>
+                std::tuple<ComponentHandle<COMPONENT>...> components();
 
             private:
                 std::uint32_t _id;    

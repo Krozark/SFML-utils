@@ -5,27 +5,6 @@ namespace sfutils
 {
     namespace es
     {
-        ////////////////// COMPONENT //////////////////
-        template<typename COMPONENT>
-        Component<COMPONENT>::Component()
-        {
-        }
-
-        template<typename COMPONENT>
-        inline void Component<COMPONENT>::remove()
-        {
-            _manager->removeComponent<COMPONENT>(_owner_id);
-        }
-
-
-        template<typename COMPONENT>
-        Family Component<COMPONENT>::family()
-        {
-            static Family family = _familyCounter++;
-            assert(family < MAX_COMPONENTS);
-            return family;
-        }
-        
         //////////////// COMPONENT HANDLE ///////////////
 
         template<typename COMPONENT>
@@ -72,5 +51,26 @@ namespace sfutils
             return _manager->getComponentPtr<COMPONENT>(_entity_id);
         }
 
+        ////////////////// COMPONENT //////////////////
+        template<typename COMPONENT>
+        Component<COMPONENT>::Component()
+        {
+        }
+
+        template<typename COMPONENT>
+        inline void Component<COMPONENT>::remove()
+        {
+            _manager->removeComponent<COMPONENT>(_owner_id);
+        }
+
+
+        template<typename COMPONENT>
+        Family Component<COMPONENT>::family()
+        {
+            static Family family = _familyCounter++;
+            assert(family < MAX_COMPONENTS);
+            return family;
+        }
+        
     }
 }

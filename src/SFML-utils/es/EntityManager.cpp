@@ -28,8 +28,8 @@ namespace sfutils
             else
             {
                 //create new entity
-                index = _entities_alocated.size();
-                _entities_alocated.emplace_back(this,index);
+                index = _entities_allocated.size();
+                _entities_allocated.emplace_back(this,index);
                 _entities_components_mask.emplace_back();
 
                 //resize components
@@ -46,9 +46,9 @@ namespace sfutils
 
         void EntityManager::remove(std::size_t id)
         {
-            Entity& e = _entities_alocated.at(id);
-            auto it = std::find(_entities_alocated.begin(),_entities_alocated.end(),e);
-            if(it != _entities_alocated.end())
+            Entity& e = _entities_allocated.at(id);
+            auto it = std::find(_entities_allocated.begin(),_entities_allocated.end(),e);
+            if(it != _entities_allocated.end())
             {
                 _entities_index_free.emplace_front(id);
                 _entities_index.remove(id);
@@ -59,12 +59,12 @@ namespace sfutils
 
         const Entity& EntityManager::get(std::size_t id) const
         {
-            return _entities_alocated.at(id);
+            return _entities_allocated.at(id);
         }
 
         Entity& EntityManager::get(std::size_t id)
         {
-            return _entities_alocated.at(id);
+            return _entities_allocated.at(id);
         }
 
         void EntityManager::reset()
@@ -72,7 +72,7 @@ namespace sfutils
             _entities_index_free.clear();
             _entities_index.clear();
 
-            _entities_alocated.clear();
+            _entities_allocated.clear();
             _entities_components_mask.clear();
         }
 
@@ -83,7 +83,7 @@ namespace sfutils
 
         bool EntityManager::isValid(std::uint32_t id)
         {
-            return id < _entities_alocated.size();
+            return id < _entities_allocated.size();
         }
     }
 }

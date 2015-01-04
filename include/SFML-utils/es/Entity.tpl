@@ -33,5 +33,11 @@ namespace sfutils
             return _manager->getComponent<COMPONENT>(_id);
         }
 
+        template<typename ... COMPONENT>
+        inline std::tuple<ComponentHandle<COMPONENT>...> Entity::components()
+        {
+            return _manager->getComponents<COMPONENT ...>(_id);
+        }
+
     }
 }

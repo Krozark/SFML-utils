@@ -9,6 +9,32 @@ namespace sfutils
     namespace es
     {
         class EntityManager;
+        
+        template<typename COMPONENT>
+        class ComponentHandle
+        {
+            public:
+                ComponentHandle();
+
+                bool isValid()const;
+
+                COMPONENT* get();
+                const COMPONENT* get()const;
+
+                COMPONENT* operator->();
+                const COMPONENT* operator->()const;
+
+            private:
+                friend class EntityManager;
+
+                ComponentHandle(EntityManager* manager,std::uint32_t entity_id);
+
+                EntityManager* _manager;
+                std::uint32_t _entity_id;    
+
+                //friend void setEntyId<COMPONENT>(std::uint32_t,ComponentHandle&);
+        };
+
         class VComponent
         {
 
@@ -38,30 +64,10 @@ namespace sfutils
                 
                 void remove();
                 static Family family();
+
+                typedef ComponentHandle<COMPONENT> Handle;
         };
 
-        template<typename COMPONENT>
-        class ComponentHandle
-        {
-            public:
-                ComponentHandle();
-
-                bool isValid()const;
-
-                COMPONENT* get();
-                const COMPONENT* get()const;
-
-                COMPONENT* operator->();
-                const COMPONENT* operator->()const;
-
-            private:
-                friend class EntityManager;
-
-                ComponentHandle(EntityManager* manager,std::uint32_t entity_id);
-
-                EntityManager* _manager;
-                std::uint32_t _entity_id;    
-        };
     }
 }
 #include <SFML-utils/es/Component.tpl>

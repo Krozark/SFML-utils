@@ -5,6 +5,7 @@
 #include <vector>
 #include <bitset>
 #include <cstdint>
+#include <tuple>
 #include <utils/memory.hpp>
 
 #include <SFML-utils/es/defines.hpp>
@@ -47,9 +48,35 @@ namespace sfutils
                 template<typename COMPONENT>
                 ComponentHandle<COMPONENT> getComponent(std::uint32_t id);
 
-            private:
-                std::vector<Entity> _entities_alocated;
+                template<typename ... COMPONENT>
+                std::tuple<ComponentHandle<COMPONENT>...> getComponents(std::uint32_t id);
+                
 
+                template<typename ... COMPONENT>
+                class iterator
+                {
+                    public:
+                        iterator(EntityManager& manager,const std::bitset<MAX_COMPONENTS>& mask,std::forward_list<std::uint32_t>::iterator it,std::forward_list<std::uint32_t>::iterator it_end,ComponentHandle<COMPONENT>& ... components);
+                        iterator<COMPONENT ...>& operator++(); //prefix increment
+                        //reference operator*() const;
+                        //value_type operator*() const;
+                        //pointer operator->() const;
+                        bool operator==(const iterator<COMPONENT...>& other);
+                        bool operator!=(const iterator<COMPONENT...>& other);
+                    private:
+                        EntityManager& _manager;
+                        const std::bitset<MAX_COMPONENTS> _mask;
+                        std::forward_list<std::uint32_t>::iterator _it;
+                        std::forward_list<std::uint32_t>::iterator _it_end;
+                        std::tuple<ComponentHandle<COMPONENT>& ...> _handles;
+                };
+
+                template<typename ... COMPONENT>
+                iterator<COMPONENT ...> getByComponents(ComponentHandle<COMPONENT>& ... components);
+                
+
+            private:
+                std::vector<Entity> _entities_allocated;
                 std::vector<std::bitset<MAX_COMPONENTS>> _entities_components_mask;
                 std::vector<utils::memory::VPool*> _components_entities;
 
@@ -57,12 +84,15 @@ namespace sfutils
                 std::forward_list<std::uint32_t> _entities_index_free;
 
                 template<typename COMPONENT>
-                inline void checkComponent();
+                void checkComponent();
 
                 template<typename> friend class ComponentHandle;
 
                 template<typename COMPONENT>
                 COMPONENT* getComponentPtr(std::uint32_t id);
+
+
+
         };
     }
 }
