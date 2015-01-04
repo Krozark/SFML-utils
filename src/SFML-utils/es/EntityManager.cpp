@@ -16,7 +16,7 @@ namespace sfutils
             reset();
         }
 
-        Entity& EntityManager::create()
+        std::uint32_t EntityManager::create()
         {
             std::uint32_t index = 0;
             if(not _entities_index_free.empty())
@@ -36,29 +36,25 @@ namespace sfutils
                 auto comp_size = _components_entities.size();
                 for(std::size_t i=0;i<comp_size;++i)
                 {
-                    if(_components_entities[i] != nullptr and _components_entities[i]->size() < index)
-                        _components_entities[i]->resize(index);
+                    if(_components_entities[i] != nullptr)
+                        _components_entities[i]->resize(index+1);
                 }
             }
             _entities_index.emplace_front(index);
-            return _entities_alocated[index];
-        }
-
-        void EntityManager::remove(Entity& e)
-        {
-            auto it = std::find(_entities_alocated.begin(),_entities_alocated.end(),e);
-            if(it != _entities_alocated.end())
-            {
-                _entities_index_free.emplace_front(e.id());
-                _entities_index.remove(e.id());
-
-                reset(e);
-            }
+            return index;
         }
 
         void EntityManager::remove(std::size_t id)
         {
-            remove(_entities_alocated.at(id));
+            Entity& e = _entities_alocated.at(id);
+            auto it = std::find(_entities_alocated.begin(),_entities_alocated.end(),e);
+            if(it != _entities_alocated.end())
+            {
+                _entities_index_free.emplace_front(id);
+                _entities_index.remove(id);
+
+                reset(id);
+            }
         }
 
         const Entity& EntityManager::get(std::size_t id) const
@@ -80,9 +76,14 @@ namespace sfutils
             _entities_components_mask.clear();
         }
 
-        void EntityManager::reset(Entity& e)
+        void EntityManager::reset(std::uint32_t id)
         {
-            _entities_components_mask[e.id()].reset();
+            _entities_components_mask.at(id).reset();
+        }
+
+        bool EntityManager::isValid(std::uint32_t id)
+        {
+            return id < _entities_alocated.size();
         }
     }
 }

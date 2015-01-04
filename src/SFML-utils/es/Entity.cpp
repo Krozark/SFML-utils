@@ -26,12 +26,12 @@ namespace sfutils
 
         void Entity::remove()
         {
-            _manager->remove(*this);
+            _manager->remove(_id);
         }
 
         void Entity::reset()
         {
-            _manager->reset(*this);
+            _manager->reset(_id);
         }
     }
 }

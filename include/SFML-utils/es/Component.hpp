@@ -2,27 +2,29 @@
 #define SFUTILS_ES_COMPONENT_HPP
 
 #include <SFML-utils/es/defines.hpp>
+#include <cstdint>
 
 namespace sfutils
 {
     namespace es
     {
-        class Entity;
-
+        class EntityManager;
         class VComponent
         {
 
             public:
-                VComponent(Entity& owner);
+                VComponent();
                 virtual ~VComponent();
 
-                Entity& owner()const;
+                std::uint32_t ownerId()const;
 
             protected:
                 static Family _familyCounter;
 
             private:
-                Entity& _owner;
+                friend class EntityManager;
+                EntityManager* _manager;
+                std::uint32_t _owner_id;    
         };
 
         template<typename COMPONENT>
@@ -31,11 +33,34 @@ namespace sfutils
             public:
                 Component(const Component&) = delete;
                 Component& operator=(const Component&) = delete;
-                
-                using VComponent::VComponent;
 
+                Component();
+                
                 void remove();
                 static Family family();
+        };
+
+        template<typename COMPONENT>
+        class ComponentHandle
+        {
+            public:
+                ComponentHandle();
+
+                bool isValid()const;
+
+                COMPONENT* get();
+                const COMPONENT* get()const;
+
+                COMPONENT* operator->();
+                const COMPONENT* operator->()const;
+
+            private:
+                friend class EntityManager;
+
+                ComponentHandle(EntityManager* manager,std::uint32_t entity_id);
+
+                EntityManager* _manager;
+                std::uint32_t _entity_id;    
         };
     }
 }

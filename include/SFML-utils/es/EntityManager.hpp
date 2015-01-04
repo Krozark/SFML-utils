@@ -14,6 +14,7 @@ namespace sfutils
     namespace es
     {
         class Entity;
+        template<typename T> class ComponentHandle;
         class EntityManager
         {
             public:
@@ -23,22 +24,29 @@ namespace sfutils
                 EntityManager();
                 ~EntityManager();
 
-                Entity& create();
-                void remove(Entity& e);
+                std::uint32_t create();
                 void remove(std::size_t id);
+
+                void reset();
+                void reset(std::uint32_t id);
+
+                bool isValid(std::uint32_t id);
 
                 const Entity& get(std::size_t id)const;
                 Entity& get(std::size_t id);
 
                 template<typename COMPONENT,typename ... Args>
-                void addComponent(Entity& e,Args&& ... args);
+                void addComponent(std::uint32_t id,Args&& ... args);
                 
                 template<typename COMPONENT>
-                void removeComponent(Entity& e);
+                void removeComponent(std::uint32_t id);
 
-                void reset();
-                void reset(Entity& e);
-                
+                template<typename COMPONENT>
+                bool hasComponent(std::uint32_t id)const;
+
+                template<typename COMPONENT>
+                ComponentHandle<COMPONENT> getComponent(std::uint32_t id);
+
             private:
                 std::vector<Entity> _entities_alocated;
 
@@ -50,6 +58,11 @@ namespace sfutils
 
                 template<typename COMPONENT>
                 inline void checkComponent();
+
+                template<typename> friend class ComponentHandle;
+
+                template<typename COMPONENT>
+                COMPONENT* getComponentPtr(std::uint32_t id);
         };
     }
 }

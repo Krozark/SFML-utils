@@ -8,7 +8,7 @@ namespace sfutils
         Family System<COMPONENT>::family()
         {
             static Family family = _familyCounter++;
-            assert(family > MAX_COMPONENTS);
+            assert(family < MAX_COMPONENTS);
             return family;
         }
     }

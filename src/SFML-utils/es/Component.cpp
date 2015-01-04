@@ -1,6 +1,4 @@
 #include <SFML-utils/es/Component.hpp>
-#include <SFML-utils/es/Entity.hpp>
-
 
 namespace sfutils
 {
@@ -8,7 +6,7 @@ namespace sfutils
     {
         Family VComponent::_familyCounter = 0;
 
-        VComponent::VComponent(Entity& owner) : _owner(owner)
+        VComponent::VComponent() : _manager(nullptr), _owner_id(-1)
         {
         }
 
@@ -16,9 +14,9 @@ namespace sfutils
         {
         }
 
-        Entity& VComponent::owner()const
+        std::uint32_t VComponent::ownerId()const
         {
-            return _owner;
+            return _owner_id;
         }
     }
 }

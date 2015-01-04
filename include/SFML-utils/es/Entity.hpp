@@ -11,6 +11,7 @@ namespace sfutils
 
         class EntityManager;
         template<typename T> class Component;
+        template<typename T> class ComponentHandle;
         class Entity
         {
             public:
@@ -20,10 +21,13 @@ namespace sfutils
                 Entity(EntityManager* manager,std::uint32_t id);
                 ~Entity();
 
+                std::uint32_t id()const;
+
                 bool operator==(const Entity& other)const;
                 bool operator!=(const Entity& other)const;
 
                 void remove();
+                void reset();
 
                 template<typename COMPONENT,typename ... Args>
                 void add(Args&& ... args);
@@ -31,16 +35,15 @@ namespace sfutils
                 template<typename COMPONENT>
                 void remove();
 
-                void reset();
+                template<typename COMPONENT>
+                bool has();
 
-                inline std::uint32_t id()const;
-                
+                template<typename COMPONENT>
+                ComponentHandle<COMPONENT> component();
+
             private:
                 std::uint32_t _id;    
                 EntityManager* _manager;
-
-
-                
         };
     }
 }
