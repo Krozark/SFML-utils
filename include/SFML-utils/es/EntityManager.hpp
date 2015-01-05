@@ -18,6 +18,7 @@ namespace sfutils
         template<typename T> class ComponentHandle;
         class EntityManager
         {
+            template<typename ...> class View;
             public:
                 EntityManager(const EntityManager&) = delete;
                 EntityManager& operator=(const EntityManager&) = delete;
@@ -53,26 +54,7 @@ namespace sfutils
                 
 
                 template<typename ... COMPONENT>
-                class iterator
-                {
-                    public:
-                        iterator(EntityManager& manager,const std::bitset<MAX_COMPONENTS>& mask,std::forward_list<std::uint32_t>::iterator it,std::forward_list<std::uint32_t>::iterator it_end,ComponentHandle<COMPONENT>& ... components);
-                        iterator<COMPONENT ...>& operator++(); //prefix increment
-                        //reference operator*() const;
-                        //value_type operator*() const;
-                        //pointer operator->() const;
-                        bool operator==(const iterator<COMPONENT...>& other);
-                        bool operator!=(const iterator<COMPONENT...>& other);
-                    private:
-                        EntityManager& _manager;
-                        const std::bitset<MAX_COMPONENTS> _mask;
-                        std::forward_list<std::uint32_t>::iterator _it;
-                        std::forward_list<std::uint32_t>::iterator _it_end;
-                        std::tuple<ComponentHandle<COMPONENT>& ...> _handles;
-                };
-
-                template<typename ... COMPONENT>
-                iterator<COMPONENT ...> getByComponents(ComponentHandle<COMPONENT>& ... components);
+                View<COMPONENT ...> getByComponents(ComponentHandle<COMPONENT>& ... components);
                 
 
             private:
@@ -91,8 +73,43 @@ namespace sfutils
                 template<typename COMPONENT>
                 COMPONENT* getComponentPtr(std::uint32_t id);
 
+                template<typename ... COMPONENT>
+                class View
+                {
+                    class iterator;
+                    public:
+                        View(EntityManager& manager,const std::bitset<MAX_COMPONENTS>& mask,ComponentHandle<COMPONENT>& ... components);
 
+                        iterator begin();
+                        iterator end();
 
+                    private:
+                        class iterator
+                        {
+                            public:
+                                iterator(View& view,std::forward_list<std::uint32_t>::iterator it,std::forward_list<std::uint32_t>::iterator it_end);
+                                iterator& operator++(); //prefix increment
+                                //reference operator*() const;
+                                //value_type operator*() const;
+                                //pointer operator->() const;
+                                bool operator==(const iterator& other);
+                                bool operator!=(const iterator& other);
+                            private:
+                                View& _view;
+                                std::forward_list<std::uint32_t>::iterator _it;
+                                std::forward_list<std::uint32_t>::iterator _it_end;
+                        };
+
+                        template<int N,typename C>
+                        void unpack(std::uint32_t id);
+
+                        template<int N,typename C0,typename C1,typename ... Cx>
+                        void unpack(std::uint32_t id);
+
+                        EntityManager& _manager;
+                        const std::bitset<MAX_COMPONENTS> _mask;
+                        std::tuple<ComponentHandle<COMPONENT>& ...> _handles;
+                };
         };
     }
 }

@@ -1,6 +1,7 @@
 #include <SFML-utils/es/Component.hpp>
 #include <SFML-utils/es/Entity.hpp>
 #include <cassert>
+
 namespace sfutils
 {
     namespace es
@@ -78,11 +79,11 @@ namespace sfutils
         }
 
         template<typename ... COMPONENT>
-        EntityManager::iterator<COMPONENT ...> EntityManager::getByComponents(ComponentHandle<COMPONENT>& ... components)
+        EntityManager::View<COMPONENT ...> EntityManager::getByComponents(ComponentHandle<COMPONENT>& ... components)
         {
             std::bitset<MAX_COMPONENTS> mask;
             getMask<COMPONENT ...>(mask);
-            return iterator<COMPONENT...>(*this,mask,_entities_index.begin(),_entities_index.end(),components ...);
+            return View<COMPONENT...>(*this,mask,components ...);
         }
 
 
@@ -102,30 +103,60 @@ namespace sfutils
             }
         }
 
-        /////////////////////// iterator ///////////////////
-
-        template<typename COMPONENT>
-        inline void setEntyId(std::uint32_t id,ComponentHandle<COMPONENT>& components)
-        {
-            //components._entity_id = id;
-        }
+        /////////////////////// VIEW ///////////////////
 
         template<typename ... COMPONENT>
-        EntityManager::iterator<COMPONENT ...>::iterator(EntityManager& manager,const std::bitset<MAX_COMPONENTS>& mask,std::forward_list<std::uint32_t>::iterator it,std::forward_list<std::uint32_t>::iterator it_end,ComponentHandle<COMPONENT>& ... components) : _manager(manager), _mask(mask), _it(it), _it_end(it_end),_handles(std::tuple<ComponentHandle<COMPONENT>& ...>(components...))
+        EntityManager::View<COMPONENT...>::View(EntityManager& manager,const std::bitset<MAX_COMPONENTS>& mask,ComponentHandle<COMPONENT>& ... components) : _manager(manager), _mask(mask), _handles(std::tuple<ComponentHandle<COMPONENT>&...>(components ...))
         {
         }
 
         template<typename ... COMPONENT>
-        EntityManager::iterator<COMPONENT...>& EntityManager::iterator<COMPONENT ...>::operator++()
+        typename EntityManager::View<COMPONENT ...>::iterator EntityManager::View<COMPONENT ...>::begin()
         {
+            auto res = iterator(*this,_manager._entities_index.before_begin(),_manager._entities_index.end());
+            ++res;
+            return res;
+        }
+
+        template<typename ... COMPONENT>
+        typename EntityManager::View<COMPONENT ...>::iterator EntityManager::View<COMPONENT ...>::end()
+        {
+            return iterator(*this,_manager._entities_index.end(),_manager._entities_index.end());
+        }
+
+        template<typename ... COMPONENT>
+        template<int N,typename C>
+        inline void EntityManager::View<COMPONENT...>::unpack(std::uint32_t id)
+        {
+            std::get<N>(_handles)._entity_id = id;
+            std::get<N>(_handles)._manager = &_manager;
+        }
+
+        template<typename ... COMPONENT>
+        template<int N,typename C0,typename C1,typename ... Cx>
+        inline void EntityManager::View<COMPONENT...>::unpack(std::uint32_t id)
+        {
+            unpack<N,C0>(id);
+            unpack<N+1,C1,Cx ...>(id);
+        }
+
+        ////////////////// VIEW ITERATOR /////////////////////////
+
+        template<typename ... COMPONENT>
+        EntityManager::View<COMPONENT ...>::iterator::iterator(View& view,std::forward_list<std::uint32_t>::iterator it,std::forward_list<std::uint32_t>::iterator it_end) : _view(view), _it(it), _it_end(it_end)
+        {
+        }
+
+        template<typename ... COMPONENT>
+        typename EntityManager::View<COMPONENT...>::iterator& EntityManager::View<COMPONENT ...>::iterator::operator++()
+        {
+            ++_it;
             while(_it != _it_end)
             {
                 std::uint32_t index = *_it;    
-                if(_manager._entities_components_mask[index] & _mask)
+                if((_view._manager._entities_components_mask[index] & _view._mask) == _view._mask)
                 {
-                    //TODO SET COMPONENTS
-                    //int ctx[] = {((setEntyId<COMPONENT>(index,components)), void(), 0)... };
-                    //(void)ctx;
+                    _view.unpack<0,COMPONENT...>(index);
                     break;
                 }
                 ++_it;
@@ -134,15 +165,15 @@ namespace sfutils
         }
 
         template<typename ... COMPONENT>
-        bool EntityManager::iterator<COMPONENT ...>::operator==(const EntityManager::iterator<COMPONENT...>& other)
+        bool EntityManager::View<COMPONENT ...>::iterator::operator==(const EntityManager::View<COMPONENT...>::iterator& other)
         {
-            return _it == other._it and _mask == other._mask and _manager == other._manager;
+            return _it == other._it and _view._mask == other._view._mask and &(_view._manager) == &(other._view._manager);
         }
 
         template<typename ... COMPONENT>
-        bool EntityManager::iterator<COMPONENT...>::operator!=(const EntityManager::iterator<COMPONENT...>& other)
+        bool EntityManager::View<COMPONENT...>::iterator::operator!=(const EntityManager::View<COMPONENT...>::iterator& other)
         {
-            return _it != other._it or _mask != other._mask or _manager == other._manager;
+            return _it != other._it or _view._mask != other._view._mask or &(_view._manager) != &(other._view._manager);
         }
 
     }

@@ -30,7 +30,16 @@ int main(int argc,char* argv[])
 
         {
             ComponentTest::Handle component_test;
-            auto entities = manager.getByComponents(component_test);
+            auto view = manager.getByComponents(component_test);
+
+            auto begin = view.begin();
+            auto end = view.end();
+
+            while(begin != end)
+            {
+                std::cout<<"Component content: "<<component_test->_f<<std::endl;
+                ++begin;
+            }
         }
 
     }
