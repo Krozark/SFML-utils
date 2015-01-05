@@ -12,6 +12,7 @@ It provide some adds to the SFML library including:
  * Vertical layout
 * Box2D debugDraw (optional)
 * 2D map framwork
+* Entity system
 
 Requirements
 ------------
