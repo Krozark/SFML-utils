@@ -108,6 +108,7 @@ namespace sfutils
         template<typename ... COMPONENT>
         EntityManager::View<COMPONENT...>::View(EntityManager& manager,const std::bitset<MAX_COMPONENTS>& mask,ComponentHandle<COMPONENT>& ... components) : _manager(manager), _mask(mask), _handles(std::tuple<ComponentHandle<COMPONENT>&...>(components ...))
         {
+            unpack_manager<0,COMPONENT ...>();
         }
 
         template<typename ... COMPONENT>
@@ -126,18 +127,32 @@ namespace sfutils
 
         template<typename ... COMPONENT>
         template<int N,typename C>
-        inline void EntityManager::View<COMPONENT...>::unpack(std::uint32_t id)
+        inline void EntityManager::View<COMPONENT...>::unpack_id(std::uint32_t id)
         {
             std::get<N>(_handles)._entity_id = id;
+        }
+
+        template<typename ... COMPONENT>
+        template<int N,typename C0,typename C1,typename ... Cx>
+        inline void EntityManager::View<COMPONENT...>::unpack_id(std::uint32_t id)
+        {
+            unpack_id<N,C0>(id);
+            unpack_id<N+1,C1,Cx ...>(id);
+        }
+
+        template<typename ... COMPONENT>
+        template<int N,typename C>
+        inline void EntityManager::View<COMPONENT...>::unpack_manager()
+        {
             std::get<N>(_handles)._manager = &_manager;
         }
 
         template<typename ... COMPONENT>
         template<int N,typename C0,typename C1,typename ... Cx>
-        inline void EntityManager::View<COMPONENT...>::unpack(std::uint32_t id)
+        inline void EntityManager::View<COMPONENT...>::unpack_manager()
         {
-            unpack<N,C0>(id);
-            unpack<N+1,C1,Cx ...>(id);
+            unpack_manager<N,C0>();
+            unpack_manager<N+1,C1,Cx ...>();
         }
 
         ////////////////// VIEW ITERATOR /////////////////////////
@@ -156,7 +171,7 @@ namespace sfutils
                 std::uint32_t index = *_it;    
                 if((_view._manager._entities_components_mask[index] & _view._mask) == _view._mask)
                 {
-                    _view.unpack<0,COMPONENT...>(index);
+                    _view.unpack_id<0,COMPONENT...>(index);
                     break;
                 }
                 ++_it;

@@ -101,10 +101,16 @@ namespace sfutils
                         };
 
                         template<int N,typename C>
-                        void unpack(std::uint32_t id);
+                        void unpack_id(std::uint32_t id);
 
                         template<int N,typename C0,typename C1,typename ... Cx>
-                        void unpack(std::uint32_t id);
+                        void unpack_id(std::uint32_t id);
+
+                        template<int N,typename C>
+                        void unpack_manager();
+
+                        template<int N,typename C0,typename C1,typename ... Cx>
+                        void unpack_manager();
 
                         EntityManager& _manager;
                         const std::bitset<MAX_COMPONENTS> _mask;
