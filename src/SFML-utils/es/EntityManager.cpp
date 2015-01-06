@@ -85,5 +85,15 @@ namespace sfutils
         {
             return id < _entities_allocated.size();
         }
+
+        std::forward_list<std::uint32_t>::const_iterator EntityManager::begin()const
+        {
+            return _entities_index.cbegin();
+        }
+
+        std::forward_list<std::uint32_t>::const_iterator EntityManager::end()const
+        {
+            return _entities_index.cend();
+        }
     }
 }

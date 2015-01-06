@@ -37,6 +37,9 @@ namespace sfutils
                 const Entity& get(std::size_t id)const;
                 Entity& get(std::size_t id);
 
+                std::forward_list<std::uint32_t>::const_iterator begin()const;
+                std::forward_list<std::uint32_t>::const_iterator end()const;
+
                 template<typename COMPONENT,typename ... Args>
                 void addComponent(std::uint32_t id,Args&& ... args);
                 
@@ -55,7 +58,6 @@ namespace sfutils
 
                 template<typename ... COMPONENT>
                 View<COMPONENT ...> getByComponents(ComponentHandle<COMPONENT>& ... components);
-                
 
             private:
                 std::vector<Entity> _entities_allocated;
@@ -89,9 +91,8 @@ namespace sfutils
                             public:
                                 iterator(View& view,std::forward_list<std::uint32_t>::iterator it,std::forward_list<std::uint32_t>::iterator it_end);
                                 iterator& operator++(); //prefix increment
-                                //reference operator*() const;
-                                //value_type operator*() const;
-                                //pointer operator->() const;
+                                Entity* operator*() const;
+                                Entity* operator->() const;
                                 bool operator==(const iterator& other);
                                 bool operator!=(const iterator& other);
                             private:
