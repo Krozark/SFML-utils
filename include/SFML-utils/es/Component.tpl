@@ -58,6 +58,11 @@ namespace sfutils
         }
 
         template<typename COMPONENT>
+        Component<COMPONENT>::~Component()
+        {
+        }
+
+        template<typename COMPONENT>
         inline void Component<COMPONENT>::remove()
         {
             _manager->removeComponent<COMPONENT>(_owner_id);

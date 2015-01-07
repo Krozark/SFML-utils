@@ -15,7 +15,7 @@ namespace sfutils
             assert(not _entities_components_mask[id].test(family));
 
             auto pool = static_cast<utils::memory::Pool<COMPONENT>*>(_components_entities[family]);
-            pool->emplace(id,args...);
+            pool->emplace(id,std::forward<Args>(args)...);
 
             pool->at(id)._owner_id = id;
             pool->at(id)._manager = this;
@@ -53,7 +53,7 @@ namespace sfutils
         }
 
         template<typename ... COMPONENT>
-        std::tuple<ComponentHandle<COMPONENT>...> EntityManager::getComponents(std::uint32_t id)
+        inline std::tuple<ComponentHandle<COMPONENT>...> EntityManager::getComponents(std::uint32_t id)
         {
             return std::make_tuple(getComponent<COMPONENT>(id)...);
         }
@@ -112,15 +112,27 @@ namespace sfutils
         }
 
         template<typename ... COMPONENT>
-        typename EntityManager::View<COMPONENT ...>::iterator EntityManager::View<COMPONENT ...>::begin()
+        inline typename EntityManager::View<COMPONENT ...>::iterator EntityManager::View<COMPONENT ...>::begin()
         {
-            auto res = iterator(*this,_manager._entities_index.before_begin(),_manager._entities_index.end());
-            ++res;
-            return res;
+            auto begin = _manager._entities_index.begin();
+            auto end = _manager._entities_index.end();
+
+            while(begin != end)
+            {
+                std::uint32_t index = *begin;    
+                if((_manager._entities_components_mask[index] & _mask) == _mask)
+                {
+                    unpack_id<0,COMPONENT...>(index);
+                    break;
+                }
+                ++begin;
+            }
+
+            return iterator(*this,begin,end);
         }
 
         template<typename ... COMPONENT>
-        typename EntityManager::View<COMPONENT ...>::iterator EntityManager::View<COMPONENT ...>::end()
+        inline typename EntityManager::View<COMPONENT ...>::iterator EntityManager::View<COMPONENT ...>::end()
         {
             return iterator(*this,_manager._entities_index.end(),_manager._entities_index.end());
         }
@@ -158,7 +170,7 @@ namespace sfutils
         ////////////////// VIEW ITERATOR /////////////////////////
 
         template<typename ... COMPONENT>
-        EntityManager::View<COMPONENT ...>::iterator::iterator(View& view,std::forward_list<std::uint32_t>::iterator it,std::forward_list<std::uint32_t>::iterator it_end) : _view(view), _it(it), _it_end(it_end)
+        EntityManager::View<COMPONENT ...>::iterator::iterator(View& view,EntityManager::container::iterator it,EntityManager::container::iterator it_end) : _view(view), _it(it), _it_end(it_end)
         {
         }
 
@@ -180,7 +192,7 @@ namespace sfutils
         }
 
         template<typename ... COMPONENT>
-        Entity* EntityManager::View<COMPONENT ...>::iterator::operator*()const
+        inline Entity* EntityManager::View<COMPONENT ...>::iterator::operator*()const
         {
             if(_it == _it_end)
                 return nullptr;
@@ -188,7 +200,7 @@ namespace sfutils
         }
 
         template<typename ... COMPONENT>
-        Entity* EntityManager::View<COMPONENT ...>::iterator::operator->()const
+        inline Entity* EntityManager::View<COMPONENT ...>::iterator::operator->()const
         {
             if(_it == _it_end)
                 return nullptr;

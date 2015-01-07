@@ -39,13 +39,13 @@ namespace sfutils
         {
 
             public:
-                VComponent();
                 virtual ~VComponent();
 
                 std::uint32_t ownerId()const;
 
             protected:
                 static Family _familyCounter;
+                VComponent();
 
             private:
                 friend class EntityManager;
@@ -61,6 +61,7 @@ namespace sfutils
                 Component& operator=(const Component&) = delete;
 
                 Component();
+                virtual ~Component();
                 
                 void remove();
                 static Family family();

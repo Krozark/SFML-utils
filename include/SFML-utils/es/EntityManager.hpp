@@ -1,7 +1,7 @@
 #ifndef SFUTILS_ES_ENTITYMANAGER_HPP
 #define SFUTILS_ES_ENTITYMANAGER_HPP
 
-#include <forward_list>
+#include <list>
 #include <vector>
 #include <bitset>
 #include <cstdint>
@@ -20,6 +20,8 @@ namespace sfutils
         {
             template<typename ...> class View;
             public:
+                using container=std::list<std::uint32_t>;
+
                 EntityManager(const EntityManager&) = delete;
                 EntityManager& operator=(const EntityManager&) = delete;
 
@@ -37,8 +39,8 @@ namespace sfutils
                 const Entity& get(std::size_t id)const;
                 Entity& get(std::size_t id);
 
-                std::forward_list<std::uint32_t>::const_iterator begin()const;
-                std::forward_list<std::uint32_t>::const_iterator end()const;
+                container::const_iterator begin()const;
+                container::const_iterator end()const;
 
                 template<typename COMPONENT,typename ... Args>
                 void addComponent(std::uint32_t id,Args&& ... args);
@@ -64,8 +66,8 @@ namespace sfutils
                 std::vector<std::bitset<MAX_COMPONENTS>> _entities_components_mask;
                 std::vector<utils::memory::VPool*> _components_entities;
 
-                std::forward_list<std::uint32_t> _entities_index;
-                std::forward_list<std::uint32_t> _entities_index_free;
+                container _entities_index;
+                container _entities_index_free;
 
                 template<typename COMPONENT>
                 void checkComponent();
@@ -89,7 +91,7 @@ namespace sfutils
                         class iterator
                         {
                             public:
-                                iterator(View& view,std::forward_list<std::uint32_t>::iterator it,std::forward_list<std::uint32_t>::iterator it_end);
+                                iterator(View& view,EntityManager::container::iterator it,EntityManager::container::iterator it_end);
                                 iterator& operator++(); //prefix increment
                                 Entity* operator*() const;
                                 Entity* operator->() const;
@@ -97,8 +99,8 @@ namespace sfutils
                                 bool operator!=(const iterator& other);
                             private:
                                 View& _view;
-                                std::forward_list<std::uint32_t>::iterator _it;
-                                std::forward_list<std::uint32_t>::iterator _it_end;
+                                EntityManager::container::iterator _it;
+                                EntityManager::container::iterator _it_end;
                         };
 
                         template<int N,typename C>

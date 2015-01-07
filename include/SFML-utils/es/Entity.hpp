@@ -20,7 +20,7 @@ namespace sfutils
                 Entity& operator=(Entity&&) = default;
 
                 Entity(EntityManager* manager,std::uint32_t id);
-                ~Entity();
+                ~Entity() ;
 
                 std::uint32_t id()const;
 

@@ -23,7 +23,7 @@ namespace sfutils
             {
                 //reuse existing entity
                 index = _entities_index_free.front();
-                _entities_index_free.pop_front();
+                _entities_index_free.pop_back();
             }
             else
             {
@@ -42,7 +42,7 @@ namespace sfutils
                 }
 
             }
-            _entities_index.emplace_front(index);
+            _entities_index.emplace_back(index);
 
             return index;
 
@@ -55,8 +55,8 @@ namespace sfutils
             auto it = std::find(_entities_allocated.begin(),_entities_allocated.end(),e);
             if(it != _entities_allocated.end())
             {
-                _entities_index_free.emplace_front(id);
-                _entities_index.remove(id);
+                _entities_index_free.emplace_back(id);
+                _entities_index.erase(std::find(_entities_index.begin(),_entities_index.end(),id));
 
                 reset(id);
             }
@@ -91,12 +91,12 @@ namespace sfutils
             return id < _entities_allocated.size();
         }
 
-        std::forward_list<std::uint32_t>::const_iterator EntityManager::begin()const
+        EntityManager::container::const_iterator EntityManager::begin()const
         {
             return _entities_index.cbegin();
         }
 
-        std::forward_list<std::uint32_t>::const_iterator EntityManager::end()const
+        EntityManager::container::const_iterator EntityManager::end()const
         {
             return _entities_index.cend();
         }

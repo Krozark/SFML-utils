@@ -74,7 +74,7 @@ set_option(BUILD_BOX2D FALSE BOOL "TRUE to build box2d wrapper for SFML")
 #set(includepath "-I${CMAKE_CURRENT_SOURCE_DIR}/include")
 set(DEFINES "")
 set(WARNING "-Wall")
-set(FLAGS "-g -std=c++0x")
+set(FLAGS "-o3 -std=c++0x")
 set(CMAKE_CXX_FLAGS "${DEFINES} ${WARNING} ${FLAGS}")
 
 find_library(LIB_SFML_SYSTEM sfml-system)

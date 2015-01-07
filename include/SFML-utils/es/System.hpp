@@ -2,11 +2,14 @@
 #define SFUTILS_ES_SYSTEM_HPP
 
 #include <SFML-utils/es/defines.hpp>
+#include <memory>
+#include <unordered_map>
 
 namespace sfutils
 {
     namespace es
     {
+        class EntityManager;
 
         class VSystem
         {
@@ -14,11 +17,12 @@ namespace sfutils
                 VSystem(const VSystem&) = delete;
                 VSystem& operator=(const VSystem&) = delete;
 
-                VSystem();
                 virtual ~VSystem();
 
-                virtual void update(float deltaTime) = 0;
+                virtual void update(EntityManager& entity_manager,float deltaTime) = 0;
             protected:
+                VSystem();
+
                 static Family _familyCounter;
 
             private:
@@ -31,9 +35,43 @@ namespace sfutils
                 System(const System&) = delete;
                 System& operator=(const System&) = delete;
 
-                using VSystem::VSystem;
-                
+                System();
+                virtual ~System();
+
                 static Family family();
+        };
+
+
+        class SystemManager
+        {
+            public:
+                SystemManager(const SystemManager&) = delete;
+                SystemManager& operator=(const SystemManager&) = delete;
+
+                SystemManager(EntityManager& manager);
+                ~SystemManager();
+
+                template<typename SYSTEM>
+                bool add(std::shared_ptr<SYSTEM> ptr);
+
+                template<typename SYSTEM,typename ... Args>
+                bool add(Args&& ... args);
+
+                template<typename SYSTEM>
+                bool remove();
+                
+                template<typename SYSTEM>
+                std::shared_ptr<SYSTEM> system();
+
+                template<typename SYSTEM>
+                void update(float deltaTime);
+
+                void updateAll(float deltaTime);
+                
+                
+            private:
+                EntityManager& _manager;
+                std::unordered_map<Family,std::shared_ptr<VSystem>> _systems;
         };
     }
 }

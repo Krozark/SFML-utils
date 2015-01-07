@@ -6,6 +6,7 @@ set(LIBS ${LIBS} ${LIB_UTILS})
 
 
 set(FILES_HEADER
+    ${INCROOT}/Application.hpp
     ${INCROOT}/Component.hpp
     ${INCROOT}/Component.tpl
     ${INCROOT}/Entity.hpp
@@ -16,6 +17,7 @@ set(FILES_HEADER
 )
 
 set(FILES_SRC
+    ${SRCROOT}/Application.cpp
     ${SRCROOT}/Component.cpp
     ${SRCROOT}/Entity.cpp
     ${SRCROOT}/EntityManager.cpp

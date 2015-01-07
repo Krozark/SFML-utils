@@ -12,7 +12,7 @@ namespace sfutils
         template<typename COMPONENT, typename ... Args>
         inline void Entity::add(Args&& ... args)
         {
-            _manager->addComponent<COMPONENT>(_id,args ...);    
+            _manager->addComponent<COMPONENT>(_id,std::forward<Args>(args)...);    
         }
 
         template<typename COMPONENT>
