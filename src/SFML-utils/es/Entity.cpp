@@ -11,7 +11,6 @@ namespace sfutils
 
         Entity::~Entity()
         {
-            reset();
         }
 
         bool Entity::operator==(const Entity& other)const

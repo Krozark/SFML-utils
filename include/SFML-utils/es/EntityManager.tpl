@@ -2,8 +2,6 @@
 #include <SFML-utils/es/Entity.hpp>
 #include <cassert>
 
-#include <iostream>
-
 namespace sfutils
 {
     namespace es
@@ -22,8 +20,7 @@ namespace sfutils
             pool->at(id)._owner_id = id;
             pool->at(id)._manager = this;
 
-            _entities_components_mask[id].set(family);
-            std::cout<<"addComponent mask: "<<_entities_components_mask[id]<<" of id : "<<id<<std::endl;
+            _entities_components_mask.at(id).set(family);
         }
         
         template<typename COMPONENT>
@@ -37,7 +34,6 @@ namespace sfutils
             static_cast<utils::memory::Pool<COMPONENT>*>(_components_entities[family])->erase(id);
 
             _entities_components_mask[id].reset(family);
-            std::cout<<"removeComponent mask: "<<_entities_components_mask[id]<<" of id : "<<id<<std::endl;
         }
 
         template<typename COMPONENT>
@@ -87,7 +83,6 @@ namespace sfutils
         {
             std::bitset<MAX_COMPONENTS> mask;
             getMask<COMPONENT ...>(mask);
-            std::cout<<"getByComponents mask: "<<mask<<std::endl;
             return View<COMPONENT...>(*this,mask,components ...);
         }
 
@@ -174,7 +169,6 @@ namespace sfutils
             while(_it != _it_end)
             {
                 std::uint32_t index = *_it;    
-                std::cout<<"mask: "<<_view._manager._entities_components_mask[index]<<" of index : "<<index<<" mask : "<<_view._mask<<std::endl;
                 if((_view._manager._entities_components_mask[index] & _view._mask) == _view._mask)
                 {
                     _view.unpack_id<0,COMPONENT...>(index);

@@ -30,6 +30,7 @@ namespace sfutils
                 //create new entity
                 index = _entities_allocated.size();
                 _entities_allocated.emplace_back(this,index);
+
                 _entities_components_mask.emplace_back();
 
                 //resize components
@@ -39,10 +40,14 @@ namespace sfutils
                     if(_components_entities[i] != nullptr)
                         _components_entities[i]->resize(index+1);
                 }
+
             }
             _entities_index.emplace_front(index);
+
             return index;
+
         }
+
 
         void EntityManager::remove(std::size_t id)
         {
