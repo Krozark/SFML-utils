@@ -4,7 +4,7 @@ namespace sfutils
 {
     namespace es
     {
-        Application::Application() : _systems(_entites)
+        Application::Application() : systems(entites)
         {
         }
     }

@@ -16,9 +16,8 @@ namespace sfutils
 
                 Application();
 
-            protected:
-                EntityManager _entites;
-                SystemManager _systems;
+                EntityManager entites;
+                SystemManager systems;
 
         };
     }

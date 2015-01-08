@@ -83,8 +83,6 @@ struct System3 : System<System3>
 
 struct System4 : System<System4>
 {
-    explicit System4(std::string str) : _str(str){};
-
     virtual void update(EntityManager& manager,float dt) override
     {
         int i =0;
@@ -96,8 +94,28 @@ struct System4 : System<System4>
         std::cout<<"Process to "<<i<<" entities in "<<dt<<" seconds. FPS: "<<(1/dt)<<std::endl;
     }
 
-    private:
-        std::string _str;
+};
+
+struct System5 : System<System5>
+{
+    virtual void update(EntityManager& manager,float dt) override
+    {
+        int i =0;
+        std::uint32_t last_id=0;
+        for(auto id : manager)
+        {
+            Entity& e = manager.get(id);
+            if(i & 1)
+                manager.remove(last_id);
+            last_id = id;
+            ++i;
+        }
+        for(int j=i/2;j<i;++j)
+            manager.create();
+
+        std::cout<<"Process to "<<i<<" entities in "<<dt<<" seconds. FPS: "<<(1/dt)<<std::endl;
+    }
+
 };
 
 int main(int argc,char* argv[])
@@ -152,28 +170,16 @@ int main(int argc,char* argv[])
 
     std::cout<<std::endl;
 
-    for(int i = 0; i<1000000;++i)
-    {
-        std::uint32_t id = entities.create();
-        //std::cout<<"Create entity of id: "<<id<<std::endl; 
-    }
-
-    std::cout<<std::endl;
-
-    /*{
-        std::cout<<"+++ All entity ids +++"<<std::endl;
-        for(auto i : entities)
-            std::cout<<i<<std::endl;
-    }*/
 
     SystemManager systems(entities);
     systems.add<System1>();
     systems.add<System2>();
     systems.add(std::shared_ptr<System3>(new System3));
-    systems.add<System4>("param");
+    systems.add<System4>();
+    systems.add<System5>();
 
     std::cout<<"=== update All systems ==="<<std::endl;
-    systems.updateAll(0);
+    //systems.updateAll(0);
 
     std::cout<<"=== System1 ==="<<std::endl;
     systems.update<System1>(1);
@@ -184,12 +190,12 @@ int main(int argc,char* argv[])
     std::cout<<"=== System3 ==="<<std::endl;
     systems.update<System3>(3);
 
+    for(int i = 0; i<1000000;++i)
+        std::uint32_t id = entities.create();
 
     sf::Clock clock;
     while(true)
-    {
         systems.update<System4>(clock.restart().asSeconds());
-    }
 
     return 0;
 };
