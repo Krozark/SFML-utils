@@ -35,9 +35,16 @@ namespace sfutils
                 void setSize(float width,float height);
                 void setSize(const sf::Vector2f& size);
 
+                void update(float deltaTime);
+
+                void setSpeed(float speed);
+
             private:
                 const VMap& _map;
                 sf::View _view;
+                
+                int _move_x, _move_y;
+                float _movement_speed;
 
                 virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
         };

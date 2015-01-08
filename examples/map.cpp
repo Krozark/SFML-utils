@@ -19,8 +19,6 @@ int main(int argc,char* argv[])
 
     sf::Clock clock;
 
-    unsigned int nb_loops = 0;
-
     while (window.isOpen())
     {
         window.clear();
@@ -36,14 +34,17 @@ int main(int argc,char* argv[])
         }
         viewer.processEvents();
 
+        float deltaTime = clock.restart().asSeconds();
+
+        viewer.update(deltaTime);
+        window.setTitle("Example Tile ("+std::to_string(int(1/deltaTime))+")");
+
+
         window.draw(viewer);
         
         window.display();
-
-        ++nb_loops;
     }
 
-    std::cout<<"Average FPS : "<<nb_loops/clock.getElapsedTime().asSeconds()<<" for "<<nb_loops<<" loops"<<std::endl;
 
     return 0;
 };

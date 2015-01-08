@@ -17,7 +17,7 @@ namespace sfutils
         template<typename GEOMETRY,typename CONTENT>
         void Layer<GEOMETRY,CONTENT>::add(CONTENT&& content,bool resort)
         {
-            _content.emplace_front(std::move(content));
+            _content.emplace_back(std::move(content));
             if(resort)
                 sort();
         }
@@ -30,6 +30,7 @@ namespace sfutils
                                     });
             if(it != _content.end())
             {
+                _content.erase(it);
                 if(resort)
                     sort();
                 return true;
@@ -50,8 +51,10 @@ namespace sfutils
         template<typename GEOMETRY,typename CONTENT>
         void Layer<GEOMETRY,CONTENT>::draw(sf::RenderTarget& target, sf::RenderStates states,const sf::FloatRect& viewport) const
         {
-            for(const CONTENT& content : _content)
+            auto end = _content.end();
+            for(auto it = _content.begin();it != end;++it)
             {
+                const CONTENT& content = *it;
                 auto pos = content.getPosition();
                 if(viewport.contains(pos.x,pos.y))
                     target.draw(content,states);

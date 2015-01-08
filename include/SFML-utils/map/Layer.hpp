@@ -2,7 +2,7 @@
 #define SFUTILS_MAP_LAYER_HPP
 
 #include <SFML-utils/map/VLayer.hpp>
-#include <forward_list>
+#include <list>
 
 namespace sfutils
 {
@@ -25,7 +25,7 @@ namespace sfutils
                 //load
 
             private:
-                std::forward_list<CONTENT> _content;
+                std::list<CONTENT> _content;
                 
                 virtual void sort() override;
                 virtual void draw(sf::RenderTarget& target, sf::RenderStates states,const sf::FloatRect& viewport) const override;

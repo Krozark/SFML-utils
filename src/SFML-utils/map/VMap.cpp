@@ -14,8 +14,9 @@ namespace sfutils
 
         VMap::~VMap()
         {
-            for(VLayer* layer : _layers)
-                delete(layer);
+            const size_t size = _layers.size();
+            for(size_t i=0;i<size;++i)
+                delete(_layers[i]);
         }
 
         void VMap::addLayer(VLayer* layer)
@@ -25,8 +26,9 @@ namespace sfutils
 
         void VMap::sortLayers()
         {
-            for(VLayer* layer : _layers)
-                layer->sort();
+            const size_t size = _layers.size();
+            for(size_t i=0;i<size;++i)
+                _layers[i]->sort();
         }
 
         void VMap::draw(sf::RenderTarget& target, sf::RenderStates states,const sf::FloatRect& viewport) const
@@ -35,8 +37,9 @@ namespace sfutils
                                         viewport.top - tile_size,
                                         viewport.width + tile_size*2,
                                         viewport.height + tile_size*2); 
-            for(VLayer* layer : _layers)
-                layer->draw(target,states,delta_viewport);
+            const size_t size = _layers.size();
+            for(size_t i=0;i<size;++i)
+                _layers[i]->draw(target,states,delta_viewport);
         }
 
         

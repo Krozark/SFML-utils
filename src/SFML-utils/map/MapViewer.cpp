@@ -8,26 +8,26 @@ namespace sfutils
 {
     namespace map
     {        
-        MapViewer::MapViewer(const VMap& map,const ActionMap<int>& action_map) : ActionTarget(action_map),_map(map)
+        MapViewer::MapViewer(const VMap& map,const ActionMap<int>& action_map) : ActionTarget(action_map),_map(map), _move_x(0), _move_y(0), _movement_speed(10)
         {
             bind(Action(sf::Event::MouseWheelMoved),[this](const sf::Event& event){
                      zoom(1-(event.mouseWheel.delta/5.0));
                  });
 
             bind(Configuration::MapInputs::MoveUp,[this](const sf::Event& event){
-                    move(0,-1);
+                    _move_y -=1;
                  });
 
             bind(Configuration::MapInputs::MoveDown,[this](const sf::Event& event){
-                    move(0,1);
+                    _move_y +=1;
                  });
 
             bind(Configuration::MapInputs::MoveLeft,[this](const sf::Event& event){
-                    move(-1,0);
+                    _move_x -=1;
                  });
 
             bind(Configuration::MapInputs::MoveRight,[this](const sf::Event& event){
-                    move(1,0);
+                    _move_x +=1;
                  });
         }
 
@@ -64,6 +64,21 @@ namespace sfutils
         void MapViewer::setSize(const sf::Vector2f& size)
         {
             _view.setSize(size);
+        }
+
+        void MapViewer::update(float deltaTime)
+        {
+            if(_move_x or _move_y)
+            {
+                float delta = _map.tile_size*_movement_speed * deltaTime;
+                move(_move_x * delta,_move_y * delta);
+            }
+            _move_x = _move_y = 0;
+
+        }
+        void MapViewer::setSpeed(float speed)
+        {
+            _movement_speed = speed;
         }
 
         void MapViewer::draw(sf::RenderTarget& target, sf::RenderStates states) const
