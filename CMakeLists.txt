@@ -35,17 +35,6 @@ function(Compile arg shared_libs static_libs)
     INSTALL(TARGETS ${arg}-static
     DESTINATION lib
     )
-    #install
-    file(GLOB DEPLOY_FILES_AND_DIRS ${INCROOT})
-    foreach(ITEM ${DEPLOY_FILES_AND_DIRS})
-       IF( IS_DIRECTORY "${ITEM}" )
-          LIST( APPEND DIRS_TO_DEPLOY "${ITEM}" )
-       ELSE()
-          LIST( APPEND FILES_TO_DEPLOY "${ITEM}" )
-       ENDIF()
-    endforeach()
-    INSTALL( FILES ${FILES_TO_DEPLOY} DESTINATION include/${CMAKE_PROJECT_NAME} )
-    INSTALL( DIRECTORY ${DIRS_TO_DEPLOY} DESTINATION include/${CMAKE_PROJECT_NAME} )
 endfunction()
 
 
