@@ -3,17 +3,20 @@
 
 namespace sfutils
 {
-    AnimatedSprite::AnimatedSprite(Animation* animation,sf::Time deltaTime,bool loop,Status status) : _delta(deltaTime),_loop(loop), _status(status)
+    AnimatedSprite::AnimatedSprite(Animation* animation,Status status,sf::Time deltaTime,bool loop) : _delta(deltaTime),_loop(loop), _status(status)
     {
        setAnimation(animation); 
     }
 
     void AnimatedSprite::setAnimation(Animation* animation)
     {
-        _animation = animation;
-        _elapsed = sf::Time::Zero;
-        _currentFrame = 0;
-        setFrame(0,true);
+        if(_animation != animation)
+        {
+            _animation = animation;
+            _elapsed = sf::Time::Zero;
+            _currentFrame = 0;
+            setFrame(0,true);
+        }
     }
 
     Animation* AnimatedSprite::getAnimation()const
