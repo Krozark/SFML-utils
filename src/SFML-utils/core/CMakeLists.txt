@@ -9,10 +9,16 @@ set(FILES_HEADER
     ${INCROOT}/ActionTarget.tpl
     ${INCROOT}/ResourceManager.hpp
     ${INCROOT}/ResourceManager.tpl
+
+    ${INCROOT}/Animation.hpp
+    ${INCROOT}/AnimatedSprite.hpp
 )
 
 set(FILES_SRC
     ${SRCROOT}/Action.cpp
+
+    ${SRCROOT}/Animation.cpp
+    ${SRCROOT}/AnimatedSprite.cpp
 )
 
 Compile("${CMAKE_PROJECT_NAME}-core" "" "")
