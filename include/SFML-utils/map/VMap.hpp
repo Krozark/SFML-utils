@@ -24,6 +24,11 @@ namespace sfutils
                 bool loadFromFile(const std::string& filename);
 
                 void addLayer(VLayer* layer,bool sort=true);
+                void removeLayer(VLayer* layer);
+                void removeLayer(size_t index);
+
+                size_t size()const;
+                VLayer* at(size_t index)const;
 
 
             protected:

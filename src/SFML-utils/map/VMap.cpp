@@ -40,6 +40,32 @@ namespace sfutils
                 sortLayers();
         }
 
+        void VMap::removeLayer(size_t index)
+        {
+            delete _layers.at(index);
+            _layers.erase(_layers.begin()+index);
+        }
+
+        void VMap::removeLayer(VLayer* layer)
+        {
+            auto it = std::find(_layers.begin(),_layers.end(),layer);
+            if(it != _layers.end())
+            {
+                delete *it;
+                _layers.erase(it);
+            }
+        }
+
+        size_t VMap::size()const
+        {
+            return _layers.size();
+        }
+
+        VLayer* VMap::at(size_t index)const
+        {
+            return _layers.at(index);
+        }
+
         void VMap::sortLayers()
         {
             std::sort(_layers.begin(),_layers.end(),[](const VLayer* a, const VLayer* b)->bool{
