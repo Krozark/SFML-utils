@@ -47,7 +47,7 @@ namespace sfutils
                             }
                         }
                     }
-                    addLayer(current_layer,false);
+                    add(current_layer,false);
                 }
                 else if(content == "sprite")
                 {
@@ -80,7 +80,7 @@ namespace sfutils
                         current_layer->add(std::move(spr),false);
 
                     }
-                    addLayer(current_layer,false);
+                    add(current_layer,false);
                 }
             }
             sortLayers();

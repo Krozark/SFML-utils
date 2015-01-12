@@ -23,9 +23,9 @@ namespace sfutils
                 virtual void loadFromJson(const utils::json::Object& root) = 0;
                 bool loadFromFile(const std::string& filename);
 
-                void addLayer(VLayer* layer,bool sort=true);
-                void removeLayer(VLayer* layer);
-                void removeLayer(size_t index);
+                void add(VLayer* layer,bool sort=true);
+                void remove(VLayer* layer);
+                void remove(size_t index);
 
                 size_t size()const;
                 VLayer* at(size_t index)const;
