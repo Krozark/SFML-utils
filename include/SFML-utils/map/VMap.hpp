@@ -17,14 +17,16 @@ namespace sfutils
                 VMap(const VMap&) = delete;
                 VMap& operator=(const VMap&) = delete;
 
-                VMap(const utils::json::Object& root,float size);
+                VMap(float size);
                 virtual ~VMap();
 
-                void addLayer(VLayer* layer);
+                virtual void loadFromJson(const utils::json::Object& root) = 0;
+                bool loadFromFile(const std::string& filename);
+
+                void addLayer(VLayer* layer,bool sort=true);
 
 
             protected:
-                std::string name;
                 void sortLayers();
                 const float tile_size;
                 

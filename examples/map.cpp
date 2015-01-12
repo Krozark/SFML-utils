@@ -13,6 +13,7 @@ int main(int argc,char* argv[])
         std::cerr<<"unable to load map"<<std::endl;
         return 0;
     }
+    map->loadFromFile("./map2.json");
 
     sfutils::MapViewer viewer(*map);
     viewer.setSize(1600,900);

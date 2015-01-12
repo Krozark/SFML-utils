@@ -5,7 +5,7 @@ namespace sfutils
     namespace map
     {
         template<typename GEOMETRY,typename CONTENT>
-        Layer<GEOMETRY,CONTENT>::Layer()
+        Layer<GEOMETRY,CONTENT>::Layer(int z) : VLayer(z)
         {
         }
 

@@ -15,19 +15,18 @@ namespace sfutils
                 Layer(const Layer&) = delete;
                 Layer& operator=(const Layer&) = delete;
 
-                Layer();
+                Layer(int z=0);
                 virtual ~Layer();
 
                 void add(CONTENT&& content,bool resort=true);
 
                 bool remove(CONTENT* content_ptr,bool resort=true);
 
-                //load
+                virtual void sort() override;
 
             private:
                 std::list<CONTENT> _content;
                 
-                virtual void sort() override;
                 virtual void draw(sf::RenderTarget& target, sf::RenderStates states,const sf::FloatRect& viewport) const override;
         };
     }

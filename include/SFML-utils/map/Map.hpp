@@ -17,7 +17,9 @@ namespace sfutils
                 Map(const Map&) = delete;
                 Map& operator=(const Map&) = delete;
 
-                Map(const utils::json::Object& root,float size);
+                Map(float size);
+
+                void loadFromJson(const utils::json::Object& root) override;
         };
     }
 }

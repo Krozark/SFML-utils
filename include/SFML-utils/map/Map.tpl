@@ -3,17 +3,26 @@ namespace sfutils
     namespace map
     {
         template<typename GEOMETRY>
-        Map<GEOMETRY>::Map(const utils::json::Object& root,float size) : VMap(root,size)
+        Map<GEOMETRY>::Map(float size) : VMap(size)
+        {
+        }
+
+        template<typename GEOMETRY>
+        void Map<GEOMETRY>::loadFromJson(const utils::json::Object& root)
         {
             const utils::json::Array& layers = root["layers"];
             for(const utils::json::Value& value : layers)
             {
                 const utils::json::Object& layer = value;
                 std::string content = layer["content"].as_string();
+                int z = 0;
+                try{
+                    z = layer["z"].as_int();
+                } catch(...){}
                 
                 if(content == "tile")
                 {
-                    auto current_layer = new Layer<GEOMETRY,Tile<GEOMETRY>>;
+                    auto current_layer = new Layer<GEOMETRY,Tile<GEOMETRY>>(z);
                     const utils::json::Array& textures = layer["texture"];
                     for(const utils::json::Object& texture : textures)
                     {
@@ -25,13 +34,6 @@ namespace sfutils
 
                         sf::Texture& tex = _textures.getOrLoad(img,img);
                         tex.setRepeated(true);
-
-                        /*int tex_x = texture["x"];
-                        int tex_y = texture["y"];
-                        sf::Vector2u tex_size = tex.getSize();
-                        int tex_size_tile_x = tex_size.x/tex_x;
-                        int tex_size_tile_y = tex_size.y/tex_y;*/
-
 
                         for(int y=tex_y;y< tex_y + height;++y)
                         {
@@ -45,11 +47,11 @@ namespace sfutils
                             }
                         }
                     }
-                    addLayer(current_layer);
+                    addLayer(current_layer,false);
                 }
                 else if(content == "sprite")
                 {
-                    auto current_layer = new Layer<GEOMETRY,sf::Sprite>;
+                    auto current_layer = new Layer<GEOMETRY,sf::Sprite>(z);
                     const utils::json::Array& datas = layer["datas"].as_array();
 
                     for(const utils::json::Value& value : datas)
@@ -78,7 +80,7 @@ namespace sfutils
                         current_layer->add(std::move(spr),false);
 
                     }
-                    addLayer(current_layer);
+                    addLayer(current_layer,false);
                 }
             }
             sortLayers();

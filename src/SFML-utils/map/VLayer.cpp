@@ -4,12 +4,17 @@ namespace sfutils
 {
     namespace map
     {
-        VLayer::VLayer()
+        VLayer::VLayer(int z) : _z(z)
         {
         }
 
         VLayer::~VLayer()
         {
+        }
+
+        int VLayer::z()const
+        {
+            return _z;
         }
     }
 }

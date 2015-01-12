@@ -3,13 +3,14 @@
 #include <SFML-utils/map/Map.hpp>
 #include <SFML-utils/map/HexaIso.hpp>
 
+#include <algorithm>
+
 namespace sfutils
 {
     namespace map
     {
-        VMap::VMap(const utils::json::Object& root,float size) : tile_size(size)
+        VMap::VMap(float size) : tile_size(size)
         {
-            name = root["name"].as_string();
         }
 
         VMap::~VMap()
@@ -19,17 +20,37 @@ namespace sfutils
                 delete(_layers[i]);
         }
 
-        void VMap::addLayer(VLayer* layer)
+        bool VMap::loadFromFile(const std::string& filename)
+        {
+            utils::json::Value* value = utils::json::Driver::parse_file(filename);
+            if(value)
+            {
+                utils::json::Object& root = *value;
+
+                loadFromJson(root);
+            }
+            return value != nullptr;
+        }
+
+
+        void VMap::addLayer(VLayer* layer,bool sort)
         {
             _layers.emplace_back(layer);
+            if(sort)
+                sortLayers();
         }
 
         void VMap::sortLayers()
         {
+            std::sort(_layers.begin(),_layers.end(),[](const VLayer* a, const VLayer* b)->bool{
+                      return a->z() < b->z();
+                    });
+
             const size_t size = _layers.size();
             for(size_t i=0;i<size;++i)
                 _layers[i]->sort();
         }
+
 
         void VMap::draw(sf::RenderTarget& target, sf::RenderStates states,const sf::FloatRect& viewport) const
         {
@@ -56,7 +77,8 @@ namespace sfutils
 
                 if(geometry_name == "HexaIso")
                 {
-                    res = new Map<geometry::HexaIso>(root,size);
+                    res = new Map<geometry::HexaIso>(size);
+                    res->loadFromJson(root);
                 }
                 delete value;
             }

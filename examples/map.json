@@ -9,6 +9,7 @@
     [
         {
             "content" : "tile",
+            "z" : 1,
             "texture" : 
             [
                 {
@@ -17,24 +18,6 @@
                     "y" : 0,
                     "width" : 100,
                     "height" : 100
-                }
-            ]
-        },
-        {
-            "content" : "sprite",
-            "datas" : 
-            [
-                {
-                    "x" : 2,
-                    "y" : 4,
-                    "ox" : 0.5,
-                    "oy" : 1.0,
-                    "img" : "media/img/tree/tree1.png"
-                },
-                {
-                    "x" : 2,
-                    "y" : 5,
-                    "img" : "media/img/tree/tree1.png"
                 }
             ]
         }
