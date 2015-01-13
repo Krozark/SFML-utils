@@ -4,7 +4,7 @@ namespace sfutils
 {
     namespace map
     {
-        VLayer::VLayer(int z) : _z(z)
+        VLayer::VLayer(const std::string& type,int z) : _type(type), _z(z)
         {
         }
 
@@ -16,5 +16,12 @@ namespace sfutils
         {
             return _z;
         }
+
+        const std::string& VLayer::getType()const
+        {
+            return _type;
+        }
+
+
     }
 }

@@ -37,7 +37,7 @@ namespace sfutils
 
             _shape.setScale(scale,scale);
 
-            setPosition(pos_x,pos_y);
+            setCoords(pos_x,pos_y);
         }
 
         template<typename GEOMETRY>
@@ -50,6 +50,13 @@ namespace sfutils
         template<typename GEOMETRY>
         template< typename ...Args>
         void Tile<GEOMETRY>::setPosition(Args&& ... args)
+        {
+            _shape.setPosition(args...);
+        }
+
+        template<typename GEOMETRY>
+        template< typename ...Args>
+        void Tile<GEOMETRY>::setCoords(Args&& ... args)
         {
             sf::Vector2f pos = mapCoordsToPixel(args...) * _shape.getScale().x;
             _shape.setPosition(pos);

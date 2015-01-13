@@ -14,6 +14,11 @@ namespace sfutils
     {
         _texture = texture;
     }
+
+    sf::Texture* Animation::getTexture()const
+    {
+        return _texture;
+    }
     
     void Animation::addFrame(const sf::IntRect& rect)
     {

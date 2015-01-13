@@ -15,14 +15,20 @@ namespace sfutils
             {
                 const utils::json::Object& layer = value;
                 std::string content = layer["content"].as_string();
+
                 int z = 0;
                 try{
                     z = layer["z"].as_int();
                 } catch(...){}
+
+                bool isStatic = false;
+                try {
+                    isStatic = layer["static"].as_bool();
+                }catch(...){}
                 
                 if(content == "tile")
                 {
-                    auto current_layer = new Layer<GEOMETRY,Tile<GEOMETRY>>(z);
+                    auto current_layer = new Layer<GEOMETRY,Tile<GEOMETRY>>(content,z,isStatic);
                     const utils::json::Array& textures = layer["texture"];
                     for(const utils::json::Object& texture : textures)
                     {
@@ -51,7 +57,7 @@ namespace sfutils
                 }
                 else if(content == "sprite")
                 {
-                    auto current_layer = new Layer<GEOMETRY,sf::Sprite>(z);
+                    auto current_layer = new Layer<GEOMETRY,sf::Sprite>(content,z,isStatic);
                     const utils::json::Array& datas = layer["datas"].as_array();
 
                     for(const utils::json::Value& value : datas)

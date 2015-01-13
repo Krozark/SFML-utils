@@ -5,7 +5,7 @@ namespace sfutils
     namespace map
     {
         template<typename GEOMETRY,typename CONTENT>
-        Layer<GEOMETRY,CONTENT>::Layer(int z) : VLayer(z)
+        Layer<GEOMETRY,CONTENT>::Layer(const std::string& type,int z,bool isStatic) : VLayer(type,z), _isStatic(isStatic)
         {
         }
 
@@ -49,16 +49,61 @@ namespace sfutils
         }
 
         template<typename GEOMETRY,typename CONTENT>
-        void Layer<GEOMETRY,CONTENT>::draw(sf::RenderTarget& target, sf::RenderStates states,const sf::FloatRect& viewport) const
+        void Layer<GEOMETRY,CONTENT>::draw(sf::RenderTarget& target, sf::RenderStates states,const sf::FloatRect& viewport)
         {
-            auto end = _content.end();
-            for(auto it = _content.begin();it != end;++it)
+            /*if(_isStatic)
             {
-                const CONTENT& content = *it;
-                auto pos = content.getPosition();
-                if(viewport.contains(pos.x,pos.y))
-                    target.draw(content,states);
+                if(_lastViewport != viewport)
+                {
+                    std::cout<<viewport.left<<" "<<viewport.top<<" "<<viewport.width<<" "<<viewport.height<<std::endl;
+                    sf::Vector2u size(viewport.width+0.5,viewport.height+0.5);
+                    if(_renderTexture.getSize() != size)
+                    {
+                        _renderTexture.create(size.x,size.y);
+                        _sprite.setTexture(_renderTexture.getTexture(),true);
+                    }
+
+                    _renderTexture.setView(target.getView());
+
+                    //states.transform.translate(-viewport.left,-viewport.top);
+                    _renderTexture.clear();
+                    auto end = _content.end();
+                    for(auto it = _content.begin();it != end;++it)
+                    {
+                        CONTENT& content = *it;
+                        auto pos = content.getPosition();
+                        if(viewport.contains(pos.x,pos.y))
+                        {
+                            _renderTexture.draw(content,states);
+                        }
+                    }
+                    _renderTexture.display();
+                    _lastViewport = viewport;
+                    //states.transform.translate(viewport.left,viewport.top);
+                    
+                    _sprite.setPosition(viewport.left,viewport.top);
+
+                }
+                //target.draw(_sprite,states);
+                target.draw(_sprite,states);
             }
+            else*/
+            {
+                auto end = _content.end();
+                for(auto it = _content.begin();it != end;++it)
+                {
+                    const CONTENT& content = *it;
+                    auto pos = content.getPosition();
+                    if(viewport.contains(pos.x,pos.y))
+                        target.draw(content,states);
+                }
+            }
+        }
+
+        template<typename GEOMETRY,typename CONTENT>
+        bool Layer<GEOMETRY,CONTENT>::isStatic()const
+        {
+            return _isStatic;
         }
     }
 }

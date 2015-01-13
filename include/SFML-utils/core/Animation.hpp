@@ -16,6 +16,7 @@ namespace sfutils
             ~Animation();
 
             void setTexture(sf::Texture* texture);
+            sf::Texture* getTexture()const;
             void addFrame(const sf::IntRect& rect);
             void addFramesLine(int number_x,int number_y,int line);
             void addFramesColumn(int number_x,int number_y,int column);

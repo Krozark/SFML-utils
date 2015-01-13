@@ -15,7 +15,7 @@ namespace sfutils
                 Layer(const Layer&) = delete;
                 Layer& operator=(const Layer&) = delete;
 
-                Layer(int z=0);
+                Layer(const std::string& type,int z=0,bool isStatic=false);
                 virtual ~Layer();
 
                 void add(CONTENT&& content,bool resort=true);
@@ -24,10 +24,18 @@ namespace sfutils
 
                 virtual void sort() override;
 
-            private:
-                std::list<CONTENT> _content;
+                bool isStatic()const;
                 
-                virtual void draw(sf::RenderTarget& target, sf::RenderStates states,const sf::FloatRect& viewport) const override;
+
+            private:
+                virtual void draw(sf::RenderTarget& target, sf::RenderStates states,const sf::FloatRect& viewport) override;
+
+                std::list<CONTENT> _content;
+
+                const bool _isStatic;
+                sf::RenderTexture _renderTexture;
+                sf::Sprite _sprite;
+                sf::FloatRect _lastViewport;
         };
     }
 }
