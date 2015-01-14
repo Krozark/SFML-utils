@@ -77,9 +77,7 @@ namespace sfutils
                     }
                     _renderTexture.display();
                     _lastViewport = viewport;
-                    
                     _sprite.setPosition(viewport.left,viewport.top);
-
                 }
                 target.draw(_sprite,states);
             }
