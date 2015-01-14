@@ -17,7 +17,7 @@ namespace sfutils
                 MapViewer(const MapViewer&) = delete;
                 MapViewer& operator=(const MapViewer&) = delete;
 
-                MapViewer(const VMap& map,const ActionMap<int>& action_map = Configuration::default_map_inputs);
+                MapViewer(sf::RenderWindow& window,const VMap& map,const ActionMap<int>& action_map = Configuration::default_map_inputs);
                 
                 using ActionTarget::bind;
                 using ActionTarget::unbind;
@@ -39,12 +39,16 @@ namespace sfutils
 
                 void setSpeed(float speed);
 
+                void draw(sf::RenderStates states = sf::RenderStates::Default) const;
+
             private:
                 const VMap& _map;
                 sf::View _view;
+                sf::Vector2i _mouse_pos;
                 
                 int _move_x, _move_y;
                 float _movement_speed;
+                sf::RenderWindow& _window;
 
                 virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
         };

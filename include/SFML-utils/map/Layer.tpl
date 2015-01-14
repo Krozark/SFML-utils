@@ -95,7 +95,7 @@ namespace sfutils
         }
 
         template<typename GEOMETRY,typename CONTENT>
-        bool Layer<GEOMETRY,CONTENT>::isStatic()const
+        inline bool Layer<GEOMETRY,CONTENT>::isStatic()const
         {
             return _isStatic;
         }

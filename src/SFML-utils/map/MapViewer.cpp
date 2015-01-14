@@ -8,10 +8,18 @@ namespace sfutils
 {
     namespace map
     {        
-        MapViewer::MapViewer(const VMap& map,const ActionMap<int>& action_map) : ActionTarget(action_map),_map(map), _move_x(0), _move_y(0), _movement_speed(10)
+        MapViewer::MapViewer(sf::RenderWindow& window,const VMap& map,const ActionMap<int>& action_map) : ActionTarget(action_map),_map(map), _move_x(0), _move_y(0), _movement_speed(10), _window(window)
         {
             bind(Action(sf::Event::MouseWheelMoved),[this](const sf::Event& event){
                      zoom(1-(event.mouseWheel.delta/5.0));
+                 });
+
+            bind(Action(sf::Mouse::Button::Left,Action::Type::Released),[this](const sf::Event& event){
+                 sf::Vector2f pos = _window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x,event.mouseButton.y),_view); 
+                 sf::Vector2i coord = _map.mapPixelToCoords(pos.x,pos.y);
+                 std::cout<<event.mouseButton.x<<" "<<event.mouseButton.y<<std::endl;
+                 std::cout<<pos.x<<" "<<pos.y<<std::endl;
+                 std::cout<<coord.x<<" "<<coord.y<<std::endl<<std::endl;
                  });
 
             bind(Configuration::MapInputs::MoveUp,[this](const sf::Event& event){
@@ -70,7 +78,7 @@ namespace sfutils
         {
             if(_move_x or _move_y)
             {
-                float delta = _map.tile_size*_movement_speed * deltaTime;
+                float delta = _map._tile_size*_movement_speed * deltaTime;
                 move(_move_x * delta,_move_y * delta);
             }
             _move_x = _move_y = 0;
@@ -79,6 +87,11 @@ namespace sfutils
         void MapViewer::setSpeed(float speed)
         {
             _movement_speed = speed;
+        }
+
+        void MapViewer::draw(sf::RenderStates states) const
+        {
+            draw(_window,states);
         }
 
         void MapViewer::draw(sf::RenderTarget& target, sf::RenderStates states) const

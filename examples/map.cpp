@@ -16,7 +16,7 @@ int main(int argc,char* argv[])
     }
     map->loadFromFile("./map2.json");
 
-    sfutils::MapViewer viewer(*map);
+    sfutils::MapViewer viewer(window,*map);
     viewer.setSize(1600,900);
 
     sf::Clock clock;
@@ -42,7 +42,7 @@ int main(int argc,char* argv[])
         window.setTitle("Example Tile ("+std::to_string(int(1/deltaTime))+")");
 
 
-        window.draw(viewer);
+        viewer.draw();
         
         window.display();
     }

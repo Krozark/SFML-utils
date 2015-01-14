@@ -9,7 +9,7 @@ namespace sfutils
 {
     namespace map
     {
-        VMap::VMap(float size) : tile_size(size)
+        VMap::VMap(float size) : _tile_size(size)
         {
         }
 
@@ -80,10 +80,10 @@ namespace sfutils
 
         void VMap::draw(sf::RenderTarget& target, sf::RenderStates states,const sf::FloatRect& viewport) const
         {
-            sf::FloatRect delta_viewport(viewport.left - tile_size,
-                                        viewport.top - tile_size,
-                                        viewport.width + tile_size*2,
-                                        viewport.height + tile_size*2); 
+            sf::FloatRect delta_viewport(viewport.left - _tile_size,
+                                        viewport.top - _tile_size,
+                                        viewport.width + _tile_size*2,
+                                        viewport.height + _tile_size*2); 
             const size_t size = _layers.size();
             for(size_t i=0;i<size;++i)
                 _layers[i]->draw(target,states,delta_viewport);

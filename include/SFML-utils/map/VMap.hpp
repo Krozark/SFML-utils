@@ -30,10 +30,16 @@ namespace sfutils
                 size_t size()const;
                 VLayer* at(size_t index)const;
 
+                virtual sf::Vector2i mapPixelToCoords(int x,int y) const = 0;
+                virtual sf::Vector2i mapPixelToCoords(const sf::Vector2i& pos) const = 0;
+                
+                virtual sf::Vector2f mapCoordsToPixel(int x,int y) const =0;
+                virtual sf::Vector2f mapCoordsToPixel(const sf::Vector2i& pos) const =0;
+
 
             protected:
                 void sortLayers();
-                const float tile_size;
+                const float _tile_size;
                 
                 ResourceManager<sf::Texture,std::string> _textures;
                 
