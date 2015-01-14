@@ -55,7 +55,6 @@ namespace sfutils
             {
                 if(_lastViewport != viewport)
                 {
-                    std::cout<<viewport.left<<" "<<viewport.top<<" "<<viewport.width<<" "<<viewport.height<<std::endl;
                     sf::Vector2u size(viewport.width+0.5,viewport.height+0.5);
                     if(_renderTexture.getSize() != size)
                     {
@@ -73,17 +72,15 @@ namespace sfutils
                         auto pos = content.getPosition();
                         if(viewport.contains(pos.x,pos.y))
                         {
-                            _renderTexture.draw(content/*,states*/);
+                            _renderTexture.draw(content);
                         }
                     }
                     _renderTexture.display();
                     _lastViewport = viewport;
-                    //states.transform.translate(viewport.left,viewport.top);
                     
                     _sprite.setPosition(viewport.left,viewport.top);
 
                 }
-                //target.draw(_sprite,states);
                 target.draw(_sprite,states);
             }
             else

@@ -17,6 +17,7 @@ namespace sfutils
                 Configuration(const Configuration&) = delete;
                 Configuration& operator=(const Configuration&) = delete;
 
+                //inputs enum for map events
                 enum MapInputs {
                     MoveUp,
                     MoveDown,
