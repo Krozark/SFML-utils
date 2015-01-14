@@ -51,7 +51,7 @@ namespace sfutils
         template<typename GEOMETRY,typename CONTENT>
         void Layer<GEOMETRY,CONTENT>::draw(sf::RenderTarget& target, sf::RenderStates states,const sf::FloatRect& viewport)
         {
-            /*if(_isStatic)
+            if(_isStatic)
             {
                 if(_lastViewport != viewport)
                 {
@@ -63,9 +63,8 @@ namespace sfutils
                         _sprite.setTexture(_renderTexture.getTexture(),true);
                     }
 
-                    _renderTexture.setView(target.getView());
+                    _renderTexture.setView(sf::View(viewport));
 
-                    //states.transform.translate(-viewport.left,-viewport.top);
                     _renderTexture.clear();
                     auto end = _content.end();
                     for(auto it = _content.begin();it != end;++it)
@@ -74,7 +73,7 @@ namespace sfutils
                         auto pos = content.getPosition();
                         if(viewport.contains(pos.x,pos.y))
                         {
-                            _renderTexture.draw(content,states);
+                            _renderTexture.draw(content/*,states*/);
                         }
                     }
                     _renderTexture.display();
@@ -87,7 +86,7 @@ namespace sfutils
                 //target.draw(_sprite,states);
                 target.draw(_sprite,states);
             }
-            else*/
+            else
             {
                 auto end = _content.end();
                 for(auto it = _content.begin();it != end;++it)
