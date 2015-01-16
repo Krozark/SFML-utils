@@ -3,7 +3,9 @@
 
 namespace sfutils
 {
-    AnimatedSprite::AnimatedSprite(Animation* animation,Status status,sf::Time deltaTime,bool loop) : _delta(deltaTime),_loop(loop), _status(status)
+    AnimatedSprite::FuncType AnimatedSprite::defaultFunc = [](AnimatedSprite&)->void{};
+
+    AnimatedSprite::AnimatedSprite(Animation* animation,Status status,sf::Time deltaTime,bool loop) : on_finished(defaultFunc),_delta(deltaTime),_loop(loop), _status(status)
     {
        setAnimation(animation); 
     }
@@ -86,15 +88,18 @@ namespace sfutils
             _elapsed += deltaTime;
             if(_elapsed > _delta)
             {
+                _elapsed -= _delta;
                 if(_currentFrame + 1 < _animation->size())
                     ++_currentFrame;
                 else
                 {
                     _currentFrame = 0;
                     if(not _loop)
+                    {
                         _status = Stopped;
+                        on_finished(*this);
+                    }
                 }
-                _elapsed -= _delta;
             }
             setFrame(_currentFrame,false);
         }

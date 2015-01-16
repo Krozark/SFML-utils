@@ -4,6 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
+#include <functional>
+
 namespace sfutils
 {
     class Animation;
@@ -12,6 +14,9 @@ namespace sfutils
         public:
             AnimatedSprite(const AnimatedSprite&) = delete;
             AnimatedSprite& operator=(const AnimatedSprite&) = delete;
+
+            using FuncType = std::function<void(AnimatedSprite& self)>;
+            static FuncType defaultFunc;
 
             enum Status
             {
@@ -34,6 +39,8 @@ namespace sfutils
             void play();
             void pause();
             void stop();
+
+            FuncType on_finished;
 
             Status getStatus()const;
 
