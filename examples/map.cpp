@@ -6,7 +6,7 @@
 int main(int argc,char* argv[])
 {
     sf::RenderWindow window(sf::VideoMode(1600,900),"Example Tile");
-    window.setFramerateLimit(200);
+    window.setFramerateLimit(65);
 
     sfutils::VMap* map = sfutils::createMapFromFile("./map.json");
     if(not map)

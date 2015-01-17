@@ -66,6 +66,16 @@ namespace sfutils
             return _layers.at(index);
         }
 
+        sf::Vector2f VMap::mapPixelToCoords(const sf::Vector2f& pos) const
+        {
+            return mapPixelToCoords(pos.x,pos.y);
+        }
+
+        sf::Vector2f VMap::mapCoordsToPixel(const sf::Vector2i& pos) const
+        {
+            return mapCoordsToPixel(pos.x,pos.y);
+        }
+
         void VMap::sortLayers()
         {
             std::sort(_layers.begin(),_layers.end(),[](const VLayer* a, const VLayer* b)->bool{

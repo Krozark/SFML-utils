@@ -1,6 +1,8 @@
 #include <SFML-utils/map/HexaIso.hpp>
 #include <cmath>
 
+#include <iostream>
+
 namespace sfutils
 {
     namespace geometry
@@ -29,14 +31,23 @@ namespace sfutils
                                 Y*delta_y/2 + X*delta_x/2);
         }
 
-        sf::Vector2i HexaIso::mapPixelToCoords(int X,int Y)
+        sf::Vector2f HexaIso::mapPixelToCoords(float X,float Y)
         {
-            const int a = X + height/2;
-            const int b = Y + height/4;
+            /*const float a = X + height/2;
+            const float b = Y + height/4;
             const float x =(2*b*delta_x - a*delta_y)/(delta_x*delta_x - delta_y*delta_y);
             const float y= (2*b-x*delta_x)/delta_y;
 
-            return sf::Vector2i((x<0)?x-1:x,(y<0)?y-1:y);
+            std::cout<<"height: "<<height<<" delta_x: "<< delta_x<<" delta_y: "<<delta_y<<std::endl;*/
+
+            /*const float y = (-X*delta_x + 2*Y*delta_y)/(delta_y*delta_y - delta_x*delta_x);
+            const float x = -(y*delta_x - X)*delta_y;*/
+
+            const float y = (-X*delta_x + 2*Y*delta_y)/(delta_y*delta_y - delta_x*delta_x);
+            const float x = -(y*delta_x - X)/delta_y;
+
+
+            return sf::Vector2f((x<0)?x-1:x,(y<0)?y-1:y);
         }
 
         sf::IntRect HexaIso::getTextureRect(int x,int y,float scale)

@@ -18,8 +18,8 @@ namespace sfutils
                 Tile& operator=(Tile&&) = default;
 
                 //convert pixel to word coord 
-                static sf::Vector2i mapPixelToCoords(int x,int y);
-                static sf::Vector2i mapPixelToCoords(const sf::Vector2i& pos);
+                static sf::Vector2f mapPixelToCoords(float x,float y);
+                static sf::Vector2f mapPixelToCoords(const sf::Vector2f& pos);
                 
                 //return the center of the tile position in pixel relative to the openGL world
                 static sf::Vector2f mapCoordsToPixel(int x,int y);
