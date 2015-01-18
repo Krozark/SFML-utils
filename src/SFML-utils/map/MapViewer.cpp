@@ -16,12 +16,11 @@ namespace sfutils
 
             bind(Action(sf::Mouse::Button::Left,Action::Type::Released),[this](const sf::Event& event){
                  sf::Vector2f pos = _window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x,event.mouseButton.y),_view); 
-                 sf::Vector2f coord = _map.mapPixelToCoords(pos.x,pos.y);
+                 sf::Vector2i coord = _map.mapPixelToCoords(pos.x,pos.y);
                  
                  std::cout<<event.mouseButton.x<<" "<<event.mouseButton.y<<std::endl;
                  std::cout<<pos.x<<" "<<pos.y<<std::endl;
                  std::cout<<coord.x<<" "<<coord.y<<std::endl;
-                 std::cout<<int(coord.x)<<" "<<int(coord.y)<<std::endl<<std::endl;
                  });
 
             bind(Configuration::MapInputs::MoveUp,[this](const sf::Event& event){

@@ -21,7 +21,7 @@ namespace sfutils
 
                 void loadFromJson(const utils::json::Object& root) override;
 
-                virtual sf::Vector2f mapPixelToCoords(float x,float y) const override;
+                virtual sf::Vector2i mapPixelToCoords(float x,float y) const override;
                 
                 virtual sf::Vector2f mapCoordsToPixel(int x,int y) const override;
         };

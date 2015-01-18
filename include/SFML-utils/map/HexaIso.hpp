@@ -11,7 +11,7 @@ namespace sfutils
         {
             static const sf::ConvexShape& getShape();
             static sf::Vector2f mapCoordsToPixel(int x,int y);
-            static sf::Vector2f mapPixelToCoords(float x,float y,float scale);
+            static sf::Vector2i mapPixelToCoords(float x,float y,float scale);
             static sf::IntRect getTextureRect(int x,int y,float scale);
 
 

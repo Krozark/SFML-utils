@@ -66,7 +66,7 @@ namespace sfutils
             return _layers.at(index);
         }
 
-        sf::Vector2f VMap::mapPixelToCoords(const sf::Vector2f& pos) const
+        sf::Vector2i VMap::mapPixelToCoords(const sf::Vector2f& pos) const
         {
             return mapPixelToCoords(pos.x,pos.y);
         }

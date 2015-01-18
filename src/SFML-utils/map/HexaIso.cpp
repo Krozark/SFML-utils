@@ -1,8 +1,6 @@
 #include <SFML-utils/map/HexaIso.hpp>
 #include <cmath>
 
-#include <iostream>
-
 namespace sfutils
 {
     namespace geometry
@@ -31,7 +29,7 @@ namespace sfutils
                                 Y*delta_y/2 + X*delta_x/2);
         }
 
-        sf::Vector2f HexaIso::mapPixelToCoords(float X,float Y,float scale)
+        sf::Vector2i HexaIso::mapPixelToCoords(float X,float Y,float scale)
         {
             const float d_x = delta_x * scale;
             const float d_y = delta_y * scale;
@@ -42,9 +40,7 @@ namespace sfutils
             const float y = (-X*d_x + 2*Y*d_y)/(d_y*d_y - d_x*d_x);
             const float x = -(y*d_x - X)/d_y;
 
-            std::cout<<"delta_x: "<<delta_x<<" delta_y: "<<delta_y<<" height: "<<height<<std::endl;
-
-            return sf::Vector2f((x<0)?x-1:x,(y<0)?y-1:y);
+            return sf::Vector2i((x<0)?x-1:x,(y<0)?y-1:y);
         }
 
         sf::IntRect HexaIso::getTextureRect(int x,int y,float scale)
