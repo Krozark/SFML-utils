@@ -95,9 +95,7 @@ namespace sfutils
         template<typename GEOMETRY>
         sf::Vector2i Map<GEOMETRY>::mapPixelToCoords(float x,float y)const
         {
-            auto pos(GEOMETRY::mapPixelToCoords(x,y,_tile_size));
-            //return {pos.x / _tile_size, pos.y/_tile_size};
-            return {pos.x,pos.y};
+            return GEOMETRY::mapPixelToCoords(x,y,_tile_size);
         }
 
         template<typename GEOMETRY>
