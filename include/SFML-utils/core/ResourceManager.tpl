@@ -15,6 +15,12 @@ namespace sfutils
     }
 
     template<typename RESOURCE,typename IDENTIFIER>
+    bool ResourceManager<RESOURCE,IDENTIFIER>::count(const IDENTIFIER& id)const
+    {
+        return _map.count(id);
+    }
+
+    template<typename RESOURCE,typename IDENTIFIER>
     RESOURCE& ResourceManager<RESOURCE,IDENTIFIER>::get(const IDENTIFIER& id)const
     {
         return *_map.at(id);
@@ -42,6 +48,12 @@ namespace sfutils
         if(_map.emplace(id,std::move(ptr)).second == false)
             throw std::runtime_error("Impossible to emplace in map. Object aleardy load?");
     };
+
+    template<typename IDENTIFIER>
+    bool ResourceManager<sf::Music,IDENTIFIER>::count(const IDENTIFIER& id)const
+    {
+        return _map.count(id);
+    }
 
     template<typename IDENTIFIER>
     sf::Music& ResourceManager<sf::Music,IDENTIFIER>::get(const IDENTIFIER& id) const

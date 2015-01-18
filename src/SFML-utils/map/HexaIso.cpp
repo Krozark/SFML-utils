@@ -31,21 +31,18 @@ namespace sfutils
                                 Y*delta_y/2 + X*delta_x/2);
         }
 
-        sf::Vector2f HexaIso::mapPixelToCoords(float X,float Y)
+        sf::Vector2f HexaIso::mapPixelToCoords(float X,float Y,float scale)
         {
-            /*const float a = X + height/2;
-            const float b = Y + height/4;
-            const float x =(2*b*delta_x - a*delta_y)/(delta_x*delta_x - delta_y*delta_y);
-            const float y= (2*b-x*delta_x)/delta_y;
+            const float d_x = delta_x * scale;
+            const float d_y = delta_y * scale;
 
-            std::cout<<"height: "<<height<<" delta_x: "<< delta_x<<" delta_y: "<<delta_y<<std::endl;*/
+            X += height * scale/2;
+            Y += height * scale/4;
 
-            /*const float y = (-X*delta_x + 2*Y*delta_y)/(delta_y*delta_y - delta_x*delta_x);
-            const float x = -(y*delta_x - X)*delta_y;*/
+            const float y = (-X*d_x + 2*Y*d_y)/(d_y*d_y - d_x*d_x);
+            const float x = -(y*d_x - X)/d_y;
 
-            const float y = (-X*delta_x + 2*Y*delta_y)/(delta_y*delta_y - delta_x*delta_x);
-            const float x = -(y*delta_x - X)/delta_y;
-
+            std::cout<<"delta_x: "<<delta_x<<" delta_y: "<<delta_y<<" height: "<<height<<std::endl;
 
             return sf::Vector2f((x<0)?x-1:x,(y<0)?y-1:y);
         }

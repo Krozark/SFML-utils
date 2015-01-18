@@ -4,15 +4,15 @@ namespace sfutils
     namespace map
     {
         template<typename GEOMETRY>
-        inline sf::Vector2f Tile<GEOMETRY>::mapPixelToCoords(float x,float y)
+        inline sf::Vector2f Tile<GEOMETRY>::mapPixelToCoords(float x,float y,float scale)
         {
-            return GEOMETRY::mapPixelToCoords(x,y);
+            return GEOMETRY::mapPixelToCoords(x,y,scale);
         }
 
         template<typename GEOMETRY>
-        inline sf::Vector2f Tile<GEOMETRY>::mapPixelToCoords(const sf::Vector2f& pos)
+        inline sf::Vector2f Tile<GEOMETRY>::mapPixelToCoords(const sf::Vector2f& pos,float scale)
         {
-            return GEOMETRY::mapPixelToCoords(pos.x,pos.y);
+            return GEOMETRY::mapPixelToCoords(pos.x,pos.y,scale);
         }
 
         template<typename GEOMETRY>

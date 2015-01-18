@@ -21,10 +21,13 @@ namespace sfutils
             template<typename ... Args>
             void load(const IDENTIFIER& id,Args&& ... args);
 
+            bool count(const IDENTIFIER& id)const;
+
             RESOURCE& get(const IDENTIFIER& id)const;
 
             template<typename ... Args>
             RESOURCE& getOrLoad(const IDENTIFIER& id,Args&& ... args);
+        
 
         private:
             std::unordered_map<IDENTIFIER,std::unique_ptr<RESOURCE>> _map;
@@ -41,6 +44,8 @@ namespace sfutils
 
             template<typename ... Args>
             void load(const IDENTIFIER& id,Args&& ... args);
+
+            bool count(const IDENTIFIER& id)const;
 
             sf::Music& get(const IDENTIFIER& id)const;
 

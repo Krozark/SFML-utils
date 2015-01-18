@@ -22,6 +22,21 @@
                     "x" : 0,
                     "y" : 0,
                     "img" : "media/img/tree/tree1.png"
+                },
+                {
+                    "x" : 1,
+                    "y" : 0,
+                    "img" : "media/img/tree/tree1.png"
+                },
+                {
+                    "x" : 0,
+                    "y" : 1,
+                    "img" : "media/img/tree/tree1.png"
+                },
+                {
+                    "x" : 1,
+                    "y" : 1,
+                    "img" : "media/img/tree/tree1.png"
                 }
             ]
         }
