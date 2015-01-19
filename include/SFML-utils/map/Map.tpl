@@ -103,5 +103,13 @@ namespace sfutils
         {
             return GEOMETRY::mapCoordsToPixel(x,y);
         }
+
+        template<typename GEOMETRY>
+        const sf::ConvexShape Map<GEOMETRY>::getShape()const
+        {
+            sf::ConvexShape shape = GEOMETRY::getShape();
+            shape.setScale(_tile_size,_tile_size);
+            return shape;
+        }
     }
 }

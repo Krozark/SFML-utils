@@ -66,6 +66,11 @@ namespace sfutils
             return _layers.at(index);
         }
 
+        float VMap::getTileSize()const
+        {
+            return _tile_size;
+        }
+
         sf::Vector2i VMap::mapPixelToCoords(const sf::Vector2f& pos) const
         {
             return mapPixelToCoords(pos.x,pos.y);

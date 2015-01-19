@@ -14,7 +14,16 @@ int main(int argc,char* argv[])
         std::cerr<<"unable to load map"<<std::endl;
         return 0;
     }
+    sf::ConvexShape* mouse_light = nullptr;
+    {
+        sfutils::Layer<sfutils::HexaIso,sf::ConvexShape>* layer = new sfutils::Layer<sfutils::HexaIso,sf::ConvexShape>("ConvexShape",1);
+        mouse_light = layer->add(map->getShape());
+        map->add(layer);
+    }
+    mouse_light->setFillColor(sf::Color(255,255,255,64));
+
     map->loadFromFile("./map2.json");
+
 
     sfutils::MapViewer viewer(window,*map);
     viewer.setSize(1600,900);
@@ -38,8 +47,15 @@ int main(int argc,char* argv[])
                     sf::Vector2i coord = viewer.mapPixelToCoords(event.mouseButton.x,event.mouseButton.y);
                     std::cout<<coord.x<<" "<<coord.y<<std::endl;
                 }
+                else if(event.type == sf::Event::MouseMoved)
+                {
+                    sf::Vector2i coord = viewer.mapPixelToCoords(event.mouseMove.x,event.mouseMove.y);
+                    sf::Vector2f pos = viewer.mapCoordsToPixel(coord.x,coord.y) * map->getTileSize();
+                    mouse_light->setPosition(pos);
+                }
             }
         }
+
         viewer.processEvents();
 
         float deltaTime = clock.restart().asSeconds();

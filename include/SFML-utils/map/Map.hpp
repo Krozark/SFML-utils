@@ -24,6 +24,8 @@ namespace sfutils
                 virtual sf::Vector2i mapPixelToCoords(float x,float y) const override;
                 
                 virtual sf::Vector2f mapCoordsToPixel(int x,int y) const override;
+
+                virtual const sf::ConvexShape getShape()const override;
         };
     }
 }

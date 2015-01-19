@@ -30,11 +30,15 @@ namespace sfutils
                 size_t size()const;
                 VLayer* at(size_t index)const;
 
+                float getTileSize()const;
+
                 virtual sf::Vector2i mapPixelToCoords(float x,float y) const = 0;
                 sf::Vector2i mapPixelToCoords(const sf::Vector2f& pos) const;
                 
                 virtual sf::Vector2f mapCoordsToPixel(int x,int y) const =0;
                 sf::Vector2f mapCoordsToPixel(const sf::Vector2i& pos) const;
+
+                virtual const sf::ConvexShape getShape()const = 0;
 
 
             protected:

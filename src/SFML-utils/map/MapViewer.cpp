@@ -91,9 +91,19 @@ namespace sfutils
             return _map.mapPixelToCoords(pos.x,pos.y);
         }
 
-        sf::Vector2i MapViewer::mapPixelToCoords(sf::Vector2f& pos)const
+        sf::Vector2i MapViewer::mapPixelToCoords(const sf::Vector2f& pos)const
         {
             return mapPixelToCoords(pos.x,pos.y);
+        }
+
+        sf::Vector2f MapViewer::mapCoordsToPixel(int x,int y) const
+        {
+            return _map.mapCoordsToPixel(x,y);
+        }
+
+        sf::Vector2f MapViewer::mapCoordsToPixel(const sf::Vector2i& pos) const
+        {
+            return _map.mapCoordsToPixel(pos.x,pos.y);
         }
 
         void MapViewer::draw(sf::RenderTarget& target, sf::RenderStates states) const

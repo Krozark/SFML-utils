@@ -18,7 +18,8 @@ namespace sfutils
                 Layer(const std::string& type,int z=0,bool isStatic=false);
                 virtual ~Layer();
 
-                void add(CONTENT&& content,bool resort=true);
+                CONTENT* add(const CONTENT& content,bool resort=true);
+                CONTENT* add(CONTENT&& content,bool resort=true);
 
                 bool remove(CONTENT* content_ptr,bool resort=true);
 

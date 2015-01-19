@@ -15,11 +15,23 @@ namespace sfutils
         }
 
         template<typename GEOMETRY,typename CONTENT>
-        void Layer<GEOMETRY,CONTENT>::add(CONTENT&& content,bool resort)
+        CONTENT* Layer<GEOMETRY,CONTENT>::add(const CONTENT& content,bool resort)
         {
-            _content.emplace_back(std::move(content));
+            _content.emplace_back(content);
+            CONTENT* res = &_content.back();
             if(resort)
                 sort();
+            return res;
+        }
+
+        template<typename GEOMETRY,typename CONTENT>
+        CONTENT* Layer<GEOMETRY,CONTENT>::add(CONTENT&& content,bool resort)
+        {
+            _content.emplace_back(std::move(content));
+            CONTENT* res = &_content.back();
+            if(resort)
+                sort();
+            return res;
         }
 
         template<typename GEOMETRY,typename CONTENT>
