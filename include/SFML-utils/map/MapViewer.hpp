@@ -41,6 +41,10 @@ namespace sfutils
 
                 void draw(sf::RenderStates states = sf::RenderStates::Default) const;
 
+                sf::Vector2i mapPixelToCoords(float x,float y)const;
+                sf::Vector2i mapPixelToCoords(sf::Vector2f& pos)const;
+
+
             private:
                 const VMap& _map;
                 sf::View _view;

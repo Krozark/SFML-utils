@@ -14,14 +14,6 @@ namespace sfutils
                      zoom(1-(event.mouseWheel.delta/5.0));
                  });
 
-            bind(Action(sf::Mouse::Button::Left,Action::Type::Released),[this](const sf::Event& event){
-                 sf::Vector2f pos = _window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x,event.mouseButton.y),_view); 
-                 sf::Vector2i coord = _map.mapPixelToCoords(pos.x,pos.y);
-                 
-                 std::cout<<event.mouseButton.x<<" "<<event.mouseButton.y<<std::endl;
-                 std::cout<<pos.x<<" "<<pos.y<<std::endl;
-                 std::cout<<coord.x<<" "<<coord.y<<std::endl;
-                 });
 
             bind(Configuration::MapInputs::MoveUp,[this](const sf::Event& event){
                     _move_y -=1;
@@ -93,6 +85,17 @@ namespace sfutils
         void MapViewer::draw(sf::RenderStates states) const
         {
             draw(_window,states);
+        }
+
+        sf::Vector2i MapViewer::mapPixelToCoords(float x,float y)const
+        {
+            sf::Vector2f pos = _window.mapPixelToCoords(sf::Vector2i(x,y),_view); 
+            return _map.mapPixelToCoords(pos.x,pos.y);
+        }
+
+        sf::Vector2i MapViewer::mapPixelToCoords(sf::Vector2f& pos)const
+        {
+            return mapPixelToCoords(pos.x,pos.y);
         }
 
         void MapViewer::draw(sf::RenderTarget& target, sf::RenderStates states) const
