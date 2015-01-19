@@ -2,8 +2,6 @@
 
 #include <SFML-utils/map/VMap.hpp>
 
-#include <iostream>
-
 namespace sfutils
 {
     namespace map

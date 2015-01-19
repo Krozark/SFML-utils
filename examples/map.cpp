@@ -33,9 +33,10 @@ int main(int argc,char* argv[])
                 window.close();
             else if(not viewer.processEvent(event))
             {
-                if(event.type = sf::Mouse::Button::Left)
+                if(event.type == sf::Event::MouseButtonReleased and event.mouseButton.button == sf::Mouse::Button::Left)
                 {
                     sf::Vector2i coord = viewer.mapPixelToCoords(event.mouseButton.x,event.mouseButton.y);
+                    std::cout<<coord.x<<" "<<coord.y<<std::endl;
                 }
             }
         }
