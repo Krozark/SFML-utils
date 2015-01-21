@@ -34,13 +34,26 @@ namespace sfutils
             const float d_x = delta_x * scale;
             const float d_y = delta_y * scale;
 
-            X += height * scale/2;
-            Y += height * scale/4;
-
             const float y = (-X*d_x + 2*Y*d_y)/(d_y*d_y - d_x*d_x);
             const float x = -(y*d_x - X)/d_y;
+            const float z = -y-x;
 
-            return sf::Vector2i((x<0)?x-1:x,(y<0)?y-1:y);
+            float rx = std::round(x);
+            float ry = std::round(y);
+            float rz = std::round(z);
+
+            const float diff_x = std::abs(rx - x);
+            const float diff_y = std::abs(ry - y);
+            const float diff_z = std::abs(rz - z);
+
+            if(diff_x > diff_y and diff_x > diff_z)
+                rx = -ry-rz;
+            else if (diff_y > diff_z)
+                ry = -rx-rz;
+            /*else
+                rz = -rx-ry;*/
+
+            return sf::Vector2i(rx,ry);
         }
 
         sf::IntRect HexaIso::getTextureRect(int x,int y,float scale)
@@ -52,6 +65,15 @@ namespace sfutils
                           height/2 * scale);
             return res;
         }
+
+        /*sf::Vector2i HexaIso::distance(int x1,int y1, int x2,int y2)
+        {
+        
+        function hex_distance(Hex(q1, r1), Hex(q2, r2)):
+    return (abs(q1 - q2) + abs(r1 - r2)
+          + abs(q1 + r1 - q2 - r2)) / 2
+          
+          }*/
 
         void HexaIso::init()
         {

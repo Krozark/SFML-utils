@@ -1,5 +1,5 @@
 #include <SFML-utils/Map.hpp>
-#include <SFML-utils/ES.hpp>
+//#include <SFML-utils/ES.hpp>
 #include <SFML-utils/Core.hpp>
 
 #include <iostream>
@@ -24,9 +24,9 @@ int main(int argc,char* argv[])
     sf::RenderWindow window(sf::VideoMode(1600,900),"Example Tile");
     window.setFramerateLimit(65);
 
-    textures.load(TEXTURES::EYE,"media/img/eye.png");
+    /*textures.load(TEXTURES::EYE,"media/img/eye.png");
     animations.getOrLoad(ANIMATION::EYE_LEFT,&textures.get(TEXTURES::EYE)).addFramesLine(4,2,0);
-    animations.load(ANIMATION::EYE_RIGHT,&textures.get(TEXTURES::EYE)).addFramesLine(4,2,1);
+    animations.load(ANIMATION::EYE_RIGHT,&textures.get(TEXTURES::EYE)).addFramesLine(4,2,1);*/
 
     sfutils::VMap* map = sfutils::createMapFromFile("./map.json");
     if(not map)
