@@ -14,12 +14,21 @@ namespace sfutils
                 VLayer(const VLayer&) = delete;
                 VLayer& operator=(const VLayer&) = delete;
 
-                VLayer(const std::string& type,int z=0);
+                VLayer(const std::string& type,int z=0,bool isStatic=false);
                 virtual ~VLayer();
                 virtual void sort() = 0;
 
                 int z()const;
                 const std::string& getType()const;
+
+                bool isStatic()const;
+
+            protected:
+                const bool _isStatic;
+
+                sf::RenderTexture _renderTexture;
+                sf::Sprite _sprite;
+                sf::FloatRect _lastViewport;
 
             private:
                 friend class VMap;

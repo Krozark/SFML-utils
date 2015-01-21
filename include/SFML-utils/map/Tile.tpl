@@ -16,15 +16,15 @@ namespace sfutils
         }
 
         template<typename GEOMETRY>
-        inline sf::Vector2f Tile<GEOMETRY>::mapCoordsToPixel(int x,int y)
+        inline sf::Vector2f Tile<GEOMETRY>::mapCoordsToPixel(int x,int y,float scale)
         {
-            return GEOMETRY::mapCoordsToPixel(x,y);
+            return GEOMETRY::mapCoordsToPixel(x,y,scale);
         }
 
         template<typename GEOMETRY>
-        inline sf::Vector2f Tile<GEOMETRY>::mapCoordsToPixel(const sf::Vector2i& pos)
+        inline sf::Vector2f Tile<GEOMETRY>::mapCoordsToPixel(const sf::Vector2i& pos,float scale)
         {
-            return GEOMETRY::mapCoordsToPixel(pos.x,pos.y);
+            return GEOMETRY::mapCoordsToPixel(pos.x,pos.y,scale);
         }
 
         template<typename GEOMETRY>
@@ -58,7 +58,7 @@ namespace sfutils
         template< typename ...Args>
         inline void Tile<GEOMETRY>::setCoords(Args&& ... args)
         {
-            sf::Vector2f pos = mapCoordsToPixel(args...) * _shape.getScale().x;
+            sf::Vector2f pos = mapCoordsToPixel(args...,_shape.getScale().x);
             _shape.setPosition(pos);
         }
 

@@ -33,7 +33,6 @@ namespace sfutils
                 bool operator!=(const Entity& other)const;
 
                 void remove();
-                void reset();
 
                 template<typename COMPONENT,typename ... Args>
                 void add(Args&& ... args);

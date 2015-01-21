@@ -23,10 +23,10 @@ namespace sfutils
             return _shape;
         }
 
-        sf::Vector2f HexaIso::mapCoordsToPixel(int X,int Y)
+        sf::Vector2f HexaIso::mapCoordsToPixel(int X,int Y,float scale)
         {
-            return sf::Vector2f(Y*delta_x + X*delta_y,
-                                Y*delta_y/2 + X*delta_x/2);
+            return sf::Vector2f((Y*delta_x + X*delta_y)*scale,
+                                (Y*delta_y/2 + X*delta_x/2)*scale);
         }
 
         sf::Vector2i HexaIso::mapPixelToCoords(float X,float Y,float scale)
@@ -58,9 +58,9 @@ namespace sfutils
 
         sf::IntRect HexaIso::getTextureRect(int x,int y,float scale)
         {
-            sf::Vector2f pos = mapCoordsToPixel(x,y);
-            sf::IntRect res(pos.x * scale,
-                          pos.y * scale,
+            sf::Vector2f pos = mapCoordsToPixel(x,y,scale);
+            sf::IntRect res(pos.x,
+                          pos.y,
                           height * scale,
                           height/2 * scale);
             return res;

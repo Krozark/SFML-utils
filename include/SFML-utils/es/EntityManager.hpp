@@ -38,12 +38,14 @@ namespace sfutils
                 void remove(std::size_t id);
 
                 void reset();
-                void reset(std::uint32_t id);
 
                 bool isValid(std::uint32_t id);
 
                 const ENTITY& get(std::size_t id)const;
                 ENTITY& get(std::size_t id);
+
+                const ENTITY* getPtr(std::size_t id)const;
+                ENTITY* getPtr(std::size_t id);
 
                 container::const_iterator begin()const;
                 container::const_iterator end()const;
@@ -68,7 +70,7 @@ namespace sfutils
                 View<COMPONENT ...> getByComponents(ComponentHandle<COMPONENT,ENTITY>& ... components);
 
             private:
-                std::vector<ENTITY> _entities_allocated;
+                std::vector<ENTITY*> _entities_allocated;
                 std::vector<std::bitset<MAX_COMPONENTS>> _entities_components_mask;
                 std::vector<utils::memory::VPool*> _components_entities;
 

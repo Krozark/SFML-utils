@@ -1,5 +1,5 @@
 #include <SFML-utils/Map.hpp>
-//#include <SFML-utils/ES.hpp>
+#include <SFML-utils/ES.hpp>
 #include <SFML-utils/Core.hpp>
 
 #include <iostream>
@@ -17,6 +17,17 @@ enum ANIMATION
     EYE_RIGHT
 };
 
+
+class E : public sfutils::Entity<E>, public sfutils::AnimatedSprite
+{
+    public:
+        E(sfutils::EntityManager<E>* manager,std::uint32_t id, sfutils::Animation* animation=nullptr) : 
+            Entity(manager,id),
+            sfutils::AnimatedSprite(animation)
+        {
+        };
+};
+
 sfutils::ResourceManager<sfutils::Animation,int> animations;
 
 int main(int argc,char* argv[])
@@ -24,9 +35,11 @@ int main(int argc,char* argv[])
     sf::RenderWindow window(sf::VideoMode(1600,900),"Example Tile");
     window.setFramerateLimit(65);
 
-    /*textures.load(TEXTURES::EYE,"media/img/eye.png");
+    textures.load(TEXTURES::EYE,"media/img/eye.png");
     animations.getOrLoad(ANIMATION::EYE_LEFT,&textures.get(TEXTURES::EYE)).addFramesLine(4,2,0);
-    animations.load(ANIMATION::EYE_RIGHT,&textures.get(TEXTURES::EYE)).addFramesLine(4,2,1);*/
+    animations.load(ANIMATION::EYE_RIGHT,&textures.get(TEXTURES::EYE)).addFramesLine(4,2,1);
+
+    sfutils::EntityManager<E> manager;
 
     sfutils::VMap* map = sfutils::createMapFromFile("./map.json");
     if(not map)
@@ -43,8 +56,16 @@ int main(int argc,char* argv[])
     }
     mouse_light->setFillColor(sf::Color(255,255,255,64));
 
-    //sfutils::Layer<sfutils::HexaIso,sfutils::Entity>* entities_layer = new sfutils::Layer<sfutils::HexaIso,sfutils::Entity>("Entity",2);
-    //Entity* e = entities_layer->add()
+    sfutils::Layer<sfutils::HexaIso,E*>* entities_layer = new sfutils::Layer<sfutils::HexaIso,E*>("Entity",2);
+    {
+        for(int i=0;i<4;++i)
+        {
+            uint32_t id = manager.create(&animations.get(ANIMATION::EYE_LEFT));
+            E* e = entities_layer->add(manager.getPtr(id));
+            e->setPosition(map->mapCoordsToPixel(i,i));
+        }
+    }
+    map->add(entities_layer);
 
     map->loadFromFile("./map2.json");
 
@@ -74,7 +95,7 @@ int main(int argc,char* argv[])
                 else if(event.type == sf::Event::MouseMoved)
                 {
                     sf::Vector2i coord = viewer.mapPixelToCoords(event.mouseMove.x,event.mouseMove.y);
-                    sf::Vector2f pos = viewer.mapCoordsToPixel(coord.x,coord.y) * map->getTileSize();
+                    sf::Vector2f pos = viewer.mapCoordsToPixel(coord.x,coord.y);
                     mouse_light->setPosition(pos);
                 }
             }

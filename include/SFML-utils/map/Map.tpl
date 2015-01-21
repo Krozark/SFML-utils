@@ -78,7 +78,7 @@ namespace sfutils
                         std::string img = data["img"];
 
                         sf::Sprite spr(_textures.getOrLoad(img,img));
-                        spr.setPosition(GEOMETRY::mapCoordsToPixel(x,y)*_tile_size);
+                        spr.setPosition(GEOMETRY::mapCoordsToPixel(x,y,_tile_size));
 
                         sf::FloatRect rec = spr.getLocalBounds();
                         spr.setOrigin(rec.width*ox,rec.height*oy);
@@ -101,7 +101,7 @@ namespace sfutils
         template<typename GEOMETRY>
         sf::Vector2f Map<GEOMETRY>::mapCoordsToPixel(int x,int y)const
         {
-            return GEOMETRY::mapCoordsToPixel(x,y);
+            return GEOMETRY::mapCoordsToPixel(x,y,_tile_size);
         }
 
         template<typename GEOMETRY>

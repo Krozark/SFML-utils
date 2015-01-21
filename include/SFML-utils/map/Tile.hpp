@@ -22,8 +22,8 @@ namespace sfutils
                 static sf::Vector2i mapPixelToCoords(const sf::Vector2f& pos,float scale);
                 
                 //return the center of the tile position in pixel relative to the openGL world
-                static sf::Vector2f mapCoordsToPixel(int x,int y);
-                static sf::Vector2f mapCoordsToPixel(const sf::Vector2i& pos);
+                static sf::Vector2f mapCoordsToPixel(int x,int y,float scale);
+                static sf::Vector2f mapCoordsToPixel(const sf::Vector2i& pos,float scale);
 
                 Tile(int pos_x,int pos_y,float scale);
                 

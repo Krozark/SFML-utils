@@ -39,12 +39,6 @@ namespace sfutils
         }
 
         template<typename ENTITY>
-        inline void Entity<ENTITY>::reset()
-        {
-            _manager->reset(_id);
-        }
-
-        template<typename ENTITY>
         template<typename COMPONENT, typename ... Args>
         inline void Entity<ENTITY>::add(Args&& ... args)
         {

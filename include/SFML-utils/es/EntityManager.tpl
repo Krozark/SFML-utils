@@ -25,12 +25,13 @@ namespace sfutils
                 //reuse existing entity
                 index = _entities_index_free.front();
                 _entities_index_free.pop_back();
+                _entities_allocated[index] = new ENTITY(this,index,std::forward<Args>(args)...);
             }
             else
             {
                 //create new entity
                 index = _entities_allocated.size();
-                _entities_allocated.emplace_back(this,index,std::forward<Args>(args)...);
+                _entities_allocated.emplace_back(new ENTITY(this,index,std::forward<Args>(args)...));
 
                 _entities_components_mask.emplace_back();
 
@@ -52,15 +53,17 @@ namespace sfutils
         template<class ENTITY>
         void EntityManager<ENTITY>::remove(std::size_t id)
         {
-            ENTITY& e = _entities_allocated.at(id);
+            ENTITY* e = _entities_allocated.at(id);
             auto it = std::find(_entities_allocated.begin(),_entities_allocated.end(),e);
             if(it != _entities_allocated.end())
             {
                 _entities_index_free.emplace_back(id);
                 _entities_index.erase(std::find(_entities_index.begin(),_entities_index.end(),id));
 
-                reset(id);
+                _entities_components_mask.at(id).reset();
             }
+            delete e;
+            _entities_allocated[id] = nullptr;
         }
 
         template<class ENTITY>
@@ -69,14 +72,12 @@ namespace sfutils
             _entities_index_free.clear();
             _entities_index.clear();
 
+            size_t size = _entities_allocated.size();
+            for(size_t i=0;i<size;++i)
+                delete _entities_allocated[i];
+
             _entities_allocated.clear();
             _entities_components_mask.clear();
-        }
-
-        template<class ENTITY>
-        void EntityManager<ENTITY>::reset(std::uint32_t id)
-        {
-            _entities_components_mask.at(id).reset();
         }
 
         template<class ENTITY>
@@ -89,11 +90,23 @@ namespace sfutils
         template<class ENTITY>
         const ENTITY& EntityManager<ENTITY>::get(std::size_t id) const
         {
-            return _entities_allocated.at(id);
+            return *_entities_allocated.at(id);
         }
 
         template<class ENTITY>
         ENTITY& EntityManager<ENTITY>::get(std::size_t id)
+        {
+            return *_entities_allocated.at(id);
+        }
+
+        template<class ENTITY>
+        const ENTITY* EntityManager<ENTITY>::getPtr(std::size_t id)const
+        {
+            return _entities_allocated.at(id);
+        }
+
+        template<class ENTITY>
+        ENTITY* EntityManager<ENTITY>::getPtr(std::size_t id)
         {
             return _entities_allocated.at(id);
         }
@@ -319,7 +332,7 @@ namespace sfutils
         {
             if(_it == _it_end)
                 return nullptr;
-            return &_view._manager._entities_allocated[*_it];
+            return _view._manager._entities_allocated[*_it];
         }
 
         template<class ENTITY>
@@ -328,7 +341,7 @@ namespace sfutils
         {
             if(_it == _it_end)
                 return nullptr;
-            return &_view._manager._entities_allocated[*_it];
+            return _view._manager._entities_allocated[*_it];
         }
 
         template<class ENTITY>

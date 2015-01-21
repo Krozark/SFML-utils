@@ -27,7 +27,6 @@ namespace sfutils
 
                 virtual void sort() override;
 
-                bool isStatic()const;
                 
 
             private:
@@ -35,10 +34,31 @@ namespace sfutils
 
                 std::list<CONTENT> _content;
 
-                const bool _isStatic;
-                sf::RenderTexture _renderTexture;
-                sf::Sprite _sprite;
-                sf::FloatRect _lastViewport;
+        };
+
+        template<typename GEOMETRY,typename CONTENT>
+        class Layer<GEOMETRY,CONTENT*> : public VLayer
+        {
+            public:
+                Layer(const Layer&) = delete;
+                Layer& operator=(const Layer&) = delete;
+
+                Layer(const std::string& type,int z=0,bool isStatic=false);
+                virtual ~Layer();
+
+                CONTENT* add(CONTENT* content,bool resort=true);
+
+                std::list<CONTENT*> getByCoords(const sf::Vector2i& coords);
+
+                bool remove(CONTENT* content_ptr,bool resort=true);
+
+                virtual void sort() override;
+
+            private:
+                virtual void draw(sf::RenderTarget& target, sf::RenderStates states,const sf::FloatRect& viewport) override;
+
+                std::list<CONTENT*> _content;
+
         };
     }
 }

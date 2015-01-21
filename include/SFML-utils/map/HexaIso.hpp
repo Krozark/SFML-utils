@@ -10,7 +10,7 @@ namespace sfutils
         struct HexaIso
         {
             static const sf::ConvexShape& getShape();
-            static sf::Vector2f mapCoordsToPixel(int x,int y);
+            static sf::Vector2f mapCoordsToPixel(int x,int y,float scale);
             static sf::Vector2i mapPixelToCoords(float x,float y,float scale);
             static sf::IntRect getTextureRect(int x,int y,float scale);
             //static sf::Vector2i distance(int x1,int y1, int x2,int y2);
