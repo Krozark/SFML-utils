@@ -28,6 +28,9 @@ namespace sfutils
             bind(Configuration::MapInputs::MoveRight,[this](const sf::Event& event){
                     _move_x +=1;
                  });
+
+            auto size = _window.getSize();
+            setSize(size.x,size.y);
         }
 
         void MapViewer::move(float offsetX, float offsetY)
