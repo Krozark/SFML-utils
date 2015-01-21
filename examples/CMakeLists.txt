@@ -10,9 +10,7 @@ target_link_libraries(gui ${CMAKE_PROJECT_NAME}-gui)
 add_executable(map map.cpp)
 target_link_libraries(map ${CMAKE_PROJECT_NAME}-map ${CMAKE_PROJECT_NAME}-es)
 
-find_library(LIB_UTILS utils)
-set(LIBS ${LIBS} ${LIB_UTILS})
 add_executable(es es.cpp)
-target_link_libraries(es ${CMAKE_PROJECT_NAME}-es ${LIBS})
+target_link_libraries(es ${CMAKE_PROJECT_NAME}-es)
 
 

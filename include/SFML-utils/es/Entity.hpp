@@ -5,6 +5,9 @@
 #include <tuple>
 #include <SFML-utils/es/defines.hpp>
 
+#include <SFML-utils/es/System.hpp>
+#include <SFML-utils/es/Component.hpp>
+
 namespace sfutils
 {
     namespace es
@@ -53,6 +56,14 @@ namespace sfutils
         };
 
         #define ES_INIT_ENTITY(ENTITY) __ES_INIT_VCOMPONENT__(ENTITY);__ES_INIT_VSYSTEM__(ENTITY);
+
+        class DefaultEntity : public Entity<DefaultEntity>
+        {
+            public:
+                using Entity<DefaultEntity>::Entity;
+
+        };
+
     }
 }
 #include <SFML-utils/es/Entity.tpl>

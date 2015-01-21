@@ -7,16 +7,18 @@ set(LIBS ${LIBS} ${LIB_UTILS})
 
 set(FILES_HEADER
     ${INCROOT}/Application.hpp
-    #${INCROOT}/Component.hpp
-    #${INCROOT}/Component.tpl
-    #${INCROOT}/Entity.hpp
-    #${INCROOT}/Entity.tpl
+    ${INCROOT}/Component.hpp
+    ${INCROOT}/Component.tpl
+    ${INCROOT}/Entity.hpp
+    ${INCROOT}/Entity.tpl
     ${INCROOT}/EntityManager.hpp
     ${INCROOT}/EntityManager.tpl
-    #${INCROOT}/System.hpp
-    #${INCROOT}/System.tpl
+    ${INCROOT}/System.hpp
+    ${INCROOT}/System.tpl
 )
 
 set(FILES_SRC
+    ${SRCROOT}/Entity.cpp
 )
 
+Compile("${CMAKE_PROJECT_NAME}-es" "" "")
