@@ -10,17 +10,19 @@ namespace sfutils
     namespace es
     {
 
-        class EntityManager;
-        template<typename T> class Component;
-        template<typename T> class ComponentHandle;
+        template<typename ENTITY> class EntityManager;
+        template<typename COMPONENT,typename ENTITY> class Component;
+        template<typename COMPONENT,typename ENTITY> class ComponentHandle;
+        
+        template<typename ENTITY>
         class Entity
         {
             public:
                 Entity(Entity&&) = default;
                 Entity& operator=(Entity&&) = default;
 
-                Entity(EntityManager* manager,std::uint32_t id);
-                ~Entity() ;
+                Entity(EntityManager<ENTITY>* manager,std::uint32_t id);
+                ~Entity();
 
                 std::uint32_t id()const;
 
@@ -40,15 +42,17 @@ namespace sfutils
                 bool has();
 
                 template<typename COMPONENT>
-                ComponentHandle<COMPONENT> component();
+                ComponentHandle<COMPONENT,ENTITY> component();
 
                 template<typename ... COMPONENT>
-                std::tuple<ComponentHandle<COMPONENT>...> components();
+                std::tuple<ComponentHandle<COMPONENT,ENTITY>...> components();
 
             private:
                 std::uint32_t _id;    
-                EntityManager* _manager;
+                EntityManager<ENTITY>* _manager;
         };
+
+        #define ES_INIT_ENTITY(ENTITY) __ES_INIT_VCOMPONENT__(ENTITY);__ES_INIT_VSYSTEM__(ENTITY);
     }
 }
 #include <SFML-utils/es/Entity.tpl>

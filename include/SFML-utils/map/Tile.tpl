@@ -63,10 +63,9 @@ namespace sfutils
         }
 
         template<typename GEOMETRY>
-        template< typename ...Args>
-        inline sf::Vector2f Tile<GEOMETRY>::getPosition(Args&& ... args)const
+        inline sf::Vector2f Tile<GEOMETRY>::getPosition()const
         {
-            return _shape.getPosition(args...);
+            return _shape.getPosition();
         }
 
         template<typename GEOMETRY>

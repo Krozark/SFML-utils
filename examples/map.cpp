@@ -1,12 +1,32 @@
 #include <SFML-utils/Map.hpp>
+#include <SFML-utils/ES.hpp>
+#include <SFML-utils/Core.hpp>
 
-#include <list>
 #include <iostream>
+
+enum TEXTURES
+{
+    EYE
+};
+
+sfutils::ResourceManager<sf::Texture,int> textures;
+
+enum ANIMATION
+{
+    EYE_LEFT,
+    EYE_RIGHT
+};
+
+sfutils::ResourceManager<sfutils::Animation,int> animations;
 
 int main(int argc,char* argv[])
 {
     sf::RenderWindow window(sf::VideoMode(1600,900),"Example Tile");
     window.setFramerateLimit(65);
+
+    textures.load(TEXTURES::EYE,"media/img/eye.png");
+    animations.getOrLoad(ANIMATION::EYE_LEFT,&textures.get(TEXTURES::EYE)).addFramesLine(4,2,0);
+    animations.load(ANIMATION::EYE_RIGHT,&textures.get(TEXTURES::EYE)).addFramesLine(4,2,1);
 
     sfutils::VMap* map = sfutils::createMapFromFile("./map.json");
     if(not map)
@@ -14,13 +34,17 @@ int main(int argc,char* argv[])
         std::cerr<<"unable to load map"<<std::endl;
         return 0;
     }
-    sf::ConvexShape* mouse_light = nullptr;
+
+    sf::ConvexShape* mouse_light;
     {
-        sfutils::Layer<sfutils::HexaIso,sf::ConvexShape>* layer = new sfutils::Layer<sfutils::HexaIso,sf::ConvexShape>("ConvexShape",1);
-        mouse_light = layer->add(map->getShape());
-        map->add(layer);
+        sfutils::Layer<sfutils::HexaIso,sf::ConvexShape>* mouse_layer = new sfutils::Layer<sfutils::HexaIso,sf::ConvexShape>("ConvexShape",1);
+        mouse_light = mouse_layer->add(map->getShape());
+        map->add(mouse_layer);
     }
     mouse_light->setFillColor(sf::Color(255,255,255,64));
+
+    //sfutils::Layer<sfutils::HexaIso,sfutils::Entity>* entities_layer = new sfutils::Layer<sfutils::HexaIso,sfutils::Entity>("Entity",2);
+    //Entity* e = entities_layer->add()
 
     map->loadFromFile("./map2.json");
 

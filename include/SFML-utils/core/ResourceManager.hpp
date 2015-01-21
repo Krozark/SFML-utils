@@ -6,6 +6,7 @@
 #include <memory> //unique_ptr
 
 #include <SFML/Audio.hpp> //sf::Music
+#include <SFML-utils/core/Animation.hpp>
 
 namespace sfutils
 {
@@ -19,7 +20,7 @@ namespace sfutils
             ResourceManager() = default;
 
             template<typename ... Args>
-            void load(const IDENTIFIER& id,Args&& ... args);
+            RESOURCE& load(const IDENTIFIER& id,Args&& ... args);
 
             bool count(const IDENTIFIER& id)const;
 
@@ -43,7 +44,7 @@ namespace sfutils
             ResourceManager() = default;
 
             template<typename ... Args>
-            void load(const IDENTIFIER& id,Args&& ... args);
+            sf::Music& load(const IDENTIFIER& id,Args&& ... args);
 
             bool count(const IDENTIFIER& id)const;
 
@@ -54,6 +55,29 @@ namespace sfutils
 
         private:
             std::unordered_map<IDENTIFIER,std::unique_ptr<sf::Music>> _map;
+    };
+
+    template<typename IDENTIFIER>
+    class ResourceManager<Animation,IDENTIFIER>
+    {
+        public:
+            ResourceManager(const ResourceManager&) = delete;
+            ResourceManager& operator=(const ResourceManager&) = delete;
+
+            ResourceManager() = default;
+
+            template<typename ... Args>
+            Animation& load(const IDENTIFIER& id,Args&& ... args);
+
+            bool count(const IDENTIFIER& id)const;
+
+            Animation& get(const IDENTIFIER& id)const;
+
+            template<typename ... Args>
+            Animation& getOrLoad(const IDENTIFIER& id,Args&& ... args);
+
+        private:
+            std::unordered_map<IDENTIFIER,std::unique_ptr<Animation>> _map;
     };
 
 

@@ -8,6 +8,7 @@ namespace sfutils
 {
     namespace es
     {
+        template<typename ENTITY>
         class Application
         {
             public:
@@ -16,10 +17,10 @@ namespace sfutils
 
                 Application();
 
-                EntityManager entites;
-                SystemManager systems;
-
+                EntityManager<ENTITY> entites;
+                SystemManager<ENTITY> systems;
         };
     }
 }
+#include <SFML-utils/es/Application.tpl>
 #endif

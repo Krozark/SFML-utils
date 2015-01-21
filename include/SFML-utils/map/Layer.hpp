@@ -21,6 +21,8 @@ namespace sfutils
                 CONTENT* add(const CONTENT& content,bool resort=true);
                 CONTENT* add(CONTENT&& content,bool resort=true);
 
+                std::list<CONTENT*> getByCoords(const sf::Vector2i& coords);
+
                 bool remove(CONTENT* content_ptr,bool resort=true);
 
                 virtual void sort() override;

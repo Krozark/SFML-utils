@@ -6,14 +6,22 @@
 
 using namespace sfutils;
 
-struct Component1 : Component<Component1>
+class E : public Entity<E>
+{
+    public:
+        using Entity<E>::Entity;
+
+};
+ES_INIT_ENTITY(E);
+
+struct Component1 : Component<Component1,E>
 {
     explicit Component1(float f) : _f(f){};
 
     float _f;
 };
 
-struct Component2 : Component<Component2>
+struct Component2 : Component<Component2,E>
 {
     explicit Component2(int i,const std::string& str) : _i(i), _str(str){};
 
@@ -22,9 +30,9 @@ struct Component2 : Component<Component2>
 };
 
 
-struct System1 : System<System1>
+struct System1 : System<System1,E>
 {
-    virtual void update(EntityManager& manager,float dt) override
+    virtual void update(EntityManager<E>& manager,float dt) override
     {
         std::cout<<"System1::update("<<dt<<") manage entities with Component1 only"<<std::endl;
 
@@ -43,9 +51,9 @@ struct System1 : System<System1>
     }
 };
 
-struct System2 : System<System2>
+struct System2 : System<System2,E>
 {
-    virtual void update(EntityManager& manager,float dt) override
+    virtual void update(EntityManager<E>& manager,float dt) override
     {
         std::cout<<"System2::update("<<dt<<") manager entities with Component2 only"<<std::endl;
         Component2::Handle component;
@@ -63,9 +71,9 @@ struct System2 : System<System2>
     }
 };
 
-struct System3 : System<System3>
+struct System3 : System<System3,E>
 {
-    virtual void update(EntityManager& manager,float dt) override
+    virtual void update(EntityManager<E>& manager,float dt) override
     {
         std::cout<<"System3::update("<<dt<<") manager entities with Component1 and Component2"<<std::endl;
         Component1::Handle component1;
@@ -81,14 +89,14 @@ struct System3 : System<System3>
     }
 };
 
-struct System4 : System<System4>
+struct System4 : System<System4,E>
 {
-    virtual void update(EntityManager& manager,float dt) override
+    virtual void update(EntityManager<E>& manager,float dt) override
     {
         int i =0;
         for(auto id : manager)
         {
-            Entity& e = manager.get(id);
+            E& e = manager.get(id);
             ++i;
         }
         std::cout<<"Process to "<<i<<" entities in "<<dt<<" seconds. FPS: "<<(1/dt)<<std::endl;
@@ -96,15 +104,15 @@ struct System4 : System<System4>
 
 };
 
-struct System5 : System<System5>
+struct System5 : System<System5,E>
 {
-    virtual void update(EntityManager& manager,float dt) override
+    virtual void update(EntityManager<E>& manager,float dt) override
     {
         int i =0;
         std::uint32_t last_id=0;
         for(auto id : manager)
         {
-            Entity& e = manager.get(id);
+            E& e = manager.get(id);
             if(i & 1)
                 manager.remove(last_id);
             last_id = id;
@@ -121,7 +129,7 @@ struct System5 : System<System5>
 int main(int argc,char* argv[])
 {
 
-    EntityManager entities;
+    EntityManager<E> entities;
 
     {
         std::uint32_t id = entities.create();
@@ -134,7 +142,7 @@ int main(int argc,char* argv[])
         std::uint32_t id = entities.create();
        std::cout<<"Create entity of id: "<<id<<std::endl; 
 
-        Entity& e = entities.get(id);
+        E& e = entities.get(id);
         e.add<Component1>(42);
         /*auto comp =*/ e.component<Component1>();
         std::cout<<"Add Component1(_f=42)"<<std::endl;
@@ -146,7 +154,7 @@ int main(int argc,char* argv[])
         std::uint32_t id = entities.create();
         std::cout<<"Create entity of id: "<<id<<std::endl; 
 
-        Entity& e = entities.get(id);
+        E& e = entities.get(id);
         e.add<Component2>(72,"plop");
         /*auto comp =*/ e.component<Component2>();
         std::cout<<"Add Component2(_i=72,_str=\"plop\")"<<std::endl;
@@ -158,7 +166,7 @@ int main(int argc,char* argv[])
         std::uint32_t id = entities.create();
         std::cout<<"Create entity of id: "<<id<<std::endl; 
 
-        Entity& e = entities.get(id);
+        E& e = entities.get(id);
         e.add<Component1>(45.89);
         /*auto comp1 =*/ e.component<Component1>();
         std::cout<<"Add Component1(_f=45.89)"<<std::endl;
@@ -171,7 +179,7 @@ int main(int argc,char* argv[])
     std::cout<<std::endl;
 
 
-    SystemManager systems(entities);
+    SystemManager<E> systems(entities);
     systems.add<System1>();
     systems.add<System2>();
     systems.add(std::shared_ptr<System3>(new System3));

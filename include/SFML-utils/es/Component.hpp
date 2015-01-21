@@ -8,9 +8,10 @@ namespace sfutils
 {
     namespace es
     {
-        class EntityManager;
+        template<typename ENTITY> class EntityManager;
+        template<typename COMPONENT,typename ENTITY> class Component;
         
-        template<typename COMPONENT>
+        template<typename COMPONENT,typename ENTITY>
         class ComponentHandle
         {
             public:
@@ -25,36 +26,38 @@ namespace sfutils
                 const COMPONENT* operator->()const;
 
             private:
-                friend class EntityManager;
+                friend class EntityManager<ENTITY>;
 
-                ComponentHandle(EntityManager* manager,std::uint32_t entity_id);
+                ComponentHandle(EntityManager<ENTITY>* manager,std::uint32_t entity_id);
 
-                EntityManager* _manager;
+                EntityManager<ENTITY>* _manager;
                 std::uint32_t _entity_id;    
-
-                //friend void setEntyId<COMPONENT>(std::uint32_t,ComponentHandle&);
         };
 
+
+        template<typename ENTITY>
         class VComponent
         {
-
             public:
                 virtual ~VComponent();
 
                 std::uint32_t ownerId()const;
 
             protected:
-                static Family _familyCounter;
+                friend class EntityManager<ENTITY>;
+
                 VComponent();
 
-            private:
-                friend class EntityManager;
-                EntityManager* _manager;
+                EntityManager<ENTITY>* _manager;
                 std::uint32_t _owner_id;    
+
+                static Family _familyCounter;
         };
 
-        template<typename COMPONENT>
-        class Component : public VComponent
+        #define __ES_INIT_VCOMPONENT__(ENTITY) template<> sfutils::es::Family sfutils::es::VComponent<ENTITY>::_familyCounter = 0;
+
+        template<typename COMPONENT,typename ENTITY>
+        class Component : public VComponent<ENTITY>
         {
             public:
                 Component(const Component&) = delete;
@@ -66,7 +69,7 @@ namespace sfutils
                 void remove();
                 static Family family();
 
-                typedef ComponentHandle<COMPONENT> Handle;
+                typedef ComponentHandle<COMPONENT,ENTITY> Handle;
         };
 
     }

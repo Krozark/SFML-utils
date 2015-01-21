@@ -9,8 +9,10 @@ namespace sfutils
 {
     namespace es
     {
-        class EntityManager;
+        template<typename ENTITY> class EntityManager;
+        template<typename ENTITY> class Entity;
 
+        template<typename ENTITY>
         class VSystem
         {
             public:
@@ -19,17 +21,16 @@ namespace sfutils
 
                 virtual ~VSystem();
 
-                virtual void update(EntityManager& entity_manager,float deltaTime) = 0;
+                virtual void update(EntityManager<ENTITY>& entity_manager,float deltaTime) = 0;
             protected:
                 VSystem();
-
                 static Family _familyCounter;
 
             private:
         };
 
-        template<typename COMPONENT>
-        class System : public VSystem
+        template<typename COMPONENT,typename ENTITY>
+        class System : public VSystem<ENTITY>
         {
             public:
                 System(const System&) = delete;
@@ -41,14 +42,17 @@ namespace sfutils
                 static Family family();
         };
 
+        #define __ES_INIT_VSYSTEM__(ENTITY) template<> sfutils::es::Family sfutils::es::VSystem<ENTITY>::_familyCounter = 0;
 
+
+        template<typename ENTITY>
         class SystemManager
         {
             public:
                 SystemManager(const SystemManager&) = delete;
                 SystemManager& operator=(const SystemManager&) = delete;
 
-                SystemManager(EntityManager& manager);
+                SystemManager(EntityManager<ENTITY>& manager);
                 ~SystemManager();
 
                 template<typename SYSTEM>
@@ -70,8 +74,8 @@ namespace sfutils
                 
                 
             private:
-                EntityManager& _manager;
-                std::unordered_map<Family,std::shared_ptr<VSystem>> _systems;
+                EntityManager<ENTITY>& _manager;
+                std::unordered_map<Family,std::shared_ptr<VSystem<ENTITY>>> _systems;
         };
     }
 }

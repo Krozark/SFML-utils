@@ -69,8 +69,11 @@ namespace sfutils
 
     void AnimatedSprite::setFrame(size_t index)
     {
-        _currentFrame = index % _animation->size();
-        setFrame(_currentFrame,true);
+        if(_animation)
+        {
+            _currentFrame = index % _animation->size();
+            setFrame(_currentFrame,true);
+        }
     }
 
     void AnimatedSprite::setColor(const sf::Color& color)

@@ -10,13 +10,13 @@ namespace sfutils
 
         const float PI = 3.14159265;
 
-        constexpr float sin_75 = sin(75*PI/180);
-        constexpr float sin_15 = sin(15*PI/180);
-        constexpr float sin_45 = sin(45*PI/180);
+        const float sin_75 = sin(75*PI/180);
+        const float sin_15 = sin(15*PI/180);
+        const float sin_45 = sin(45*PI/180);
 
-        constexpr float height = sin_15+sin_45+sin_75;
-        constexpr float delta_x = sin_45-sin_15;
-        constexpr float delta_y = sin_75+sin_45;
+        const float height = sin_15+sin_45+sin_75;
+        const float delta_x = sin_45-sin_15;
+        const float delta_y = sin_75+sin_45;
 
         const sf::ConvexShape& HexaIso::getShape()
         {

@@ -77,7 +77,7 @@ namespace sfutils
                 sf::Event event;
                 while(_window.pollEvent(event))
                 {
-                    if(not ActionTarget::processEvent(event));
+                    if(not ActionTarget::processEvent(event))
                         Container::processEvent(event,parent_pos);
                 }
             }

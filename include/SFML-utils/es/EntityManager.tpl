@@ -1,13 +1,119 @@
 #include <SFML-utils/es/Component.hpp>
-#include <SFML-utils/es/Entity.hpp>
-#include <cassert>
 
 namespace sfutils
 {
     namespace es
     {
+        template<class ENTITY>
+        EntityManager<ENTITY>::EntityManager()
+        {
+        }
+
+        template<class ENTITY>
+        EntityManager<ENTITY>::~EntityManager()
+        {
+            reset();
+        }
+
+        template<class ENTITY>
+        template<typename ... Args>
+        std::uint32_t EntityManager<ENTITY>::create(Args&& ... args)
+        {
+            std::uint32_t index = 0;
+            if(not _entities_index_free.empty())
+            {
+                //reuse existing entity
+                index = _entities_index_free.front();
+                _entities_index_free.pop_back();
+            }
+            else
+            {
+                //create new entity
+                index = _entities_allocated.size();
+                _entities_allocated.emplace_back(this,index,std::forward<Args>(args)...);
+
+                _entities_components_mask.emplace_back();
+
+                //resize components
+                auto comp_size = _components_entities.size();
+                for(std::size_t i=0;i<comp_size;++i)
+                {
+                    if(_components_entities[i] != nullptr)
+                        _components_entities[i]->resize(index+1);
+                }
+
+            }
+            _entities_index.emplace_back(index);
+
+            return index;
+
+        }
+
+        template<class ENTITY>
+        void EntityManager<ENTITY>::remove(std::size_t id)
+        {
+            ENTITY& e = _entities_allocated.at(id);
+            auto it = std::find(_entities_allocated.begin(),_entities_allocated.end(),e);
+            if(it != _entities_allocated.end())
+            {
+                _entities_index_free.emplace_back(id);
+                _entities_index.erase(std::find(_entities_index.begin(),_entities_index.end(),id));
+
+                reset(id);
+            }
+        }
+
+        template<class ENTITY>
+        void EntityManager<ENTITY>::reset()
+        {
+            _entities_index_free.clear();
+            _entities_index.clear();
+
+            _entities_allocated.clear();
+            _entities_components_mask.clear();
+        }
+
+        template<class ENTITY>
+        void EntityManager<ENTITY>::reset(std::uint32_t id)
+        {
+            _entities_components_mask.at(id).reset();
+        }
+
+        template<class ENTITY>
+        bool EntityManager<ENTITY>::isValid(std::uint32_t id)
+        {
+            return id < _entities_allocated.size();
+        }
+
+
+        template<class ENTITY>
+        const ENTITY& EntityManager<ENTITY>::get(std::size_t id) const
+        {
+            return _entities_allocated.at(id);
+        }
+
+        template<class ENTITY>
+        ENTITY& EntityManager<ENTITY>::get(std::size_t id)
+        {
+            return _entities_allocated.at(id);
+        }
+
+        template<class ENTITY>
+        EntityManager<ENTITY>::container::const_iterator EntityManager<ENTITY>::begin()const
+        {
+            return _entities_index.cbegin();
+        }
+
+        template<class ENTITY>
+        EntityManager<ENTITY>::container::const_iterator EntityManager<ENTITY>::end()const
+        {
+            return _entities_index.cend();
+        }
+
+
+        template<class ENTITY>
         template<typename COMPONENT,typename ... Args>
-        void EntityManager::addComponent(std::uint32_t id,Args&& ... args)
+        void EntityManager<ENTITY>::addComponent(std::uint32_t id,Args&& ... args)
         {
             checkComponent<COMPONENT>();
             Family family = COMPONENT::family();
@@ -23,8 +129,9 @@ namespace sfutils
             _entities_components_mask.at(id).set(family);
         }
         
+        template<class ENTITY>
         template<typename COMPONENT>
-        void EntityManager::removeComponent(std::uint32_t id)
+        void EntityManager<ENTITY>::removeComponent(std::uint32_t id)
         {
             checkComponent<COMPONENT>();
             Family family = COMPONENT::family();
@@ -36,30 +143,34 @@ namespace sfutils
             _entities_components_mask[id].reset(family);
         }
 
+        template<class ENTITY>
         template<typename COMPONENT>
-        inline bool EntityManager::hasComponent(std::uint32_t id)const
+        inline bool EntityManager<ENTITY>::hasComponent(std::uint32_t id)const
         {
             //checkComponent<COMPONENT>();
             Family family = COMPONENT::family();
             return _entities_components_mask.at(id).test(family);
         }
 
+        template<class ENTITY>
         template<typename COMPONENT>
-        inline ComponentHandle<COMPONENT> EntityManager::getComponent(std::uint32_t id)
+        inline ComponentHandle<COMPONENT,ENTITY> EntityManager<ENTITY>::getComponent(std::uint32_t id)
         {
             if(hasComponent<COMPONENT>(id))
-                return ComponentHandle<COMPONENT>(this,id);
-            return ComponentHandle<COMPONENT>();
+                return ComponentHandle<COMPONENT,ENTITY>(this,id);
+            return ComponentHandle<COMPONENT,ENTITY>();
         }
 
+        template<class ENTITY>
         template<typename ... COMPONENT>
-        inline std::tuple<ComponentHandle<COMPONENT>...> EntityManager::getComponents(std::uint32_t id)
+        inline std::tuple<ComponentHandle<COMPONENT,ENTITY>...> EntityManager<ENTITY>::getComponents(std::uint32_t id)
         {
             return std::make_tuple(getComponent<COMPONENT>(id)...);
         }
 
+        template<class ENTITY>
         template<typename COMPONENT>
-        inline COMPONENT* EntityManager::getComponentPtr(std::uint32_t id)
+        inline COMPONENT* EntityManager<ENTITY>::getComponentPtr(std::uint32_t id)
         {
             Family family = COMPONENT::family();
             return &static_cast<utils::memory::Pool<COMPONENT>*>(_components_entities[family])->at(id);
@@ -78,8 +189,9 @@ namespace sfutils
             getMask<C2,COMPONENT...>(mask);
         }
 
+        template<class ENTITY>
         template<typename ... COMPONENT>
-        EntityManager::View<COMPONENT ...> EntityManager::getByComponents(ComponentHandle<COMPONENT>& ... components)
+        EntityManager<ENTITY>::View<COMPONENT ...> EntityManager<ENTITY>::getByComponents(ComponentHandle<COMPONENT,ENTITY>& ... components)
         {
             std::bitset<MAX_COMPONENTS> mask;
             getMask<COMPONENT ...>(mask);
@@ -87,8 +199,9 @@ namespace sfutils
         }
 
 
+        template<class ENTITY>
         template<typename COMPONENT>
-        inline void EntityManager::checkComponent()
+        inline void EntityManager<ENTITY>::checkComponent()
         {
             Family family = COMPONENT::family();
             //resize
@@ -105,14 +218,16 @@ namespace sfutils
 
         /////////////////////// VIEW ///////////////////
 
+        template<class ENTITY>
         template<typename ... COMPONENT>
-        EntityManager::View<COMPONENT...>::View(EntityManager& manager,const std::bitset<MAX_COMPONENTS>& mask,ComponentHandle<COMPONENT>& ... components) : _manager(manager), _mask(mask), _handles(std::tuple<ComponentHandle<COMPONENT>&...>(components ...))
+        EntityManager<ENTITY>::View<COMPONENT...>::View(EntityManager<ENTITY>& manager,const std::bitset<MAX_COMPONENTS>& mask,ComponentHandle<COMPONENT,ENTITY>& ... components) : _manager(manager), _mask(mask), _handles(std::tuple<ComponentHandle<COMPONENT,ENTITY>&...>(components ...))
         {
             unpack_manager<0,COMPONENT ...>();
         }
 
+        template<class ENTITY>
         template<typename ... COMPONENT>
-        inline typename EntityManager::View<COMPONENT ...>::iterator EntityManager::View<COMPONENT ...>::begin()
+        inline typename EntityManager<ENTITY>::template View<COMPONENT ...>::iterator EntityManager<ENTITY>::View<COMPONENT ...>::begin()
         {
             auto begin = _manager._entities_index.begin();
             auto end = _manager._entities_index.end();
@@ -131,37 +246,42 @@ namespace sfutils
             return iterator(*this,begin,end);
         }
 
+        template<class ENTITY>
         template<typename ... COMPONENT>
-        inline typename EntityManager::View<COMPONENT ...>::iterator EntityManager::View<COMPONENT ...>::end()
+        inline typename EntityManager<ENTITY>::template View<COMPONENT ...>::iterator EntityManager<ENTITY>::View<COMPONENT ...>::end()
         {
             return iterator(*this,_manager._entities_index.end(),_manager._entities_index.end());
         }
 
+        template<class ENTITY>
         template<typename ... COMPONENT>
         template<int N,typename C>
-        inline void EntityManager::View<COMPONENT...>::unpack_id(std::uint32_t id)
+        inline void EntityManager<ENTITY>::View<COMPONENT...>::unpack_id(std::uint32_t id)
         {
             std::get<N>(_handles)._entity_id = id;
         }
 
+        template<class ENTITY>
         template<typename ... COMPONENT>
         template<int N,typename C0,typename C1,typename ... Cx>
-        inline void EntityManager::View<COMPONENT...>::unpack_id(std::uint32_t id)
+        inline void EntityManager<ENTITY>::View<COMPONENT...>::unpack_id(std::uint32_t id)
         {
             unpack_id<N,C0>(id);
             unpack_id<N+1,C1,Cx ...>(id);
         }
 
+        template<class ENTITY>
         template<typename ... COMPONENT>
         template<int N,typename C>
-        inline void EntityManager::View<COMPONENT...>::unpack_manager()
+        inline void EntityManager<ENTITY>::View<COMPONENT...>::unpack_manager()
         {
             std::get<N>(_handles)._manager = &_manager;
         }
 
+        template<class ENTITY>
         template<typename ... COMPONENT>
         template<int N,typename C0,typename C1,typename ... Cx>
-        inline void EntityManager::View<COMPONENT...>::unpack_manager()
+        inline void EntityManager<ENTITY>::View<COMPONENT...>::unpack_manager()
         {
             unpack_manager<N,C0>();
             unpack_manager<N+1,C1,Cx ...>();
@@ -169,13 +289,15 @@ namespace sfutils
 
         ////////////////// VIEW ITERATOR /////////////////////////
 
+        template<class ENTITY>
         template<typename ... COMPONENT>
-        EntityManager::View<COMPONENT ...>::iterator::iterator(View& view,EntityManager::container::iterator it,EntityManager::container::iterator it_end) : _view(view), _it(it), _it_end(it_end)
+        EntityManager<ENTITY>::View<COMPONENT ...>::iterator::iterator(View& view,EntityManager<ENTITY>::container::iterator it,EntityManager<ENTITY>::container::iterator it_end) : _view(view), _it(it), _it_end(it_end)
         {
         }
 
+        template<class ENTITY>
         template<typename ... COMPONENT>
-        typename EntityManager::View<COMPONENT...>::iterator& EntityManager::View<COMPONENT ...>::iterator::operator++()
+        typename EntityManager<ENTITY>::template View<COMPONENT...>::iterator& EntityManager<ENTITY>::View<COMPONENT ...>::iterator::operator++()
         {
             ++_it;
             while(_it != _it_end)
@@ -191,30 +313,34 @@ namespace sfutils
             return *this;
         }
 
+        template<class ENTITY>
         template<typename ... COMPONENT>
-        inline Entity* EntityManager::View<COMPONENT ...>::iterator::operator*()const
+        inline ENTITY* EntityManager<ENTITY>::View<COMPONENT ...>::iterator::operator*()const
         {
             if(_it == _it_end)
                 return nullptr;
             return &_view._manager._entities_allocated[*_it];
         }
 
+        template<class ENTITY>
         template<typename ... COMPONENT>
-        inline Entity* EntityManager::View<COMPONENT ...>::iterator::operator->()const
+        inline ENTITY* EntityManager<ENTITY>::View<COMPONENT ...>::iterator::operator->()const
         {
             if(_it == _it_end)
                 return nullptr;
             return &_view._manager._entities_allocated[*_it];
         }
 
+        template<class ENTITY>
         template<typename ... COMPONENT>
-        bool EntityManager::View<COMPONENT ...>::iterator::operator==(const EntityManager::View<COMPONENT...>::iterator& other)
+        bool EntityManager<ENTITY>::View<COMPONENT ...>::iterator::operator==(const EntityManager<ENTITY>::View<COMPONENT...>::iterator& other)
         {
             return _it == other._it and _view._mask == other._view._mask and &(_view._manager) == &(other._view._manager);
         }
 
+        template<class ENTITY>
         template<typename ... COMPONENT>
-        bool EntityManager::View<COMPONENT...>::iterator::operator!=(const EntityManager::View<COMPONENT...>::iterator& other)
+        bool EntityManager<ENTITY>::View<COMPONENT...>::iterator::operator!=(const EntityManager<ENTITY>::View<COMPONENT...>::iterator& other)
         {
             return _it != other._it or _view._mask != other._view._mask or &(_view._manager) != &(other._view._manager);
         }

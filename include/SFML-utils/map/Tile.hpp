@@ -33,11 +33,10 @@ namespace sfutils
                 template< typename ...Args>
                 void setPosition(Args&& ... args);
 
-                template< typename ...Args>
-                void setCoords(Args&& ... args);
+                sf::Vector2f getPosition()const;
 
                 template< typename ...Args>
-                sf::Vector2f getPosition(Args&& ... args)const;
+                void setCoords(Args&& ... args);
 
                 void setTexture(const sf::Texture *texture,bool resetRect=false);
                 void setTextureRect(const sf::IntRect& rect);
