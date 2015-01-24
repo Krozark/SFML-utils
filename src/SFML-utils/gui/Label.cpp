@@ -1,9 +1,15 @@
 #include <SFML-utils/gui/Label.hpp>
 
+#include <SFML-utils/gui/Configuration.hpp>
+
 namespace sfutils
 {
     namespace gui
     {
+        Label::Label(const std::string& text,Widget* parent) : Label(text,Configuration::default_fonts.get(Configuration::Gui),parent)
+        {
+        }
+
         Label::Label(const std::string& text,sf::Font& font,Widget* parent) : Widget(parent)
         {
             _text.setFont(font);

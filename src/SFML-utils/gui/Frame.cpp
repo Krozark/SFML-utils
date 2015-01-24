@@ -1,10 +1,16 @@
 #include <SFML-utils/gui/Frame.hpp>
 #include <SFML-utils/gui/Layout.hpp>
 
+#include <SFML-utils/gui/Configuration.hpp>
+
 namespace sfutils
 {
     namespace gui
     {
+        Frame::Frame(sf::RenderWindow& window) : Frame(window,sfutils::gui::Configuration::default_gui_inputs)
+        {
+        }
+        
         Frame::Frame(sf::RenderWindow& window,const ActionMap<int>& map) : Container(nullptr), ActionTarget(map), _window(window), _view(_window.getDefaultView())
         {
             ActionTarget::bind(Action(sf::Event::Resized),[this](const sf::Event& event){

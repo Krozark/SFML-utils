@@ -3,7 +3,6 @@
 
 #include <SFML-utils/gui/Button.hpp>
 #include <SFML-utils/gui/Label.hpp>
-#include <SFML-utils/gui/Configuration.hpp>
 
 
 namespace sfutils
@@ -16,7 +15,8 @@ namespace sfutils
                 TextButton(const TextButton&) = delete;
                 TextButton& operator=(const TextButton&) = delete;
 
-                TextButton(const std::string& text,sf::Font& font=Configuration::default_fonts.get(Configuration::Gui),Widget* parent=nullptr);
+                TextButton(const std::string& text,Widget* parent=nullptr);
+                TextButton(const std::string& text,sf::Font& font,Widget* parent=nullptr);
 
                 virtual ~TextButton();
 

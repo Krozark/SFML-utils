@@ -1,9 +1,14 @@
 #include <SFML-utils/gui/TextButton.hpp>
+#include <SFML-utils/gui/Configuration.hpp>
 
 namespace sfutils
 {
     namespace gui
     {
+        TextButton::TextButton(const std::string& text,Widget* parent) : TextButton(text,Configuration::default_fonts.get(Configuration::Gui),parent)
+        {
+        }
+
         TextButton::TextButton(const std::string& text,sf::Font& font,Widget* parent) : Button(parent), _label(text,font,this)
         {
             setFillColor(Configuration::Colors::button_fill);

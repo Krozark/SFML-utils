@@ -4,7 +4,6 @@
 #include <SFML/Graphics.hpp>
 
 #include <SFML-utils/core/ActionTarget.hpp>
-#include <SFML-utils/map/Configuration.hpp>
 
 namespace sfutils
 {
@@ -17,7 +16,8 @@ namespace sfutils
                 MapViewer(const MapViewer&) = delete;
                 MapViewer& operator=(const MapViewer&) = delete;
 
-                MapViewer(sf::RenderWindow& window,const VMap& map,const ActionMap<int>& action_map = Configuration::default_map_inputs);
+                MapViewer(sf::RenderWindow& window,const VMap& map);
+                MapViewer(sf::RenderWindow& window,const VMap& map,const ActionMap<int>& action_map);
                 
                 using ActionTarget::bind;
                 using ActionTarget::unbind;

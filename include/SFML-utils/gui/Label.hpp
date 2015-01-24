@@ -2,7 +2,6 @@
 #define SMFL_UTILS_GUI_LABEL_HPP
 
 #include <SFML-utils/gui/Widget.hpp>
-#include <SFML-utils/gui/Configuration.hpp>
 
 namespace sfutils
 {
@@ -14,7 +13,8 @@ namespace sfutils
                 Label(const Label&) = delete;
                 Label& operator=(const Label&) = delete;
 
-                Label(const std::string& text,sf::Font& font = Configuration::default_fonts.get(Configuration::Gui),Widget* parent=nullptr);
+                Label(const std::string& text,Widget* parent=nullptr);
+                Label(const std::string& text,sf::Font& font,Widget* parent=nullptr);
 
                 virtual ~Label();
 

@@ -1,11 +1,16 @@
 #include <SFML-utils/map/MapViewer.hpp>
 
 #include <SFML-utils/map/VMap.hpp>
+#include <SFML-utils/map/Configuration.hpp>
 
 namespace sfutils
 {
     namespace map
     {        
+        MapViewer::MapViewer(sf::RenderWindow& window,const VMap& map) : MapViewer(window,map,sfutils::map::Configuration::default_map_inputs)
+        {
+        }
+        
         MapViewer::MapViewer(sf::RenderWindow& window,const VMap& map,const ActionMap<int>& action_map) : ActionTarget(action_map),_map(map), _move_x(0), _move_y(0), _movement_speed(10), _window(window)
         {
             bind(Action(sf::Event::MouseWheelMoved),[this](const sf::Event& event){
