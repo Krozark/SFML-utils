@@ -29,11 +29,10 @@ namespace sfutils
             }
             else
             {
-                //create new entity
-                index = _entities_allocated.size();
-                _entities_allocated.emplace_back(new ENTITY(this,index,std::forward<Args>(args)...));
-
                 _entities_components_mask.emplace_back();
+
+                index = _entities_allocated.size();
+                _entities_allocated.emplace_back(nullptr);
 
                 //resize components
                 auto comp_size = _components_entities.size();
@@ -42,6 +41,9 @@ namespace sfutils
                     if(_components_entities[i] != nullptr)
                         _components_entities[i]->resize(index+1);
                 }
+
+                //create new entity
+                _entities_allocated[index] = new ENTITY(this,index,std::forward<Args>(args)...);
 
             }
             _entities_index.emplace_back(index);
@@ -81,7 +83,7 @@ namespace sfutils
         }
 
         template<class ENTITY>
-        bool EntityManager<ENTITY>::isValid(std::uint32_t id)
+        bool EntityManager<ENTITY>::isValid(std::uint32_t id)const
         {
             return id < _entities_allocated.size();
         }
@@ -131,7 +133,7 @@ namespace sfutils
             checkComponent<COMPONENT>();
             Family family = COMPONENT::family();
 
-            assert(not _entities_components_mask[id].test(family));
+            assert(not _entities_components_mask.at(id).test(family));
 
             auto pool = static_cast<utils::memory::Pool<COMPONENT>*>(_components_entities[family]);
             pool->emplace(id,std::forward<Args>(args)...);
@@ -149,7 +151,7 @@ namespace sfutils
             checkComponent<COMPONENT>();
             Family family = COMPONENT::family();
 
-            assert(_entities_components_mask[id].test(family));
+            assert(_entities_components_mask.at(id).test(family));
 
             static_cast<utils::memory::Pool<COMPONENT>*>(_components_entities[family])->erase(id);
 
@@ -167,7 +169,7 @@ namespace sfutils
 
         template<class ENTITY>
         template<typename COMPONENT>
-        inline ComponentHandle<COMPONENT,ENTITY> EntityManager<ENTITY>::getComponent(std::uint32_t id)
+        inline ComponentHandle<COMPONENT,ENTITY> EntityManager<ENTITY>::getComponent(std::uint32_t id)const
         {
             if(hasComponent<COMPONENT>(id))
                 return ComponentHandle<COMPONENT,ENTITY>(this,id);
@@ -176,14 +178,14 @@ namespace sfutils
 
         template<class ENTITY>
         template<typename ... COMPONENT>
-        inline std::tuple<ComponentHandle<COMPONENT,ENTITY>...> EntityManager<ENTITY>::getComponents(std::uint32_t id)
+        inline std::tuple<ComponentHandle<COMPONENT,ENTITY>...> EntityManager<ENTITY>::getComponents(std::uint32_t id)const
         {
             return std::make_tuple(getComponent<COMPONENT>(id)...);
         }
 
         template<class ENTITY>
         template<typename COMPONENT>
-        inline COMPONENT* EntityManager<ENTITY>::getComponentPtr(std::uint32_t id)
+        inline COMPONENT* EntityManager<ENTITY>::getComponentPtr(std::uint32_t id)const
         {
             Family family = COMPONENT::family();
             return &static_cast<utils::memory::Pool<COMPONENT>*>(_components_entities[family])->at(id);

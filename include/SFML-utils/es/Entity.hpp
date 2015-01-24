@@ -41,13 +41,13 @@ namespace sfutils
                 void remove();
 
                 template<typename COMPONENT>
-                bool has();
+                bool has()const;
 
                 template<typename COMPONENT>
-                ComponentHandle<COMPONENT,ENTITY> component();
+                ComponentHandle<COMPONENT,ENTITY> component()const;
 
                 template<typename ... COMPONENT>
-                std::tuple<ComponentHandle<COMPONENT,ENTITY>...> components();
+                std::tuple<ComponentHandle<COMPONENT,ENTITY>...> components()const;
 
             private:
                 std::uint32_t _id;    

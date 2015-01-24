@@ -30,11 +30,12 @@ namespace sfutils
                 sf::Sprite _sprite;
                 sf::FloatRect _lastViewport;
 
+                const std::string _type;
+
             private:
                 friend class VMap;
                 virtual void draw(sf::RenderTarget& target, sf::RenderStates states,const sf::FloatRect& viewport) = 0;
 
-                const std::string _type;
                 const int _z;
         };
     }

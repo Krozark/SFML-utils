@@ -54,21 +54,21 @@ namespace sfutils
 
         template<typename ENTITY>
         template<typename COMPONENT>
-        inline bool Entity<ENTITY>::has()
+        inline bool Entity<ENTITY>::has()const
         {
             return _manager->template hasComponent<COMPONENT>(_id);
         }
 
         template<typename ENTITY>
         template<typename COMPONENT>
-        inline ComponentHandle<COMPONENT,ENTITY> Entity<ENTITY>::component()
+        inline ComponentHandle<COMPONENT,ENTITY> Entity<ENTITY>::component()const
         {
             return _manager->template getComponent<COMPONENT>(_id);
         }
 
         template<typename ENTITY>
         template<typename ... COMPONENT>
-        inline std::tuple<ComponentHandle<COMPONENT,ENTITY>...> Entity<ENTITY>::components()
+        inline std::tuple<ComponentHandle<COMPONENT,ENTITY>...> Entity<ENTITY>::components()const
         {
             return _manager->template getComponents<COMPONENT ...>(_id);
         }

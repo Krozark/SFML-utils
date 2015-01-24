@@ -28,9 +28,9 @@ namespace sfutils
             private:
                 friend class EntityManager<ENTITY>;
 
-                ComponentHandle(EntityManager<ENTITY>* manager,std::uint32_t entity_id);
+                ComponentHandle(const EntityManager<ENTITY>* manager,std::uint32_t entity_id);
 
-                EntityManager<ENTITY>* _manager;
+                const EntityManager<ENTITY>* _manager;
                 std::uint32_t _entity_id;    
         };
 

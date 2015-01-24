@@ -19,7 +19,7 @@ namespace sfutils
         }
 
         template<typename COMPONENT,typename ENTITY>
-        ComponentHandle<COMPONENT,ENTITY>::ComponentHandle(EntityManager<ENTITY>* manager,std::uint32_t entity_id) : _manager(manager), _entity_id(entity_id)
+        ComponentHandle<COMPONENT,ENTITY>::ComponentHandle(const EntityManager<ENTITY>* manager,std::uint32_t entity_id) : _manager(manager), _entity_id(entity_id)
         {
         }
 

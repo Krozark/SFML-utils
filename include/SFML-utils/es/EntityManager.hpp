@@ -39,7 +39,7 @@ namespace sfutils
 
                 void reset();
 
-                bool isValid(std::uint32_t id);
+                bool isValid(std::uint32_t id)const;
 
                 const ENTITY& get(std::size_t id)const;
                 ENTITY& get(std::size_t id);
@@ -60,10 +60,10 @@ namespace sfutils
                 bool hasComponent(std::uint32_t id)const;
 
                 template<typename COMPONENT>
-                ComponentHandle<COMPONENT,ENTITY> getComponent(std::uint32_t id);
+                ComponentHandle<COMPONENT,ENTITY> getComponent(std::uint32_t id)const;
 
                 template<typename ... COMPONENT>
-                std::tuple<ComponentHandle<COMPONENT,ENTITY>...> getComponents(std::uint32_t id);
+                std::tuple<ComponentHandle<COMPONENT,ENTITY>...> getComponents(std::uint32_t id)const;
                 
 
                 template<typename ... COMPONENT>
@@ -83,7 +83,7 @@ namespace sfutils
                 template<typename,typename> friend class ComponentHandle;
 
                 template<typename COMPONENT>
-                COMPONENT* getComponentPtr(std::uint32_t id);
+                COMPONENT* getComponentPtr(std::uint32_t id)const;
 
                 template<typename ... COMPONENT>
                 class View

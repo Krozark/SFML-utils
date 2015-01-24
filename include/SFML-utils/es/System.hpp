@@ -25,8 +25,6 @@ namespace sfutils
             protected:
                 VSystem();
                 static Family _familyCounter;
-
-            private:
         };
 
         template<typename COMPONENT,typename ENTITY>
