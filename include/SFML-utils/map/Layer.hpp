@@ -23,7 +23,7 @@ namespace sfutils
 
                 std::list<CONTENT*> getByCoords(const sf::Vector2i& coords,const VMap& map);
 
-                bool remove(CONTENT* content_ptr,bool resort=true);
+                bool remove(const CONTENT* content_ptr,bool resort=true);
 
                 virtual void sort() override;
 
@@ -50,7 +50,7 @@ namespace sfutils
 
                 std::list<CONTENT*> getByCoords(const sf::Vector2i& coords,const VMap& map);
 
-                bool remove(CONTENT* content_ptr,bool resort=true);
+                bool remove(const CONTENT* content_ptr,bool resort=true);
 
                 virtual void sort() override;
 

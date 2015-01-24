@@ -51,11 +51,11 @@ namespace sfutils
         }
 
         template<typename GEOMETRY,typename CONTENT>
-        bool Layer<GEOMETRY,CONTENT>::remove(CONTENT* content_ptr,bool resort)
+        bool Layer<GEOMETRY,CONTENT>::remove(const CONTENT* content_ptr,bool resort)
         {
-            auto& it = std::find_if(_content.begin(),_content.end(),[content_ptr](const CONTENT& content)->bool{
+            auto it = std::find_if(_content.begin(),_content.end(),[content_ptr](const CONTENT& content)->bool{
                                     return &content == content_ptr;
-                                    });
+                                });
             if(it != _content.end())
             {
                 _content.erase(it);
@@ -160,9 +160,9 @@ namespace sfutils
         }
 
         template<typename GEOMETRY,typename CONTENT>
-        bool Layer<GEOMETRY,CONTENT*>::remove(CONTENT* content_ptr,bool resort)
+        bool Layer<GEOMETRY,CONTENT*>::remove(const CONTENT* content_ptr,bool resort)
         {
-            auto& it = std::find(_content.begin(),_content.end(),content_ptr);
+            auto it = std::find(_content.begin(),_content.end(),content_ptr);
             if(it != _content.end())
             {
                 _content.erase(it);
