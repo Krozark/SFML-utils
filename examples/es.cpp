@@ -24,9 +24,9 @@ struct Component2 : Component<Component2,DefaultEntity>
 
 struct System1 : System<System1,DefaultEntity>
 {
-    virtual void update(EntityManager<DefaultEntity>& manager,float dt) override
+    virtual void update(EntityManager<DefaultEntity>& manager,const sf::Time& dt) override
     {
-        std::cout<<"System1::update("<<dt<<") manage entities with Component1 only"<<std::endl;
+        std::cout<<"System1::update("<<dt.asSeconds()<<") manage entities with Component1 only"<<std::endl;
 
         Component1::Handle component;
         auto view = manager.getByComponents(component);
@@ -45,9 +45,9 @@ struct System1 : System<System1,DefaultEntity>
 
 struct System2 : System<System2,DefaultEntity>
 {
-    virtual void update(EntityManager<DefaultEntity>& manager,float dt) override
+    virtual void update(EntityManager<DefaultEntity>& manager,const sf::Time& dt) override
     {
-        std::cout<<"System2::update("<<dt<<") manager entities with Component2 only"<<std::endl;
+        std::cout<<"System2::update("<<dt.asSeconds()<<") manager entities with Component2 only"<<std::endl;
         Component2::Handle component;
         auto view = manager.getByComponents(component);
 
@@ -65,9 +65,9 @@ struct System2 : System<System2,DefaultEntity>
 
 struct System3 : System<System3,DefaultEntity>
 {
-    virtual void update(EntityManager<DefaultEntity>& manager,float dt) override
+    virtual void update(EntityManager<DefaultEntity>& manager,const sf::Time& dt) override
     {
-        std::cout<<"System3::update("<<dt<<") manager entities with Component1 and Component2"<<std::endl;
+        std::cout<<"System3::update("<<dt.asSeconds()<<") manager entities with Component1 and Component2"<<std::endl;
         Component1::Handle component1;
         Component2::Handle component2;
         auto view = manager.getByComponents(component1,component2);
@@ -83,7 +83,7 @@ struct System3 : System<System3,DefaultEntity>
 
 struct System4 : System<System4,DefaultEntity>
 {
-    virtual void update(EntityManager<DefaultEntity>& manager,float dt) override
+    virtual void update(EntityManager<DefaultEntity>& manager,const sf::Time& dt) override
     {
         int i =0;
         for(auto id : manager)
@@ -91,14 +91,14 @@ struct System4 : System<System4,DefaultEntity>
             DefaultEntity& e = manager.get(id);
             ++i;
         }
-        std::cout<<"Process to "<<i<<" entities in "<<dt<<" seconds. FPS: "<<(1/dt)<<std::endl;
+        std::cout<<"Process to "<<i<<" entities in "<<dt.asSeconds()<<" seconds. FPS: "<<(1/dt.asSeconds())<<std::endl;
     }
 
 };
 
 struct System5 : System<System5,DefaultEntity>
 {
-    virtual void update(EntityManager<DefaultEntity>& manager,float dt) override
+    virtual void update(EntityManager<DefaultEntity>& manager,const sf::Time& dt) override
     {
         int i =0;
         std::uint32_t last_id=0;
@@ -113,7 +113,7 @@ struct System5 : System<System5,DefaultEntity>
         for(int j=i/2;j<i;++j)
             manager.create();
 
-        std::cout<<"Process to "<<i<<" entities in "<<dt<<" seconds. FPS: "<<(1/dt)<<std::endl;
+        std::cout<<"Process to "<<i<<" entities in "<<dt.asSeconds()<<" seconds. FPS: "<<(1/dt.asSeconds())<<std::endl;
     }
 
 };
@@ -182,20 +182,20 @@ int main(int argc,char* argv[])
     //systems.updateAll(0);
 
     std::cout<<"=== System1 ==="<<std::endl;
-    systems.update<System1>(1);
+    systems.update<System1>(sf::seconds(1));
 
     std::cout<<"=== System2 ==="<<std::endl;
-    systems.update<System2>(2);
+    systems.update<System2>(sf::seconds(2));
 
     std::cout<<"=== System3 ==="<<std::endl;
-    systems.update<System3>(3);
+    systems.update<System3>(sf::seconds(3));
 
     for(int i = 0; i<1000000;++i)
         std::uint32_t id = entities.create();
 
     sf::Clock clock;
     while(true)
-        systems.update<System4>(clock.restart().asSeconds());
+        systems.update<System4>(clock.restart());
 
     return 0;
 };

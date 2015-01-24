@@ -47,7 +47,7 @@ namespace sfutils
         }
 
         template<typename ENTITY>
-        void SystemManager<ENTITY>::updateAll(float deltaTime)
+        void SystemManager<ENTITY>::updateAll(const sf::Time& deltaTime)
         {
             for(auto& pair : _systems)
                 pair.second->update(_manager,deltaTime);
@@ -96,7 +96,7 @@ namespace sfutils
 
         template<typename ENTITY>
         template<typename SYSTEM>
-        inline void SystemManager<ENTITY>::update(float deltaTime)
+        inline void SystemManager<ENTITY>::update(const sf::Time& deltaTime)
         {
             system<SYSTEM>()->update(_manager,deltaTime);
         }

@@ -5,6 +5,8 @@
 #include <memory>
 #include <unordered_map>
 
+#include <SFML/System.hpp>
+
 namespace sfutils
 {
     namespace es
@@ -21,7 +23,7 @@ namespace sfutils
 
                 virtual ~VSystem();
 
-                virtual void update(EntityManager<ENTITY>& entity_manager,float deltaTime) = 0;
+                virtual void update(EntityManager<ENTITY>& entity_manager,const sf::Time& deltaTime) = 0;
             protected:
                 VSystem();
                 static Family _familyCounter;
@@ -66,9 +68,9 @@ namespace sfutils
                 std::shared_ptr<SYSTEM> system();
 
                 template<typename SYSTEM>
-                void update(float deltaTime);
+                void update(const sf::Time& deltaTime);
 
-                void updateAll(float deltaTime);
+                void updateAll(const sf::Time& deltaTime);
                 
                 
             private:

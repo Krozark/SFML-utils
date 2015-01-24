@@ -36,17 +36,18 @@ namespace sfutils
         }
 
         template<typename GEOMETRY,typename CONTENT>
-        std::list<CONTENT*> Layer<GEOMETRY,CONTENT>::getByCoords(const sf::Vector2i& coords)
+        std::list<CONTENT*> Layer<GEOMETRY,CONTENT>::getByCoords(const sf::Vector2i& coords,const VMap& map)
         {
             std::list<CONTENT*> res;
             const auto end = _content.end();
             for(auto it = _content.begin();it != end;++it)
             {
                 auto pos = it->getPosition();
-                sf::Vector2i c = GEOMETRY::mapPixelToCoords(pos.x,pos.y);
+                sf::Vector2i c = map.mapPixelToCoords(pos.x,pos.y);
                 if(c == coords)
                     res.emplace_back(&(*it));
             }
+            return res;
         }
 
         template<typename GEOMETRY,typename CONTENT>
@@ -144,17 +145,18 @@ namespace sfutils
         }
 
         template<typename GEOMETRY,typename CONTENT>
-        std::list<CONTENT*> Layer<GEOMETRY,CONTENT*>::getByCoords(const sf::Vector2i& coords)
+        std::list<CONTENT*> Layer<GEOMETRY,CONTENT*>::getByCoords(const sf::Vector2i& coords,const VMap& map)
         {
             std::list<CONTENT*> res;
             const auto end = _content.end();
             for(auto it = _content.begin();it != end;++it)
             {
                 auto pos = (*it)->getPosition();
-                sf::Vector2i c = GEOMETRY::mapPixelToCoords(pos.x,pos.y);
+                sf::Vector2i c = map.mapPixelToCoords(pos.x,pos.y);
                 if(c == coords)
                     res.emplace_back(*it);
             }
+            return res;
         }
 
         template<typename GEOMETRY,typename CONTENT>

@@ -21,7 +21,7 @@ namespace sfutils
                 CONTENT* add(const CONTENT& content,bool resort=true);
                 CONTENT* add(CONTENT&& content,bool resort=true);
 
-                std::list<CONTENT*> getByCoords(const sf::Vector2i& coords);
+                std::list<CONTENT*> getByCoords(const sf::Vector2i& coords,const VMap& map);
 
                 bool remove(CONTENT* content_ptr,bool resort=true);
 
@@ -48,7 +48,7 @@ namespace sfutils
 
                 CONTENT* add(CONTENT* content,bool resort=true);
 
-                std::list<CONTENT*> getByCoords(const sf::Vector2i& coords);
+                std::list<CONTENT*> getByCoords(const sf::Vector2i& coords,const VMap& map);
 
                 bool remove(CONTENT* content_ptr,bool resort=true);
 
