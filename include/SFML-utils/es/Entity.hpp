@@ -28,6 +28,7 @@ namespace sfutils
                 ~Entity();
 
                 std::uint32_t id()const;
+                EntityManager<ENTITY>& getManager();
 
                 bool operator==(const Entity& other)const;
                 bool operator!=(const Entity& other)const;
@@ -48,6 +49,7 @@ namespace sfutils
 
                 template<typename ... COMPONENT>
                 std::tuple<ComponentHandle<COMPONENT,ENTITY>...> components()const;
+
 
             private:
                 std::uint32_t _id;    

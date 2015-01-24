@@ -65,6 +65,11 @@ int main(int argc,char* argv[])
     {
         window.clear();
 
+        sf::Event event;
+        while(window.pollEvent(event))
+        {
+            frame.processEvent(event);
+        }
         frame.processEvents();
 
         frame.draw();

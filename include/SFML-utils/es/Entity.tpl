@@ -19,6 +19,12 @@ namespace sfutils
         {
             return _id;
         }
+
+        template<typename ENTITY>
+        inline EntityManager<ENTITY>& Entity<ENTITY>::getManager()
+        {
+            return *_manager;
+        }
         
         template<typename ENTITY>
         bool Entity<ENTITY>::operator==(const Entity<ENTITY>& other)const
@@ -72,6 +78,7 @@ namespace sfutils
         {
             return _manager->template getComponents<COMPONENT ...>(_id);
         }
+
 
     }
 }
