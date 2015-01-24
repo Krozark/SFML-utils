@@ -318,7 +318,7 @@ namespace sfutils
             while(_it != _it_end)
             {
                 std::uint32_t index = *_it;    
-                if((_view._manager._entities_components_mask[index] & _view._mask) == _view._mask)
+                if(_view._manager._entities_allocated[index] != nullptr and (_view._manager._entities_components_mask[index] & _view._mask) == _view._mask)
                 {
                     _view.unpack_id<0,COMPONENT...>(index);
                     break;
