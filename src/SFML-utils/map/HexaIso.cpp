@@ -36,6 +36,12 @@ namespace sfutils
 
             const float y = (-X*d_x + 2*Y*d_y)/(d_y*d_y - d_x*d_x);
             const float x = -(y*d_x - X)/d_y;
+
+            return HexaIso::round(x,y);
+        }
+
+        sf::Vector2i HexaIso::round(float x, float y)
+        {
             const float z = -y-x;
 
             float rx = std::round(x);
@@ -50,8 +56,6 @@ namespace sfutils
                 rx = -ry-rz;
             else if (diff_y > diff_z)
                 ry = -rx-rz;
-            /*else
-                rz = -rx-ry;*/
 
             return sf::Vector2i(rx,ry);
         }
@@ -66,14 +70,12 @@ namespace sfutils
             return res;
         }
 
-        /*sf::Vector2i HexaIso::distance(int x1,int y1, int x2,int y2)
+        int HexaIso::distance(int x1,int y1, int x2,int y2)
         {
-        
-        function hex_distance(Hex(q1, r1), Hex(q2, r2)):
-    return (abs(q1 - q2) + abs(r1 - r2)
-          + abs(q1 + r1 - q2 - r2)) / 2
-          
-          }*/
+                return std::abs(x1 - x2)
+                    + std::abs(y1 - y2)
+                    + std::abs(x1 + y1 - x2 - y2) / 2;
+          }
 
         void HexaIso::init()
         {
