@@ -55,22 +55,37 @@ namespace sfutils
         template<class ENTITY>
         void EntityManager<ENTITY>::remove(std::size_t id)
         {
-            ENTITY* e = _entities_allocated.at(id);
-            if(e != nullptr)
+            _entities_index_to_destroy.emplace_back(id);
+        }
+
+        template<class ENTITY>
+        void EntityManager<ENTITY>::update()
+        {
+            if(_entities_index_to_destroy.size() > 0)
             {
-                auto comp_size = _components_entities.size();
-                for(std::size_t i=0;i<comp_size;++i)
+                auto end = _entities_index_to_destroy.end();
+                for(auto it = _entities_index_to_destroy.begin();it!=end;++it)
                 {
-                    if(_components_entities[i] != nullptr)
-                        _components_entities[i]->erase<VComponent<ENTITY>>(id);
+                    std::uint32_t id = *it;
+                    ENTITY* e = _entities_allocated.at(id);
+                    if(e != nullptr)
+                    {
+                        auto comp_size = _components_entities.size();
+                        for(std::size_t i=0;i<comp_size;++i)
+                        {
+                            if(_components_entities[i] != nullptr)
+                                _components_entities[i]->erase<VComponent<ENTITY>>(id);
+                        }
+                        _entities_components_mask.at(id) = 0;
+
+                        delete e;
+                        _entities_allocated[id] = nullptr;
+
+                        _entities_index.erase(std::find(_entities_index.begin(),_entities_index.end(),id));
+                        _entities_index_free.emplace_back(id);
+                    }
                 }
-                _entities_components_mask.at(id) = 0;
-
-                delete e;
-                _entities_allocated[id] = nullptr;
-
-                _entities_index.erase(std::find(_entities_index.begin(),_entities_index.end(),id));
-                _entities_index_free.emplace_back(id);
+                _entities_index_to_destroy.clear();
             }
         }
 

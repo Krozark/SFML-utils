@@ -6,5 +6,12 @@ namespace sfutils
         Application<ENTITY>::Application() : systems(entites)
         {
         }
+
+        template<typename ENTITY>
+        void Application<ENTITY>::update(sf::Time deltaTime)
+        {
+            systems.updateAll(deltaTime);
+            entites.update();
+        }
     }
 }

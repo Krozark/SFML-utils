@@ -195,7 +195,10 @@ int main(int argc,char* argv[])
 
     sf::Clock clock;
     while(true)
+    {
         systems.update<System4>(clock.restart());
+        entities.update();
+    }
 
     return 0;
 };

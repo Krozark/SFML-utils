@@ -117,15 +117,22 @@ namespace sfutils
         {
             int distance = GEOMETRY::distance(origin.x,origin.y,dest.x,dest.y);
             std::list<sf::Vector2i> res;
+
+            sf::Vector2f p(dest.x - origin.x,
+                           dest.y - origin.y);
+            float delta = 1.0/distance;
+            float cumul = 0;
+            res.emplace_back(origin);
             for(int i = 0; i<distance;++i)
             {
-                sf::Vector2f p(origin.x,origin.y);
-                p *=(1- float(i)/distance);
-                sf::Vector2f p2(dest.x,dest.y);
-                p2 *= float(i)/distance;
-                res.emplace_back(GEOMETRY::round(p.x + p2.x, p.y + p2.y));
+
+                sf::Vector2i pos = GEOMETRY::round(origin.x + p.x * cumul,origin.y + p.y * cumul);
+                if(res.back() != pos)
+                    res.emplace_back(pos);
+                cumul +=delta;
             }
-            res.emplace_back(dest);
+            if(res.back() != dest)
+                res.emplace_back(dest);
             return res;
         }
     }

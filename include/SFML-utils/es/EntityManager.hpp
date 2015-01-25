@@ -37,6 +37,8 @@ namespace sfutils
 
                 void remove(std::size_t id);
 
+                void update();
+
                 void reset();
 
                 bool isValid(std::uint32_t id)const;
@@ -76,6 +78,7 @@ namespace sfutils
 
                 container _entities_index;
                 container _entities_index_free;
+                container _entities_index_to_destroy;
 
                 template<typename COMPONENT>
                 void checkComponent();
