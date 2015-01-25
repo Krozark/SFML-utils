@@ -9,7 +9,7 @@ namespace sfutils
 {
     namespace gui
     {
-        class Layout : protected Widget
+        class Layout : virtual protected Widget
         {
             public:
                 Layout(const Layout&) = delete;

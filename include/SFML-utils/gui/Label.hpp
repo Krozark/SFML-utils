@@ -7,7 +7,7 @@ namespace sfutils
 {
     namespace gui
     {
-        class Label : public Widget
+        class Label : virtual public Widget
         {
             public:
                 Label(const Label&) = delete;

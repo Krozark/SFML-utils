@@ -2,12 +2,13 @@
 #define SFUTILS_GUI_SPRITEBUTTON_HPP
 
 #include <SFML-utils/gui/Button.hpp>
+#include <SFML-utils/gui/Sprite.hpp>
 
 namespace sfutils
 {
     namespace gui
     {
-        class SpriteButton : public Button
+        class SpriteButton : virtual public Widget, public Button, public Sprite
         {
             public:
                 SpriteButton(const SpriteButton&) = delete;
@@ -16,19 +17,16 @@ namespace sfutils
                 SpriteButton(const sf::Texture& tex,Widget* parent=nullptr);
                 ~SpriteButton();
 
-                void setTexture(const sf::Texture& texture,bool resetRect=false);
-                void setColor(const sf::Color& color);
-
-                virtual sf::Vector2f getSize()const override;
-
-                virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+                void setColor(const sf::Color& color)override;
 
             private:
-                sf::Sprite _sprite;
                 sf::Color _color;
 
                 virtual void onMouseEntered()override;
                 virtual void onMouseLeft()override;
+
+                void updateShape()override;
+                virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
         };
     }
 }

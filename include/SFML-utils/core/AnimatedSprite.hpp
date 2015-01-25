@@ -12,8 +12,11 @@ namespace sfutils
     class AnimatedSprite : public sf::Drawable, public sf::Transformable
     {
         public:
-            AnimatedSprite(const AnimatedSprite&) = delete;
-            AnimatedSprite& operator=(const AnimatedSprite&) = delete;
+            AnimatedSprite(const AnimatedSprite&) = default;
+            AnimatedSprite& operator=(const AnimatedSprite&) = default;
+
+            AnimatedSprite(AnimatedSprite&&) = default;
+            AnimatedSprite& operator=(AnimatedSprite&&) = default;
 
             using FuncType = std::function<void(AnimatedSprite& self)>;
             static FuncType defaultFunc;

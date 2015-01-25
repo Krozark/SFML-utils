@@ -12,6 +12,7 @@ set(FILES_HEADER
     ${INCROOT}/Layout.hpp
     ${INCROOT}/TextButton.hpp
     ${INCROOT}/SpriteButton.hpp
+    ${INCROOT}/Sprite.hpp
     ${INCROOT}/HLayout.hpp
     ${INCROOT}/VLayout.hpp
     ${INCROOT}/Widget.hpp
@@ -26,6 +27,7 @@ set(FILES_SRC
     ${SRCROOT}/Layout.cpp
     ${SRCROOT}/TextButton.cpp
     ${SRCROOT}/SpriteButton.cpp
+    ${SRCROOT}/Sprite.cpp
     ${SRCROOT}/HLayout.cpp
     ${SRCROOT}/VLayout.cpp
     ${SRCROOT}/Widget.cpp

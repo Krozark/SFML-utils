@@ -8,7 +8,7 @@ namespace sfutils
     namespace gui
     {
         class Layout;
-        class Container  : public Widget
+        class Container  : virtual public Widget
         {
             public:
                 Container(const Container&) = delete;

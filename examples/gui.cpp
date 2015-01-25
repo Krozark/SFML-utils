@@ -1,6 +1,8 @@
 #include <SFML-utils/Core.hpp>
 #include <SFML-utils/Gui.hpp>
 
+#include <iostream>
+
 int main(int argc,char* argv[])
 {
     sf::RenderWindow window(sf::VideoMode(600,800),"Example GUI");
@@ -51,6 +53,9 @@ int main(int argc,char* argv[])
             layout->add(label);
 
             sfutils::SpriteButton* sprbutton = new sfutils::SpriteButton(texture);
+            sprbutton->on_click = [&window](const sf::Event&, sfutils::Button& button){
+                std::cout<<"hello"<<std::endl;
+            };
             layout->add(sprbutton);
 
             container->setLayout(layout);

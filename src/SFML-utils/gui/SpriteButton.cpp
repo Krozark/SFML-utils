@@ -7,9 +7,9 @@ namespace sfutils
     namespace gui
     {
         
-        SpriteButton::SpriteButton(const sf::Texture& tex,Widget* parent) : Button(parent), _sprite(tex)
+        SpriteButton::SpriteButton(const sf::Texture& tex,Widget* parent) : Widget(parent),Button(parent), Sprite(tex,parent)
         {
-            _color = _sprite.getColor();
+            _color = sf::Color::White;
             updateShape();
         }
 
@@ -17,42 +17,34 @@ namespace sfutils
         {
         }
 
-        void SpriteButton::setTexture(const sf::Texture& texture,bool resetRect)
-        {
-            _sprite.setTexture(texture,resetRect);
-            updateShape();
-        }
-
         void SpriteButton::setColor(const sf::Color& color)
         {
             _color = color;
-            _sprite.setColor(color);
-        }
-
-        sf::Vector2f SpriteButton::getSize()const
-        {
-            sf::FloatRect rect = _sprite.getGlobalBounds();
-            return sf::Vector2f(rect.width,rect.height);
-        }
-
-        void SpriteButton::draw(sf::RenderTarget& target, sf::RenderStates states) const
-        {
-            states.transform.translate(_position);
-            target.draw(_sprite,states);
+            Sprite::setColor(color);
         }
 
         void SpriteButton::onMouseEntered()
         {
             const float light = Configuration::Colors::lighting;
 
-            _sprite.setColor(sf::Color(_color.r*light,
+            Sprite::setColor(sf::Color(_color.r*light,
                                           _color.b*light,
                                           _color.b*light));
         }
 
         void SpriteButton::onMouseLeft()
         {
-            _sprite.setColor(_color);
+            SpriteButton::setColor(_color);
+        }
+
+        void SpriteButton::updateShape()
+        {
+            Button::updateShape();
+            //Sprite::updateShape(); //usless because not override
+        }
+        void SpriteButton::draw(sf::RenderTarget& target, sf::RenderStates states) const
+        {
+            Sprite::draw(target,states);
         }
     }
 }

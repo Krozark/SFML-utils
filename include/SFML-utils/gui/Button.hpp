@@ -8,7 +8,7 @@ namespace sfutils
 {
     namespace gui
     {
-        class Button : public Widget
+        class Button : virtual public Widget
         {
             public:
                 Button(const Button&) = delete;
