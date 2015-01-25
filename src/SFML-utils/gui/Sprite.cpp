@@ -19,6 +19,10 @@ namespace sfutils
             _sprite.setTexture(texture,resetRect);
             updateShape();
         }
+        void Sprite::setTextureRect(const sf::IntRect& rectangle)
+        {
+            _sprite.setTextureRect(rectangle);
+        }
 
         void Sprite::setColor(const sf::Color& color)
         {

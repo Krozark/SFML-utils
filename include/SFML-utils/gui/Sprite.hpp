@@ -14,9 +14,10 @@ namespace sfutils
                 Sprite& operator=(const Sprite&) = delete;
 
                 Sprite(const sf::Texture& tex,Widget* parent=nullptr);
-                ~Sprite();
+                virtual ~Sprite();
 
                 void setTexture(const sf::Texture& texture,bool resetRect=false);
+                void setTextureRect(const sf::IntRect& rectangle);
                 virtual void setColor(const sf::Color& color);
 
                 virtual sf::Vector2f getSize()const override;
