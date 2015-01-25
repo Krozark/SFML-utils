@@ -125,6 +125,7 @@ namespace sfutils
                 p2 *= float(i)/distance;
                 res.emplace_back(GEOMETRY::round(p.x + p2.x, p.y + p2.y));
             }
+            res.emplace_back(dest);
             return res;
         }
     }
