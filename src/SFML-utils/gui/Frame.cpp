@@ -55,14 +55,12 @@ namespace sfutils
 
         sf::Vector2f Frame::getSize()const
         {
-            sf::Vector2f res;
-            if(_size.x > 0 and _size.y > 0)
-                res = _size;
-            else
-            {
-                sf::Vector2u size = _window.getSize();
-                res = sf::Vector2f(size.x,size.y);
-            }
+            sf::Vector2f res = _size;
+            sf::Vector2u wsize = _window.getSize();
+            if(_size.x <= 0)
+                res.x = wsize.x;
+            if(_size.y <= 0)
+                res.y = wsize.y;
             return res;
         }
 
