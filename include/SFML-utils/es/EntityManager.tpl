@@ -85,7 +85,7 @@ namespace sfutils
         template<class ENTITY>
         bool EntityManager<ENTITY>::isValid(std::uint32_t id)const
         {
-            return id < _entities_allocated.size();
+            return id < _entities_allocated.size() and _entities_allocated[id] != nullptr;
         }
 
 
