@@ -113,7 +113,7 @@ namespace sfutils
         }
 
         template<typename GEOMETRY>
-        std::list<sf::Vector2i> Map<GEOMETRY>::getPath(const sf::Vector2i& origin,const sf::Vector2i& dest)
+        std::list<sf::Vector2i> Map<GEOMETRY>::getPath(const sf::Vector2i& origin,const sf::Vector2i& dest)const
         {
             int distance = GEOMETRY::distance(origin.x,origin.y,dest.x,dest.y);
             std::list<sf::Vector2i> res;
@@ -123,7 +123,7 @@ namespace sfutils
                 p *=(1- float(i)/distance);
                 sf::Vector2f p2(dest.x,dest.y);
                 p2 *= float(i)/distance;
-                res.emplace_back(GEOMETRY::round(p.x + p2.x, p.y,p2.y));
+                res.emplace_back(GEOMETRY::round(p.x + p2.x, p.y + p2.y));
             }
             return res;
         }

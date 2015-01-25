@@ -6,6 +6,7 @@
 #include <utils/json/Driver.hpp>
 
 #include <SFML-utils/core/ResourceManager.hpp>
+#include <list>
 
 namespace sfutils
 {
@@ -39,6 +40,8 @@ namespace sfutils
                 sf::Vector2f mapCoordsToPixel(const sf::Vector2i& pos) const;
 
                 virtual const sf::ConvexShape getShape()const = 0;
+
+                virtual std::list<sf::Vector2i> getPath(const sf::Vector2i& origin,const sf::Vector2i& dest)const = 0;
 
 
             protected:

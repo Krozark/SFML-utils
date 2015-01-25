@@ -6,7 +6,6 @@
 #include <SFML-utils/map/Layer.hpp>
 #include <SFML-utils/map/Tile.hpp>
 
-#include <list>
 
 namespace sfutils
 {
@@ -29,7 +28,7 @@ namespace sfutils
 
                 virtual const sf::ConvexShape getShape()const override;
 
-                std::list<sf::Vector2i> getPath(const sf::Vector2i& origin,const sf::Vector2i& dest);
+                virtual std::list<sf::Vector2i> getPath(const sf::Vector2i& origin,const sf::Vector2i& dest)const override;
         };
     }
 }
