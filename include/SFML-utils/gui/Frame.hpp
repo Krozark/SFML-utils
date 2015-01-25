@@ -32,10 +32,12 @@ namespace sfutils
                 void draw();
 
                 virtual sf::Vector2f getSize()const override;
+                void setSize(const sf::Vector2f& size);
 
             private:
                 sf::RenderWindow& _window;
                 sf::View _view;
+                sf::Vector2f _size;
 
 
                 virtual bool processEvent(const sf::Event& event,const sf::Vector2f& parent_pos)override;

@@ -34,14 +34,12 @@ namespace sfutils
 
         void Frame::processEvents()
         {
-            sf::Vector2f parent_pos(0,0);
-            processEvents(parent_pos);
+            processEvents(_position);
         }
 
         bool Frame::processEvent(const sf::Event& event)
         {
-            sf::Vector2f parent_pos(0,0);
-            return processEvent(event,parent_pos);
+            return processEvent(event,_position);
         }
 
         void Frame::bind(int key,const FuncType& callback)
@@ -57,8 +55,20 @@ namespace sfutils
 
         sf::Vector2f Frame::getSize()const
         {
-            sf::Vector2u size = _window.getSize();
-            return sf::Vector2f(size.x,size.y);
+            sf::Vector2f res;
+            if(_size.x > 0 and _size.y > 0)
+                res = _size;
+            else
+            {
+                sf::Vector2u size = _window.getSize();
+                res = sf::Vector2f(size.x,size.y);
+            }
+            return res;
+        }
+
+        void Frame::setSize(const sf::Vector2f& size)
+        {
+            _size = size;
         }
 
         bool Frame::processEvent(const sf::Event& event,const sf::Vector2f& parent_pos)
@@ -86,6 +96,7 @@ namespace sfutils
         {
             if(_is_visible)
             {
+                states.transform.translate(_position);
                 sf::View view = target.getView();
                 target.setView(_view);
 
