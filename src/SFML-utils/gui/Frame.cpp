@@ -34,12 +34,12 @@ namespace sfutils
 
         void Frame::processEvents()
         {
-            processEvents(_position);
+            processEvents(sf::Vector2f(0,0));
         }
 
         bool Frame::processEvent(const sf::Event& event)
         {
-            return processEvent(event,_position);
+            return processEvent(event,sf::Vector2f(0,0));
         }
 
         void Frame::bind(int key,const FuncType& callback)
@@ -58,9 +58,9 @@ namespace sfutils
             sf::Vector2f res = _size;
             sf::Vector2u wsize = _window.getSize();
             if(_size.x <= 0)
-                res.x = wsize.x;
+                res.x = wsize.x + _size.x;
             if(_size.y <= 0)
-                res.y = wsize.y;
+                res.y = wsize.y + _size.y;
             return res;
         }
 
