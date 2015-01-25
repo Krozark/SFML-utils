@@ -8,6 +8,9 @@ namespace sfutils
     {
         Container::Container(Widget* parent) : Widget(parent), _layout(nullptr)
         {
+            setFillColor(sf::Color(255,255,255,0));
+            setOutlineColor(sf::Color(255,255,255,0));
+            setOutlineThickness(0);
         }
 
         Container::~Container()
@@ -39,6 +42,21 @@ namespace sfutils
             return _layout;
         }
 
+        void Container::setFillColor(const sf::Color& color)
+        {
+            _shape.setFillColor(color);
+        }
+
+        void Container::setOutlineColor(const sf::Color& color)
+        {
+            _shape.setOutlineColor(color);
+        }
+
+        void Container::setOutlineThickness(float thickness)
+        {
+            _shape.setOutlineThickness(thickness);
+        }
+
         sf::Vector2f Container::getSize()const
         {
             sf::Vector2f res(0,0);
@@ -52,6 +70,7 @@ namespace sfutils
             if(_is_visible and _layout)
             {
                 states.transform.translate(_position);
+                target.draw(_shape,states);
                 target.draw(*_layout,states);
             }
         }
@@ -68,6 +87,12 @@ namespace sfutils
         {
             if(_is_visible and _layout)
                 _layout->processEvents(_position + parent_pos);
+        }
+
+        void Container::updateShape()
+        {
+            _shape.setSize(getSize());
+            Widget::updateShape();
         }
     }
 }

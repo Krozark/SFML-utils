@@ -94,7 +94,6 @@ namespace sfutils
         {
             if(_is_visible)
             {
-                states.transform.translate(_position);
                 sf::View view = target.getView();
                 target.setView(_view);
 

@@ -19,6 +19,10 @@ namespace sfutils
                 
                 void setLayout(Layout* layout);
                 Layout* getLayout()const;
+
+                void setFillColor(const sf::Color& color);
+                void setOutlineColor(const sf::Color& color);
+                void setOutlineThickness(float thickness);
                 
                 virtual sf::Vector2f getSize()const override;
 
@@ -26,6 +30,10 @@ namespace sfutils
                 virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
                 virtual bool processEvent(const sf::Event& event,const sf::Vector2f& parent_pos)override;
                 virtual void processEvents(const sf::Vector2f& parent_pos)override;
+
+                sf::RectangleShape _shape;
+
+                virtual void updateShape()override;
 
             private:
                 Layout* _layout;
