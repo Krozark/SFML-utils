@@ -18,7 +18,7 @@ namespace sfutils
             AnimatedSprite(AnimatedSprite&&) = default;
             AnimatedSprite& operator=(AnimatedSprite&&) = default;
 
-            using FuncType = std::function<void(AnimatedSprite& self)>;
+            using FuncType = std::function<void()>;
             static FuncType defaultFunc;
 
             enum Status
@@ -28,7 +28,7 @@ namespace sfutils
                 Playing
             };
 
-            AnimatedSprite(Animation* animation = nullptr,Status status= Playing,sf::Time deltaTime = sf::seconds(0.15),bool loop = true);
+            AnimatedSprite(Animation* animation = nullptr,Status status= Playing,sf::Time deltaTime = sf::seconds(0.15),bool loop = true,int repeat=0);
 
             void setAnimation(Animation* animation);
             Animation* getAnimation()const;
@@ -38,6 +38,9 @@ namespace sfutils
 
             void setLoop(bool loop);
             bool getLoop()const;
+
+            void setRepeate(int nb);
+            int getRepeate()const;
 
             void play();
             void pause();
@@ -59,6 +62,7 @@ namespace sfutils
             sf::Time _delta;
             sf::Time _elapsed;
             bool _loop;
+            int _repeat;
             Status _status;
             size_t _currentFrame;
             sf::Vertex _vertices[4];

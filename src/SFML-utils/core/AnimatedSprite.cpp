@@ -3,9 +3,9 @@
 
 namespace sfutils
 {
-    AnimatedSprite::FuncType AnimatedSprite::defaultFunc = [](AnimatedSprite&)->void{};
+    AnimatedSprite::FuncType AnimatedSprite::defaultFunc = []()->void{};
 
-    AnimatedSprite::AnimatedSprite(Animation* animation,Status status,sf::Time deltaTime,bool loop) : on_finished(defaultFunc),_delta(deltaTime),_loop(loop), _status(status)
+    AnimatedSprite::AnimatedSprite(Animation* animation,Status status,sf::Time deltaTime,bool loop,int repeat) : on_finished(defaultFunc),_delta(deltaTime),_loop(loop), _repeat(repeat),_status(status)
     {
        setAnimation(animation); 
     }
@@ -44,6 +44,15 @@ namespace sfutils
     bool AnimatedSprite::getLoop()const
     {
         return _loop;
+    }
+    void AnimatedSprite::setRepeate(int nb)
+    {
+        _repeat = nb;
+    }
+
+    int AnimatedSprite::getRepeate()const
+    {
+        return _repeat;
     }
 
     void AnimatedSprite::play()
@@ -99,8 +108,12 @@ namespace sfutils
                     _currentFrame = 0;
                     if(not _loop)
                     {
-                        _status = Stopped;
-                        on_finished(*this);
+                        --_repeat;
+                        if(_repeat<=0)
+                        {
+                            _status = Stopped;
+                            on_finished();
+                        }
                     }
                 }
             }

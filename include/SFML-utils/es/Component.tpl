@@ -14,7 +14,7 @@ namespace sfutils
         }
 
         template<typename COMPONENT,typename ENTITY>
-        ComponentHandle<COMPONENT,ENTITY>::ComponentHandle() : _manager(nullptr)
+        ComponentHandle<COMPONENT,ENTITY>::ComponentHandle() : _manager(nullptr), _entity_id(-1)
         {
         }
 

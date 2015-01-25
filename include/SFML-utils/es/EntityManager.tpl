@@ -24,7 +24,7 @@ namespace sfutils
             {
                 //reuse existing entity
                 index = _entities_index_free.front();
-                _entities_index_free.pop_back();
+                _entities_index_free.pop_front();
                 _entities_allocated[index] = new ENTITY(this,index,std::forward<Args>(args)...);
             }
             else
@@ -56,16 +56,22 @@ namespace sfutils
         void EntityManager<ENTITY>::remove(std::size_t id)
         {
             ENTITY* e = _entities_allocated.at(id);
-            auto it = std::find(_entities_allocated.begin(),_entities_allocated.end(),e);
-            if(it != _entities_allocated.end())
+            if(e != nullptr)
             {
-                _entities_index_free.emplace_back(id);
-                _entities_index.erase(std::find(_entities_index.begin(),_entities_index.end(),id));
+                auto comp_size = _components_entities.size();
+                for(std::size_t i=0;i<comp_size;++i)
+                {
+                    if(_components_entities[i] != nullptr)
+                        _components_entities[i]->erase<VComponent<ENTITY>>(id);
+                }
+                _entities_components_mask.at(id) = 0;
 
-                _entities_components_mask.at(id).reset();
+                delete e;
+                _entities_allocated[id] = nullptr;
+
+                _entities_index.erase(std::find(_entities_index.begin(),_entities_index.end(),id));
+                _entities_index_free.emplace_back(id);
             }
-            delete e;
-            _entities_allocated[id] = nullptr;
         }
 
         template<class ENTITY>
@@ -74,12 +80,25 @@ namespace sfutils
             _entities_index_free.clear();
             _entities_index.clear();
 
+            auto comp_size = _components_entities.size();
+            for(std::size_t i=0;i<comp_size;++i)
+            {
+                if(_components_entities[i] != nullptr)
+                {
+                    for(size_t i = 0;i<_entities_index.size();++i)
+                        _components_entities[i]->erase<VComponent<ENTITY>>(i);
+                    delete _components_entities[i];
+                }
+            }
+            _components_entities.clear();
+
+            _entities_components_mask.clear();
+
             size_t size = _entities_allocated.size();
             for(size_t i=0;i<size;++i)
                 delete _entities_allocated[i];
 
             _entities_allocated.clear();
-            _entities_components_mask.clear();
         }
 
         template<class ENTITY>
@@ -318,7 +337,7 @@ namespace sfutils
             while(_it != _it_end)
             {
                 std::uint32_t index = *_it;    
-                if(_view._manager._entities_allocated[index] != nullptr and (_view._manager._entities_components_mask[index] & _view._mask) == _view._mask)
+                if(_view._manager._entities_allocated.at(index) != nullptr and (_view._manager._entities_components_mask.at(index) & _view._mask) == _view._mask)
                 {
                     _view.unpack_id<0,COMPONENT...>(index);
                     break;
@@ -334,7 +353,7 @@ namespace sfutils
         {
             if(_it == _it_end)
                 return nullptr;
-            return _view._manager._entities_allocated[*_it];
+            return _view._manager._entities_allocated.at(*_it);
         }
 
         template<class ENTITY>
@@ -343,7 +362,7 @@ namespace sfutils
         {
             if(_it == _it_end)
                 return nullptr;
-            return _view._manager._entities_allocated[*_it];
+            return _view._manager._entities_allocated.at(*_it);
         }
 
         template<class ENTITY>

@@ -15,6 +15,9 @@ namespace sfutils
         class ComponentHandle
         {
             public:
+                ComponentHandle(const ComponentHandle&) = default;
+                ComponentHandle& operator=(const ComponentHandle&) = default;
+
                 ComponentHandle();
 
                 bool isValid()const;
