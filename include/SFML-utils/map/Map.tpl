@@ -135,5 +135,35 @@ namespace sfutils
                 res.emplace_back(dest);
             return res;
         }
+
+        template<typename GEOMETRY>
+        sf::Vector2i Map<GEOMETRY>::getPath1(const sf::Vector2i& origin,const sf::Vector2i& dest)const
+        {
+            int distance = GEOMETRY::distance(origin.x,origin.y,dest.x,dest.y);
+            sf::Vector2i res = origin;
+
+            sf::Vector2f p(dest.x - origin.x,
+                           dest.y - origin.y);
+            float delta = 1.0/distance;
+            float cumul = 0;
+            for(int i = 0; i<distance;++i)
+            {
+
+                sf::Vector2i pos = GEOMETRY::round(origin.x + p.x * cumul,origin.y + p.y * cumul);
+                if(pos != res)
+                {
+                    res = pos;
+                    break;
+                }
+                cumul +=delta;
+            }
+            return res;
+        }
+
+        template<typename GEOMETRY>
+        int Map<GEOMETRY>::getDistance(const sf::Vector2i& origin,const sf::Vector2i& dest) const
+        {
+            return GEOMETRY::distance(origin.x,origin.y,dest.x,dest.y);
+        }
     }
 }

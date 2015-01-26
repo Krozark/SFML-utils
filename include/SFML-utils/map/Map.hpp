@@ -29,6 +29,8 @@ namespace sfutils
                 virtual const sf::ConvexShape getShape()const override;
 
                 virtual std::list<sf::Vector2i> getPath(const sf::Vector2i& origin,const sf::Vector2i& dest)const override;
+                virtual sf::Vector2i getPath1(const sf::Vector2i& origin,const sf::Vector2i& dest)const override;
+                virtual int getDistance(const sf::Vector2i& origin, const sf::Vector2i& dest) const override;
         };
     }
 }
