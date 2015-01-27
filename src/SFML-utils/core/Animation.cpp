@@ -20,12 +20,13 @@ namespace sfutils
         return _texture;
     }
     
-    void Animation::addFrame(const sf::IntRect& rect)
+    Animation& Animation::addFrame(const sf::IntRect& rect)
     {
         _frames.emplace_back(rect);
+        return *this;
     }
 
-    void Animation::addFramesLine(int number_x,int number_y,int line)
+    Animation& Animation::addFramesLine(int number_x,int number_y,int line)
     {
         const sf::Vector2u size = _texture->getSize();
         const float delta_x = size.x / float(number_x);
@@ -36,9 +37,10 @@ namespace sfutils
                                  line*delta_y,
                                  delta_x,
                                  delta_y));
+        return *this;
     }
 
-    void Animation::addFramesColumn(int number_x,int number_y,int column)
+    Animation& Animation::addFramesColumn(int number_x,int number_y,int column)
     {
         const sf::Vector2u size = _texture->getSize();
         const float delta_x = size.x / float(number_x);
@@ -49,6 +51,7 @@ namespace sfutils
                                  i*delta_y,
                                  delta_x,
                                  delta_y));
+        return *this;
     }
 
     size_t Animation::size()const

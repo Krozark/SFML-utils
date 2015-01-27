@@ -30,6 +30,8 @@ namespace sfutils
                 void setPosition(float posX, float posY);
                 void setPosition(const sf::Vector2f& pos);
 
+                sf::Vector2f getPosition()const;
+
                 void zoom(float factor);
 
                 void setSize(float width,float height);

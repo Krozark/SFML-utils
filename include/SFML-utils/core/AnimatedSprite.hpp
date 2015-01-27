@@ -28,7 +28,7 @@ namespace sfutils
                 Playing
             };
 
-            AnimatedSprite(Animation* animation = nullptr,Status status= Playing,sf::Time deltaTime = sf::seconds(0.15),bool loop = true,int repeat=0);
+            AnimatedSprite(Animation* animation = nullptr,Status status= Playing,const sf::Time& deltaTime = sf::seconds(0.15),bool loop = true,int repeat=0);
 
             void setAnimation(Animation* animation);
             Animation* getAnimation()const;

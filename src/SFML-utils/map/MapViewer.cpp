@@ -58,6 +58,11 @@ namespace sfutils
             _view.setCenter(pos);
         }
 
+        sf::Vector2f MapViewer::getPosition()const
+        {
+            return _view.getCenter();
+        }
+
         void MapViewer::zoom(float factor)
         {
             _view.zoom(factor);
