@@ -33,6 +33,7 @@ namespace sfutils
                 sf::Vector2f getPosition()const;
 
                 void zoom(float factor);
+                float getZoom()const;
 
                 void setSize(float width,float height);
                 void setSize(const sf::Vector2f& size);
@@ -54,6 +55,7 @@ namespace sfutils
                 const VMap& _map;
                 sf::View _view;
                 sf::Vector2i _mouse_pos;
+                float _zoom;
                 
                 int _move_x, _move_y;
                 float _movement_speed;
