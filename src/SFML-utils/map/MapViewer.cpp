@@ -104,15 +104,36 @@ namespace sfutils
             draw(_window,states);
         }
 
-        sf::Vector2i MapViewer::mapPixelToCoords(float x,float y)const
+        sf::Vector2i MapViewer::mapScreenToCoords(float x,float y)const
         {
             sf::Vector2f pos = _window.mapPixelToCoords(sf::Vector2i(x,y),_view); 
             return _map.mapPixelToCoords(pos.x,pos.y);
         }
 
-        sf::Vector2i MapViewer::mapPixelToCoords(const sf::Vector2f& pos)const
+        sf::Vector2i MapViewer::mapScreenToCoords(const sf::Vector2f& pos)const
         {
-            return mapPixelToCoords(pos.x,pos.y);
+            return mapScreenToCoords(pos.x,pos.y);
+        }
+
+        sf::Vector2i MapViewer::mapCoordsToScreen(int x,int y) const
+        {
+            sf::Vector2f pos = _map.mapCoordsToPixel(x,y);
+            return _window.mapCoordsToPixel(sf::Vector2f(pos.x,pos.y),_view);
+        }
+
+        sf::Vector2i MapViewer::mapCoordsToScreen(const sf::Vector2i& pos) const
+        {
+            return mapCoordsToScreen(pos.x,pos.y);
+        }
+
+        sf::Vector2i MapViewer::mapPixelToCoords(float x,float y) const
+        {
+            return _map.mapPixelToCoords(x,y);
+        }
+
+        sf::Vector2i MapViewer::mapPixelToCoords(const sf::Vector2f& pos) const
+        {
+            return _map.mapPixelToCoords(pos.x,pos.y);
         }
 
         sf::Vector2f MapViewer::mapCoordsToPixel(int x,int y) const
