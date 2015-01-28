@@ -44,8 +44,8 @@ namespace sfutils
 
                 void draw(sf::RenderStates states = sf::RenderStates::Default) const;
 
-                sf::Vector2i mapScreenToCoords(float x,float y)const;
-                sf::Vector2i mapScreenToCoords(const sf::Vector2f& pos)const;
+                sf::Vector2i mapScreenToCoords(int x,int y)const;
+                sf::Vector2i mapScreenToCoords(const sf::Vector2i& pos)const;
 
                 sf::Vector2i mapCoordsToScreen(int x,int y) const;
                 sf::Vector2i mapCoordsToScreen(const sf::Vector2i& pos) const;

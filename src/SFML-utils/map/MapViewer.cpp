@@ -104,13 +104,13 @@ namespace sfutils
             draw(_window,states);
         }
 
-        sf::Vector2i MapViewer::mapScreenToCoords(float x,float y)const
+        sf::Vector2i MapViewer::mapScreenToCoords(int x,int y)const
         {
             sf::Vector2f pos = _window.mapPixelToCoords(sf::Vector2i(x,y),_view); 
             return _map.mapPixelToCoords(pos.x,pos.y);
         }
 
-        sf::Vector2i MapViewer::mapScreenToCoords(const sf::Vector2f& pos)const
+        sf::Vector2i MapViewer::mapScreenToCoords(const sf::Vector2i& pos)const
         {
             return mapScreenToCoords(pos.x,pos.y);
         }
