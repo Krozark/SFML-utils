@@ -105,7 +105,7 @@ namespace sfutils
         }
 
         
-        VMap* createMapFromFile(const std::string& filename)
+        VMap* VMap::createMapFromFile(const std::string& filename)
         {
             VMap* res = nullptr;
             utils::json::Value* value = utils::json::Driver::parse_file(filename);

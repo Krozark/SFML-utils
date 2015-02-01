@@ -9,7 +9,7 @@ int main(int argc,char* argv[])
     sf::RenderWindow window(sf::VideoMode(1600,900),"Example Tile");
     window.setFramerateLimit(65);
 
-    sfutils::VMap* map = sfutils::createMapFromFile("./map.json");
+    sfutils::VMap* map = sfutils::VMap::createMapFromFile("./map.json");
     map->loadFromFile("./map2.json");
 
     sfutils::MapViewer viewer(window,*map);

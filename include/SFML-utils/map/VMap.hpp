@@ -45,6 +45,8 @@ namespace sfutils
                 virtual sf::Vector2i getPath1(const sf::Vector2i& origin,const sf::Vector2i& dest)const =0;
                 virtual int getDistance(const sf::Vector2i& origin, const sf::Vector2i& dest)const = 0;
 
+                static VMap* createMapFromFile(const std::string& filename);
+
 
             protected:
                 void sortLayers();
@@ -58,7 +60,6 @@ namespace sfutils
                 std::vector<VLayer*> _layers;
         };
 
-        VMap* createMapFromFile(const std::string& filename);
     }
 }
 #endif
