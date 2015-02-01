@@ -8,7 +8,7 @@ namespace sfutils
 {
     namespace map
     {
-        template<typename GEOMETRY,typename CONTENT>
+        template<typename CONTENT>
         class Layer : public VLayer
         {
             public:
@@ -36,8 +36,8 @@ namespace sfutils
 
         };
 
-        template<typename GEOMETRY,typename CONTENT>
-        class Layer<GEOMETRY,CONTENT*> : public VLayer
+        template<typename CONTENT>
+        class Layer<CONTENT*> : public VLayer
         {
             public:
                 Layer(const Layer&) = delete;

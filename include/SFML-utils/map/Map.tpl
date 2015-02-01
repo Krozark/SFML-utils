@@ -28,7 +28,7 @@ namespace sfutils
                 
                 if(content == "tile")
                 {
-                    auto current_layer = new Layer<GEOMETRY,Tile<GEOMETRY>>(content,z,isStatic);
+                    auto current_layer = new Layer<Tile<GEOMETRY>>(content,z,isStatic);
                     const utils::json::Array& textures = layer["texture"];
                     for(const utils::json::Object& texture : textures)
                     {
@@ -57,7 +57,7 @@ namespace sfutils
                 }
                 else if(content == "sprite")
                 {
-                    auto current_layer = new Layer<GEOMETRY,sf::Sprite>(content,z,isStatic);
+                    auto current_layer = new Layer<sf::Sprite>(content,z,isStatic);
                     const utils::json::Array& datas = layer["datas"].as_array();
 
                     for(const utils::json::Value& value : datas)

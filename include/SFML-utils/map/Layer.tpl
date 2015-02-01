@@ -5,18 +5,18 @@ namespace sfutils
     namespace map
     {
         //////////////////////// LAYER /////////////////////////////////////////
-        template<typename GEOMETRY,typename CONTENT>
-        Layer<GEOMETRY,CONTENT>::Layer(const std::string& type,int z,bool isStatic) : VLayer(type,z,isStatic)
+        template<typename CONTENT>
+        Layer<CONTENT>::Layer(const std::string& type,int z,bool isStatic) : VLayer(type,z,isStatic)
         {
         }
 
-        template<typename GEOMETRY,typename CONTENT>
-        Layer<GEOMETRY,CONTENT>::~Layer()
+        template<typename CONTENT>
+        Layer<CONTENT>::~Layer()
         {
         }
 
-        template<typename GEOMETRY,typename CONTENT>
-        CONTENT* Layer<GEOMETRY,CONTENT>::add(const CONTENT& content,bool resort)
+        template<typename CONTENT>
+        CONTENT* Layer<CONTENT>::add(const CONTENT& content,bool resort)
         {
             _content.emplace_back(content);
             CONTENT* res = &_content.back();
@@ -25,8 +25,8 @@ namespace sfutils
             return res;
         }
 
-        template<typename GEOMETRY,typename CONTENT>
-        CONTENT* Layer<GEOMETRY,CONTENT>::add(CONTENT&& content,bool resort)
+        template<typename CONTENT>
+        CONTENT* Layer<CONTENT>::add(CONTENT&& content,bool resort)
         {
             _content.emplace_back(std::move(content));
             CONTENT* res = &_content.back();
@@ -35,8 +35,8 @@ namespace sfutils
             return res;
         }
 
-        template<typename GEOMETRY,typename CONTENT>
-        std::list<CONTENT*> Layer<GEOMETRY,CONTENT>::getByCoords(const sf::Vector2i& coords,const VMap& map)
+        template<typename CONTENT>
+        std::list<CONTENT*> Layer<CONTENT>::getByCoords(const sf::Vector2i& coords,const VMap& map)
         {
             std::list<CONTENT*> res;
             const auto end = _content.end();
@@ -50,8 +50,8 @@ namespace sfutils
             return res;
         }
 
-        template<typename GEOMETRY,typename CONTENT>
-        bool Layer<GEOMETRY,CONTENT>::remove(const CONTENT* content_ptr,bool resort)
+        template<typename CONTENT>
+        bool Layer<CONTENT>::remove(const CONTENT* content_ptr,bool resort)
         {
             auto it = std::find_if(_content.begin(),_content.end(),[content_ptr](const CONTENT& content)->bool{
                                     return &content == content_ptr;
@@ -66,8 +66,8 @@ namespace sfutils
             return false;
         }
 
-        template<typename GEOMETRY,typename CONTENT>
-        void Layer<GEOMETRY,CONTENT>::sort()
+        template<typename CONTENT>
+        void Layer<CONTENT>::sort()
         {
             _content.sort([](const CONTENT& a,const CONTENT& b)->bool{
                       auto pos_a = a.getPosition();
@@ -76,8 +76,8 @@ namespace sfutils
                     });
         }
 
-        template<typename GEOMETRY,typename CONTENT>
-        void Layer<GEOMETRY,CONTENT>::draw(sf::RenderTarget& target, sf::RenderStates states,const sf::FloatRect& viewport)
+        template<typename CONTENT>
+        void Layer<CONTENT>::draw(sf::RenderTarget& target, sf::RenderStates states,const sf::FloatRect& viewport)
         {
             if(_isStatic)
             {
@@ -124,18 +124,18 @@ namespace sfutils
 
         /////////////////////// LAYER PTR ////////////////////////////
         //
-        template<typename GEOMETRY,typename CONTENT>
-        Layer<GEOMETRY,CONTENT*>::Layer(const std::string& type,int z,bool isStatic) : VLayer(type,z,isStatic)
+        template<typename CONTENT>
+        Layer<CONTENT*>::Layer(const std::string& type,int z,bool isStatic) : VLayer(type,z,isStatic)
         {
         }
 
-        template<typename GEOMETRY,typename CONTENT>
-        Layer<GEOMETRY,CONTENT*>::~Layer()
+        template<typename CONTENT>
+        Layer<CONTENT*>::~Layer()
         {
         }
 
-        template<typename GEOMETRY,typename CONTENT>
-        CONTENT* Layer<GEOMETRY,CONTENT*>::add(CONTENT* content,bool resort)
+        template<typename CONTENT>
+        CONTENT* Layer<CONTENT*>::add(CONTENT* content,bool resort)
         {
             _content.emplace_back(content);
             CONTENT* res = _content.back();
@@ -144,8 +144,8 @@ namespace sfutils
             return res;
         }
 
-        template<typename GEOMETRY,typename CONTENT>
-        std::list<CONTENT*> Layer<GEOMETRY,CONTENT*>::getByCoords(const sf::Vector2i& coords,const VMap& map)
+        template<typename CONTENT>
+        std::list<CONTENT*> Layer<CONTENT*>::getByCoords(const sf::Vector2i& coords,const VMap& map)
         {
             std::list<CONTENT*> res;
             const auto end = _content.end();
@@ -159,8 +159,8 @@ namespace sfutils
             return res;
         }
 
-        template<typename GEOMETRY,typename CONTENT>
-        bool Layer<GEOMETRY,CONTENT*>::remove(const CONTENT* content_ptr,bool resort)
+        template<typename CONTENT>
+        bool Layer<CONTENT*>::remove(const CONTENT* content_ptr,bool resort)
         {
             auto it = std::find(_content.begin(),_content.end(),content_ptr);
             if(it != _content.end())
@@ -173,8 +173,8 @@ namespace sfutils
             return false;
         }
 
-        template<typename GEOMETRY,typename CONTENT>
-        void Layer<GEOMETRY,CONTENT*>::sort()
+        template<typename CONTENT>
+        void Layer<CONTENT*>::sort()
         {
             _content.sort([](const CONTENT* a,const CONTENT* b)->bool{
                       auto pos_a = a->getPosition();
@@ -183,8 +183,8 @@ namespace sfutils
                     });
         }
 
-        template<typename GEOMETRY,typename CONTENT>
-        void Layer<GEOMETRY,CONTENT*>::draw(sf::RenderTarget& target, sf::RenderStates states,const sf::FloatRect& viewport)
+        template<typename CONTENT>
+        void Layer<CONTENT*>::draw(sf::RenderTarget& target, sf::RenderStates states,const sf::FloatRect& viewport)
         {
             if(_isStatic)
             {

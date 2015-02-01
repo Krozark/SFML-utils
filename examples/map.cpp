@@ -14,7 +14,7 @@ int main(int argc,char* argv[])
 
     sfutils::MapViewer viewer(window,*map);
 
-    sfutils::Layer<sfutils::HexaIso,sf::ConvexShape>* mouse_layer = new sfutils::Layer<sfutils::HexaIso,sf::ConvexShape>("ConvexShape",1);
+    sfutils::Layer<sf::ConvexShape>* mouse_layer = new sfutils::Layer<sf::ConvexShape>("ConvexShape",1);
 
     sf::ConvexShape* mouse_light = mouse_layer->add(map->getShape());
     mouse_light->setFillColor(sf::Color(255,255,255,64));
