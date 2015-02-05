@@ -35,11 +35,14 @@ namespace sfutils
                 template<typename ... Args>
                 std::uint32_t create(Args&& ... args);
 
+
                 void remove(std::size_t id);
 
                 void update();
 
                 void reset();
+
+                std::size_t size()const;
 
                 bool isValid(std::uint32_t id)const;
 

@@ -91,7 +91,8 @@ namespace sfutils
                 float delta = _map._tile_size*_movement_speed * deltaTime;
                 move(_move_x * delta,_move_y * delta);
             }
-            _move_x = _move_y = 0;
+            _move_x = 0;
+            _move_y = 0;
 
         }
         void MapViewer::setSpeed(float speed)
