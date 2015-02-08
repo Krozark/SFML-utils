@@ -65,10 +65,8 @@ namespace sfutils
 
                 for(size_t i = size;i<id;++i)
                     _entities_index_free.emplace_back(i);
-
-
             }
-            else if(_entities_allocated[id] != nullptr) //if already in use
+            else if(_entities_allocated[id] != nullptr) //already in use
             {
                 _entities_index_to_destroy.remove(id);
                 delete _entities_allocated[id];
