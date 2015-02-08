@@ -53,6 +53,35 @@ namespace sfutils
         }
 
         template<class ENTITY>
+        template<typename ... Args>
+        void EntityManager<ENTITY>::emplace(std::uint32_t id,Args&& ... args)
+        {
+            //container to small
+            std::size_t size = _entities_allocated.size();
+            if(size <= id) //resize it
+            {
+                _entities_allocated.resize(id+1,nullptr);
+                for(size_t i = size;i<id;++i)
+                    _entities_index_free.emplace_back(i);
+
+
+            }
+            else if(_entities_allocated[id] != nullptr) //if already in use
+            {
+                delete _entities_allocated[id];
+                _entities_index_to_destroy.remove(id);
+            }
+            else //already free
+            {
+                _entities_index_free.remove(id);
+            }
+            
+            _entities_allocated[id] = new ENTITY(this,id,std::forward<Args>(args)...);
+
+            return id;
+        }
+
+        template<class ENTITY>
         void EntityManager<ENTITY>::remove(std::size_t id)
         {
             _entities_index_to_destroy.emplace_back(id);

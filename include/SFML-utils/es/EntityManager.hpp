@@ -35,6 +35,9 @@ namespace sfutils
                 template<typename ... Args>
                 std::uint32_t create(Args&& ... args);
 
+                template<typename ... Args>
+                void emplace(std::uint32_t id,Args&& ... args);
+
 
                 void remove(std::size_t id);
 
