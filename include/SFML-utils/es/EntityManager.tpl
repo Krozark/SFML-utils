@@ -68,8 +68,9 @@ namespace sfutils
             }
             else if(_entities_allocated[id] != nullptr) //if already in use
             {
-                delete _entities_allocated[id];
                 _entities_index_to_destroy.remove(id);
+                _entities_index.remove(id);
+                delete _entities_allocated[id];
             }
             else //already free
             {
@@ -77,6 +78,7 @@ namespace sfutils
             }
             
             _entities_allocated[id] = new ENTITY(this,id,std::forward<Args>(args)...);
+            _entities_index.emplace_back(id);
 
             return id;
         }
