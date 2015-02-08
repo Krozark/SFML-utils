@@ -61,6 +61,8 @@ namespace sfutils
             if(size <= id) //resize it
             {
                 _entities_allocated.resize(id+1,nullptr);
+                _entities_index.emplace_back(id);
+
                 for(size_t i = size;i<id;++i)
                     _entities_index_free.emplace_back(i);
 
@@ -69,16 +71,15 @@ namespace sfutils
             else if(_entities_allocated[id] != nullptr) //if already in use
             {
                 _entities_index_to_destroy.remove(id);
-                _entities_index.remove(id);
                 delete _entities_allocated[id];
             }
             else //already free
             {
                 _entities_index_free.remove(id);
+                _entities_index.emplace_back(id);
             }
             
             _entities_allocated[id] = new ENTITY(this,id,std::forward<Args>(args)...);
-            _entities_index.emplace_back(id);
 
             return id;
         }
