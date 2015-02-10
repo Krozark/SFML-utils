@@ -12,13 +12,9 @@ namespace sfutils
 
         HLayout::~HLayout()
         {
-            for(Widget* widget : _widgets)
-            {
-                if(widget->_parent == this)
-                    delete widget;
-            }
+            clear();
         }
-        
+
         void HLayout::add(Widget* widget)
         {
             widget->_parent = this;
@@ -47,6 +43,17 @@ namespace sfutils
                 }
             }
             return sf::Vector2f(x + _spacing, max_y + _spacing*2);
+        }
+
+        void HLayout::clear()
+        {
+            for(Widget* widget : _widgets)
+            {
+                if(widget->_parent == this)
+                    delete widget;
+            }
+            _widgets.clear();
+            updateShape();
         }
 
         bool HLayout::processEvent(const sf::Event& event,const sf::Vector2f& parent_pos)

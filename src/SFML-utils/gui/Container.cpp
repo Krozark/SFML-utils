@@ -42,6 +42,15 @@ namespace sfutils
             return _layout;
         }
 
+        void Container::clear()
+        {
+            if(_layout)
+            {
+                _layout->clear();
+                updateShape();
+            }
+        }
+
         void Container::setFillColor(const sf::Color& color)
         {
             _shape.setFillColor(color);

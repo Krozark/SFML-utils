@@ -20,6 +20,8 @@ namespace sfutils
                 void setLayout(Layout* layout);
                 Layout* getLayout()const;
 
+                void clear();
+
                 void setFillColor(const sf::Color& color);
                 void setOutlineColor(const sf::Color& color);
                 void setOutlineThickness(float thickness);

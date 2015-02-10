@@ -22,6 +22,8 @@ namespace sfutils
 
                 virtual sf::Vector2f getSize()const override;
 
+                virtual void clear();
+
             protected:
                 virtual bool processEvent(const sf::Event& event,const sf::Vector2f& parent_pos) override;
                 virtual void processEvents(const sf::Vector2f& parent_pos) override;

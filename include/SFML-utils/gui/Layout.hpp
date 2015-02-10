@@ -18,6 +18,8 @@ namespace sfutils
                 Layout(Widget* parent=nullptr);
                 virtual ~Layout();
 
+                virtual void clear() = 0;
+
                 void setSpacing(float pixels);
 
             protected:
