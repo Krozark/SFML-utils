@@ -17,7 +17,7 @@ namespace sfutils
         {
         }
         
-        MapViewer::MapViewer(sf::RenderWindow& window,const VMap& map,const ActionMap<int>& action_map) : ActionTarget(action_map),_map(map), _zoom(1),_move_x(0), _move_y(0), _movement_speed(10), _window(window)
+        MapViewer::MapViewer(sf::RenderWindow& window,const VMap& map,const ActionMap<int>& action_map) : ActionTarget(action_map),_map(map), _zoom(1),_move_x(0), _move_y(0), _movement_speed(5), _window(window)
         {
             bind(Action(sf::Event::MouseWheelMoved),[this](const sf::Event& event){
                      zoom(1-(event.mouseWheel.delta/5.0));
