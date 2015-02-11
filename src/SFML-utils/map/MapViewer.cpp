@@ -7,6 +7,12 @@ namespace sfutils
 {
     namespace map
     {        
+        template <typename T>
+        inline T clamp(T value, T min, T max)
+        {
+            return value < min ? min : (value > max ? max : value);
+        }
+
         MapViewer::MapViewer(sf::RenderWindow& window,const VMap& map) : MapViewer(window,map,sfutils::map::Configuration::default_map_inputs)
         {
         }
@@ -19,19 +25,20 @@ namespace sfutils
 
 
             bind(Configuration::MapInputs::MoveUp,[this](const sf::Event& event){
-                    _move_y -=1;
+                    
+                    _move_y =clamp(_move_y-1,-1,1);
                  });
 
             bind(Configuration::MapInputs::MoveDown,[this](const sf::Event& event){
-                    _move_y +=1;
+                    _move_y = clamp(_move_y+1,-1,1);
                  });
 
             bind(Configuration::MapInputs::MoveLeft,[this](const sf::Event& event){
-                    _move_x -=1;
+                    _move_x = clamp(_move_x-1,-1,1);
                  });
 
             bind(Configuration::MapInputs::MoveRight,[this](const sf::Event& event){
-                    _move_x +=1;
+                    _move_x = clamp(_move_x+1,-1,1);
                  });
 
             auto size = _window.getSize();
@@ -89,7 +96,7 @@ namespace sfutils
             if(_move_x or _move_y)
             {
                 float delta = _map._tile_size*_movement_speed * deltaTime;
-                move(_move_x * delta,_move_y * delta);
+                move(_move_x * delta * _movement_speed,_move_y * delta * _movement_speed);
             }
             _move_x = 0;
             _move_y = 0;
