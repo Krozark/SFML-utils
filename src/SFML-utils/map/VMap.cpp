@@ -32,6 +32,17 @@ namespace sfutils
             return value != nullptr;
         }
 
+        bool VMap::loadFromStream(std::istream& in)
+        {
+            utils::json::Value* value = utils::json::Driver::parse(in);
+            if(value)
+            {
+                utils::json::Object& root = *value;
+
+                loadFromJson(root);
+            }
+            return value != nullptr;
+        }
 
         void VMap::add(VLayer* layer,bool sort)
         {
