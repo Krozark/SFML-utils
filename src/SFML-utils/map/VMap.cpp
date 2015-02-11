@@ -136,5 +136,26 @@ namespace sfutils
             }
             return res;
         }
+
+        VMap* VMap::createMapFromStream(std::istream& in)
+        {
+            VMap* res = nullptr;
+            utils::json::Value* value = utils::json::Driver::parse(in);
+            if(value)
+            {
+                utils::json::Object& root = *value;
+                utils::json::Object& geometry = root["geometry"];
+                std::string geometry_name = geometry["name"].as_string();
+                float size = geometry["size"].as_float();
+
+                if(geometry_name == "HexaIso")
+                {
+                    res = new Map<geometry::HexaIso>(size);
+                    res->loadFromJson(root);
+                }
+                delete value;
+            }
+            return res;
+        }
     }
 }

@@ -47,6 +47,7 @@ namespace sfutils
                 virtual int getDistance(const sf::Vector2i& origin, const sf::Vector2i& dest)const = 0;
 
                 static VMap* createMapFromFile(const std::string& filename);
+                static VMap* createMapFromStream(std::istream& in);
 
 
             protected:
