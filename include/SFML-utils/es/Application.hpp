@@ -19,7 +19,7 @@ namespace sfutils
 
                 void update(sf::Time deltaTime);
 
-                EntityManager<ENTITY> entites;
+                EntityManager<ENTITY> entities;
                 SystemManager<ENTITY> systems;
         };
     }
