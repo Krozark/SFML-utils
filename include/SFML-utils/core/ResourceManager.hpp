@@ -28,6 +28,8 @@ namespace sfutils
 
             template<typename ... Args>
             RESOURCE& getOrLoad(const IDENTIFIER& id,Args&& ... args);
+
+            void clear();
         
 
         private:
@@ -53,6 +55,8 @@ namespace sfutils
             template<typename ... Args>
             sf::Music& getOrLoad(const IDENTIFIER& id,Args&& ... args);
 
+            void clear();
+
         private:
             std::unordered_map<IDENTIFIER,std::unique_ptr<sf::Music>> _map;
     };
@@ -75,6 +79,8 @@ namespace sfutils
 
             template<typename ... Args>
             Animation& getOrLoad(const IDENTIFIER& id,Args&& ... args);
+
+            void clear();
 
         private:
             std::unordered_map<IDENTIFIER,std::unique_ptr<Animation>> _map;

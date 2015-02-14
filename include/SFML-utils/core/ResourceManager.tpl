@@ -36,6 +36,12 @@ namespace sfutils
         return get(id);
     }
 
+    template<typename RESOURCE,typename IDENTIFIER>
+    void ResourceManager<RESOURCE,IDENTIFIER>::clear()
+    {
+        _map.clear();
+    }
+
     //sf::Music special case
 
     template<typename IDENTIFIER>
@@ -72,6 +78,12 @@ namespace sfutils
         return get(id);
     }
 
+    template<typename IDENTIFIER>
+    void ResourceManager<sf::Music,IDENTIFIER>::clear()
+    {
+        _map.clear();
+    }
+
     //animation
     //
     template<typename IDENTIFIER>
@@ -103,5 +115,11 @@ namespace sfutils
         if(_map.count(id) == 0)
             return load(id,args...);
         return get(id);
+    }
+
+    template<typename IDENTIFIER>
+    void ResourceManager<Animation,IDENTIFIER>::clear()
+    {
+        _map.clear();
     }
 }

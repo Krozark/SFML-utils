@@ -15,9 +15,7 @@ namespace sfutils
 
         VMap::~VMap()
         {
-            const size_t size = _layers.size();
-            for(size_t i=0;i<size;++i)
-                delete(_layers[i]);
+            clear();
         }
 
         bool VMap::loadFromFile(const std::string& filename)
@@ -75,6 +73,16 @@ namespace sfutils
         VLayer* VMap::at(size_t index)const
         {
             return _layers.at(index);
+        }
+
+        void VMap::clear()
+        {
+            const size_t size = _layers.size();
+            for(size_t i=0;i<size;++i)
+                delete(_layers[i]);
+
+            _layers.clear();
+            _textures.clear();
         }
 
         float VMap::getTileSize()const
