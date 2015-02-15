@@ -78,8 +78,6 @@ namespace sfutils
             }
             
             _entities_allocated[id] = new ENTITY(this,id,std::forward<Args>(args)...);
-
-            return id;
         }
 
         template<class ENTITY>
