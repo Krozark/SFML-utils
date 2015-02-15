@@ -86,6 +86,8 @@ namespace sfutils
                 container _entities_index_free;
                 container _entities_index_to_destroy;
 
+                inline void reset(std::uint32_t id);
+
                 template<typename COMPONENT>
                 void checkComponent();
 
