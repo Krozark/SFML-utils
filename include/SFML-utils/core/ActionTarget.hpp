@@ -29,12 +29,12 @@ namespace sfutils
             void unbind(const T& key);
 
         private:
-            std::list<std::pair<T,FuncType>> _events_real_time;
-            std::list<std::pair<Action,FuncType>> _events_real_time_action;
-            std::list<std::pair<T,FuncType>> _events_poll;
-            std::list<std::pair<Action,FuncType>> _events_poll_action;
+            std::list<std::pair<T,FuncType>> _eventsRealTime;
+            std::list<std::pair<Action,FuncType>> _eventsRealTimeAction;
+            std::list<std::pair<T,FuncType>> _eventsPoll;
+            std::list<std::pair<Action,FuncType>> _eventsPollAction;
 
-            const ActionMap<T>& _action_map;
+            const ActionMap<T>& _actionMap;
     };
 }
 #include <SFML-utils/core/ActionTarget.tpl>

@@ -34,7 +34,7 @@ namespace sfutils
                 ComponentHandle(const EntityManager<ENTITY>* manager,std::uint32_t entity_id);
 
                 const EntityManager<ENTITY>* _manager;
-                std::uint32_t _entity_id;    
+                std::uint32_t _entityId;    
         };
 
 
@@ -52,7 +52,7 @@ namespace sfutils
                 VComponent();
 
                 EntityManager<ENTITY>* _manager;
-                std::uint32_t _owner_id;    
+                std::uint32_t _ownerId;    
 
                 static Family _familyCounter;
         };

@@ -45,9 +45,9 @@ namespace sfutils
                         {
                             for(int x=tex_x;x<tex_x + width;++x)
                             {
-                                Tile<GEOMETRY> tile(x,y,_tile_size);
+                                Tile<GEOMETRY> tile(x,y,_tileSize);
                                 tile.setTexture(&tex);
-                                tile.setTextureRect(GEOMETRY::getTextureRect(x,y,_tile_size));
+                                tile.setTextureRect(GEOMETRY::getTextureRect(x,y,_tileSize));
 
                                 current_layer->add(std::move(tile),false);
                             }
@@ -78,7 +78,7 @@ namespace sfutils
                         std::string img = data["img"];
 
                         sf::Sprite spr(_textures.getOrLoad(img,img));
-                        spr.setPosition(GEOMETRY::mapCoordsToPixel(x,y,_tile_size));
+                        spr.setPosition(GEOMETRY::mapCoordsToPixel(x,y,_tileSize));
 
                         sf::FloatRect rec = spr.getLocalBounds();
                         spr.setOrigin(rec.width*ox,rec.height*oy);
@@ -95,20 +95,20 @@ namespace sfutils
         template<typename GEOMETRY>
         sf::Vector2i Map<GEOMETRY>::mapPixelToCoords(float x,float y)const
         {
-            return GEOMETRY::mapPixelToCoords(x,y,_tile_size);
+            return GEOMETRY::mapPixelToCoords(x,y,_tileSize);
         }
 
         template<typename GEOMETRY>
         sf::Vector2f Map<GEOMETRY>::mapCoordsToPixel(int x,int y)const
         {
-            return GEOMETRY::mapCoordsToPixel(x,y,_tile_size);
+            return GEOMETRY::mapCoordsToPixel(x,y,_tileSize);
         }
 
         template<typename GEOMETRY>
         const sf::ConvexShape Map<GEOMETRY>::getShape()const
         {
             sf::ConvexShape shape = GEOMETRY::getShape();
-            shape.setScale(_tile_size,_tile_size);
+            shape.setScale(_tileSize,_tileSize);
             return shape;
         }
 

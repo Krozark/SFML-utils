@@ -40,7 +40,7 @@ namespace sfutils
 
                 Widget* _parent;
                 sf::Vector2f _position;
-                bool _is_visible;
+                bool _isVisible;
         };
     }
 }

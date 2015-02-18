@@ -13,11 +13,11 @@ namespace sfutils
             return value < min ? min : (value > max ? max : value);
         }
 
-        MapViewer::MapViewer(sf::RenderWindow& window,const VMap& map) : MapViewer(window,map,sfutils::map::Configuration::default_map_inputs)
+        MapViewer::MapViewer(sf::RenderWindow& window,const VMap& map) : MapViewer(window,map,sfutils::map::Configuration::defaultMapInputs)
         {
         }
         
-        MapViewer::MapViewer(sf::RenderWindow& window,const VMap& map,const ActionMap<int>& action_map) : ActionTarget(action_map),_map(map), _zoom(1),_move_x(0), _move_y(0), _movement_speed(5), _window(window)
+        MapViewer::MapViewer(sf::RenderWindow& window,const VMap& map,const ActionMap<int>& action_map) : ActionTarget(action_map),_map(map), _zoom(1),_moveX(0), _moveY(0), _movementSpeed(5), _window(window)
         {
             bind(Action(sf::Event::MouseWheelMoved),[this](const sf::Event& event){
                      zoom(1-(event.mouseWheel.delta/5.0));
@@ -26,19 +26,19 @@ namespace sfutils
 
             bind(Configuration::MapInputs::MoveUp,[this](const sf::Event& event){
                     
-                    _move_y =clamp(_move_y-1,-1,1);
+                    _moveY =clamp(_moveY-1,-1,1);
                  });
 
             bind(Configuration::MapInputs::MoveDown,[this](const sf::Event& event){
-                    _move_y = clamp(_move_y+1,-1,1);
+                    _moveY = clamp(_moveY+1,-1,1);
                  });
 
             bind(Configuration::MapInputs::MoveLeft,[this](const sf::Event& event){
-                    _move_x = clamp(_move_x-1,-1,1);
+                    _moveX = clamp(_moveX-1,-1,1);
                  });
 
             bind(Configuration::MapInputs::MoveRight,[this](const sf::Event& event){
-                    _move_x = clamp(_move_x+1,-1,1);
+                    _moveX = clamp(_moveX+1,-1,1);
                  });
 
             auto size = _window.getSize();
@@ -93,18 +93,18 @@ namespace sfutils
 
         void MapViewer::update(float deltaTime)
         {
-            if(_move_x or _move_y)
+            if(_moveX or _moveY)
             {
-                float delta = _map._tile_size*_movement_speed * deltaTime;
-                move(_move_x * delta * _movement_speed,_move_y * delta * _movement_speed);
+                float delta = _map._tileSize*_movementSpeed * deltaTime;
+                move(_moveX * delta * _movementSpeed,_moveY * delta * _movementSpeed);
             }
-            _move_x = 0;
-            _move_y = 0;
+            _moveX = 0;
+            _moveY = 0;
 
         }
         void MapViewer::setSpeed(float speed)
         {
-            _movement_speed = speed;
+            _movementSpeed = speed;
         }
 
         void MapViewer::draw(sf::RenderStates states) const

@@ -78,13 +78,13 @@ namespace sfutils
                 View<COMPONENT ...> getByComponents(ComponentHandle<COMPONENT,ENTITY>& ... components);
 
             private:
-                std::vector<ENTITY*> _entities_allocated;
-                std::vector<std::bitset<MAX_COMPONENTS>> _entities_components_mask;
-                std::vector<utils::memory::VPool*> _components_entities;
+                std::vector<ENTITY*> _entitiesAllocated;
+                std::vector<std::bitset<MAX_COMPONENTS>> _entitiesComponentsMask;
+                std::vector<utils::memory::VPool*> _componentsEntities;
 
-                container _entities_index;
-                container _entities_index_free;
-                container _entities_index_to_destroy;
+                container _entitiesIndex;
+                container _entitiesIndexFree;
+                container _entitiesIndexToDestroy;
 
                 inline void reset(std::uint32_t id);
 
@@ -119,20 +119,20 @@ namespace sfutils
                             private:
                                 View& _view;
                                 EntityManager<ENTITY>::container::iterator _it;
-                                EntityManager<ENTITY>::container::iterator _it_end;
+                                EntityManager<ENTITY>::container::iterator _itEnd;
                         };
 
                         template<int N,typename C>
-                        void unpack_id(std::uint32_t id);
+                        void unpackId(std::uint32_t id);
 
                         template<int N,typename C0,typename C1,typename ... Cx>
-                        void unpack_id(std::uint32_t id);
+                        void unpackId(std::uint32_t id);
 
                         template<int N,typename C>
-                        void unpack_manager();
+                        void unpackManager();
 
                         template<int N,typename C0,typename C1,typename ... Cx>
-                        void unpack_manager();
+                        void unpackManager();
 
                         EntityManager<ENTITY>& _manager;
                         const std::bitset<MAX_COMPONENTS> _mask;

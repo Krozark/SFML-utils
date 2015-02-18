@@ -9,7 +9,7 @@ namespace sfutils
 {
     namespace map
     {
-        VMap::VMap(float size) : _tile_size(size)
+        VMap::VMap(float size) : _tileSize(size)
         {
         }
 
@@ -87,7 +87,7 @@ namespace sfutils
 
         float VMap::getTileSize()const
         {
-            return _tile_size;
+            return _tileSize;
         }
 
         sf::Vector2i VMap::mapPixelToCoords(const sf::Vector2f& pos) const
@@ -114,10 +114,10 @@ namespace sfutils
 
         void VMap::draw(sf::RenderTarget& target, sf::RenderStates states,const sf::FloatRect& viewport) const
         {
-            sf::FloatRect delta_viewport(viewport.left - _tile_size,
-                                        viewport.top - _tile_size,
-                                        viewport.width + _tile_size*2,
-                                        viewport.height + _tile_size*2); 
+            sf::FloatRect delta_viewport(viewport.left - _tileSize,
+                                        viewport.top - _tileSize,
+                                        viewport.width + _tileSize*2,
+                                        viewport.height + _tileSize*2); 
             const size_t size = _layers.size();
             for(size_t i=0;i<size;++i)
                 _layers[i]->draw(target,states,delta_viewport);

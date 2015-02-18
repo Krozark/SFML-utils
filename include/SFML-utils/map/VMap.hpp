@@ -53,7 +53,7 @@ namespace sfutils
 
             protected:
                 void sortLayers();
-                const float _tile_size;
+                const float _tileSize;
                 
                 ResourceManager<sf::Texture,std::string> _textures;
                 

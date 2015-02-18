@@ -33,7 +33,7 @@ namespace sfutils
             float y = 0;
             for(Widget* widget : _widgets)
             {
-                if(widget->_is_visible)
+                if(widget->_isVisible)
                 {
                     sf::Vector2f size = widget->getSize();
                     if(size.x > max_x)
@@ -57,11 +57,11 @@ namespace sfutils
 
         bool VLayout::processEvent(const sf::Event& event,const sf::Vector2f& parent_pos)
         {
-            if(_is_visible)
+            if(_isVisible)
             {
                 for(Widget* widget : _widgets)
                 {
-                    if(widget->_is_visible and widget->processEvent(event,parent_pos))
+                    if(widget->_isVisible and widget->processEvent(event,parent_pos))
                         return true;
                 }
             }
@@ -70,10 +70,10 @@ namespace sfutils
 
         void VLayout::processEvents(const sf::Vector2f& parent_pos)
         {
-            if(_is_visible)
+            if(_isVisible)
             {
                 for(Widget* widget : _widgets)
-                    if(widget->_is_visible)
+                    if(widget->_isVisible)
                         widget->processEvents(parent_pos);
             }
         }
@@ -83,7 +83,7 @@ namespace sfutils
             float max_x = (_parent?_parent->getSize().x:0);
             for(Widget* widget : _widgets)
             {
-                if(widget->_is_visible)
+                if(widget->_isVisible)
                 {
                     sf::Vector2f size = widget->getSize();
                     float widget_x = size.x;
@@ -99,7 +99,7 @@ namespace sfutils
 
             for(Widget* widget : _widgets)
             {
-                if(widget->_is_visible)
+                if(widget->_isVisible)
                 {
                     sf::Vector2f size = widget->getSize();
                     widget->setPosition((max_x-size.x)/2.0,pos_y);
@@ -111,10 +111,10 @@ namespace sfutils
 
         void VLayout::draw(sf::RenderTarget& target, sf::RenderStates states) const
         {
-            if(_is_visible)
+            if(_isVisible)
             {
                 for(Widget* widget : _widgets)
-                    if(widget->_is_visible)
+                    if(widget->_isVisible)
                         target.draw(*widget,states);
             }
         }

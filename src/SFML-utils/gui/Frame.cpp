@@ -72,7 +72,7 @@ namespace sfutils
         bool Frame::processEvent(const sf::Event& event,const sf::Vector2f& parent_pos)
         {
             bool res = false;
-            if(_is_visible)
+            if(_isVisible)
             {
                 res = ActionTarget::processEvent(event);
                 if(not res)
@@ -83,7 +83,7 @@ namespace sfutils
 
         void Frame::processEvents(const sf::Vector2f& parent_pos)
         {
-            if(_is_visible)
+            if(_isVisible)
             {
                 ActionTarget::processEvents();
                 Container::processEvents(parent_pos);
@@ -92,7 +92,7 @@ namespace sfutils
 
         void Frame::draw(sf::RenderTarget& target, sf::RenderStates states) const
         {
-            if(_is_visible)
+            if(_isVisible)
             {
                 sf::View view = target.getView();
                 target.setView(_view);

@@ -20,33 +20,33 @@ namespace sfutils
         std::uint32_t EntityManager<ENTITY>::create(Args&& ... args)
         {
             std::uint32_t index = 0;
-            if(not _entities_index_free.empty())
+            if(not _entitiesIndexFree.empty())
             {
                 //reuse existing entity
-                index = _entities_index_free.front();
-                _entities_index_free.pop_front();
-                _entities_allocated[index] = new ENTITY(this,index,std::forward<Args>(args)...);
+                index = _entitiesIndexFree.front();
+                _entitiesIndexFree.pop_front();
+                _entitiesAllocated[index] = new ENTITY(this,index,std::forward<Args>(args)...);
             }
             else
             {
-                _entities_components_mask.emplace_back();
+                _entitiesComponentsMask.emplace_back();
 
-                index = _entities_allocated.size();
-                _entities_allocated.emplace_back(nullptr);
+                index = _entitiesAllocated.size();
+                _entitiesAllocated.emplace_back(nullptr);
 
                 //resize components
-                auto comp_size = _components_entities.size();
+                auto comp_size = _componentsEntities.size();
                 for(std::size_t i=0;i<comp_size;++i)
                 {
-                    if(_components_entities[i] != nullptr)
-                        _components_entities[i]->resize(index+1);
+                    if(_componentsEntities[i] != nullptr)
+                        _componentsEntities[i]->resize(index+1);
                 }
 
                 //create new entity
-                _entities_allocated[index] = new ENTITY(this,index,std::forward<Args>(args)...);
+                _entitiesAllocated[index] = new ENTITY(this,index,std::forward<Args>(args)...);
 
             }
-            _entities_index.emplace_back(index);
+            _entitiesIndex.emplace_back(index);
 
             return index;
 
@@ -57,138 +57,138 @@ namespace sfutils
         void EntityManager<ENTITY>::emplace(std::uint32_t id,Args&& ... args)
         {
             //container to small
-            std::size_t size = _entities_allocated.size();
+            std::size_t size = _entitiesAllocated.size();
             if(size <= id) //resize it
             {
-                _entities_allocated.resize(id+1,nullptr);
-                _entities_components_mask.resize(id+1,0);
-                _entities_index.emplace_back(id);
+                _entitiesAllocated.resize(id+1,nullptr);
+                _entitiesComponentsMask.resize(id+1,0);
+                _entitiesIndex.emplace_back(id);
 
                 for(size_t i = size;i<id;++i)
-                    _entities_index_free.emplace_back(i);
+                    _entitiesIndexFree.emplace_back(i);
 
-                auto comp_size = _components_entities.size();
+                auto comp_size = _componentsEntities.size();
                 for(std::size_t i=0;i<comp_size;++i)
                 {
-                    if(_components_entities[i] != nullptr)
-                        _components_entities[i]->resize(id+1);
+                    if(_componentsEntities[i] != nullptr)
+                        _componentsEntities[i]->resize(id+1);
                 }
             }
-            else if(_entities_allocated[id] != nullptr) //already in use
+            else if(_entitiesAllocated[id] != nullptr) //already in use
             {
                 reset(id);
             }
             else //already free
             {
-                _entities_index_free.remove(id);
-                _entities_index.emplace_back(id);
+                _entitiesIndexFree.remove(id);
+                _entitiesIndex.emplace_back(id);
             }
             
-            _entities_allocated[id] = new ENTITY(this,id,std::forward<Args>(args)...);
+            _entitiesAllocated[id] = new ENTITY(this,id,std::forward<Args>(args)...);
         }
 
         template<class ENTITY>
         void EntityManager<ENTITY>::remove(std::size_t id)
         {
-            _entities_index_to_destroy.emplace_back(id);
+            _entitiesIndexToDestroy.emplace_back(id);
         }
 
         template<class ENTITY>
         void EntityManager<ENTITY>::update()
         {
-            if(_entities_index_to_destroy.size() > 0)
+            if(_entitiesIndexToDestroy.size() > 0)
             {
-                auto end = _entities_index_to_destroy.end();
-                for(auto it = _entities_index_to_destroy.begin();it!=end;++it)
+                auto end = _entitiesIndexToDestroy.end();
+                for(auto it = _entitiesIndexToDestroy.begin();it!=end;++it)
                 {
                     std::uint32_t id = *it;
-                    ENTITY* e = _entities_allocated.at(id);
+                    ENTITY* e = _entitiesAllocated.at(id);
                     if(e != nullptr)
                     {
                         reset(id);
 
-                        _entities_index.erase(std::find(_entities_index.begin(),_entities_index.end(),id));
-                        _entities_index_free.emplace_back(id);
+                        _entitiesIndex.erase(std::find(_entitiesIndex.begin(),_entitiesIndex.end(),id));
+                        _entitiesIndexFree.emplace_back(id);
                     }
                 }
-                _entities_index_to_destroy.clear();
+                _entitiesIndexToDestroy.clear();
             }
         }
 
         template<class ENTITY>
         void EntityManager<ENTITY>::reset()
         {
-            _entities_index_free.clear();
-            _entities_index.clear();
+            _entitiesIndexFree.clear();
+            _entitiesIndex.clear();
 
-            auto comp_size = _components_entities.size();
+            auto comp_size = _componentsEntities.size();
             for(std::size_t i=0;i<comp_size;++i)
             {
-                if(_components_entities[i] != nullptr)
+                if(_componentsEntities[i] != nullptr)
                 {
-                    for(size_t i = 0;i<_entities_index.size();++i)
-                        _components_entities[i]->erase<VComponent<ENTITY>>(i);
-                    delete _components_entities[i];
+                    for(size_t i = 0;i<_entitiesIndex.size();++i)
+                        _componentsEntities[i]->erase<VComponent<ENTITY>>(i);
+                    delete _componentsEntities[i];
                 }
             }
-            _components_entities.clear();
+            _componentsEntities.clear();
 
-            _entities_components_mask.clear();
+            _entitiesComponentsMask.clear();
 
-            size_t size = _entities_allocated.size();
+            size_t size = _entitiesAllocated.size();
             for(size_t i=0;i<size;++i)
-                delete _entities_allocated[i];
+                delete _entitiesAllocated[i];
 
-            _entities_allocated.clear();
+            _entitiesAllocated.clear();
         }
 
         template<class ENTITY>
         std::size_t EntityManager<ENTITY>::size()const
         {
-            return _entities_allocated.size() - _entities_index_free.size();
+            return _entitiesAllocated.size() - _entitiesIndexFree.size();
         }
 
         template<class ENTITY>
         bool EntityManager<ENTITY>::isValid(std::uint32_t id)const
         {
-            return id < _entities_allocated.size() and _entities_allocated[id] != nullptr;
+            return id < _entitiesAllocated.size() and _entitiesAllocated[id] != nullptr;
         }
 
 
         template<class ENTITY>
         const ENTITY& EntityManager<ENTITY>::get(std::size_t id) const
         {
-            return *_entities_allocated.at(id);
+            return *_entitiesAllocated.at(id);
         }
 
         template<class ENTITY>
         ENTITY& EntityManager<ENTITY>::get(std::size_t id)
         {
-            return *_entities_allocated.at(id);
+            return *_entitiesAllocated.at(id);
         }
 
         template<class ENTITY>
         const ENTITY* EntityManager<ENTITY>::getPtr(std::size_t id)const
         {
-            return _entities_allocated.at(id);
+            return _entitiesAllocated.at(id);
         }
 
         template<class ENTITY>
         ENTITY* EntityManager<ENTITY>::getPtr(std::size_t id)
         {
-            return _entities_allocated.at(id);
+            return _entitiesAllocated.at(id);
         }
 
         template<class ENTITY>
         EntityManager<ENTITY>::container::const_iterator EntityManager<ENTITY>::begin()const
         {
-            return _entities_index.cbegin();
+            return _entitiesIndex.cbegin();
         }
 
         template<class ENTITY>
         EntityManager<ENTITY>::container::const_iterator EntityManager<ENTITY>::end()const
         {
-            return _entities_index.cend();
+            return _entitiesIndex.cend();
         }
 
 
@@ -199,15 +199,15 @@ namespace sfutils
             checkComponent<COMPONENT>();
             Family family = COMPONENT::family();
 
-            assert(not _entities_components_mask.at(id).test(family));
+            assert(not _entitiesComponentsMask.at(id).test(family));
 
-            auto pool = static_cast<utils::memory::Pool<COMPONENT>*>(_components_entities[family]);
+            auto pool = static_cast<utils::memory::Pool<COMPONENT>*>(_componentsEntities[family]);
             pool->emplace(id,std::forward<Args>(args)...);
 
-            pool->at(id)._owner_id = id;
+            pool->at(id)._ownerId = id;
             pool->at(id)._manager = this;
 
-            _entities_components_mask.at(id).set(family);
+            _entitiesComponentsMask.at(id).set(family);
         }
         
         template<class ENTITY>
@@ -217,11 +217,11 @@ namespace sfutils
             checkComponent<COMPONENT>();
             Family family = COMPONENT::family();
 
-            assert(_entities_components_mask.at(id).test(family));
+            assert(_entitiesComponentsMask.at(id).test(family));
 
-            static_cast<utils::memory::Pool<COMPONENT>*>(_components_entities[family])->erase(id);
+            static_cast<utils::memory::Pool<COMPONENT>*>(_componentsEntities[family])->erase(id);
 
-            _entities_components_mask[id].reset(family);
+            _entitiesComponentsMask[id].reset(family);
         }
 
         template<class ENTITY>
@@ -230,7 +230,7 @@ namespace sfutils
         {
             //checkComponent<COMPONENT>();
             Family family = COMPONENT::family();
-            return _entities_components_mask.at(id).test(family);
+            return _entitiesComponentsMask.at(id).test(family);
         }
 
         template<class ENTITY>
@@ -254,7 +254,7 @@ namespace sfutils
         inline COMPONENT* EntityManager<ENTITY>::getComponentPtr(std::uint32_t id)const
         {
             Family family = COMPONENT::family();
-            return &static_cast<utils::memory::Pool<COMPONENT>*>(_components_entities[family])->at(id);
+            return &static_cast<utils::memory::Pool<COMPONENT>*>(_componentsEntities[family])->at(id);
         }
 
         template<typename COMPONENT>
@@ -282,18 +282,18 @@ namespace sfutils
         template<class ENTITY>
         void EntityManager<ENTITY>::reset(std::uint32_t id)
         {
-            ENTITY* e = _entities_allocated.at(id);
+            ENTITY* e = _entitiesAllocated.at(id);
 
-            auto comp_size = _components_entities.size();
+            auto comp_size = _componentsEntities.size();
             for(std::size_t i=0;i<comp_size;++i)
             {
-                if(_components_entities[i] != nullptr)
-                    _components_entities[i]->erase<VComponent<ENTITY>>(id);
+                if(_componentsEntities[i] != nullptr)
+                    _componentsEntities[i]->erase<VComponent<ENTITY>>(id);
             }
-            _entities_components_mask.at(id) = 0;
+            _entitiesComponentsMask.at(id) = 0;
 
             delete e;
-            _entities_allocated[id] = nullptr;
+            _entitiesAllocated[id] = nullptr;
         }
 
 
@@ -303,14 +303,14 @@ namespace sfutils
         {
             Family family = COMPONENT::family();
             //resize
-            if( _components_entities.size() <= family)
-                _components_entities.resize(family+1,nullptr);
+            if( _componentsEntities.size() <= family)
+                _componentsEntities.resize(family+1,nullptr);
             //check Pool validity
-            if(_components_entities[family] == nullptr)
+            if(_componentsEntities[family] == nullptr)
             {
                 auto pool = new utils::memory::Pool<COMPONENT>;
-                pool->resize(_entities_allocated.size());
-                _components_entities[family] = pool;
+                pool->resize(_entitiesAllocated.size());
+                _componentsEntities[family] = pool;
             }
         }
 
@@ -320,22 +320,22 @@ namespace sfutils
         template<typename ... COMPONENT>
         EntityManager<ENTITY>::View<COMPONENT...>::View(EntityManager<ENTITY>& manager,const std::bitset<MAX_COMPONENTS>& mask,ComponentHandle<COMPONENT,ENTITY>& ... components) : _manager(manager), _mask(mask), _handles(std::tuple<ComponentHandle<COMPONENT,ENTITY>&...>(components ...))
         {
-            unpack_manager<0,COMPONENT ...>();
+            unpackManager<0,COMPONENT ...>();
         }
 
         template<class ENTITY>
         template<typename ... COMPONENT>
         inline typename EntityManager<ENTITY>::template View<COMPONENT ...>::iterator EntityManager<ENTITY>::View<COMPONENT ...>::begin()
         {
-            auto begin = _manager._entities_index.begin();
-            auto end = _manager._entities_index.end();
+            auto begin = _manager._entitiesIndex.begin();
+            auto end = _manager._entitiesIndex.end();
 
             while(begin != end)
             {
                 std::uint32_t index = *begin;    
-                if((_manager._entities_components_mask[index] & _mask) == _mask)
+                if((_manager._entitiesComponentsMask[index] & _mask) == _mask)
                 {
-                    unpack_id<0,COMPONENT...>(index);
+                    unpackId<0,COMPONENT...>(index);
                     break;
                 }
                 ++begin;
@@ -348,30 +348,30 @@ namespace sfutils
         template<typename ... COMPONENT>
         inline typename EntityManager<ENTITY>::template View<COMPONENT ...>::iterator EntityManager<ENTITY>::View<COMPONENT ...>::end()
         {
-            return iterator(*this,_manager._entities_index.end(),_manager._entities_index.end());
+            return iterator(*this,_manager._entitiesIndex.end(),_manager._entitiesIndex.end());
         }
 
         template<class ENTITY>
         template<typename ... COMPONENT>
         template<int N,typename C>
-        inline void EntityManager<ENTITY>::View<COMPONENT...>::unpack_id(std::uint32_t id)
+        inline void EntityManager<ENTITY>::View<COMPONENT...>::unpackId(std::uint32_t id)
         {
-            std::get<N>(_handles)._entity_id = id;
+            std::get<N>(_handles)._entityId = id;
         }
 
         template<class ENTITY>
         template<typename ... COMPONENT>
         template<int N,typename C0,typename C1,typename ... Cx>
-        inline void EntityManager<ENTITY>::View<COMPONENT...>::unpack_id(std::uint32_t id)
+        inline void EntityManager<ENTITY>::View<COMPONENT...>::unpackId(std::uint32_t id)
         {
-            unpack_id<N,C0>(id);
-            unpack_id<N+1,C1,Cx ...>(id);
+            unpackId<N,C0>(id);
+            unpackId<N+1,C1,Cx ...>(id);
         }
 
         template<class ENTITY>
         template<typename ... COMPONENT>
         template<int N,typename C>
-        inline void EntityManager<ENTITY>::View<COMPONENT...>::unpack_manager()
+        inline void EntityManager<ENTITY>::View<COMPONENT...>::unpackManager()
         {
             std::get<N>(_handles)._manager = &_manager;
         }
@@ -379,17 +379,17 @@ namespace sfutils
         template<class ENTITY>
         template<typename ... COMPONENT>
         template<int N,typename C0,typename C1,typename ... Cx>
-        inline void EntityManager<ENTITY>::View<COMPONENT...>::unpack_manager()
+        inline void EntityManager<ENTITY>::View<COMPONENT...>::unpackManager()
         {
-            unpack_manager<N,C0>();
-            unpack_manager<N+1,C1,Cx ...>();
+            unpackManager<N,C0>();
+            unpackManager<N+1,C1,Cx ...>();
         }
 
         ////////////////// VIEW ITERATOR /////////////////////////
 
         template<class ENTITY>
         template<typename ... COMPONENT>
-        EntityManager<ENTITY>::View<COMPONENT ...>::iterator::iterator(View& view,EntityManager<ENTITY>::container::iterator it,EntityManager<ENTITY>::container::iterator it_end) : _view(view), _it(it), _it_end(it_end)
+        EntityManager<ENTITY>::View<COMPONENT ...>::iterator::iterator(View& view,EntityManager<ENTITY>::container::iterator it,EntityManager<ENTITY>::container::iterator it_end) : _view(view), _it(it), _itEnd(it_end)
         {
         }
 
@@ -398,12 +398,12 @@ namespace sfutils
         typename EntityManager<ENTITY>::template View<COMPONENT...>::iterator& EntityManager<ENTITY>::View<COMPONENT ...>::iterator::operator++()
         {
             ++_it;
-            while(_it != _it_end)
+            while(_it != _itEnd)
             {
                 std::uint32_t index = *_it;    
-                if(_view._manager._entities_allocated.at(index) != nullptr and (_view._manager._entities_components_mask.at(index) & _view._mask) == _view._mask)
+                if(_view._manager._entitiesAllocated.at(index) != nullptr and (_view._manager._entitiesComponentsMask.at(index) & _view._mask) == _view._mask)
                 {
-                    _view.unpack_id<0,COMPONENT...>(index);
+                    _view.unpackId<0,COMPONENT...>(index);
                     break;
                 }
                 ++_it;
@@ -415,18 +415,18 @@ namespace sfutils
         template<typename ... COMPONENT>
         inline ENTITY* EntityManager<ENTITY>::View<COMPONENT ...>::iterator::operator*()const
         {
-            if(_it == _it_end)
+            if(_it == _itEnd)
                 return nullptr;
-            return _view._manager._entities_allocated.at(*_it);
+            return _view._manager._entitiesAllocated.at(*_it);
         }
 
         template<class ENTITY>
         template<typename ... COMPONENT>
         inline ENTITY* EntityManager<ENTITY>::View<COMPONENT ...>::iterator::operator->()const
         {
-            if(_it == _it_end)
+            if(_it == _itEnd)
                 return nullptr;
-            return _view._manager._entities_allocated.at(*_it);
+            return _view._manager._entitiesAllocated.at(*_it);
         }
 
         template<class ENTITY>

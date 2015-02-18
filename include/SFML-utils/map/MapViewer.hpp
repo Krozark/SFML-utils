@@ -60,11 +60,10 @@ namespace sfutils
             private:
                 const VMap& _map;
                 sf::View _view;
-                sf::Vector2i _mouse_pos;
                 float _zoom;
                 
-                int _move_x, _move_y;
-                float _movement_speed;
+                int _moveX, _moveY;
+                float _movementSpeed;
                 sf::RenderWindow& _window;
 
                 virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;

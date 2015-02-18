@@ -191,7 +191,7 @@ int main(int argc,char* argv[])
     systems.update<System3>(sf::seconds(3));
 
     for(int i = 0; i<1000000;++i)
-        std::uint32_t id = entities.create();
+        /*std::uint32_t id = */entities.create();
 
     sf::Clock clock;
     while(true)

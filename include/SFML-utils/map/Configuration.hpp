@@ -25,7 +25,7 @@ namespace sfutils
                     MoveRight
                 };
 
-                static ActionMap<int> default_map_inputs;
+                static ActionMap<int> defaultMapInputs;
 
             private:
 

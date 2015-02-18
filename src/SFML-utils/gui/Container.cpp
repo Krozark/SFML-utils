@@ -76,7 +76,7 @@ namespace sfutils
         
         void Container::draw(sf::RenderTarget& target, sf::RenderStates states) const
         {
-            if(_is_visible and _layout)
+            if(_isVisible and _layout)
             {
                 states.transform.translate(_position);
                 target.draw(_shape,states);
@@ -87,14 +87,14 @@ namespace sfutils
         bool Container::processEvent(const sf::Event& event,const sf::Vector2f& parent_pos)
         {
             bool res = false;
-            if(_is_visible and _layout)
+            if(_isVisible and _layout)
                 res = _layout->processEvent(event,_position + parent_pos);
             return res;
         }
 
         void Container::processEvents(const sf::Vector2f& parent_pos)
         {
-            if(_is_visible and _layout)
+            if(_isVisible and _layout)
                 _layout->processEvents(_position + parent_pos);
         }
 
