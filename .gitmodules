@@ -1,0 +1,3 @@
+[submodule "extlibs/cpp-utils"]
+	path = extlibs/cpp-utils
+	url = https://github.com/Krozark/cpp-utils.git
