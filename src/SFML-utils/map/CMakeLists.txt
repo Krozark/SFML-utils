@@ -1,8 +1,7 @@
 set(INCROOT ${PROJECT_SOURCE_DIR}/include/${CMAKE_PROJECT_NAME}/map)
 set(SRCROOT ${PROJECT_SOURCE_DIR}/src/${CMAKE_PROJECT_NAME}/map)
 
-find_library(LIB_UTILS_JSON utils-json)
-set(LIBS ${LIBS} ${CMAKE_PROJECT_NAME}-core ${LIB_UTILS_JSON})
+set(LIBS ${LIBS} ${CMAKE_PROJECT_NAME}-core utils-json)
 
 set(FILES_HEADER
     ${INCROOT}/Configuration.hpp

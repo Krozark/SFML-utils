@@ -78,6 +78,11 @@ set(LIB_INSTALL_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/examples)
 
 
+#dependencies
+add_subdirectory(extlibs/cpp-utils)
+include_directories(extlibs/cpp-utils/include)
+
+
 # add the subdirectories
 add_subdirectory(src)
 
