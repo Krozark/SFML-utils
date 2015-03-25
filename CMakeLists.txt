@@ -67,11 +67,25 @@ set(WARNING "-Wall")
 set(FLAGS "-o3 -std=c++11")
 set(CMAKE_CXX_FLAGS "${DEFINES} ${WARNING} ${FLAGS}")
 
-find_library(LIB_SFML_SYSTEM sfml-system)
-find_library(LIB_SFML_GRAPHICS sfml-graphics)
-find_library(LIB_SFML_WINDOW sfml-window)
-find_library(LIB_SFML_AUDIO sfml-audio)
-set(LIBS ${LIB_SFML_SYSTEM} ${LIB_SFML_GRAPHICS} ${LIB_SFML_WINDOW} ${LIB_SFML_AUDIO})
+#find SFML
+if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+    set_option(SFML_ROOT ${CMAKE_INSTALL_PREFIX}/../SFML PATH "The SFML root installation")
+elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+    set_option(SFML_ROOT ${CMAKE_INSTALL_PREFIX}/SFML PATH "The SFML root installation")
+else()
+    set_option(SFML_ROOT ${CMAKE_INSTALL_PREFIX}/SFML PATH "The SFML root installation")
+endif()
+
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules;${CMAKE_SOURCE_DIR}")
+
+find_package(SFML 2 COMPONENTS system graphics window audio network)
+if(NOT SFML_FOUND)
+	message(FATAL_ERROR "SFML Modules not find. Please set the SFML_ROOT variable to your SFML root installation directory and retry")
+endif()
+
+#add SFML
+include_directories(${SFML_INCLUDE_DIR})
+set(LIBS ${SFML_LIBRARIES})
 
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
