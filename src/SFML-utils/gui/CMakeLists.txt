@@ -1,7 +1,7 @@
-set(INCROOT ${PROJECT_SOURCE_DIR}/include/${CMAKE_PROJECT_NAME}/gui)
-set(SRCROOT ${PROJECT_SOURCE_DIR}/src/${CMAKE_PROJECT_NAME}/gui)
+set(INCROOT ${INCROOT}/gui)
+set(SRCROOT ${SRCROOT}/gui)
 
-set(LIBS ${LIBS} ${CMAKE_PROJECT_NAME}-core)
+set(LIBS ${LIBS} ${PROJECT_NAME}-core)
 
 set(FILES_HEADER
     ${INCROOT}/Button.hpp
@@ -34,4 +34,4 @@ set(FILES_SRC
 
 )
 
-Compile("${CMAKE_PROJECT_NAME}-gui" "" "")
+Compile("${PROJECT_NAME}-gui" "" "")

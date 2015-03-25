@@ -1,5 +1,5 @@
-set(INCROOT ${PROJECT_SOURCE_DIR}/include/${CMAKE_PROJECT_NAME}/core)
-set(SRCROOT ${PROJECT_SOURCE_DIR}/src/${CMAKE_PROJECT_NAME}/core)
+set(INCROOT ${INCROOT}/core)
+set(SRCROOT ${SRCROOT}/core)
 
 set(FILES_HEADER
     ${INCROOT}/Action.hpp
@@ -21,4 +21,4 @@ set(FILES_SRC
     ${SRCROOT}/AnimatedSprite.cpp
 )
 
-Compile("${CMAKE_PROJECT_NAME}-core" "" "")
+Compile("${PROJECT_NAME}-core" "" "")

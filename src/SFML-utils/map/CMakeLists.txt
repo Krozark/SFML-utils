@@ -1,7 +1,7 @@
-set(INCROOT ${PROJECT_SOURCE_DIR}/include/${CMAKE_PROJECT_NAME}/map)
-set(SRCROOT ${PROJECT_SOURCE_DIR}/src/${CMAKE_PROJECT_NAME}/map)
+set(INCROOT ${INCROOT}/map)
+set(SRCROOT ${SRCROOT}/map)
 
-set(LIBS ${LIBS} ${CMAKE_PROJECT_NAME}-core utils-json)
+set(LIBS ${LIBS} ${PROJECT_NAME}-core utils-json)
 
 set(FILES_HEADER
     ${INCROOT}/Configuration.hpp
@@ -25,4 +25,4 @@ set(FILES_SRC
     ${SRCROOT}/VLayer.cpp
 )
 
-Compile("${CMAKE_PROJECT_NAME}-map" "" "")
+Compile("${PROJECT_NAME}-map" "" "")

@@ -1,5 +1,5 @@
-set(INCROOT ${PROJECT_SOURCE_DIR}/include/${CMAKE_PROJECT_NAME}/box2D)
-set(SRCROOT ${PROJECT_SOURCE_DIR}/src/${CMAKE_PROJECT_NAME}/box2D)
+set(INCROOT ${INCROOT}/box2D)
+set(SRCROOT ${SRCROOT}/box2D)
 
 find_library(LIB_BOX2D Box2D)
 set(LIBS ${LIBS} ${LIB_BOX2D})
@@ -14,4 +14,4 @@ set(FILES_SRC
     ${SRCROOT}/DebugDraw.cpp
 )
 
-Compile("${CMAKE_PROJECT_NAME}-box2D" ${LIB_BOX2D} ${LIB_BOX2D})
+Compile("${PROJECT_NAME}-box2D" ${LIB_BOX2D} ${LIB_BOX2D})

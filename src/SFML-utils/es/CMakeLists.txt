@@ -1,8 +1,7 @@
-set(INCROOT ${PROJECT_SOURCE_DIR}/include/${CMAKE_PROJECT_NAME}/es)
-set(SRCROOT ${PROJECT_SOURCE_DIR}/src/${CMAKE_PROJECT_NAME}/es)
+set(INCROOT ${INCROOT}/es)
+set(SRCROOT ${SRCROOT}/es)
 
-find_library(LIB_UTILS utils)
-set(LIBS ${LIBS} ${LIB_UTILS})
+set(LIBS ${LIBS} utils)
 
 
 set(FILES_HEADER
@@ -21,4 +20,4 @@ set(FILES_SRC
     ${SRCROOT}/Entity.cpp
 )
 
-Compile("${CMAKE_PROJECT_NAME}-es" "" "")
+Compile("${PROJECT_NAME}-es" "" "")
