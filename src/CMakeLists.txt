@@ -1,1 +1,1 @@
-add_subdirectory(${CMAKE_PROJECT_NAME})
+add_subdirectory(${PROJECT_NAME})
