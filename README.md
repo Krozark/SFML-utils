@@ -40,6 +40,65 @@ Requirements
 Map
 ===
 
+Only one parameter as been change in the json file :
+
+```
+{
+    "name" : "test",
+    "geometry" :
+    {
+        "name" : "Hexa/HexIso/Square/SquareIso",    //here is the change
+        "size" : 50.0
+    },
+    "layers" :
+    [
+      {
+            "content" : "tile", //type of the layer (grid here)
+            "z" : 1, //zbuffer (default is 0)
+            "static" : true, //default is false
+            "datas" :  //texture informations
+            [
+                {
+                    "img" :"media/img/ground2.png", //texture to apply
+                    "x" : 0, //start point x
+                    "y" : 0, //start point y
+                    "width" : 100, //number of lines
+                    "height" : 100 //number of collumns
+                }
+                //... other textures can be specify if needed
+            ]
+        }
+
+    ]
+}
+```
+
+Then another file is use for the trees:
+
+```
+{
+    "layers" : 
+    [
+        {
+            "content" : "sprite", //type of the layer
+            "z" : 3, //z buffer
+            "datas" : 
+            [
+                {
+                    "x" : 2, // line emplacement
+                    "y" : 4, // row emplacement 
+                    "ox" : 0.5, //center point (default is 0.5) relative to the image size
+                    "oy" : 1.0, //center point (default is 1) relative to image size
+                    "img" : "media/img/tree/tree1.png" //skin file
+                },
+                //.... other trees
+            ]
+        }
+    ]
+}
+```
+
+
 Hexagonal grid
 ---------
 <img src="https://raw.githubusercontent.com/Krozark/SFML-utils/master/screen/Hexa.png" alt="Hexagonal grid" width="350px">
