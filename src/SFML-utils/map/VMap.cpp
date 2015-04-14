@@ -5,6 +5,7 @@
 #include <SFML-utils/map/tileShapes/HexaIso.hpp>
 #include <SFML-utils/map/tileShapes/Hexa.hpp>
 #include <SFML-utils/map/tileShapes/Square.hpp>
+#include <SFML-utils/map/tileShapes/SquareIso.hpp>
 
 #include <algorithm>
 
@@ -172,6 +173,11 @@ namespace sfutils
             else if(geometry_name == "Square")
             {
                 res = new Map<geometry::Square>(size);
+                res->loadFromJson(root);
+            }
+            else if(geometry_name == "SquareIso")
+            {
+                res = new Map<geometry::SquareIso>(size);
                 res->loadFromJson(root);
             }
             else

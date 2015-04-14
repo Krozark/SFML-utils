@@ -18,6 +18,7 @@ set(FILES_HEADER
     ${INCROOT}/tileShapes/HexaIso.hpp
     ${INCROOT}/tileShapes/Hexa.hpp
     ${INCROOT}/tileShapes/Square.hpp
+    ${INCROOT}/tileShapes/SquareIso.hpp
 )
 
 set(FILES_SRC
@@ -29,6 +30,7 @@ set(FILES_SRC
     ${SRCROOT}/tileShapes/HexaIso.cpp
     ${SRCROOT}/tileShapes/Hexa.cpp
     ${SRCROOT}/tileShapes/Square.cpp
+    ${SRCROOT}/tileShapes/SquareIso.cpp
 )
 
 Compile("${PROJECT_NAME}-map" "" "")

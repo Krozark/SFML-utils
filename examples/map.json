@@ -2,7 +2,7 @@
     "name" : "test",
     "geometry" :
     {
-        "name" :"Square",
+        "name" :"SquareIso",
         "size" : 50.0
     },
     "layers" : 

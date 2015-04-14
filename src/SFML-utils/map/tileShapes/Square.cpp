@@ -23,7 +23,8 @@ namespace sfutils
 
         sf::Vector2i Square::mapPixelToCoords(float X,float Y,float scale)
         {
-            return round(X/scale/height,Y/scale/height);
+            return round(X/scale/height,
+                         Y/scale/height);
         }
 
         sf::Vector2i Square::round(float x, float y)
