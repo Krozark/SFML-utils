@@ -13,11 +13,14 @@ It provide some adds to the SFML library including:
   * Sprite Button
  * Sprite
  * Label
- * Vertical layout
+ * Layout
+  * Vertical
+  * Horizontal
 * Box2D debugDraw (optional)
-* 2D map framwork
+* 2D tile map framwork
+ * Tile Hexa, Hexa iso, Square, Sqare Iso
+ * loading from json
 * Entity system
-* Tile map (Hexa, Hxa iso, Square, Sqare Iso) loading from json.
 
 Requirements
 ------------
