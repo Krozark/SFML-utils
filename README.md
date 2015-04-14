@@ -35,3 +35,12 @@ Requirements
 * Box2D 2.3 + (optional)
 * cpp-utils : json parser (for map framwork, https://github.com/Krozark/cpp-utils)
 * C++11 compiler
+
+
+Map
+===
+
+<img src="https://raw.githubusercontent.com/Krozark/SFML-utils/master/screen/Hexa.png" alt="Hexagonal grid" height="650px">
+<img src="https://raw.githubusercontent.com/Krozark/SFML-utils/master/screen/HexaIso.png" alt="Hexagonal isomitric grid" height="650px">
+<img src="https://raw.githubusercontent.com/Krozark/SFML-utils/master/screen/Square.png" alt="Square grid" height="650px">
+<img src="https://raw.githubusercontent.com/Krozark/SFML-utils/master/screen/SquareIso.png" alt="Square isomitric grid" height="650px">
