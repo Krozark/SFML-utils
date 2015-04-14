@@ -7,19 +7,19 @@ It provide some adds to the SFML library including:
 * Event manager with callback
 * A Gui
  * Container
-  * Frame
+  ** Frame
  * Button
-  * Text Button
-  * Sprite Button
+  ** Text Button
+  ** Sprite Button
  * Sprite
  * Label
  * Layout
-  * Vertical
-  * Horizontal
+  ** Vertical
+  ** Horizontal
 * Box2D debugDraw (optional)
 * 2D tile map framwork
- * Tile Hexa, Hexa iso, Square, Sqare Iso
- * loading from json
+ ** Tile Hexa, Hexa iso, Square, Sqare Iso
+ ** loading from json
 * Entity system
 
 Requirements
