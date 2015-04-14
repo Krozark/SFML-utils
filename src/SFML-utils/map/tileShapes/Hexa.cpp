@@ -21,8 +21,8 @@ namespace sfutils
 
         sf::Vector2f Hexa::mapCoordsToPixel(int X,int Y,float scale)
         {
-            return sf::Vector2f((Y*delta_x + X*delta_y)*scale,
-                                (Y*delta_y + X*delta_x)*scale);
+            return sf::Vector2f(X*delta_x*scale,
+                                Y*delta_y*scale);
         }
 
         sf::Vector2i Hexa::mapPixelToCoords(float X,float Y,float scale)
