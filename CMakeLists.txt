@@ -59,12 +59,12 @@ set_option(SFML_UTILS_BUILD_EXAMPLES TRUE BOOL "TRUE to build the examples, FALS
 # add an option for building the API documentation
 set_option(SFML_UTILS_BUILD_DOC TRUE BOOL "TRUE to generate the API documentation, FALSE to ignore it")
 
-set_option(SFML_UTILS_BUILD_BOX2D FALSE BOOL "TRUE to build box2d wrapper for SFML")
+set_option(SFML_UTILS_BUILD_BOX2D TRUE BOOL "TRUE to build box2d wrapper for SFML")
 
 #set(includepath "-I${CMAKE_CURRENT_SOURCE_DIR}/include")
 set(DEFINES "")
 set(WARNING "-Wall")
-set(FLAGS "-o3 -std=c++11")
+set(FLAGS "-g -std=c++11")
 set(CMAKE_CXX_FLAGS "${DEFINES} ${WARNING} ${FLAGS}")
 
 #find SFML

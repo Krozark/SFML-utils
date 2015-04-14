@@ -1,4 +1,4 @@
-#include <SFML-utils/map/HexaIso.hpp>
+#include <SFML-utils/map/tileShapes/HexaIso.hpp>
 #include <cmath>
 
 namespace sfutils
@@ -72,9 +72,9 @@ namespace sfutils
 
         int HexaIso::distance(int x1,int y1, int x2,int y2)
         {
-                return std::abs(x1 - x2)
+                return (std::abs(x1 - x2)
                     + std::abs(y1 - y2)
-                    + std::abs(x1 + y1 - x2 - y2) / 2;
+                    + std::abs((-x1- y1) - (-x2 - y2))) / 2;
           }
 
         void HexaIso::init()

@@ -5,7 +5,6 @@ set(LIBS ${LIBS} ${PROJECT_NAME}-core utils-json)
 
 set(FILES_HEADER
     ${INCROOT}/Configuration.hpp
-    ${INCROOT}/HexaIso.hpp
     ${INCROOT}/Layer.hpp
     ${INCROOT}/Layer.tpl
     ${INCROOT}/Map.hpp
@@ -15,14 +14,19 @@ set(FILES_HEADER
     ${INCROOT}/Tile.tpl
     ${INCROOT}/VLayer.hpp
     ${INCROOT}/VMap.hpp
+
+    ${INCROOT}/tileShapes/HexaIso.hpp
+    ${INCROOT}/tileShapes/Hexa.hpp
 )
 
 set(FILES_SRC
     ${SRCROOT}/Configuration.cpp
-    ${SRCROOT}/HexaIso.cpp
     ${SRCROOT}/VMap.cpp
     ${SRCROOT}/MapViewer.cpp
     ${SRCROOT}/VLayer.cpp
+
+    ${SRCROOT}/tileShapes/HexaIso.cpp
+    ${SRCROOT}/tileShapes/Hexa.cpp
 )
 
 Compile("${PROJECT_NAME}-map" "" "")

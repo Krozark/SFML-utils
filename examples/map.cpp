@@ -24,6 +24,8 @@ int main(int argc,char* argv[])
 
     sf::Clock clock;
 
+    sf::Vector2i last;
+
     while (window.isOpen())
     {
         window.clear();
@@ -39,7 +41,10 @@ int main(int argc,char* argv[])
                 if(event.type == sf::Event::MouseButtonReleased and event.mouseButton.button == sf::Mouse::Button::Left)
                 {
                     sf::Vector2i coord = viewer.mapScreenToCoords(event.mouseButton.x,event.mouseButton.y);
-                    std::cout<<coord.x<<" "<<coord.y<<std::endl;
+                    std::cout<<"Click on: "<<coord.x<<":"<<coord.y<<std::endl;
+                    std::cout<<"Distance between "<<coord.x<<":"<<coord.y<<" and "<<last.x<<":"<<last.y<<" = "<<map->getDistance(coord,last)<<std::endl;
+                    last = coord;
+
                 }
                 else if(event.type == sf::Event::MouseMoved)
                 {

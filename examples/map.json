@@ -2,7 +2,7 @@
     "name" : "test",
     "geometry" :
     {
-        "name" :"HexaIso",
+        "name" :"Hexa",
         "size" : 50.0
     },
     "layers" : 
