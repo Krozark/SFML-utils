@@ -42,11 +42,11 @@ Map
 
 Hexagonal grid
 ---------
-<img src="https://raw.githubusercontent.com/Krozark/SFML-utils/master/screen/Hexa.png" alt="Hexagonal grid" height="350px">
-<img src="https://raw.githubusercontent.com/Krozark/SFML-utils/master/screen/HexaIso.png" alt="Hexagonal isomitric grid" height="350px">
+<img src="https://raw.githubusercontent.com/Krozark/SFML-utils/master/screen/Hexa.png" alt="Hexagonal grid" width="350px">
+<img src="https://raw.githubusercontent.com/Krozark/SFML-utils/master/screen/HexaIso.png" alt="Hexagonal isomitric grid" width="350px">
 
 Square grid
 -----------
 
-<img src="https://raw.githubusercontent.com/Krozark/SFML-utils/master/screen/Square.png" alt="Square grid" height="350px">
-<img src="https://raw.githubusercontent.com/Krozark/SFML-utils/master/screen/SquareIso.png" alt="Square isomitric grid" height="350px">
+<img src="https://raw.githubusercontent.com/Krozark/SFML-utils/master/screen/Square.png" alt="Square grid" width="350px">
+<img src="https://raw.githubusercontent.com/Krozark/SFML-utils/master/screen/SquareIso.png" alt="Square isomitric grid" width="350px">
