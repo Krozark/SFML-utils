@@ -8,7 +8,8 @@ namespace sfutils
         sf::ConvexShape Hexa::_shape;
         Hexa::__Initiatiser Hexa::__initiatiser__;
 
-        const float sqrt_3_2 = sqrt(3)/2.0;
+        const float sqrt_3 = sqrt(3);
+        const float sqrt_3_2 = sqrt_3/2.0;
 
         const float width = sqrt_3_2;
         const float delta_x = width;
@@ -21,18 +22,15 @@ namespace sfutils
 
         sf::Vector2f Hexa::mapCoordsToPixel(int X,int Y,float scale)
         {
-            return sf::Vector2f(X*delta_x*scale,
-                                Y*delta_y*scale);
+            return sf::Vector2f(scale*delta_x*(X+ Y/2.0),
+                                scale*delta_y*Y);
         }
 
         sf::Vector2i Hexa::mapPixelToCoords(float X,float Y,float scale)
         {
-            const float d_x = delta_x * scale;
-            const float d_y = delta_y * scale;
 
-            const float y = (-X*d_x + 2*Y*d_y)/(d_y*d_y - d_x*d_x);
-            const float x = -(y*d_x - X)/d_y;
-
+            float x = (X/delta_x - Y/(2*delta_y)) / scale;
+            float y = (Y/delta_y) / scale;
             return Hexa::round(x,y);
         }
 
