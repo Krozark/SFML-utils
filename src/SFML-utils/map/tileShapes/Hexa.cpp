@@ -11,9 +11,11 @@ namespace sfutils
         const float sqrt_3 = sqrt(3);
         const float sqrt_3_2 = sqrt_3/2.0;
 
-        const float width = sqrt_3_2;
+
+        const float height = 2;
+        const float width = height * sqrt_3_2;
         const float delta_x = width;
-        const float delta_y = 3.0/4.0;
+        const float delta_y = height*3.0/4.0;
 
         const sf::ConvexShape& Hexa::getShape()
         {
@@ -29,8 +31,8 @@ namespace sfutils
         sf::Vector2i Hexa::mapPixelToCoords(float X,float Y,float scale)
         {
 
-            float x = (X/delta_x - Y/(2*delta_y)) / scale;
-            float y = (Y/delta_y) / scale;
+            const float x = (X/delta_x - Y/(2*delta_y)) / scale;
+            const float y = (Y/delta_y) / scale;
             return Hexa::round(x,y);
         }
 
@@ -60,7 +62,7 @@ namespace sfutils
             sf::IntRect res(pos.x,
                           pos.y,
                           width * scale,
-                          scale);
+                          height * scale);
             return res;
         }
 
@@ -75,13 +77,13 @@ namespace sfutils
         {
             _shape.setPointCount(6);
             _shape.setPoint(0,sf::Vector2f(width/2,0));
-            _shape.setPoint(1,sf::Vector2f(width,0.25));
-            _shape.setPoint(2,sf::Vector2f(width,0.75));
-            _shape.setPoint(3,sf::Vector2f(width/2,1));
-            _shape.setPoint(4,sf::Vector2f(0,0.75));
-            _shape.setPoint(5,sf::Vector2f(0,0.25));
+            _shape.setPoint(1,sf::Vector2f(width,height*0.25));
+            _shape.setPoint(2,sf::Vector2f(width,height*0.75));
+            _shape.setPoint(3,sf::Vector2f(width/2,height));
+            _shape.setPoint(4,sf::Vector2f(0,height*0.75));
+            _shape.setPoint(5,sf::Vector2f(0,height*0.25));
             
-            _shape.setOrigin(width/2,0.5);
+            _shape.setOrigin(width/2,height*0.5);
         }
         
     }
