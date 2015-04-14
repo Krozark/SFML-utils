@@ -21,6 +21,12 @@ It provide some adds to the SFML library including:
   * Tile Hexa, Hexa iso, Square, Square Iso
   * loading from json file/stream/object
 * Entity system
+  * Customisable Components
+  * Customisable Systems
+  * Customisable Entity
+  * Entity manager
+  * Application
+
 
 Requirements
 ------------
