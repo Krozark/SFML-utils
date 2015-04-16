@@ -27,7 +27,7 @@ set( UTILS_FOUND false )
 
 find_path(
 	UTILS_INCLUDE_DIR
-	UTILS/sys.hpp
+	utils/sys.hpp
 	PATH_SUFFIXES
 		include
 	PATHS
@@ -41,7 +41,7 @@ find_path(
 
 find_library(
 	UTILS_LIBRARY
-	utils${SFGUI_SUFFIX}
+	utils
 	PATH_SUFFIXES
 		lib
 		lib64

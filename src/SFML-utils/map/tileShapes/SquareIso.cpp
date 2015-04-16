@@ -18,17 +18,17 @@ namespace sfutils
 
         sf::Vector2f SquareIso::mapCoordsToPixel(int X,int Y,float scale)
         {
-            return sf::Vector2f((X+Y)* width/2 * scale,
-                                (-X+Y)* height/2 * scale);
+            return sf::Vector2f((X-Y)* width/2 * scale,
+                                (X+Y)* height/2 * scale);
         }
 
         sf::Vector2i SquareIso::mapPixelToCoords(float X,float Y,float scale)
         {
-            return round((X/width - Y/height)/scale,
-                         (X/width + Y/height) / scale);
+            /*return round((X/width - Y/height)/scale,
+                         (X/width + Y/height) / scale);*/
 
-            /*return round((X/width + Y/height)/ scale,
-                         (-X/width + Y/height)/scale);*/
+            return round((X/width + Y/height)/ scale,
+                         (-X/width + Y/height)/scale);
         }
 
         sf::Vector2i SquareIso::round(float x, float y)
