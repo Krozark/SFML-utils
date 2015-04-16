@@ -40,7 +40,28 @@ Requirements
 Map
 ===
 
-Only one parameter as been change in the json file :
+Hexagonal grid
+---------
+<img src="https://raw.githubusercontent.com/Krozark/SFML-utils/master/screen/Hexa.png" alt="Hexagonal grid" width="350px">
+<img src="https://raw.githubusercontent.com/Krozark/SFML-utils/master/screen/HexaIso.png" alt="Hexagonal isomitric grid" width="350px">
+
+Square grid
+-----------
+
+<img src="https://raw.githubusercontent.com/Krozark/SFML-utils/master/screen/Square.png" alt="Square grid" width="350px">
+<img src="https://raw.githubusercontent.com/Krozark/SFML-utils/master/screen/SquareIso.png" alt="Square isomitric grid" width="350px">
+
+
+Square Staggered grid
+----------------------
+<img src="https://raw.githubusercontent.com/Krozark/SFML-utils/master/screen/SquareStaggered.png" alt="Square Staggered grid" width="350px">
+<img src="https://raw.githubusercontent.com/Krozark/SFML-utils/master/screen/SquareIsoStaggered.png" alt="Square Iso Staggered grid" width="350px">
+
+
+Load from file
+---------------
+
+Only one parameter as been change in the json file to change the grid geometry:
 
 ```
 {
@@ -97,21 +118,3 @@ Then another file is use for the trees:
     ]
 }
 ```
-
-
-Hexagonal grid
----------
-<img src="https://raw.githubusercontent.com/Krozark/SFML-utils/master/screen/Hexa.png" alt="Hexagonal grid" width="350px">
-<img src="https://raw.githubusercontent.com/Krozark/SFML-utils/master/screen/HexaIso.png" alt="Hexagonal isomitric grid" width="350px">
-
-Square grid
------------
-
-<img src="https://raw.githubusercontent.com/Krozark/SFML-utils/master/screen/Square.png" alt="Square grid" width="350px">
-<img src="https://raw.githubusercontent.com/Krozark/SFML-utils/master/screen/SquareIso.png" alt="Square isomitric grid" width="350px">
-
-
-Square Staggered grid
-----------------------
-<img src="https://raw.githubusercontent.com/Krozark/SFML-utils/master/screen/SquareStaggered.png" alt="Square Staggered grid" width="350px">
-<img src="https://raw.githubusercontent.com/Krozark/SFML-utils/master/screen/SquareIsoStaggered.png" alt="Square Iso Staggered grid" width="350px">
