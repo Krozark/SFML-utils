@@ -35,8 +35,16 @@ namespace sfutils
                         int tex_x = texture["x"].as_int();
                         int tex_y = texture["y"].as_int();
 
-                        int height = std::max<int>(0,texture["height"].as_int());
-                        int width = std::max<int>(0,texture["width"].as_int());
+                        int height = 1;
+                        try {
+                            height = std::max<int>(0,texture["height"].as_int());
+                        } catch(...){}
+
+                        int width = 1;
+                        try {
+                            width = std::max<int>(0,texture["width"].as_int());
+                        }catch (...){}
+
                         std::string img = texture["img"];
 
                         sf::Texture& tex = _textures.getOrLoad(img,img);

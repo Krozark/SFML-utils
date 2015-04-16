@@ -83,8 +83,8 @@ Only one parameter as been change in the json file to change the grid geometry:
                     "img" :"media/img/ground2.png", //texture to apply
                     "x" : 0, //start point x
                     "y" : 0, //start point y
-                    "width" : 100, //number of lines
-                    "height" : 100 //number of collumns
+                    "width" : 100, //number of lines (default is 1)
+                    "height" : 100 //number of collumns (default is 1)
                 }
                 //... other textures can be specify if needed
             ]

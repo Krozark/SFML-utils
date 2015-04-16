@@ -2,7 +2,7 @@
     "name" : "test",
     "geometry" :
     {
-        "name" :"SquareIso",
+        "name" :"SquareStaggered",
         "size" : 50.0
     },
     "layers" : 

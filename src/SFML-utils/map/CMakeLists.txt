@@ -15,6 +15,7 @@ set(FILES_HEADER
     ${INCROOT}/VLayer.hpp
     ${INCROOT}/VMap.hpp
 
+    ${INCROOT}/tileShapes/BaseTile.hpp
     ${INCROOT}/tileShapes/HexaIso.hpp
     ${INCROOT}/tileShapes/Hexa.hpp
     ${INCROOT}/tileShapes/Square.hpp

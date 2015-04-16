@@ -1,20 +1,10 @@
 #include <SFML-utils/map/tileShapes/SquareIso.hpp>
-#include <cmath>
 
 namespace sfutils
 {
     namespace geometry
     {
-        sf::ConvexShape SquareIso::_shape;
-        SquareIso::__Initiatiser SquareIso::__initiatiser__;
-
-        const float height = 1;
-        const float width = 2;
-
-        const sf::ConvexShape& SquareIso::getShape()
-        {
-            return _shape;
-        }
+        SFML_UTILS_BASE_SQUARE_ISO_INIT(SquareIso);
 
         sf::Vector2f SquareIso::mapCoordsToPixel(int X,int Y,float scale)
         {
@@ -35,53 +25,6 @@ namespace sfutils
             //change the rotation
             /*return round((X/width - Y/height)/scale,
                          (X/width + Y/height) / scale);*/
-        }
-
-        sf::Vector2i SquareIso::round(float x, float y)
-        {
-            if(x>=0)
-                x+=0.5;
-            else
-                x-=0.5;
-
-            if(y>=0)
-                y+=0.5;
-            else
-                y-=0.5;
-
-            return sf::Vector2i(x,y);
-        }
-
-        sf::IntRect SquareIso::getTextureRect(int x,int y,float scale)
-        {
-            sf::Vector2f pos = mapCoordsToPixel(x,y,scale);
-            sf::IntRect res(pos.x,
-                          pos.y,
-                          width * scale,
-                          height * scale);
-            return res;
-        }
-
-        int SquareIso::distance(int x1,int y1, int x2,int y2)
-        {
-            float x = x1 - x2;
-            x = x*x;
-
-            float y = y1 - y2;
-            y = y*y;
-
-                return ceil(sqrt(x + y));
-          }
-
-        void SquareIso::init()
-        {
-            _shape.setPointCount(4);
-            _shape.setPoint(0,sf::Vector2f(width/2,0));
-            _shape.setPoint(1,sf::Vector2f(width,height/2));
-            _shape.setPoint(2,sf::Vector2f(width/2,height));
-            _shape.setPoint(3,sf::Vector2f(0,height/2));
-
-            _shape.setOrigin(width/2,height/2);
         }
         
     }
