@@ -20,6 +20,7 @@ set(FILES_HEADER
     ${INCROOT}/tileShapes/Square.hpp
     ${INCROOT}/tileShapes/SquareIso.hpp
     ${INCROOT}/tileShapes/SquareStaggered.hpp
+    ${INCROOT}/tileShapes/SquareIsoStaggered.hpp
 )
 
 set(FILES_SRC
@@ -33,6 +34,7 @@ set(FILES_SRC
     ${SRCROOT}/tileShapes/Square.cpp
     ${SRCROOT}/tileShapes/SquareIso.cpp
     ${SRCROOT}/tileShapes/SquareStaggered.cpp
+    ${SRCROOT}/tileShapes/SquareIsoStaggered.cpp
 )
 
 Compile("${PROJECT_NAME}-map" "" "")

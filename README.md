@@ -47,7 +47,7 @@ Only one parameter as been change in the json file :
     "name" : "test",
     "geometry" :
     {
-        "name" : "Hexa/HexIso/Square/SquareIso/SquareStaggered",    //here is the change
+        "name" : "Hexa/HexIso/Square/SquareIso/SquareStaggered/SquareIsoStaggered",    //here is the change
         "size" : 50.0
     },
     "layers" :
@@ -114,4 +114,5 @@ Square grid
 Square Staggered grid
 ----------------------
 <img src="https://raw.githubusercontent.com/Krozark/SFML-utils/master/screen/SquareStaggered.png" alt="Square
+<img src="https://raw.githubusercontent.com/Krozark/SFML-utils/master/screen/SquareIsoStaggered.png" alt="Square
 Staggered grid" width="350px">

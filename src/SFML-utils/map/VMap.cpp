@@ -7,6 +7,7 @@
 #include <SFML-utils/map/tileShapes/Square.hpp>
 #include <SFML-utils/map/tileShapes/SquareIso.hpp>
 #include <SFML-utils/map/tileShapes/SquareStaggered.hpp>
+#include <SFML-utils/map/tileShapes/SquareIsoStaggered.hpp>
 
 #include <algorithm>
 
@@ -184,6 +185,11 @@ namespace sfutils
             else if(geometry_name == "SquareStaggered")
             {
                 res = new Map<geometry::SquareStaggered>(size);
+                res->loadFromJson(root);
+            }
+            else if(geometry_name == "SquareIsoStaggered")
+            {
+                res = new Map<geometry::SquareIsoStaggered>(size);
                 res->loadFromJson(root);
             }
             else
