@@ -61,6 +61,8 @@ set_option(SFML_UTILS_BUILD_DOC TRUE BOOL "TRUE to generate the API documentatio
 
 set_option(SFML_UTILS_BUILD_BOX2D TRUE BOOL "TRUE to build box2d wrapper for SFML")
 
+set_option(SFML_UTILS_USE_SYSTEM_CPP_UTILS TRUE BOOL "Use cpp-utils from system, false to compile it from dependencies")
+
 #set(includepath "-I${CMAKE_CURRENT_SOURCE_DIR}/include")
 set(DEFINES "")
 set(WARNING "-Wall")
@@ -94,9 +96,13 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/examples)
 
 
 #dependencies
-add_subdirectory(extlibs/cpp-utils)
-include_directories(extlibs/cpp-utils/include)
-#include_directories(extlibs/cpp-utils/src)
+if(SFML_UTILS_USE_SYSTEM_CPP_UTILS)
+	find_package(utils REQUIRED)
+	include_directories(${UTILS_INCLUDE_DIR})
+else()
+	add_subdirectory(extlibs/cpp-utils)
+	include_directories(extlibs/cpp-utils/include)
+endif()
 
 
 # add the subdirectories
