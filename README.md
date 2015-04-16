@@ -18,7 +18,7 @@ It provide some adds to the SFML library including:
     * Horizontal
 * Box2D debugDraw (optional)
 * 2D tile map framwork
-  * Tile Hexa, Hexa iso, Square, Square Iso
+  * Tile Hexa [Iso], Square [Iso], Staggered [Iso]
   * loading from json file/stream/object
 * Entity system
   * Customisable Components
