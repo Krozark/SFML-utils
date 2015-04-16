@@ -113,6 +113,5 @@ Square grid
 
 Square Staggered grid
 ----------------------
-<img src="https://raw.githubusercontent.com/Krozark/SFML-utils/master/screen/SquareStaggered.png" alt="Square
-<img src="https://raw.githubusercontent.com/Krozark/SFML-utils/master/screen/SquareIsoStaggered.png" alt="Square
-Staggered grid" width="350px">
+<img src="https://raw.githubusercontent.com/Krozark/SFML-utils/master/screen/SquareStaggered.png" alt="Square Staggered grid" width="350px">
+<img src="https://raw.githubusercontent.com/Krozark/SFML-utils/master/screen/SquareIsoStaggered.png" alt="Square Iso Staggered grid" width="350px">
