@@ -47,7 +47,7 @@ Only one parameter as been change in the json file :
     "name" : "test",
     "geometry" :
     {
-        "name" : "Hexa/HexIso/Square/SquareIso",    //here is the change
+        "name" : "Hexa/HexIso/Square/SquareIso/SquareStaggered",    //here is the change
         "size" : 50.0
     },
     "layers" :

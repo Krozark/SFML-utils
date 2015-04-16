@@ -32,8 +32,9 @@ namespace sfutils
                     const utils::json::Array& textures = layer["datas"];
                     for(const utils::json::Object& texture : textures)
                     {
-                        int tex_x = texture["x"];
-                        int tex_y = texture["y"];
+                        int tex_x = texture["x"].as_int();
+                        int tex_y = texture["y"].as_int();
+
                         int height = std::max<int>(0,texture["height"].as_int());
                         int width = std::max<int>(0,texture["width"].as_int());
                         std::string img = texture["img"];

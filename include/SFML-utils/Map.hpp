@@ -4,6 +4,7 @@
 #include <SFML-utils/map/tileShapes/Hexa.hpp>
 #include <SFML-utils/map/tileShapes/Square.hpp>
 #include <SFML-utils/map/tileShapes/SquareIso.hpp>
+#include <SFML-utils/map/tileShapes/SquareStaggered.hpp>
 
 #include <SFML-utils/map/VMap.hpp>
 #include <SFML-utils/map/Map.hpp>

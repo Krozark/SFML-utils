@@ -20,20 +20,36 @@ namespace sfutils
         {
             return sf::Vector2f((X-Y)* width/2 * scale,
                                 (X+Y)* height/2 * scale);
+
+            //change the rotation
+            /*return sf::Vector2f((X+Y)* width/2 * scale,
+                                (-X+Y)* height/2 * scale);*/
         }
 
         sf::Vector2i SquareIso::mapPixelToCoords(float X,float Y,float scale)
         {
-            /*return round((X/width - Y/height)/scale,
-                         (X/width + Y/height) / scale);*/
 
             return round((X/width + Y/height)/ scale,
                          (-X/width + Y/height)/scale);
+
+            //change the rotation
+            /*return round((X/width - Y/height)/scale,
+                         (X/width + Y/height) / scale);*/
         }
 
         sf::Vector2i SquareIso::round(float x, float y)
         {
-            return sf::Vector2i(x+0.5,y+0.5);
+            if(x>=0)
+                x+=0.5;
+            else
+                x-=0.5;
+
+            if(y>=0)
+                y+=0.5;
+            else
+                y-=0.5;
+
+            return sf::Vector2i(x,y);
         }
 
         sf::IntRect SquareIso::getTextureRect(int x,int y,float scale)
