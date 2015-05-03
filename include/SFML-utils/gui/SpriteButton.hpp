@@ -8,15 +8,27 @@ namespace sfutils
 {
     namespace gui
     {
+        /**
+         * \brief A clicable image
+         */
         class SpriteButton : virtual public Widget, public Button, public Sprite
         {
             public:
                 SpriteButton(const SpriteButton&) = delete;
                 SpriteButton& operator=(const SpriteButton&) = delete;
 
-                SpriteButton(const sf::Texture& tex,Widget* parent=nullptr);
+                /**
+                 * \brief Constructor
+                 * \param tex Texture of the image to use
+                 * \param parent parent Widget
+                 */
+                explicit SpriteButton(const sf::Texture& tex,Widget* parent=nullptr);
                 ~SpriteButton();
 
+                /**
+                 * \brief set the color mask
+                 * \param colo mask
+                 */
                 void setColor(const sf::Color& color)override;
 
             private:

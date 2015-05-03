@@ -14,25 +14,52 @@ namespace sfutils
             public:
                 Frame(const Frame&) = delete;
                 Frame& operator=(const Frame&) = delete;
-
-                using ActionTarget<int>::FuncType;
                 
-                Frame(sf::RenderWindow& window);
-                Frame(sf::RenderWindow& window,const ActionMap<int>& map);
+                /**
+                 * \Constructor
+                 * \param window the window to dispaly in
+                 * use sfutils::gui::Constructor::default_gui_inputs as Action map
+                 */
+                explicit Frame(sf::RenderWindow& window);
+
+                /**
+                 * \Constructor
+                 * \param window the window to dispaly in
+                 * \param map the ActionMap to use for events
+                 */
+                explicit Frame(sf::RenderWindow& window,const ActionMap<int>& map);
 
                 virtual ~Frame();
 
-
+                /**
+                 * \brief check for real time events
+                 */
                 void processEvents();
+
+                /**
+                 * \brief check for polling events
+                 * \param event event to compare
+                 * \return true is the event as been used
+                 */
                 bool processEvent(const sf::Event& event);
 
-                void bind(int key,const FuncType& callback);
-                void unbind(int key);
+                using ActionTarget<int>::FuncType;
+                using ActionTarget::bind;
+                using ActionTarget::unbind;
 
+                /**
+                 * \brief alias for window.draw(*this)
+                 */
                 void draw();
 
-                virtual sf::Vector2f getSize()const override;
+                /**
+                 * \brief change the size of the frame.
+                 * Default is window.getSize() or construction
+                 */ 
                 void setSize(const sf::Vector2f& size);
+
+            protected:
+                virtual sf::Vector2f getSize()const override;
 
             private:
                 sf::RenderWindow& _window;

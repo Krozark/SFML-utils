@@ -21,6 +21,10 @@ namespace sfutils
                 if(Layout* layout = getLayout())
                     layout->updateShape();
            });
+
+            sf::Vector2u wsize = _window.getSize();
+            _size.x = wsize.x;
+            _size.y = wsize.y;
         }
 
         Frame::~Frame()
@@ -41,17 +45,6 @@ namespace sfutils
         {
             return processEvent(event,sf::Vector2f(0,0));
         }
-
-        void Frame::bind(int key,const FuncType& callback)
-        {
-            ActionTarget::bind(key,callback);
-        }
-
-        void Frame::unbind(int key)
-        {
-            ActionTarget::unbind(key);
-        }
-
 
         sf::Vector2f Frame::getSize()const
         {

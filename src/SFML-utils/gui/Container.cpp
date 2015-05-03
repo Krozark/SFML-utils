@@ -2,6 +2,8 @@
 
 #include <SFML-utils/gui/Layout.hpp>
 
+#include <cassert>
+
 namespace sfutils
 {
     namespace gui
@@ -44,11 +46,10 @@ namespace sfutils
 
         void Container::clear()
         {
-            if(_layout)
-            {
-                _layout->clear();
-                updateShape();
-            }
+            assert(_layout);
+
+            _layout->clear();
+            updateShape();
         }
 
         void Container::setFillColor(const sf::Color& color)

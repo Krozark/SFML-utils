@@ -12,14 +12,51 @@ namespace sfutils
 {
     namespace gui
     {
-        class Button : virtual public Widget, public utils::event::Emitter<event::ButtonPressed>, public utils::event::Emitter<event::ButtonReleased>
+        /**
+         * \brief A class that represent a Button with events
+         */ 
+        class Button : virtual public Widget,
+        protected utils::event::Emitter<event::ButtonPressed>, protected utils::event::Emitter<event::ButtonReleased> //disable call of emit from the outside
         {
             public:
                 Button(const Button&) = delete;
                 Button& operator=(const Button&) = delete;
 
-                Button(Widget* parent=nullptr);
+                /**
+                 * \brief constructor
+                 */
+                explicit Button(Widget* parent=nullptr);
                 virtual ~Button();
+
+                /**
+                 * \brief use the connect function for event::ButtonPressed event
+                 */
+                using utils::event::Emitter<event::ButtonPressed>::connect;
+
+                /**
+                 * \brief use the disconnect function for event::ButtonPressed event
+                 */
+                using utils::event::Emitter<event::ButtonPressed>::disconnect;
+
+                /**
+                 * \brief use the connect function for event::ButtonReleased event
+                 */
+                using utils::event::Emitter<event::ButtonReleased>::connect;
+
+                /**
+                 * \brief use the disconnect function for event::ButtonReleased event
+                 */
+                using utils::event::Emitter<event::ButtonReleased>::disconnect;
+
+                /**
+                 * \brief remove all the connections
+                 */
+                void clearLambdas();
+
+                /**
+                 * \brief emit ButtonPressed and ButtonReleased event
+                 */
+                void click();
 
             protected:
                 virtual bool processEvent(const sf::Event& event,const sf::Vector2f& parent_pos)override;
