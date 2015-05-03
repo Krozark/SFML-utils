@@ -15,7 +15,7 @@ namespace sfutils
         bool Button::processEvent(const sf::Event& event,const sf::Vector2f& parent_pos)
         {
             bool res = false;
-            if(event.type == sf::Event::MouseButtonReleased)
+            if(event.type == sf::Event::MouseButtonPressed or event.type == sf::Event::MouseButtonReleased)
             {
                 const sf::Vector2f pos = _position + parent_pos;
                 const sf::Vector2f size = getSize();
@@ -28,7 +28,16 @@ namespace sfutils
 
                 if(rect.contains(event.mouseButton.x,event.mouseButton.y))
                 {
-                    emit(event::ButtonPressed(*this));
+                    if(event.type == sf::Event::MouseButtonPressed)
+                    {
+                        auto e = event::ButtonPressed(*this);
+                        utils::event::Emitter<event::ButtonPressed>::emit(e);
+                    }
+                    else
+                    {
+                        auto e = event::ButtonReleased(*this);
+                        /*utils::event::Emitter<event::ButtonReleased>::*/emit(e);
+                    }
                     res = true;
                 }
             }

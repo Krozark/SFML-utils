@@ -5,13 +5,14 @@
 
 #include <SFML-utils/gui/Widget.hpp>
 #include <SFML-utils/gui/event/ButtonPressed.hpp>
+#include <SFML-utils/gui/event/ButtonReleased.hpp>
 
 
 namespace sfutils
 {
     namespace gui
     {
-        class Button : virtual public Widget, public utils::event::Emitter<event::ButtonPressed>
+        class Button : virtual public Widget, public utils::event::Emitter<event::ButtonPressed>, public utils::event::Emitter<event::ButtonReleased>
         {
             public:
                 Button(const Button&) = delete;
