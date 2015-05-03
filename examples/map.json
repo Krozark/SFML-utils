@@ -2,7 +2,7 @@
     "name" : "test",
     "geometry" :
     {
-        "name" :"SquareStaggered",
+        "name" :"Hexa",
         "size" : 50.0
     },
     "layers" : 

@@ -4,9 +4,7 @@ namespace sfutils
 {
     namespace gui
     {
-        Button::FuncType Button::defaultFunc = [](const sf::Event&,Button&)->void{};
-
-        Button::Button(Widget* parent) : Widget(parent), on_click(defaultFunc)
+        Button::Button(Widget* parent) : Widget(parent), _status(0)
         {
         }
 
@@ -30,7 +28,7 @@ namespace sfutils
 
                 if(rect.contains(event.mouseButton.x,event.mouseButton.y))
                 {
-                    on_click(event,*this);
+                    emit(event::ButtonPressed(*this));
                     res = true;
                 }
             }

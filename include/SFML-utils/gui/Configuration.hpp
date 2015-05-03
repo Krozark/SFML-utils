@@ -46,11 +46,11 @@ namespace sfutils
 
                 static void init();
 
-                static struct __Initiatiser {
-                    __Initiatiser(){
+                static struct _Initiatiser {
+                    _Initiatiser(){
                         Configuration::init();
                     };
-                } __initiatiser__;
+                } _initiatiser_;
         };
     }
 }

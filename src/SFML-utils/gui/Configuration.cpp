@@ -5,7 +5,7 @@ namespace sfutils
 namespace gui {
     ResourceManager<sf::Font,int> Configuration::default_fonts;
     ActionMap<int> Configuration::default_gui_inputs;
-    Configuration::__Initiatiser Configuration::__initiatiser__;
+    Configuration::_Initiatiser Configuration::_initiatiser_;
 
     sf::Color Configuration::Colors::button_fill(86,20,19);
     sf::Color Configuration::Colors::button_outline(146,20,19);

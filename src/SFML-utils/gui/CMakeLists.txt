@@ -34,4 +34,6 @@ set(FILES_SRC
 
 )
 
+add_subdirectory(event)
+
 Compile("${PROJECT_NAME}-gui" "" "")

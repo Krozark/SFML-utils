@@ -5,7 +5,9 @@
 
 int main(int argc,char* argv[])
 {
-    sf::RenderWindow window(sf::VideoMode(600,800),"Example GUI");
+    sf::RenderWindow window(sf::VideoMode(1000,900),"Example GUI");
+    window.setFramerateLimit(60);
+
     sfutils::Frame frame(window);
 
     sf::Texture texture;
@@ -20,9 +22,9 @@ int main(int argc,char* argv[])
         layout->add(label);
 
         sfutils::TextButton* exit = new sfutils::TextButton("Exit");
-        exit->on_click = [&window](const sf::Event&, sfutils::Button& button){
+        exit->connect([&window](sfutils::event::ButtonPressed& event){
             window.close();
-        };
+        });
         layout->add(exit);
 
         sfutils::Label* label2 = new sfutils::Label("This text can be hide");
@@ -30,9 +32,9 @@ int main(int argc,char* argv[])
         layout->add(label2);
 
         sfutils::TextButton* button2 = new sfutils::TextButton("Hide/Show text");
-        button2->on_click = [label2](const sf::Event&, sfutils::Button& button){
+        button2->connect([label2](sfutils::event::ButtonPressed& event){
             label2->toggle();
-        };
+        });
         layout->add(button2);
 
         sfutils::Container* container = new sfutils::Container;
@@ -40,11 +42,11 @@ int main(int argc,char* argv[])
             sfutils::HLayout* layout = new sfutils::HLayout;
             layout->setSpacing(20);
 
-            sfutils::Label* label = new sfutils::Label("This another text");
+            sfutils::Label* label = new sfutils::Label("This is another text");
             label->setCharacterSize(36);
             layout->add(label);
 
-            sfutils::TextButton* button = new sfutils::TextButton("Button");
+            sfutils::TextButton* button = new sfutils::TextButton("I'm useless");
             layout->add(button);
 
             label = new sfutils::Label("blah blah");
@@ -53,9 +55,9 @@ int main(int argc,char* argv[])
             layout->add(label);
 
             sfutils::SpriteButton* sprbutton = new sfutils::SpriteButton(texture);
-            sprbutton->on_click = [&window](const sf::Event&, sfutils::Button& button){
+            sprbutton->connect([&window](sfutils::event::ButtonPressed& event){
                 std::cout<<"hello"<<std::endl;
-            };
+            });
             layout->add(sprbutton);
 
             container->setLayout(layout);
