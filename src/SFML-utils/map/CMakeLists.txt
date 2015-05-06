@@ -1,7 +1,6 @@
 set(INCROOT ${INCROOT}/map)
 set(SRCROOT ${SRCROOT}/map)
 
-set(LIBS ${LIBS} ${PROJECT_NAME}-core utils-json)
 
 set(FILES_HEADER
     ${INCROOT}/Configuration.hpp
@@ -38,4 +37,9 @@ set(FILES_SRC
     ${SRCROOT}/tileShapes/SquareIsoStaggered.cpp
 )
 
-Compile("${PROJECT_NAME}-map" "" "")
+build_library(${PROJECT_NAME}-map
+    SOURCES ${FILES_HEADER} ${FILES_SRC}
+    TYPE ${SFML_UTILS_BUILD_TYPE}
+    DEPENDS ${PROJECT_NAME}-core
+    EXTERNAL_LIBS ${LIBS} utils-json
+)

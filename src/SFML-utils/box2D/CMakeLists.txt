@@ -1,9 +1,6 @@
 set(INCROOT ${INCROOT}/box2D)
 set(SRCROOT ${SRCROOT}/box2D)
 
-find_library(LIB_BOX2D Box2D)
-set(LIBS ${LIBS} ${LIB_BOX2D})
-
 #FILES
 set(FILES_HEADER
     ${INCROOT}/DebugDraw.hpp
@@ -14,4 +11,8 @@ set(FILES_SRC
     ${SRCROOT}/DebugDraw.cpp
 )
 
-Compile("${PROJECT_NAME}-box2D" ${LIB_BOX2D} ${LIB_BOX2D})
+build_library(${PROJECT_NAME}-box2D
+    SOURCES ${FILES_HEADER} ${FILES_SRC}
+    TYPE ${SFML_UTILS_BUILD_TYPE}
+    EXTERNAL_LIBS ${LIBS} ${LIB_BOX2D}
+)

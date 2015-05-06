@@ -1,12 +1,6 @@
 cmake_minimum_required (VERSION 2.8)
 
-# define a macro that helps defining an option
-macro(set_option var default type docstring)
-    if(NOT DEFINED ${var})
-        set(${var} ${default})
-    endif()
-    set(${var} ${${var}} CACHE ${type} ${docstring} FORCE)
-endmacro()
+include(cmake/macro.cmake)
 
 function(Compile arg shared_libs static_libs)
     #shared
@@ -62,6 +56,21 @@ set_option(SFML_UTILS_BUILD_DOC TRUE BOOL "TRUE to generate the API documentatio
 set_option(SFML_UTILS_BUILD_BOX2D TRUE BOOL "TRUE to build box2d wrapper for SFML")
 
 set_option(SFML_UTILS_USE_SYSTEM_CPP_UTILS TRUE BOOL "Use cpp-utils from system, false to compile it from dependencies")
+
+set_option(SFML_UTILS_BUILD_STATIC TRUE BOOL "Build as STATIC library")
+set_option(SFML_UTILS_BUILD_SHARED TRUE BOOL "Build as SHARED library")
+
+set(SFML_UTILS_BUILD_TYPE "")
+if(SFML_UTILS_BUILD_SHARED)
+    list(APPEND SFML_UTILS_BUILD_TYPE SHARED)
+    set(SFML_UTILS_BUILD_SUFIX shared)
+endif()
+
+if(SFML_UTILS_BUILD_STATIC)
+    list(APPEND SFML_UTILS_BUILD_TYPE STATIC)
+    set(SFML_UTILS_BUILD_SUFIX static)
+endif()
+
 
 #set(includepath "-I${CMAKE_CURRENT_SOURCE_DIR}/include")
 set(DEFINES "")

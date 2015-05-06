@@ -1,8 +1,6 @@
 set(INCROOT ${INCROOT}/gui)
 set(SRCROOT ${SRCROOT}/gui)
 
-set(LIBS ${LIBS} ${PROJECT_NAME}-core)
-
 set(FILES_HEADER
     ${INCROOT}/Button.hpp
     ${INCROOT}/Configuration.hpp
@@ -36,4 +34,9 @@ set(FILES_SRC
 
 add_subdirectory(event)
 
-Compile("${PROJECT_NAME}-gui" "" "")
+build_library(${PROJECT_NAME}-gui
+    SOURCES ${FILES_HEADER} ${FILES_SRC}
+    TYPE ${SFML_UTILS_BUILD_TYPE}
+    DEPENDS ${PROJECT_NAME}-core
+    EXTERNAL_LIBS ${LIBS}
+)

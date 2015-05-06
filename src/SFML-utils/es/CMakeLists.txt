@@ -1,9 +1,6 @@
 set(INCROOT ${INCROOT}/es)
 set(SRCROOT ${SRCROOT}/es)
 
-set(LIBS ${LIBS} utils)
-
-
 set(FILES_HEADER
     ${INCROOT}/Application.hpp
     ${INCROOT}/Component.hpp
@@ -20,4 +17,8 @@ set(FILES_SRC
     ${SRCROOT}/Entity.cpp
 )
 
-Compile("${PROJECT_NAME}-es" "" "")
+build_library(${PROJECT_NAME}-es
+    SOURCES ${FILES_HEADER} ${FILES_SRC}
+    TYPE ${SFML_UTILS_BUILD_TYPE}
+    EXTERNAL_LIBS ${LIBS} utils
+)

@@ -2,15 +2,18 @@ set(INCROOT ${PROJECT_SOURCE_DIR}/examples)
 set(SRCROOT ${PROJECT_SOURCE_DIR}/examples)
 
 add_executable(core core.cpp)
-target_link_libraries(core ${PROJECT_NAME}-core)
+target_link_libraries(core ${PROJECT_NAME}-core-${SFML_UTILS_BUILD_SUFIX})
 
 add_executable(gui gui.cpp)
-target_link_libraries(gui ${PROJECT_NAME}-gui)
+target_link_libraries(gui ${PROJECT_NAME}-gui-${SFML_UTILS_BUILD_SUFIX})
 
 add_executable(map map.cpp)
-target_link_libraries(map ${PROJECT_NAME}-map)
+target_link_libraries(map ${PROJECT_NAME}-map-${SFML_UTILS_BUILD_SUFIX})
 
 add_executable(es es.cpp)
-target_link_libraries(es ${PROJECT_NAME}-es)
+target_link_libraries(es ${PROJECT_NAME}-es-${SFML_UTILS_BUILD_SUFIX})
+
+add_executable(editor editor.cpp)
+target_link_libraries(editor ${PROJECT_NAME}-editor-${SFML_UTILS_BUILD_SUFIX})
 
 

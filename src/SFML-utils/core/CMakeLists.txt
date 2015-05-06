@@ -21,4 +21,8 @@ set(FILES_SRC
     ${SRCROOT}/AnimatedSprite.cpp
 )
 
-Compile("${PROJECT_NAME}-core" "" "")
+build_library(${PROJECT_NAME}-core
+    SOURCES ${FILES_HEADER} ${FILES_SRC}
+    TYPE ${SFML_UTILS_BUILD_TYPE}
+    EXTERNAL_LIBS ${LIBS}
+)
