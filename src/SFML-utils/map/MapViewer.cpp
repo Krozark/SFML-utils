@@ -17,7 +17,7 @@ namespace sfutils
         {
         }
         
-        MapViewer::MapViewer(sf::RenderWindow& window,const VMap& map,const ActionMap<int>& action_map) : ActionTarget(action_map),_map(map), _zoom(1),_moveX(0), _moveY(0), _movementSpeed(5), _window(window)
+        MapViewer::MapViewer(sf::RenderWindow& window,const VMap& map,const ActionMap<int>& action_map) : ActionTarget(action_map),_map(map), _zoom(1), _movementSpeed(25), _window(window)
         {
             bind(Action(sf::Event::MouseWheelMoved),[this](const sf::Event& event){
                      zoom(1-(event.mouseWheel.delta/5.0));
@@ -26,19 +26,19 @@ namespace sfutils
 
             bind(Configuration::MapInputs::MoveUp,[this](const sf::Event& event){
                     
-                    _moveY =clamp(_moveY-1,-1,1);
+                    _move.y =clamp<int>(_move.y-1,-1,1);
                  });
 
             bind(Configuration::MapInputs::MoveDown,[this](const sf::Event& event){
-                    _moveY = clamp(_moveY+1,-1,1);
+                    _move.y = clamp<int>(_move.y+1,-1,1);
                  });
 
             bind(Configuration::MapInputs::MoveLeft,[this](const sf::Event& event){
-                    _moveX = clamp(_moveX-1,-1,1);
+                    _move.x = clamp<int>(_move.x-1,-1,1);
                  });
 
             bind(Configuration::MapInputs::MoveRight,[this](const sf::Event& event){
-                    _moveX = clamp(_moveX+1,-1,1);
+                    _move.x = clamp<int>(_move.x+1,-1,1);
                  });
 
             auto size = _window.getSize();
@@ -52,7 +52,7 @@ namespace sfutils
 
         void MapViewer::move(const sf::Vector2f& offset)
         {
-            _view.move(offset);
+            _view.move(offset.x,offset.y);
         }
 
         void MapViewer::setPosition(float posX, float posY)
@@ -93,13 +93,14 @@ namespace sfutils
 
         void MapViewer::update(float deltaTime)
         {
-            if(_moveX or _moveY)
+            if(_move.x or _move.y)
             {
                 float delta = _map._tileSize*_movementSpeed * deltaTime;
-                move(_moveX * delta * _movementSpeed,_moveY * delta * _movementSpeed);
+                move(_move.x * delta,
+                     _move.y * delta);
             }
-            _moveX = 0;
-            _moveY = 0;
+            _move.x = 0;
+            _move.y = 0;
 
         }
         void MapViewer::setSpeed(float speed)

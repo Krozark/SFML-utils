@@ -62,7 +62,7 @@ namespace sfutils
                 sf::View _view;
                 float _zoom;
                 
-                int _moveX, _moveY;
+                sf::Vector2f _move;
                 float _movementSpeed;
                 sf::RenderWindow& _window;
 
