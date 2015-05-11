@@ -8,10 +8,19 @@ namespace map {
 
     void Configuration::initEvents()
     {
-        defaultMapInputs.map(MapInputs::MoveUp,Action(sf::Keyboard::Up));
-        defaultMapInputs.map(MapInputs::MoveDown,Action(sf::Keyboard::Down));
-        defaultMapInputs.map(MapInputs::MoveLeft,Action(sf::Keyboard::Left));
-        defaultMapInputs.map(MapInputs::MoveRight,Action(sf::Keyboard::Right));
+        defaultMapInputs.map(MapInputs::InputViewMoveUp,Action(sf::Keyboard::Up));
+        defaultMapInputs.map(MapInputs::InputViewMoveDown,Action(sf::Keyboard::Down));
+        defaultMapInputs.map(MapInputs::InputViewMoveLeft,Action(sf::Keyboard::Left));
+        defaultMapInputs.map(MapInputs::InputViewMoveRight,Action(sf::Keyboard::Right)); 
+
+        sf::Event e;
+        e.type = sf::Event::EventType::MouseWheelMoved;
+        e.mouseWheel.delta = -1;
+
+        defaultMapInputs.map(MapInputs::InputViewZoomIn,Action(e));
+        e.mouseWheel.delta = 1;
+
+        defaultMapInputs.map(MapInputs::InputViewZoomOut,Action(e));
     }
 
     void Configuration::init()

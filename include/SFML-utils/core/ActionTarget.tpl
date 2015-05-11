@@ -83,9 +83,9 @@ namespace sfutils
         };
 
         const Action& action = _actionMap.get(key);
-        if(action._type & Action::Type::RealTime)
+        //if(action._type & Action::Type::RealTime)
             _eventsRealTime.remove_if(remove_func);
-        else
+        //else
             _eventsPoll.remove_if(remove_func);
     }
 

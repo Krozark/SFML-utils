@@ -16,13 +16,15 @@ namespace sfutils
                 MapViewer(const MapViewer&) = delete;
                 MapViewer& operator=(const MapViewer&) = delete;
 
-                MapViewer(sf::RenderWindow& window,const VMap& map);
-                MapViewer(sf::RenderWindow& window,const VMap& map,const ActionMap<int>& action_map);
+                MapViewer(sf::RenderWindow& window,const VMap& map,bool bindDefault = true);
+                MapViewer(sf::RenderWindow& window,const VMap& map,const ActionMap<int>& action_map,bool bindDefault = true);
                 
                 using ActionTarget::bind;
                 using ActionTarget::unbind;
                 using ActionTarget::processEvent;
                 using ActionTarget::processEvents;
+
+                void bindDefault();
 
                 void move(float offsetX, float offsetY);
                 void move(const sf::Vector2f& offset);

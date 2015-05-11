@@ -19,10 +19,13 @@ namespace sfutils
 
                 //inputs enum for map events
                 enum MapInputs {
-                    MoveUp,
-                    MoveDown,
-                    MoveLeft,
-                    MoveRight
+                    InputViewMoveUp,
+                    InputViewMoveDown,
+                    InputViewMoveLeft,
+                    InputViewMoveRight,
+                    InputViewZoomIn,
+                    InputViewZoomOut,
+                    InputSize //< user key starts here
                 };
 
                 static ActionMap<int> defaultMapInputs;

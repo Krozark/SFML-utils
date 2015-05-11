@@ -13,36 +13,47 @@ namespace sfutils
             return value < min ? min : (value > max ? max : value);
         }
 
-        MapViewer::MapViewer(sf::RenderWindow& window,const VMap& map) : MapViewer(window,map,sfutils::map::Configuration::defaultMapInputs)
+        MapViewer::MapViewer(sf::RenderWindow& window,const VMap& map,bool bindDefault) : MapViewer(window,map,sfutils::map::Configuration::defaultMapInputs,bindDefault)
         {
         }
         
-        MapViewer::MapViewer(sf::RenderWindow& window,const VMap& map,const ActionMap<int>& action_map) : ActionTarget(action_map),_map(map), _zoom(1), _movementSpeed(25), _window(window)
+        MapViewer::MapViewer(sf::RenderWindow& window,const VMap& map,const ActionMap<int>& action_map,bool bindDefault) : ActionTarget(action_map),_map(map), _zoom(1), _movementSpeed(25), _window(window)
         {
-            bind(Action(sf::Event::MouseWheelMoved),[this](const sf::Event& event){
-                     zoom(1-(event.mouseWheel.delta/5.0));
-                 });
 
-
-            bind(Configuration::MapInputs::MoveUp,[this](const sf::Event& event){
-                    
-                    _move.y =clamp<int>(_move.y-1,-1,1);
-                 });
-
-            bind(Configuration::MapInputs::MoveDown,[this](const sf::Event& event){
-                    _move.y = clamp<int>(_move.y+1,-1,1);
-                 });
-
-            bind(Configuration::MapInputs::MoveLeft,[this](const sf::Event& event){
-                    _move.x = clamp<int>(_move.x-1,-1,1);
-                 });
-
-            bind(Configuration::MapInputs::MoveRight,[this](const sf::Event& event){
-                    _move.x = clamp<int>(_move.x+1,-1,1);
-                 });
+            if(bindDefault)
+                this->bindDefault();
 
             auto size = _window.getSize();
             setSize(size.x,size.y);
+        }
+
+        void MapViewer::bindDefault()
+        {
+
+            bind(Configuration::MapInputs::InputViewMoveUp,[this](const sf::Event& event){
+                    _move.y =clamp<int>(_move.y-1,-1,1);
+            });
+
+            bind(Configuration::MapInputs::InputViewMoveDown,[this](const sf::Event& event){
+                    _move.y = clamp<int>(_move.y+1,-1,1);
+            });
+
+            bind(Configuration::MapInputs::InputViewMoveLeft,[this](const sf::Event& event){
+                    _move.x = clamp<int>(_move.x-1,-1,1);
+            });
+
+            bind(Configuration::MapInputs::InputViewMoveRight,[this](const sf::Event& event){
+                    _move.x = clamp<int>(_move.x+1,-1,1);
+            });
+
+            bind(Configuration::MapInputs::InputViewZoomIn,[this](const sf::Event& event){
+                     zoom(2);
+            });
+
+            bind(Configuration::MapInputs::InputViewZoomOut,[this](const sf::Event& event){
+                     zoom(0.5);
+            });
+
         }
 
         void MapViewer::move(float offsetX, float offsetY)
