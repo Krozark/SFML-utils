@@ -3,6 +3,23 @@
 namespace sfutils
 {
 
+    Action::Action(const sf::Event& event,int type)
+    {
+        if(_event.type == sf::Event::EventType::KeyPressed
+           or _event.type == sf::Event::EventType::MouseButtonPressed
+           or _event.type == sf::Event::EventType::JoystickButtonPressed)
+        {
+            _type = type;
+        }
+        else
+        {
+            _type = Type::PollTime;
+        }
+        
+        _event = event;
+
+    }
+
     Action::Action(const sf::Event::EventType& event) : _type(Type::Pressed)
     {
         _event.type = event;
@@ -38,7 +55,7 @@ namespace sfutils
             case sf::Event::LostFocus :
             case sf::Event::GainedFocus :
             case sf::Event::TextEntered :
-            case sf::Event::MouseWheelMoved :
+            //case sf::Event::MouseWheelMoved :
             case sf::Event::MouseEntered :
             case sf::Event::MouseLeft:
             {
@@ -48,12 +65,12 @@ namespace sfutils
             {
                 if(_event.type == sf::Event::EventType::TextEntered)
                     res = event.text.unicode == _event.text.unicode;
-            }break;
+            }break;*/
             case sf::Event::EventType::MouseWheelMoved:
             {
                 if(_event.type == sf::Event::EventType::MouseWheelMoved)
-                    res = event.mouseWheel.delta == _event.mouseWheel.delta;
-            }break;*/
+                    res = (((event.mouseWheel.delta >0)?1:-1) == ((_event.mouseWheel.delta >0)?1:-1));
+            }break;
             case sf::Event::EventType::KeyPressed:
             {
                 if(_type & Type::Pressed and _event.type == sf::Event::EventType::KeyPressed)

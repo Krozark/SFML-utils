@@ -10,13 +10,14 @@ namespace sfutils
         public:
             enum Type
             {
+                PollTime = 0,
                 RealTime=1,
                 Pressed=1<<1,
                 Released=1<<2
             };
             
-            /*Action(const sf::Event& event,int type=Type::RealTime);
-            Action(sf::Event&& event,int type=Type::RealTime);*/
+            Action(const sf::Event& event,int type=Type::PollTime);
+            //Action(sf::Event&& event,int type=Type::RealTime);
 
             Action(const sf::Event::EventType& event);
             Action(const sf::Keyboard::Key& key,int type=Type::RealTime|Type::Pressed);
