@@ -4,7 +4,9 @@
 
 #include <iostream>
 
-int main(int argc,char* argv[])
+
+
+int sfml()
 {
     sf::RenderWindow window(sf::VideoMode(1600,900),"Example Tile");
     window.setFramerateLimit(65);
@@ -12,7 +14,7 @@ int main(int argc,char* argv[])
     sfutils::VMap* map = sfutils::VMap::createMapFromFile("./map.json");
     map->loadFromFile("./map2.json");
 
-    sfutils::MapViewer viewer(window,*map);
+    sfutils::MapViewer viewer(window,*map,false);
 
     /*sfutils::Layer<sf::ConvexShape>* mouse_layer = new sfutils::Layer<sf::ConvexShape>("ConvexShape",1);
 
@@ -60,6 +62,30 @@ int main(int argc,char* argv[])
         window.display();
     }
 
-
     return 0;
+
+}
+
+#include <QApplication>
+#include <QFrame>
+
+int qt(int argc,char* argv[])
+{
+    QApplication App(argc, argv);
+
+    QFrame* MainFrame = new QFrame;
+    MainFrame->setWindowTitle("Qt SFML");
+    MainFrame->resize(400, 400);
+    MainFrame->show();
+
+    return App.exec();
+}
+
+int main(int argc,char* argv[])
+{
+
+    //return sfml();
+    
+    return qt(argc,argv);
+
 };

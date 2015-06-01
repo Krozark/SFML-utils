@@ -13,7 +13,9 @@ target_link_libraries(map ${PROJECT_NAME}-map-${SFML_UTILS_BUILD_SUFIX})
 add_executable(es es.cpp)
 target_link_libraries(es ${PROJECT_NAME}-es-${SFML_UTILS_BUILD_SUFIX})
 
+find_package(Qt5Widgets REQUIRED)
 add_executable(editor editor.cpp)
 target_link_libraries(editor ${PROJECT_NAME}-editor-${SFML_UTILS_BUILD_SUFIX})
+QT5_USE_MODULES(editor Widgets)
 
 
