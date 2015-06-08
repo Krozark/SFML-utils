@@ -67,17 +67,99 @@ int sfml()
 }
 
 #include <QApplication>
-#include <QFrame>
+#include <QMainWindow>
+#include <QMenuBar>
+#include <QScrollArea>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QTabWidget>
+#include <QLabel>
 
 int qt(int argc,char* argv[])
 {
     QApplication App(argc, argv);
 
-    QFrame* MainFrame = new QFrame;
-    MainFrame->setWindowTitle("Qt SFML");
-    MainFrame->resize(400, 400);
-    MainFrame->show();
+    QMainWindow MainFrame;
+    MainFrame.setWindowTitle("Qt SFML");
+    MainFrame.resize(800, 600);
 
+    //menu
+    {
+        QMenu* menuFichier = MainFrame.menuBar()->addMenu("Fichier");
+        QAction* actionOuvrir = new QAction("Ouvrir",&MainFrame);
+        //connect(actionOuvrir,SIGNAL(triggered()),/*this*/,SLOT(OpenFile()));
+        menuFichier->addAction(actionOuvrir);
+    }
+
+
+    //zone centrale
+    {
+        QWidget* zoneCentrale = new QScrollArea();
+        QLayout* layout = new QHBoxLayout();
+        zoneCentrale->setLayout(layout);
+        MainFrame.setCentralWidget(zoneCentrale);
+
+        //left
+        {
+            QWidget* widget = new QWidget();
+            QLayout* layout2 = new QVBoxLayout();
+
+            for(int i = 0; i<3;++i)
+            {
+                QTabWidget* tab = new QTabWidget();
+                for(int j=0;j<4;++j)
+                {
+                    QLabel* page = new QLabel(("Page" + std::to_string(j)).c_str());
+                    tab->addTab(page,std::to_string(j).c_str());
+                }
+                layout2->addWidget(tab);
+            }
+            widget->setLayout(layout2);
+            layout->addWidget(widget);
+        }
+
+        //center
+        {
+            QWidget* widget = new QWidget();
+            QLayout* layout2 = new QVBoxLayout();
+
+
+            QLabel* label = new QLabel("SFML View");
+            label->setMinimumSize(600,800);
+            layout2->addWidget(label);
+
+            widget->setLayout(layout2);
+            layout->addWidget(widget);
+        }
+
+        //right
+        {
+            QWidget* widget = new QWidget();
+            QLayout* layout2 = new QVBoxLayout();
+
+
+            QLabel* label = new QLabel("minimap");
+            layout2->addWidget(label);
+
+            for(int i = 0; i<2;++i)
+            {
+                QTabWidget* tab = new QTabWidget();
+                for(int j=0;j<4;++j)
+                {
+                    QLabel* page = new QLabel(("Page" + std::to_string(j)).c_str());
+                    tab->addTab(page,std::to_string(j).c_str());
+                }
+                layout2->addWidget(tab);
+            }
+            widget->setLayout(layout2);
+            layout->addWidget(widget);
+        }
+    }
+
+
+
+
+    MainFrame.show();
     return App.exec();
 }
 
