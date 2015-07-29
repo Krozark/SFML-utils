@@ -31,6 +31,7 @@ namespace sfutils
 
                 size_t size()const;
                 VLayer* at(size_t index)const;
+                VLayer* atZ(int z)const;
                 void clear();
 
                 float getTileSize()const;

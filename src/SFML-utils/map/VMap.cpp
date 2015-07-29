@@ -81,6 +81,15 @@ namespace sfutils
             return _layers.at(index);
         }
 
+        VLayer* VMap::atZ(int z)const
+        {
+            const size_t size = _layers.size();
+            for(size_t i=0;i<size;++i)
+                if(_layers[i]->z() == z)
+                    return _layers[i];
+            return nullptr;
+        }
+
         void VMap::clear()
         {
             const size_t size = _layers.size();

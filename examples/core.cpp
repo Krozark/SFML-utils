@@ -1,7 +1,7 @@
 #include <SFML-utils/Core.hpp>
 
 enum Textures{
-    Minotor
+    Eye
 };
 
 int main(int argc,char* argv[])
@@ -9,12 +9,12 @@ int main(int argc,char* argv[])
     sf::RenderWindow window(sf::VideoMode(600,800),"Example core");
 
     sfutils::ResourceManager<sf::Texture,int> textures; 
-    textures.load(Minotor,"media/img/eye.png");
+    textures.load(Eye,"media/img/eye.png");
 
-    sfutils::Animation walkLeft(&textures.get(Minotor));
+    sfutils::Animation walkLeft(&textures.get(Eye));
     walkLeft.addFramesLine(4,2,0);
 
-    sfutils::Animation walkRight(&textures.get(Minotor));
+    sfutils::Animation walkRight(&textures.get(Eye));
     walkRight.addFramesLine(4,2,1);
 
     sfutils::AnimatedSprite sprite(&walkLeft,sfutils::AnimatedSprite::Playing,sf::seconds(0.1));

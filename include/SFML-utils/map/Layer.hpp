@@ -54,7 +54,10 @@ namespace sfutils
 
                 virtual void sort() override;
 
+                void setAutofree(bool autofree);
+
             private:
+                bool _autofree;
                 virtual void draw(sf::RenderTarget& target, sf::RenderStates states,const sf::FloatRect& viewport) override;
 
                 std::list<CONTENT*> _content;

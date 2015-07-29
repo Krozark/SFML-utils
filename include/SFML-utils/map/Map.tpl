@@ -97,6 +97,40 @@ namespace sfutils
                     }
                     add(current_layer,false);
                 }
+                else if(content == "sprite_ptr")
+                {
+                    auto current_layer = new Layer<sf::Sprite*>(content,z,isStatic);
+                    current_layer->setAutofree(true);
+                    const utils::json::Array& datas = layer["datas"].as_array();
+
+                    for(const utils::json::Value& value : datas)
+                    {
+                        const utils::json::Object& data = value;
+                        int x = data["x"];
+                        int y = data["y"];
+                        float ox = 0.5;
+                        float oy = 1;
+                        try{
+                            ox = data["ox"].as_float();
+                        }catch(...){}
+
+                        try{
+                            oy = data["oy"].as_float();
+                        }catch(...){}
+
+                        std::string img = data["img"];
+
+                        sf::Sprite* spr = new sf::Sprite(_textures.getOrLoad(img,img));
+                        spr->setPosition(GEOMETRY::mapCoordsToPixel(x,y,_tileSize));
+
+                        sf::FloatRect rec = spr->getLocalBounds();
+                        spr->setOrigin(rec.width*ox,rec.height*oy);
+
+                        current_layer->add(spr,false);
+
+                    }
+                    add(current_layer,false);
+                }
             }
             sortLayers();
         }

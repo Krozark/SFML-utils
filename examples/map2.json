@@ -2,8 +2,8 @@
     "layers" : 
     [
         {
-            "content" : "sprite",
-            "z" : 3,
+            "content" : "sprite_ptr",
+            "z" : 2,
             "datas" : 
             [
                 {
