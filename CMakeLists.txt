@@ -2,37 +2,6 @@ cmake_minimum_required (VERSION 2.8.8)
 
 include(cmake/macro.cmake)
 
-function(Compile arg shared_libs static_libs)
-    #shared
-    add_library(${arg} SHARED ${FILES_SRC} ${FILES_HEADER})
-    SET_TARGET_PROPERTIES(${arg}
-        PROPERTIES
-        OUTPUT_NAME ${arg}
-        CLEAN_DIRECT_OUTPUT 1
-        VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}
-        SOVERSION ${VERSION_MAJOR}.${VERSION_MINOR}
-        )
-    target_link_libraries(${arg} ${LIBS} ${shared_libs})
-    INSTALL(TARGETS ${arg}
-        DESTINATION lib
-    )
-    #static
-    add_library(${arg}-static STATIC ${FILES_HEADER} ${FILES_SRC})
-    SET_TARGET_PROPERTIES(${arg}-static
-        PROPERTIES
-        OUTPUT_NAME ${arg}
-        CLEAN_DIRECT_OUTPUT 1
-        VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}
-        SOVERSION ${VERSION_MAJOR}.${VERSION_MINOR}
-        )
-    target_link_libraries(${arg}-static ${LIBS} ${static_libs})
-    INSTALL(TARGETS ${arg}-static
-    DESTINATION lib
-    )
-endfunction()
-
-
-
 # project name
 set(PROJECT_NAME SFML-utils)
 project (${PROJECT_NAME})
@@ -53,12 +22,22 @@ set_option(SFML_UTILS_BUILD_EXAMPLES TRUE BOOL "TRUE to build the examples, FALS
 # add an option for building the API documentation
 set_option(SFML_UTILS_BUILD_DOC TRUE BOOL "TRUE to generate the API documentation, FALSE to ignore it")
 
-set_option(SFML_UTILS_BUILD_BOX2D TRUE BOOL "TRUE to build box2d wrapper for SFML")
 
 set_option(SFML_UTILS_USE_SYSTEM_CPP_UTILS TRUE BOOL "Use cpp-utils from system, false to compile it from dependencies")
 
 set_option(SFML_UTILS_BUILD_STATIC TRUE BOOL "Build as STATIC library")
 set_option(SFML_UTILS_BUILD_SHARED TRUE BOOL "Build as SHARED library")
+
+set_option(SFML_UTILS_BUILD_MODULE_ENTITY_SYSTEM TRUE BOOL "TRUE to build the entity system")
+
+set_option(SFML_UTILS_BUILD_MODULE_GUI TRUE BOOL "TRUE to build the GUI")
+
+set_option(SFML_UTILS_BUILD_MODULE_MAP TRUE BOOL "TRUE to build the map module")
+if(SFML_UTILS_BUILD_MODULE_MAP)
+    set_option(SFML_UTILS_BUILD_MODULE_MAP_EDITOR TRUE BOOL "TRUE to build the map module EDITOR")
+endif()
+
+set_option(SFML_UTILS_BUILD_MODULE_BOX2D TRUE BOOL "TRUE to build box2d wrapper for SFML")
 
 set(SFML_UTILS_BUILD_TYPE "")
 if(SFML_UTILS_BUILD_SHARED)
