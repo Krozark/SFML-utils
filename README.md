@@ -79,7 +79,7 @@ Only one parameter as been change in the json file to change the grid geometry:
             "content" : "tile", //type of the layer (grid here)
             "z" : 1, //zbuffer (default is 0)
             "static" : true, //default is false
-            "datas" :  //texture informations
+            "data" :  //texture informations
             [
                 {
                     "img" :"media/img/ground2.png", //texture to apply
@@ -105,7 +105,7 @@ Then another file is use for the trees:
         {
             "content" : "sprite", //type of the layer
             "z" : 3, //z buffer
-            "datas" : 
+            "data" : 
             [
                 {
                     "x" : 2, // line emplacement
