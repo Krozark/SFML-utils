@@ -16,7 +16,7 @@ It provide some adds to the SFML library including:
   * Layout
     * Vertical
     * Horizontal
-* Box2D debugDraw (optional)
+* Box2D debugDraw
 * 2D tile map framwork
   * Tile Hexa [Iso], Square [Iso], Staggered [Iso]
   * loading from json file/stream/object
@@ -26,6 +26,8 @@ It provide some adds to the SFML library including:
   * Customisable Entity
   * Entity manager
   * Application
+
+You can choice wich module to build with cmake. For exemple if you don't nee Box2d module, simply set SFML_BUILD_MODULE_BOX2D to FALSE.
 
 
 Requirements
