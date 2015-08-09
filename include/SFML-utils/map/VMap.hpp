@@ -21,9 +21,9 @@ namespace sfutils
                 VMap(float size);
                 virtual ~VMap();
 
-                virtual void loadFromJson(const utils::json::Object& root) = 0;
+                /*virtual void loadFromJson(const utils::json::Object& root) = 0;
                 bool loadFromFile(const std::string& filename);
-                bool loadFromStream(std::istream& in);
+                bool loadFromStream(std::istream& in);*/
 
                 void add(VLayer* layer,bool sort=true);
                 void remove(VLayer* layer);
@@ -48,9 +48,9 @@ namespace sfutils
                 virtual sf::Vector2i getPath1(const sf::Vector2i& origin,const sf::Vector2i& dest)const =0;
                 virtual int getDistance(const sf::Vector2i& origin, const sf::Vector2i& dest)const = 0;
 
-                static VMap* createMapFromFile(const std::string& filename);
+                /*static VMap* createMapFromFile(const std::string& filename);
                 static VMap* createMapFromStream(std::istream& in);
-                static VMap* createMapFromJson(utils::json::Object& root);
+                static VMap* createMapFromJson(utils::json::Object& root);*/
 
 
             protected:

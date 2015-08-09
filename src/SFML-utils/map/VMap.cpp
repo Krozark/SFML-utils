@@ -24,7 +24,7 @@ namespace sfutils
             clear();
         }
 
-        bool VMap::loadFromFile(const std::string& filename)
+        /*bool VMap::loadFromFile(const std::string& filename)
         {
             utils::json::Value* value = utils::json::Driver::parse_file(filename);
             if(value)
@@ -46,7 +46,7 @@ namespace sfutils
                 loadFromJson(root);
             }
             return value != nullptr;
-        }
+        }*/
 
         void VMap::add(VLayer* layer,bool sort)
         {
@@ -139,7 +139,7 @@ namespace sfutils
         }
 
         
-        VMap* VMap::createMapFromFile(const std::string& filename)
+        /*VMap* VMap::createMapFromFile(const std::string& filename)
         {
             VMap* res = nullptr;
             utils::json::Value* value = utils::json::Driver::parse_file(filename);
@@ -207,6 +207,6 @@ namespace sfutils
             }
 
             return res;
-        }
+        }*/
     }
 }
