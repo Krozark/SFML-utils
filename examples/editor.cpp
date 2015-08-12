@@ -11,10 +11,10 @@ int sfml()
     sf::RenderWindow window(sf::VideoMode(1600,900),"Example Tile");
     window.setFramerateLimit(65);
 
-    sfutils::VMap* map = sfutils::VMap::createMapFromFile("./map.json");
-    map->loadFromFile("./map2.json");
+    //sfutils::VMap* map = sfutils::VMap::createMapFromFile("./map.json");
+    //map->loadFromFile("./map2.json");
 
-    sfutils::MapViewer viewer(window,*map,false);
+    //sfutils::MapViewer viewer(window,*map,false);
 
     /*sfutils::Layer<sf::ConvexShape>* mouse_layer = new sfutils::Layer<sf::ConvexShape>("ConvexShape",1);
 
@@ -34,30 +34,32 @@ int sfml()
             // Close window : exit
             if (event.type == sf::Event::Closed)
                 window.close();
-            else if(not viewer.processEvent(event))
-            {
-                if(event.type == sf::Event::MouseButtonReleased and event.mouseButton.button == sf::Mouse::Button::Left)
-                {
-                    sf::Vector2i coord = viewer.mapScreenToCoords(event.mouseButton.x,event.mouseButton.y);
-                    std::cout<<"Click on: "<<coord.x<<":"<<coord.y<<std::endl;
+            //else if(not viewer.processEvent(event))
+            //{
+            //    if(event.type == sf::Event::MouseButtonReleased and event.mouseButton.button == sf::Mouse::Button::Left)
+            //    {
+            //        sf::Vector2i coord = viewer.mapScreenToCoords(event.mouseButton.x,event.mouseButton.y);
+            //        std::cout<<"Click on: "<<coord.x<<":"<<coord.y<<std::endl;
 
-                }
-                /*else if(event.type == sf::Event::MouseMoved)
-                {
-                    sf::Vector2i coord = viewer.mapScreenToCoords(event.mouseMove.x,event.mouseMove.y);
-                    sf::Vector2f pos = viewer.mapCoordsToPixel(coord.x,coord.y);
-                    mouse_light->setPosition(pos);
-                }*/
-            }
+            //    }
+            //    /*else if(event.type == sf::Event::MouseMoved)
+            //    {
+            //        sf::Vector2i coord = viewer.mapScreenToCoords(event.mouseMove.x,event.mouseMove.y);
+            //        sf::Vector2f pos = viewer.mapCoordsToPixel(coord.x,coord.y);
+            //        mouse_light->setPosition(pos);
+            //    }*/
+            //}
         }
 
-        viewer.processEvents();
+        window.clear();
+
+        //viewer.processEvents();
 
         float deltaTime = clock.restart().asSeconds();
 
-        viewer.update(deltaTime);
+        //viewer.update(deltaTime);
 
-        viewer.draw();
+        //viewer.draw();
         
         window.display();
     }

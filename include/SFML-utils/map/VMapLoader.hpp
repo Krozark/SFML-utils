@@ -9,13 +9,16 @@ namespace sfutils
 {
     namespace map
     {
+        class VMap;
         class VMapLoader
         {
             public:
                 virtual ~VMapLoader();
 
+                bool loadArea(int x,int y,VMap* map);
+                virtual VMap* createMap() = 0;
+
             protected:
-                friend class MapManager;
                 virtual MetaArea _loadArea(int x,int y) = 0;
 
         };

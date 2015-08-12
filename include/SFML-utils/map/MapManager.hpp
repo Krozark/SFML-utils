@@ -1,6 +1,8 @@
 #ifndef SFUTILS_MAP_MAPMANAGER_HPP
 #define SFUTILS_MAP_MAPMANAGER_HPP
 
+#include <memory>
+
 #include <SFML-utils/map/VMapLoader.hpp>
 
 namespace sfutils
@@ -13,11 +15,13 @@ namespace sfutils
                 MapManager(const MapManager&) = delete;
                 MapManager& operator=(const MapManager&) = delete;
 
-                MapManager(VMapLoader* maploader);
+                MapManager(const std::shared_ptr<VMapLoader>& maploader);
+                VMap* getMap()const;
 
                 bool loadArea(int x,int y);
             private:
-                VMapLoader* _mapLoader;
+                std::shared_ptr<VMapLoader> _mapLoader;
+                VMap* _map;
         };
     }
 }

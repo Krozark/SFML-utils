@@ -3,6 +3,8 @@
 
 #include <list>
 #include <string>
+#include <memory>
+
 #include <SFML/Graphics.hpp>
 
 namespace sfutils
@@ -16,29 +18,40 @@ namespace sfutils
         {
             public:
                 virtual ~MetaLayerData();
-                virtual void addToLayer(VLayer* layer) = 0;
+                virtual bool addToLayer(VLayer* layer) = 0;
         };
 
         class MetaLayerDataTileRect : public MetaLayerData
         {
             public:
-                virtual void addToLayer(VLayer* layer) = 0;
+                MetaLayerDataTileRect(const std::string& tex, const sf::IntRect& rect);
+                virtual ~MetaLayerDataTileRect();
 
-                std::string texture;
-                sf::IntRect rect;
+                virtual bool addToLayer(VLayer* layer) override;
+
+            private:
+                std::string _texture;
+                sf::IntRect _rect;
         };
 
         class MetaLayeDataSprite : public MetaLayerData
         {
             public:
-                virtual void addToLayer(VLayer* layer) = 0;
-                MetaLayeDataSprite();
+                MetaLayeDataSprite(const std::string& tex,const sf::Vector2i& pos);
+                virtual ~MetaLayeDataSprite();
 
-                std::string texture;
-                sf::Vector2i position;
+                virtual bool addToLayer(VLayer* layer) override;
+
+                void setIsPtr(bool ptr);
+                void setTextureOrigin(sf::Vector2f& o);
+            
+            private:
+
+                std::string _texture;
+                sf::Vector2i _position;
                 //optional
-                sf::Vector2f texCenter; ///< default is (0.5,1)
-                bool isPtr; ///< default is false
+                sf::Vector2f _texCenter; ///< default is (0.5,1)
+                bool _isPtr; ///< default is false
         };
 
 
@@ -48,7 +61,7 @@ namespace sfutils
                 MetaLayer(int z,const std::string& type,bool isStatic = false);
                 virtual ~MetaLayer();
                 
-                bool add(MetaLayerData* data);
+                void add(std::shared_ptr<MetaLayerData> data);
 
                 bool addToMap(VMap* map);
 
@@ -56,7 +69,7 @@ namespace sfutils
                 int _z;
                 const std::string _type;
                 bool _static;
-                std::list<MetaLayerData*> _data;
+                std::list<std::shared_ptr<MetaLayerData>> _data;
         };
 
         /***
@@ -66,7 +79,6 @@ namespace sfutils
         {
             public:
                 MetaArea(int x,int y,const std::string& name);
-                virtual ~MetaArea();
 
                 void addLayer(MetaLayer&& layer);
                 
@@ -76,7 +88,6 @@ namespace sfutils
                 std::string _name;
                 sf::Vector2i _position;
                 std::list<MetaLayer> _layers;
-
         };
 
     }

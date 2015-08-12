@@ -6,13 +6,15 @@ namespace sfutils
     namespace map
     {
 
-
-
-        //////////////// VMAPLOADER //////////////////////
-
         VMapLoader::~VMapLoader()
         {
         }
+        
+        bool VMapLoader::loadArea(int x,int y,VMap* map)
+        {
+            return _loadArea(x,y).addToMap(map);
+        }
+
 
     }
 }

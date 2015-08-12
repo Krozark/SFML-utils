@@ -14,12 +14,11 @@ namespace sfutils
                 JsonMapLoader& operator=(const JsonMapLoader&) = delete;
 
                 JsonMapLoader(const std::string& mapDirectory);
-
-                virtual bool addArea(int y,int y,VMap* map) override;
-
+                virtual VMap* createMap() override;
 
             protected:
                 virtual MetaArea _loadArea(int x,int y) override;
+
                 std::string _mapDir;
         };
     }
