@@ -7,12 +7,15 @@ set(FILES_HEADER
     ${INCROOT}/Layer.hpp
     ${INCROOT}/Layer.tpl
     ${INCROOT}/Map.hpp
-    ${INCROOT}/MapViewer.hpp
     ${INCROOT}/Map.tpl
+    ${INCROOT}/MapManager.hpp
+    ${INCROOT}/MapMetaData.hpp
+    ${INCROOT}/MapViewer.hpp
     ${INCROOT}/Tile.hpp
     ${INCROOT}/Tile.tpl
     ${INCROOT}/VLayer.hpp
     ${INCROOT}/VMap.hpp
+    ${INCROOT}/VMapLoader.hpp
 
     ${INCROOT}/tileShapes/BaseTile.hpp
     ${INCROOT}/tileShapes/HexaIso.hpp
@@ -25,9 +28,12 @@ set(FILES_HEADER
 
 set(FILES_SRC
     ${SRCROOT}/Configuration.cpp
-    ${SRCROOT}/VMap.cpp
+    ${SRCROOT}/MapManager.cpp
+    ${SRCROOT}/MapMetaData.cpp
     ${SRCROOT}/MapViewer.cpp
     ${SRCROOT}/VLayer.cpp
+    ${SRCROOT}/VMap.cpp
+    ${SRCROOT}/VMapLoader.cpp
 
     ${SRCROOT}/tileShapes/HexaIso.cpp
     ${SRCROOT}/tileShapes/Hexa.cpp

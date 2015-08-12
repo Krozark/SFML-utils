@@ -5,7 +5,7 @@ namespace sfutils
     namespace map
     {
         
-        MapMetaData::~MapMetaData()
+        MetaLayerData::~MetaLayerData()
         {
         }
 
@@ -18,7 +18,7 @@ namespace sfutils
 
         ///////////////// METALAYER //////////////////////
         
-        MetaLayer::MetaLayer(int z,MetaLayerDataType type,bool isStatic) :
+        MetaLayer::MetaLayer(int z,const std::string& type,bool isStatic) :
             _z(z),
             _type(type),
             _static(isStatic)
