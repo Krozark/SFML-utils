@@ -7,6 +7,7 @@ namespace sfutils
         {
         }
 
+        /*
         template<typename GEOMETRY>
         void Map<GEOMETRY>::loadFromJson(const utils::json::Object& root)
         {
@@ -134,6 +135,7 @@ namespace sfutils
             }
             sortLayers();
         }
+    */
 
         template<typename GEOMETRY>
         sf::Vector2i Map<GEOMETRY>::mapPixelToCoords(float x,float y)const

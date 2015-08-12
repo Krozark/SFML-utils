@@ -2,12 +2,6 @@
 
 #include <SFML-utils/map/Map.hpp>
 
-#include <SFML-utils/map/tileShapes/HexaIso.hpp>
-#include <SFML-utils/map/tileShapes/Hexa.hpp>
-#include <SFML-utils/map/tileShapes/Square.hpp>
-#include <SFML-utils/map/tileShapes/SquareIso.hpp>
-#include <SFML-utils/map/tileShapes/SquareStaggered.hpp>
-#include <SFML-utils/map/tileShapes/SquareIsoStaggered.hpp>
 
 #include <algorithm>
 
@@ -24,29 +18,6 @@ namespace sfutils
             clear();
         }
 
-        /*bool VMap::loadFromFile(const std::string& filename)
-        {
-            utils::json::Value* value = utils::json::Driver::parse_file(filename);
-            if(value)
-            {
-                utils::json::Object& root = *value;
-
-                loadFromJson(root);
-            }
-            return value != nullptr;
-        }
-
-        bool VMap::loadFromStream(std::istream& in)
-        {
-            utils::json::Value* value = utils::json::Driver::parse(in);
-            if(value)
-            {
-                utils::json::Object& root = *value;
-
-                loadFromJson(root);
-            }
-            return value != nullptr;
-        }*/
 
         void VMap::add(VLayer* layer,bool sort)
         {
@@ -97,7 +68,6 @@ namespace sfutils
                 delete(_layers[i]);
 
             _layers.clear();
-            _textures.clear();
         }
 
         float VMap::getTileSize()const
@@ -138,75 +108,5 @@ namespace sfutils
                 _layers[i]->draw(target,states,delta_viewport);
         }
 
-        
-        /*VMap* VMap::createMapFromFile(const std::string& filename)
-        {
-            VMap* res = nullptr;
-            utils::json::Value* value = utils::json::Driver::parse_file(filename);
-            if(value)
-            {
-                res = createMapFromJson(value->as_object());
-                delete value;
-            }
-            return res;
-        }
-
-        VMap* VMap::createMapFromStream(std::istream& in)
-        {
-            VMap* res = nullptr;
-            utils::json::Value* value = utils::json::Driver::parse(in);
-            if(value)
-            {
-                res = createMapFromJson(value->as_object());
-                delete value;
-            }
-            return res;
-        }
-
-        VMap* VMap::createMapFromJson(utils::json::Object& root)
-        {
-            VMap* res = nullptr;
-
-            utils::json::Object& geometry = root["geometry"];
-            std::string geometry_name = geometry["name"].as_string();
-            float size = geometry["size"].as_float();
-
-            if(geometry_name == "Hexa")
-            {
-                res = new Map<geometry::Hexa>(size);
-                res->loadFromJson(root);
-            }
-            else if(geometry_name == "HexaIso")
-            {
-                res = new Map<geometry::HexaIso>(size);
-                res->loadFromJson(root);
-            }
-            else if(geometry_name == "Square")
-            {
-                res = new Map<geometry::Square>(size);
-                res->loadFromJson(root);
-            }
-            else if(geometry_name == "SquareIso")
-            {
-                res = new Map<geometry::SquareIso>(size);
-                res->loadFromJson(root);
-            }
-            else if(geometry_name == "SquareStaggered")
-            {
-                res = new Map<geometry::SquareStaggered>(size);
-                res->loadFromJson(root);
-            }
-            else if(geometry_name == "SquareIsoStaggered")
-            {
-                res = new Map<geometry::SquareIsoStaggered>(size);
-                res->loadFromJson(root);
-            }
-            else
-            {
-                std::cerr<<"Unknow geometry '"<<geometry_name<<"'"<<std::endl;
-            }
-
-            return res;
-        }*/
     }
 }

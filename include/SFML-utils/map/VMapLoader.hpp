@@ -1,6 +1,8 @@
 #ifndef SFUTILS_VMAPLOADER_HPP
 #define SFUTILS_VMAPLOADER_HPP
 
+#include <SFML-utils/core/ResourceManager.hpp>
+
 #include <SFML-utils/map/VMap.hpp>
 #include <SFML-utils/map/MapMetaData.hpp>
 
@@ -20,6 +22,7 @@ namespace sfutils
 
             protected:
                 virtual MetaArea _loadArea(int x,int y) = 0;
+                ResourceManager<sf::Texture,std::string> _textures;
 
         };
     }
