@@ -65,6 +65,8 @@ namespace sfutils
 
                 bool addToMap(VMap* map);
 
+                friend std::ostream& operator<<(std::ostream& stream,const MetaLayer& self);
+
             private:
                 int _z;
                 const std::string _type;

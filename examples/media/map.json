@@ -21,10 +21,10 @@
                 "static" : true
             },
             {
-                "z-buffer" : 1,
+                "z-buffer" : 2,
                 "content-type" : "sprite_ptr",
                 "static" : false
-            },
+            }
 
         ]
     }

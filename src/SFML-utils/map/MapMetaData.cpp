@@ -1,6 +1,11 @@
 #include <SFML-utils/map/MapMetaData.hpp>
 #include <SFML-utils/map/VMap.hpp>
 
+#include <SFML-utils/map/Tile.hpp>
+#include <SFML-utils/map/Layer.hpp>
+
+#include <iostream>
+
 namespace sfutils
 {
     namespace map
@@ -79,15 +84,56 @@ namespace sfutils
         bool MetaLayer::addToMap(VMap* map)
         {
             VLayer* layer = map->atZ(_z);
-            if(not layer)
-                return false;
+            if(layer)
+            {
+                if(layer->getType() != _type)
+                {
+                    std::cerr<<"The already have a layer at the z-buffer "<<_z<<" with a different type ("<<layer->getType()<<"/"<<_type<<std::endl;
+                    return false;
+                }
+            }
+            else //need to create it
+            {
+                if(_type == "tile")
+                {
+                    layer = map->createLayerOfGeometry(_type,_z,_static);
+                }
+                else if(_type == "sprite")
+                {
+                    layer = new Layer<sf::Sprite>(_type,_z,_static);
+                }
+                else if(_type == "sprite_ptr")
+                {
+                    layer = new Layer<sf::Sprite*>(_type,_z,_static);
+                }
+
+                if(layer)
+                {
+                    std::cout<<"Add layer at the z-buffer "<<_z<<" with type "<<layer->getType()<<std::endl;
+                    map->add(layer);
+                }
+                else
+                {
+                    std::cerr<<"Unknow content-type "<<_type<<std::endl;
+                    return false;
+                }
+            }
 
             for(std::shared_ptr<MetaLayerData>& data : _data)
             {
                 if(not data->addToLayer(layer))
                     return false;
             }
-            return false;
+            return true;
+        }
+
+        std::ostream& operator<<(std::ostream& stream,const MetaLayer& self)
+        {
+            stream<<"\"z-buffer\": "<<self._z
+                <<", \"content-type\":"<<self._type
+                <<", \"static\":"<<(self._static?"true":"false");
+
+            return stream;
         }
 
         

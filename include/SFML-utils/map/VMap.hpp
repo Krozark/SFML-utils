@@ -16,7 +16,7 @@ namespace sfutils
                 VMap(const VMap&) = delete;
                 VMap& operator=(const VMap&) = delete;
 
-                VMap(float size);
+                VMap(float tileSize,const sf::Vector2i& areaSize);
                 virtual ~VMap();
 
                 void add(VLayer* layer,bool sort=true);
@@ -29,6 +29,7 @@ namespace sfutils
                 void clear();
 
                 float getTileSize()const;
+                virtual VLayer* createLayerOfGeometry(const std::string& content, int z, bool isStatic)const = 0;
 
                 virtual sf::Vector2i mapPixelToCoords(float x,float y) const = 0;
                 sf::Vector2i mapPixelToCoords(const sf::Vector2f& pos) const;
@@ -38,13 +39,14 @@ namespace sfutils
 
                 virtual const sf::ConvexShape getShape()const = 0;
 
-                virtual std::list<sf::Vector2i> getPath(const sf::Vector2i& origin,const sf::Vector2i& dest)const = 0;
-                virtual sf::Vector2i getPath1(const sf::Vector2i& origin,const sf::Vector2i& dest)const =0;
+                //virtual std::list<sf::Vector2i> getPath(const sf::Vector2i& origin,const sf::Vector2i& dest)const = 0;
+                //virtual sf::Vector2i getPath1(const sf::Vector2i& origin,const sf::Vector2i& dest)const =0;
                 virtual int getDistance(const sf::Vector2i& origin, const sf::Vector2i& dest)const = 0;
 
             protected:
                 void sortLayers();
                 const float _tileSize;
+                sf::Vector2i _areaSize;
                 
             private:
                 friend class MapViewer;

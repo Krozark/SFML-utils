@@ -22,7 +22,7 @@ namespace sfutils
         VMap* JsonMapLoader::createMap()
         {
 
-            utils::json::Value* value = utils::json::Driver::parse_file(utils::string::join(_mapDir,"map.json"));
+            utils::json::Value* value = utils::json::Driver::parse_file(utils::string::join("/",_mapDir,"map.json"));
             
             if(not value)
             {
@@ -35,8 +35,7 @@ namespace sfutils
             std::string tile_geometry;
             float tile_size;
 
-            int area_x;
-            int area_y;
+            sf::Vector2i areaSize;
 
             std::list<MetaLayer> layers;
 
@@ -51,15 +50,30 @@ namespace sfutils
 
                 { //map.tile
                     utils::json::Object& json_tile = json_map["tile"].as_object();
-                    tile_geometry = json_map["geometry"].as_string();
-                    tile_size = json_map["size"].as_int();
+                    tile_geometry = json_tile["geometry"].as_string();
+                    tile_size = json_tile["size"].as_float();
                 }
                 {//map.area
                     utils::json::Object& json_area = json_map["area"].as_object();
+                    areaSize.x = json_area["width"].as_int();
+                    areaSize.y = json_area["height"].as_int();
                 }
 
                 {//map.layers
                     utils::json::Array& json_layers = json_map["layers"].as_array();
+
+                    for(utils::json::Value& value : json_layers)
+                    {
+                        utils::json::Object& json_obj = value.as_object();
+                        int z = json_obj["z-buffer"].as_int();
+                        std::string content_type = json_obj["content-type"].as_string();
+                        bool isStatic = false;
+                        try{
+                            isStatic = json_obj["static"].as_bool();
+                        }catch(...){};
+
+                        layers.emplace_back(z,content_type,isStatic);
+                    }
                 }
             }
             catch (std::exception& e)
@@ -72,32 +86,43 @@ namespace sfutils
 
             if(tile_geometry == "Hexa")
             {
-                res = new Map<geometry::Hexa>(tile_size);
+                res = new Map<geometry::Hexa>(tile_size,areaSize);
             }
             else if(tile_geometry == "HexaIso")
             {
-                res = new Map<geometry::HexaIso>(tile_size);
+                res = new Map<geometry::HexaIso>(tile_size,areaSize);
             }
             else if(tile_geometry == "Square")
             {
-                res = new Map<geometry::Square>(tile_size);
+                res = new Map<geometry::Square>(tile_size,areaSize);
             }
             else if(tile_geometry == "SquareIso")
             {
-                res = new Map<geometry::SquareIso>(tile_size);
+                res = new Map<geometry::SquareIso>(tile_size,areaSize);
             }
             else if(tile_geometry == "SquareStaggered")
             {
-                res = new Map<geometry::SquareStaggered>(tile_size);
+                res = new Map<geometry::SquareStaggered>(tile_size,areaSize);
             }
             else if(tile_geometry == "SquareIsoStaggered")
             {
-                res = new Map<geometry::SquareIsoStaggered>(tile_size);
+                res = new Map<geometry::SquareIsoStaggered>(tile_size,areaSize);
             }
             else
             {
                 std::cerr<<"Unknow geometry '"<<tile_geometry<<"'"<<std::endl;
-                return false;
+                return nullptr;
+            }
+
+            for(MetaLayer& layer : layers)
+            {
+                if(not layer.addToMap(res))
+                {
+                    std::cerr<<"Imposible to add layer ["<<layer<<"] to map"<<std::endl;
+                    delete res;
+                    res = nullptr;
+                    break;
+                }
             }
 
             return res;

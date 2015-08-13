@@ -3,8 +3,14 @@ namespace sfutils
     namespace map
     {
         template<typename GEOMETRY>
-        Map<GEOMETRY>::Map(float size) : VMap(size)
+        Map<GEOMETRY>::Map(float size,const sf::Vector2i& areaSize) : VMap(size,areaSize)
         {
+        }
+        
+        template<typename GEOMETRY>
+        VLayer* Map<GEOMETRY>::createLayerOfGeometry(const std::string& content, int z, bool isStatic)const
+        {
+            return new Layer<Tile<GEOMETRY>>(content,z,isStatic);
         }
 
         /*
@@ -157,6 +163,7 @@ namespace sfutils
             return shape;
         }
 
+        /*
         template<typename GEOMETRY>
         std::list<sf::Vector2i> Map<GEOMETRY>::getPath(const sf::Vector2i& origin,const sf::Vector2i& dest)const
         {
@@ -204,6 +211,7 @@ namespace sfutils
             }
             return res;
         }
+        */
 
         template<typename GEOMETRY>
         int Map<GEOMETRY>::getDistance(const sf::Vector2i& origin,const sf::Vector2i& dest) const

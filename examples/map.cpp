@@ -18,7 +18,7 @@ int main(int argc,char* argv[])
     sfutils::MapManager mapManager(std::shared_ptr<sfutils::VMapLoader>(new sfutils::JsonMapLoader("./media")));
 
     sfutils::VMap* map = mapManager.getMap();
-    mapManager.loadArea(0,0);
+    //mapManager.loadArea(0,0);
 
     sfutils::MapViewer viewer(window,*map);
 
@@ -65,7 +65,6 @@ int main(int argc,char* argv[])
 
     while (window.isOpen())
     {
-        window.clear();
 
         sf::Event event;
         while (window.pollEvent(event))
@@ -117,6 +116,8 @@ int main(int argc,char* argv[])
         viewer.update(deltaTime);
         window.setTitle("Example Tile ("+std::to_string(int(1/deltaTime))+")");
 
+
+        window.clear();
 
         viewer.draw();
         

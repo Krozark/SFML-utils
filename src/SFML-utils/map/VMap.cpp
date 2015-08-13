@@ -9,7 +9,9 @@ namespace sfutils
 {
     namespace map
     {
-        VMap::VMap(float size) : _tileSize(size)
+        VMap::VMap(float size,const sf::Vector2i& areaSize) : 
+            _tileSize(size),
+            _areaSize(areaSize)
         {
         }
 
