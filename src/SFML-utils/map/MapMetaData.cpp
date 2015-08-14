@@ -10,7 +10,7 @@ namespace sfutils
 {
     namespace map
     {
-        ////////////////////// METALAYERDATA ////////////////////////////// 
+        ////////////////////// METALAYERDATA //////////////////////////////
         MetaLayerData::~MetaLayerData()
         {
         }
@@ -35,7 +35,7 @@ namespace sfutils
 
 
         //////////////////// METALAYERDATASPRITE //////////////////
-        MetaLayeDataSprite::MetaLayeDataSprite(const std::string& tex,const sf::Vector2i& pos) : 
+        MetaLayeDataSprite::MetaLayeDataSprite(const std::string& tex,const sf::Vector2i& pos) :
             _texture(tex),
             _position(pos)
         {
@@ -64,7 +64,7 @@ namespace sfutils
         }
 
         ///////////////// METALAYER //////////////////////
-        
+
         MetaLayer::MetaLayer(int z,const std::string& type,bool isStatic) :
             _z(z),
             _type(type),
@@ -136,12 +136,12 @@ namespace sfutils
             return stream;
         }
 
-        
+
 
         ///////////////// METAAREA ///////////////////////
-        MetaArea::MetaArea(int x,int y,const std::string& name):
+        MetaArea::MetaArea(const sf::Vector2i& pos,const std::string& name):
             _name(name),
-            _position(x,y)
+            _position(pos)
         {
         }
 

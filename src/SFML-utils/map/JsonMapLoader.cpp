@@ -22,8 +22,8 @@ namespace sfutils
         VMap* JsonMapLoader::createMap()
         {
 
-            utils::json::Value* value = utils::json::Driver::parse_file(utils::string::join("/",_mapDir,"map.json"));
-            
+            std::unique_ptr<utils::json::Value> value(utils::json::Driver::parse_file(utils::string::join("/",_mapDir,"map.json")));
+
             if(not value)
             {
                 std::cerr<<"Impossible to parse file "<<_mapDir<<"/map.json"<<std::endl;
@@ -39,10 +39,9 @@ namespace sfutils
 
             std::list<MetaLayer> layers;
 
-
             try
             {
-                utils::json::Object& root = *value;
+                utils::json::Object& root = value->as_object();
 
                 utils::json::Object& json_map = root["map"].as_object();
 
@@ -78,7 +77,7 @@ namespace sfutils
             }
             catch (std::exception& e)
             {
-                std::cerr<<"Exeption whene parsing file '"<<_mapDir<<"/map.json : "<<e.what()<<std::endl;
+                std::cerr<<"Exception when parsing file '"<<_mapDir<<"/map.json : "<<e.what()<<std::endl;
             }
 
 
@@ -110,7 +109,7 @@ namespace sfutils
             }
             else
             {
-                std::cerr<<"Unknow geometry '"<<tile_geometry<<"'"<<std::endl;
+                std::cerr<<"Unknown geometry '"<<tile_geometry<<"'"<<std::endl;
                 return nullptr;
             }
 
@@ -118,7 +117,7 @@ namespace sfutils
             {
                 if(not layer.addToMap(res))
                 {
-                    std::cerr<<"Imposible to add layer ["<<layer<<"] to map"<<std::endl;
+                    std::cerr<<"Impossible to add layer ["<<layer<<"] to map"<<std::endl;
                     delete res;
                     res = nullptr;
                     break;
@@ -129,10 +128,53 @@ namespace sfutils
 
         }
 
-        MetaArea JsonMapLoader::_loadArea(int x,int y)
+        std::unique_ptr<MetaArea> JsonMapLoader::_loadArea(int x,int y)
         {
-            //#error TODO
-            return MetaArea(x,y,"ERROR");
+            std::unique_ptr<utils::json::Value> value(utils::json::Driver::parse_file(utils::string::join("/",_mapDir,"areas.json")));
+            std::unique_ptr<MetaArea> res;
+            if(not value)
+            {
+                std::cerr<<"Impossible to parse file "<<_mapDir<<"/map.json"<<std::endl;
+                return res;
+            }
+
+            utils::json::Object& root = value->as_object();
+            utils::json::Array& json_areas = root["areas"].as_array();
+
+            try {
+                for(utils::json::Value& json_area : json_areas)
+                {
+                    utils::json::Object& area = json_area.as_object();
+                    sf::Vector2i area_pos;
+                    area_pos.x = area["position-x"].as_int();
+                    area_pos.y = area["position-y"].as_int();
+
+                    if(area_pos.x != x or area_pos.y != y)
+                        continue;
+
+                    std::string name = area["name"].as_string();
+                    utils::json::Array& layers = area["layers"].as_array();
+                    res.reset(new MetaArea(area_pos,name));
+                    for(utils::json::Value& json_layer : layers)
+                    {
+                        utils::json::Object& json_layer_obj = json_layer.as_object();
+                        int z = json_layer_obj["z-buffer"].as_int();
+                        VLayer* layer_ptr = map->atZ(z);
+                        if(not layer_ptr)
+                        {
+                            std::cerr<<"Error when parsing file '"<<_mapDir<<"/areas.json : Map doesn't contain a layer a z-buffer "<<z<<std::endl;
+                            return nullptr;
+                        }
+                        utils::json::Array& layers
+
+                    }
+                }
+
+            } catch(std::exception& e){
+                std::cerr<<"Exception when parsing file '"<<_mapDir<<"/areas.json : "<<e.what()<<std::endl;
+            };
+
+            return res;
         }
     }
 }

@@ -19,7 +19,6 @@
                                 "width" : 5,
                                 "height" : 4
                             }
-
                         },
                         {
                             "texture" : "media/img/ground2.png",
@@ -71,7 +70,7 @@
                         {
                             "fill-rect" : "all",
                             "texture" : "media/img/ground2.png"
-                        }
+                        },
                         {
                             "texture" : "media/img/ground3.png",
                             "position-x" : 0,

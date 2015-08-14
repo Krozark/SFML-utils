@@ -17,7 +17,7 @@ namespace sfutils
                 virtual VMap* createMap() override;
 
             protected:
-                virtual MetaArea _loadArea(int x,int y) override;
+                virtual std::unique_ptr<MetaArea> _loadArea(int x,int y) override;
 
                 std::string _mapDir;
         };

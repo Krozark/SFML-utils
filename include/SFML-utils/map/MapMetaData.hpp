@@ -44,7 +44,7 @@ namespace sfutils
 
                 void setIsPtr(bool ptr);
                 void setTextureOrigin(sf::Vector2f& o);
-            
+
             private:
 
                 std::string _texture;
@@ -60,7 +60,7 @@ namespace sfutils
             public:
                 MetaLayer(int z,const std::string& type,bool isStatic = false);
                 virtual ~MetaLayer();
-                
+
                 void add(std::shared_ptr<MetaLayerData> data);
 
                 bool addToMap(VMap* map);
@@ -80,10 +80,10 @@ namespace sfutils
         class MetaArea
         {
             public:
-                MetaArea(int x,int y,const std::string& name);
+                MetaArea(const sf::Vector2i& pos,const std::string& name);
 
                 void addLayer(MetaLayer&& layer);
-                
+
                 bool addToMap(VMap* map);
 
             private:
