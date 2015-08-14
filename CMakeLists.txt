@@ -25,7 +25,7 @@ set_option(SFML_UTILS_BUILD_DOC TRUE BOOL "TRUE to generate the API documentatio
 
 set_option(SFML_UTILS_USE_SYSTEM_CPP_UTILS TRUE BOOL "Use cpp-utils from system, false to compile it from dependencies")
 
-set_option(SFML_UTILS_BUILD_STATIC TRUE BOOL "Build as STATIC library")
+set_option(SFML_UTILS_BUILD_STATIC FALSE BOOL "Build as STATIC library")
 set_option(SFML_UTILS_BUILD_SHARED TRUE BOOL "Build as SHARED library")
 
 set_option(SFML_UTILS_BUILD_MODULE_ENTITY_SYSTEM TRUE BOOL "TRUE to build the entity system")
@@ -90,8 +90,8 @@ if(SFML_UTILS_USE_SYSTEM_CPP_UTILS)
 	
 else()
 	add_subdirectory(extlibs/cpp-utils)
-	set(UTILS_LIBRARY utils-shared)
-	set(UTILS_JSON_LIBRARY utils-json-shared)
+	set(UTILS_LIBRARY utils-${SFML_UTILS_BUILD_SUFIX})
+	set(UTILS_JSON_LIBRARY utils-json-${SFML_UTILS_BUILD_SUFIX})
 	include_directories(extlibs/cpp-utils/include)
 endif()
 
