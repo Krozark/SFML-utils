@@ -90,8 +90,8 @@ if(SFML_UTILS_USE_SYSTEM_CPP_UTILS)
 	
 else()
 	add_subdirectory(extlibs/cpp-utils)
-	set(UTILS_LIBRARY utils-${SFML_UTILS_BUILD_SUFIX})
-	set(UTILS_JSON_LIBRARY utils-json-${SFML_UTILS_BUILD_SUFIX})
+	set(UTILS_LIBRARY utils-shared)
+	set(UTILS_JSON_LIBRARY utils-json-shared)
 	include_directories(extlibs/cpp-utils/include)
 endif()
 
