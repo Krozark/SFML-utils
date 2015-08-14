@@ -41,6 +41,8 @@ Requirements
 Map
 ===
 
+<img src="https://raw.githubusercontent.com/Krozark/SFML-utils/master/screen/V0.3.png" alt="Hexagonal grid" width="350px">
+
 Hexagonal grid
 ---------
 <img src="https://raw.githubusercontent.com/Krozark/SFML-utils/master/screen/Hexa.png" alt="Hexagonal grid" width="350px">
