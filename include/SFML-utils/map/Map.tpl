@@ -13,6 +13,23 @@ namespace sfutils
             return new Layer<Tile<GEOMETRY>>(content,z,isStatic);
         }
 
+        template<typename GEOMETRY>
+        bool Map<GEOMETRY>::createTileToLayer(int pos_x,int pos_y,float scale,sf::Texture* texture,VLayer* layer)const
+        {
+            auto l = dynamic_cast<Layer<Tile<GEOMETRY>>*>(layer);
+
+            if(not l)
+                return false;
+
+            Tile<GEOMETRY> tile(pos_x,pos_y,_tileSize);
+            tile.setTexture(texture);
+            tile.setTextureRect(GEOMETRY::getTextureRect(pos_x,pos_y,_tileSize));
+
+            l->add(std::move(tile),false);
+
+            return true;
+        }
+
         /*
         template<typename GEOMETRY>
         void Map<GEOMETRY>::loadFromJson(const utils::json::Object& root)

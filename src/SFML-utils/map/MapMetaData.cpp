@@ -26,16 +26,36 @@ namespace sfutils
         {
         }
 
-        bool MetaLayerDataTileRect::addToLayer(VLayer* layer)
+        bool MetaLayerDataTileRect::addToLayer(VLayer* layer,VMap* const map,ResourceManager<sf::Texture,std::string>& textureManager,const sf::Vector2i& areaCoord)
         {
-            //#error TODO
-            return false;
+            if(layer->getType() != "tile")
+            {
+                std::cerr<<"unsuported layer type '"<<layer->getType()<<"' for MetaLayerDataTileRect (should be 'tile')"<<std::endl;
+                return false;
+            }
+
+            sf::Texture& tex = textureManager.getOrLoad(_texture,_texture);
+            tex.setRepeated(true);
+
+            sf::Vector2i size = map->getAreaSize();
+
+            for(int y = _rect.top; y<_rect.top + _rect.height && y < size.y;++y)
+            {
+                for(int x = _rect.left; x< _rect.left + _rect.width && x < size.x; ++x)
+                {
+                    if(not map->createTileToLayer(areaCoord.x + x, areaCoord.y + y,
+                                                  map->getTileSize(),&tex,layer))
+                        return false;
+                }
+            }
+
+            return true;
         }
 
 
 
         //////////////////// METALAYERDATASPRITE //////////////////
-        MetaLayeDataSprite::MetaLayeDataSprite(const std::string& tex,const sf::Vector2i& pos) :
+        MetaLayerDataSprite::MetaLayerDataSprite(const std::string& tex,const sf::Vector2i& pos) :
             _texture(tex),
             _position(pos)
         {
@@ -43,24 +63,76 @@ namespace sfutils
             _isPtr = false;
         }
 
-        MetaLayeDataSprite::~MetaLayeDataSprite()
+        MetaLayerDataSprite::~MetaLayerDataSprite()
         {
         }
 
-        bool MetaLayeDataSprite::addToLayer(VLayer* layer)
+        bool MetaLayerDataSprite::addToLayer(VLayer* layer,VMap* const map,ResourceManager<sf::Texture,std::string>& textureManager,const sf::Vector2i& areaCoord)
         {
-            //#error TODO
-            return false;
+            if(_isPtr and layer->getType() != "sprite_ptr")
+            {
+                std::cerr<<"unsuported layer type '"<<layer->getType()<<"' for MetaLayerDataTileRect (should be 'sprite_ptr')"<<std::endl;
+                return false;
+            }
+            else if(not _isPtr and layer->getType() != "sprite")
+            {
+                std::cerr<<"unsuported layer type '"<<layer->getType()<<"' for MetaLayerDataTileRect (should be 'sprite')"<<std::endl;
+                return false;
+            }
+
+            sf::Texture& tex = textureManager.getOrLoad(_texture,_texture);
+            tex.setRepeated(false);
+
+            if(_texRect == sf::IntRect()) //default == all the texture
+            {
+                _texRect.width = tex.getSize().x;
+                _texRect.height = tex.getSize().y;
+            }
+
+            sf::Sprite spr(tex,_texRect);
+
+            std::cout<<"_texRect: "<<_texRect.width<<";"<<_texRect.height
+                <<" position: "<<_position.x<<";"<<_position.y
+                <<" _texCenter: "<<_texCenter.x<<";"<<_texCenter.y
+                <<std::endl;
+
+            spr.setPosition(map->mapCoordsToPixel(areaCoord.x + _position.x,areaCoord.y + _position.y));
+
+            spr.setOrigin(_texRect.width * _texCenter.x,
+                          _texRect.height * _texCenter.y);
+
+            if(_isPtr)
+            {
+                auto l = dynamic_cast<Layer<sf::Sprite*>*>(layer);
+                if(not l)
+                    return false;
+
+                l->add(new sf::Sprite(std::move(spr)),false);
+            }
+            else
+            {
+                auto l = dynamic_cast<Layer<sf::Sprite>*>(layer);
+                if(not l)
+                    return false;
+
+                l->add(std::move(spr),false);
+            }
+
+            return true;
         }
 
-        void MetaLayeDataSprite::setIsPtr(bool ptr)
+        void MetaLayerDataSprite::setIsPtr(bool ptr)
         {
             _isPtr = ptr;
         }
 
-        void MetaLayeDataSprite::setTextureOrigin(sf::Vector2f& o)
+        void MetaLayerDataSprite::setTextureOrigin(const sf::Vector2f& o)
         {
             _texCenter = o;
+        }
+        void MetaLayerDataSprite::setTextureRect(const sf::IntRect& rect)
+        {
+            _texRect = rect;
         }
 
         ///////////////// METALAYER //////////////////////
@@ -81,7 +153,7 @@ namespace sfutils
             _data.emplace_back(data);
         }
 
-        bool MetaLayer::addToMap(VMap* map)
+        bool MetaLayer::addToMap(VMap* map,ResourceManager<sf::Texture,std::string>& textureManager,const sf::Vector2i& areaCoord)
         {
             VLayer* layer = map->atZ(_z);
             if(layer)
@@ -118,12 +190,12 @@ namespace sfutils
                     return false;
                 }
             }
-
             for(std::shared_ptr<MetaLayerData>& data : _data)
             {
-                if(not data->addToLayer(layer))
+                if(not data->addToLayer(layer,map,textureManager,areaCoord))
                     return false;
             }
+            layer->sort();
             return true;
         }
 
@@ -145,16 +217,20 @@ namespace sfutils
         {
         }
 
-        void MetaArea::addLayer(MetaLayer&& layer)
+        void MetaArea::add(MetaLayer&& layer)
         {
             return _layers.emplace_back(layer);
         }
 
-        bool MetaArea::addToMap(VMap* map)
+        bool MetaArea::addToMap(VMap* map,ResourceManager<sf::Texture,std::string>& textureManager)
         {
+            sf::Vector2i coord = _position;
+            coord.x *= map->getAreaSize().x;
+            coord.y *= map->getAreaSize().y;
+
             for(MetaLayer& layer : _layers)
             {
-                if(not layer.addToMap(map))
+                if(not layer.addToMap(map,textureManager,coord))
                     return false;
             }
             return true;

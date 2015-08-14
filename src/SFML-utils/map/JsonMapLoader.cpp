@@ -10,6 +10,7 @@
 
 #include <utils/json/Driver.hpp>
 #include <utils/string.hpp>
+#include <functional>
 
 namespace sfutils
 {
@@ -115,7 +116,7 @@ namespace sfutils
 
             for(MetaLayer& layer : layers)
             {
-                if(not layer.addToMap(res))
+                if(not layer.addToMap(res,_textureManager,sf::Vector2i(0,0)))
                 {
                     std::cerr<<"Impossible to add layer ["<<layer<<"] to map"<<std::endl;
                     delete res;
@@ -128,13 +129,13 @@ namespace sfutils
 
         }
 
-        std::unique_ptr<MetaArea> JsonMapLoader::_loadArea(int x,int y)
+        std::unique_ptr<MetaArea> JsonMapLoader::_loadArea(int x,int y,VMap* const map)
         {
             std::unique_ptr<utils::json::Value> value(utils::json::Driver::parse_file(utils::string::join("/",_mapDir,"areas.json")));
             std::unique_ptr<MetaArea> res;
             if(not value)
             {
-                std::cerr<<"Impossible to parse file "<<_mapDir<<"/map.json"<<std::endl;
+                std::cerr<<"Impossible to parse file "<<_mapDir<<"/areas.json"<<std::endl;
                 return res;
             }
 
@@ -155,19 +156,11 @@ namespace sfutils
                     std::string name = area["name"].as_string();
                     utils::json::Array& layers = area["layers"].as_array();
                     res.reset(new MetaArea(area_pos,name));
-                    for(utils::json::Value& json_layer : layers)
-                    {
-                        utils::json::Object& json_layer_obj = json_layer.as_object();
-                        int z = json_layer_obj["z-buffer"].as_int();
-                        VLayer* layer_ptr = map->atZ(z);
-                        if(not layer_ptr)
-                        {
-                            std::cerr<<"Error when parsing file '"<<_mapDir<<"/areas.json : Map doesn't contain a layer a z-buffer "<<z<<std::endl;
-                            return nullptr;
-                        }
-                        utils::json::Array& layers
 
-                    }
+                    for(utils::json::Value& json_layer : layers)
+                        if(not _parseLayer(map,json_layer.as_object(),res))
+                            return nullptr;
+                    break;
                 }
 
             } catch(std::exception& e){
@@ -176,5 +169,119 @@ namespace sfutils
 
             return res;
         }
+
+        bool JsonMapLoader::_parseLayer(VMap* map,utils::json::Object& root,std::unique_ptr<MetaArea>& meta)
+        {
+            int z = root["z-buffer"].as_int();
+            VLayer* layer_ptr = map->atZ(z);
+            if(not layer_ptr)
+            {
+                std::cerr<<"Map doesn't contain a layer a z-buffer "<<z<<std::endl;
+                return false;
+            }
+
+            std::string type = layer_ptr->getType();
+
+            std::function<std::shared_ptr<MetaLayerData>(VMap* const, utils::json::Object&)> f;
+
+            if(type == "tile")
+            {
+                f = &JsonMapLoader::_createTile;
+            }
+            else if(type == "sprite")
+            {
+                f = std::bind(&JsonMapLoader::_createSprite,std::placeholders::_1,std::placeholders::_2,false);
+            }
+            else if(type == "sprite_ptr")
+            {
+                f = std::bind(&JsonMapLoader::_createSprite,std::placeholders::_1,std::placeholders::_2,true);
+            }
+            else
+            {
+                std::cerr<<"Unknow layer type "<<type<<std::endl;
+                return false;
+            }
+
+            MetaLayer metaLayer(z,type,layer_ptr->isStatic());
+            utils::json::Array& data = root["data"].as_array();
+
+            for(utils::json::Value& value : data)
+            {
+                std::shared_ptr<MetaLayerData> d = f(map,value.as_object());
+                if(not d)
+                    return false;
+
+                metaLayer.add(d);
+            }
+
+            meta->add(std::move(metaLayer));
+
+            return true;
+        }
+        
+        std::shared_ptr<MetaLayerData> JsonMapLoader::_createTile(VMap* const map,utils::json::Object& root)
+        {
+            std::string texture = root["texture"].as_string();
+
+            sf::IntRect rect(0,0,1,1);
+
+            try{
+                //point
+                rect.left = root["position-x"].as_int();
+                rect.top = root["position-y"].as_int();
+
+                try //is it an area
+                {
+                    rect.width = root["width"].as_int();
+                    rect.height = root["height"].as_int();
+                } catch (...) { //or a point
+                }
+            }catch(...){ //all
+                sf::Vector2i s = map->getAreaSize();
+                rect.width = s.x;
+                rect.height = s.y;
+            }
+
+            std::shared_ptr<MetaLayerData> res(new MetaLayerDataTileRect(texture,rect));
+
+            return res;
+
+        }
+
+        std::shared_ptr<MetaLayerData> JsonMapLoader::_createSprite(VMap* const map,utils::json::Object& root,bool isPtr)
+        {
+            std::string texture = root["texture"].as_string();
+
+            sf::Vector2i pos;
+            {//position
+                pos.x = root["position-x"].as_int();
+                pos.y = root["position-y"].as_int();
+            }
+
+            sf::IntRect tex_rect;
+            try{//texture rect
+                utils::json::Object& rect = root["texture-rect"].as_object();
+                tex_rect.top =  rect["top"].as_int();
+                tex_rect.left = rect["left"].as_int();
+                tex_rect.width = rect["width"].as_int();
+                tex_rect.height = rect["height"].as_int();
+            } catch(...){}
+
+            sf::Vector2f tex_origin(0.5,1);
+            try{//texture-center
+                utils::json::Object& rect = root["texture-center"].as_object();
+                tex_origin.x = rect["left"].as_float();
+                tex_origin.y = rect["top"].as_float();
+            }catch(...){}
+
+
+            MetaLayerDataSprite* res = new MetaLayerDataSprite(texture,pos);
+            res->setIsPtr(isPtr);
+            res->setTextureOrigin(tex_origin);
+            res->setTextureRect(tex_rect);
+
+            return std::shared_ptr<MetaLayerData>(res);
+        }
+
     }
 }

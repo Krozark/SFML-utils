@@ -1,5 +1,6 @@
 #include <SFML-utils/map/VMap.hpp>
 
+#include <SFML-utils/map/VLayer.hpp>
 #include <SFML-utils/map/Map.hpp>
 
 
@@ -75,6 +76,11 @@ namespace sfutils
         float VMap::getTileSize()const
         {
             return _tileSize;
+        }
+
+        const sf::Vector2i& VMap::getAreaSize()const
+        {
+            return _areaSize;
         }
 
         sf::Vector2i VMap::mapPixelToCoords(const sf::Vector2f& pos) const

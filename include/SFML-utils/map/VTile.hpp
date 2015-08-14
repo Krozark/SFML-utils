@@ -16,6 +16,7 @@ namespace sfutils
                 VTile(VTile&&) = default;
                 VTile& operator=(VTile&&) = default;
 
+                VTile();
                 virtual ~VTile();
 
                 void setFillColor(const sf::Color &color);
@@ -37,6 +38,7 @@ namespace sfutils
                 sf::ConvexShape _shape;
 
             private:
+                virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override final;
                 virtual void setCoords(int x,int y) = 0;
         };
     }

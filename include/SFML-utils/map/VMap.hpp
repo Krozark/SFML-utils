@@ -1,15 +1,19 @@
 #ifndef SFUTILS_MAP_VMAP_HPP
 #define SFUTILS_MAP_VMAP_HPP
 
-#include <SFML-utils/map/VLayer.hpp>
-#include <string>
 
+#include <string>
 #include <list>
+
+#include <SFML/Graphics.hpp>
 
 namespace sfutils
 {
     namespace map
     {
+        class VTile;
+        class VLayer;
+
         class VMap
         {
             public:
@@ -29,7 +33,10 @@ namespace sfutils
                 void clear();
 
                 float getTileSize()const;
+                const sf::Vector2i& getAreaSize()const;
+
                 virtual VLayer* createLayerOfGeometry(const std::string& content, int z, bool isStatic)const = 0;
+                virtual bool createTileToLayer(int pos_x,int pos_y,float scale,sf::Texture* texture,VLayer* layer)const = 0;
 
                 virtual sf::Vector2i mapPixelToCoords(float x,float y) const = 0;
                 sf::Vector2i mapPixelToCoords(const sf::Vector2f& pos) const;

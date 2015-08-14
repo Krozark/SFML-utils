@@ -3,6 +3,12 @@
 
 #include <SFML-utils/map/VMapLoader.hpp>
 
+namespace utils{
+    namespace json {
+        class Object;
+    }
+}
+
 namespace sfutils
 {
     namespace map
@@ -17,9 +23,14 @@ namespace sfutils
                 virtual VMap* createMap() override;
 
             protected:
-                virtual std::unique_ptr<MetaArea> _loadArea(int x,int y) override;
+                virtual std::unique_ptr<MetaArea> _loadArea(int x,int y,VMap* const map) override;
 
                 std::string _mapDir;
+
+                static bool _parseLayer(VMap* map,utils::json::Object& root,std::unique_ptr<MetaArea>& meta);
+                static std::shared_ptr<MetaLayerData> _createTile(VMap* const map,utils::json::Object& root);
+                static std::shared_ptr<MetaLayerData> _createSprite(VMap* const map,utils::json::Object& root,bool isPtr);
+
         };
     }
 }

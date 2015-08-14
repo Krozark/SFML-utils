@@ -17,6 +17,7 @@ set(FILES_HEADER
     ${INCROOT}/VLayer.hpp
     ${INCROOT}/VMap.hpp
     ${INCROOT}/VMapLoader.hpp
+    ${INCROOT}/VTile.hpp
 
     ${INCROOT}/tileShapes/BaseTile.hpp
     ${INCROOT}/tileShapes/HexaIso.hpp
@@ -36,6 +37,7 @@ set(FILES_SRC
     ${SRCROOT}/VLayer.cpp
     ${SRCROOT}/VMap.cpp
     ${SRCROOT}/VMapLoader.cpp
+    ${SRCROOT}/VTile.cpp
 
     ${SRCROOT}/tileShapes/HexaIso.cpp
     ${SRCROOT}/tileShapes/Hexa.cpp
