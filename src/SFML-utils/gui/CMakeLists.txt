@@ -37,6 +37,6 @@ add_subdirectory(event)
 build_library(${PROJECT_NAME}-gui
     SOURCES ${FILES_HEADER} ${FILES_SRC}
     TYPE ${SFML_UTILS_BUILD_TYPE}
-    DEPENDS ${PROJECT_NAME}-core
+    DEPENDS ${PROJECT_NAME}-core-${SFML_UTILS_BUILD_SUFIX}
     EXTERNAL_LIBS ${LIBS}
 )
