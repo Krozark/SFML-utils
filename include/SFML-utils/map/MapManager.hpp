@@ -19,6 +19,8 @@ namespace sfutils
                 VMap* getMap()const;
 
                 bool loadArea(int x,int y);
+                bool unloadArea(int x,int y);
+
             private:
                 std::shared_ptr<VMapLoader> _mapLoader;
                 VMap* _map;

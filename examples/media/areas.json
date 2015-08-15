@@ -88,6 +88,40 @@
                     ]
                 }
             ]
+        },
+        {
+            "name" : "area fill-rect : all",
+            "position-x" : -1,
+            "position-y" : -1,
+            "layers" :
+            [
+                {
+                    "z-buffer" : 0,
+                    "data" : 
+                    [
+                        {
+                            "texture" : "media/img/ground3.png"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name" : "area fill-rect : all",
+            "position-x" : -1,
+            "position-y" : 0,
+            "layers" :
+            [
+                {
+                    "z-buffer" : 0,
+                    "data" : 
+                    [
+                        {
+                            "texture" : "media/img/ground2.png"
+                        }
+                    ]
+                }
+            ]
         }
     ]
 }

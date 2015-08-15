@@ -19,7 +19,8 @@ int main(int argc,char* argv[])
 
     sfutils::VMap* map = mapManager.getMap();
     mapManager.loadArea(0,0);
-    mapManager.loadArea(1,0);
+    mapManager.loadArea(-1,0);
+    mapManager.loadArea(-1,-1);
 
     sfutils::MapViewer viewer(window,*map);
 

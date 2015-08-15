@@ -14,20 +14,18 @@ namespace sfutils
         }
 
         template<typename GEOMETRY>
-        bool Map<GEOMETRY>::createTileToLayer(int pos_x,int pos_y,float scale,sf::Texture* texture,VLayer* layer)const
+        VTile* Map<GEOMETRY>::createTileToLayer(int pos_x,int pos_y,float scale,sf::Texture* texture,VLayer* layer)const
         {
             auto l = dynamic_cast<Layer<Tile<GEOMETRY>>*>(layer);
 
             if(not l)
-                return false;
+                return nullptr;
 
             Tile<GEOMETRY> tile(pos_x,pos_y,_tileSize);
             tile.setTexture(texture);
             tile.setTextureRect(GEOMETRY::getTextureRect(pos_x,pos_y,_tileSize));
 
-            l->add(std::move(tile),false);
-
-            return true;
+            return l->add(std::move(tile),false);
         }
 
         /*

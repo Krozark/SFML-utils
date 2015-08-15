@@ -26,5 +26,10 @@ namespace sfutils
         {
             return _mapLoader->loadArea(x,y,_map);
         }
+
+        bool MapManager::unloadArea(int x,int y)
+        {
+            return false;
+        }
     }
 }
