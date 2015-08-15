@@ -43,8 +43,8 @@ namespace sfutils
             {
                 for(int x = _rect.left; x< _rect.left + _rect.width && x < size.x; ++x)
                 {
-                    if(not map->createTileToLayer(areaCoord.x + x, areaCoord.y + y,
-                                                  map->getTileSize(),&tex,layer))
+                    VTile* tile = map->createTileToLayer(areaCoord.x + x, areaCoord.y + y,map->getTileSize(),&tex,layer);
+                    if(not tile)
                         return false;
                 }
             }
@@ -101,13 +101,14 @@ namespace sfutils
             spr.setOrigin(_texRect.width * _texCenter.x,
                           _texRect.height * _texCenter.y);
 
+            sf::Sprite* s_ptr = nullptr;
             if(_isPtr)
             {
                 auto l = dynamic_cast<Layer<sf::Sprite*>*>(layer);
                 if(not l)
                     return false;
 
-                l->add(new sf::Sprite(std::move(spr)),false);
+                s_ptr = l->add(new sf::Sprite(std::move(spr)),false);
             }
             else
             {
@@ -115,10 +116,10 @@ namespace sfutils
                 if(not l)
                     return false;
 
-                l->add(std::move(spr),false);
+                s_ptr = l->add(std::move(spr),false);
             }
 
-            return true;
+            return (s_ptr != nullptr);
         }
 
         void MetaLayerDataSprite::setIsPtr(bool ptr)

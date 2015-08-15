@@ -4,13 +4,13 @@
         "name" : "test",
         "tile" :
         {
-            "geometry" :"SquareIsoStaggered",
+            "geometry" :"SquareIso",
             "size" : 50.0
         },
         "area" :
         {
-            "width" : 10,
-            "height" : 15
+            "width" : 7,
+            "height" : 5
         },
 
         "layers" :

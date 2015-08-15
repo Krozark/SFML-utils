@@ -27,8 +27,8 @@
                         },
                         {
                             "texture" : "media/img/ground2.png",
-                            "position-x" : 7,
-                            "position-y" : 9
+                            "position-x" : 1,
+                            "position-y" : 4
                         }
                     ]
                 },
@@ -100,7 +100,7 @@
                     "data" : 
                     [
                         {
-                            "texture" : "media/img/ground3.png"
+                            "texture" : "media/img/ground.png"
                         }
                     ]
                 }
@@ -118,6 +118,23 @@
                     [
                         {
                             "texture" : "media/img/ground2.png"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name" : "area fill-rect : all",
+            "position-x" : 0,
+            "position-y" : -1,
+            "layers" :
+            [
+                {
+                    "z-buffer" : 0,
+                    "data" : 
+                    [
+                        {
+                            "texture" : "media/img/ground1.png"
                         }
                     ]
                 }
