@@ -2,8 +2,12 @@
 #define SFUTILS_MAP_MAPMANAGER_HPP
 
 #include <memory>
+#include <unordered_map>
+#include <utility>
 
 #include <SFML-utils/map/VMapLoader.hpp>
+
+#include <utils/hash.hpp>
 
 namespace sfutils
 {
@@ -23,7 +27,9 @@ namespace sfutils
 
             private:
                 std::shared_ptr<VMapLoader> _mapLoader;
+                std::unordered_map<std::pair<int,int>,std::unique_ptr<MetaArea>> _areas;
                 VMap* _map;
+                ResourceManager<sf::Texture,std::string> _textureManager;
         };
     }
 }

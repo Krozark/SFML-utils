@@ -21,6 +21,8 @@ namespace sfutils
                 int z()const;
                 const std::string& getType()const;
 
+                virtual void remove(void* data,bool del = true) = 0;
+
                 bool isStatic()const;
 
             protected:

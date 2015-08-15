@@ -21,7 +21,6 @@ int main(int argc,char* argv[])
     mapManager.loadArea(0,0);
     mapManager.loadArea(-1,0);
     mapManager.loadArea(0,-1);
-    mapManager.loadArea(-1,-1);
 
     sfutils::MapViewer viewer(window,*map);
 
@@ -75,6 +74,16 @@ int main(int argc,char* argv[])
             // Close window : exit
             if (event.type == sf::Event::Closed)
                 window.close();
+            else if(event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::Key::D)
+            {
+                std::cout<<"deleting (-1,-1)"<<std::endl;
+                mapManager.unloadArea(-1,-1);
+            }
+            else if(event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::Key::L)
+            {
+                std::cout<<"loading (-1,-1)"<<std::endl;
+                mapManager.loadArea(-1,-1);
+            }
             else if(not viewer.processEvent(event))
             {
                 if(event.type == sf::Event::MouseButtonReleased and event.mouseButton.button == sf::Mouse::Button::Left)

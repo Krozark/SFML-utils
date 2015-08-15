@@ -20,7 +20,7 @@ namespace sfutils
         {
             public:
                 virtual ~MetaLayerData();
-                virtual bool addToLayer(VLayer* layer,VMap* const map,ResourceManager<sf::Texture,std::string>& textureManager,const sf::Vector2i& areaCoord) = 0;
+                virtual bool addToLayer(VLayer* layer,VMap* const map,ResourceManager<sf::Texture,std::string>& textureManager,const sf::Vector2i& areaCoord,std::list<void*>& createdData) = 0;
         };
 
         class MetaLayerDataTileRect : public MetaLayerData
@@ -29,7 +29,7 @@ namespace sfutils
                 MetaLayerDataTileRect(const std::string& tex, const sf::IntRect& rect);
                 virtual ~MetaLayerDataTileRect();
 
-                virtual bool addToLayer(VLayer* layer,VMap* const map,ResourceManager<sf::Texture,std::string>& textureManager,const sf::Vector2i& areaCoord) override;
+                virtual bool addToLayer(VLayer* layer,VMap* const map,ResourceManager<sf::Texture,std::string>& textureManager,const sf::Vector2i& areaCoord,std::list<void*>& createdData) override;
 
             private:
                 std::string _texture;
@@ -42,7 +42,7 @@ namespace sfutils
                 MetaLayerDataSprite(const std::string& tex,const sf::Vector2i& pos);
                 virtual ~MetaLayerDataSprite();
 
-                virtual bool addToLayer(VLayer* layer,VMap* const map,ResourceManager<sf::Texture,std::string>& textureManager,const sf::Vector2i& areaCoord) override;
+                virtual bool addToLayer(VLayer* layer,VMap* const map,ResourceManager<sf::Texture,std::string>& textureManager,const sf::Vector2i& areaCoord,std::list<void*>& createdData) override;
 
                 void setIsPtr(bool ptr);
                 void setTextureOrigin(const sf::Vector2f& o);
@@ -69,6 +69,8 @@ namespace sfutils
 
                 bool addToMap(VMap* map,ResourceManager<sf::Texture,std::string>& textureManager,const sf::Vector2i& areaCoord);
 
+                bool removeFromMap(VMap* map)const;
+
                 friend std::ostream& operator<<(std::ostream& stream,const MetaLayer& self);
 
             private:
@@ -76,6 +78,7 @@ namespace sfutils
                 const std::string _type;
                 bool _static;
                 std::list<std::shared_ptr<MetaLayerData>> _data;
+                std::list<void*> _createdData;
         };
 
         /***
@@ -89,6 +92,8 @@ namespace sfutils
                 void add(MetaLayer&& layer);
 
                 bool addToMap(VMap* map,ResourceManager<sf::Texture,std::string>& textureManager);
+
+                bool removeFromMap(VMap* map)const;
 
             private:
                 std::string _name;

@@ -17,12 +17,13 @@ namespace sfutils
             public:
                 virtual ~VMapLoader();
 
-                bool loadArea(int x,int y,VMap* map);
-                virtual VMap* createMap() = 0;
 
-            protected:
+            private:
+                friend class MapManager;
+
                 virtual std::unique_ptr<MetaArea> _loadArea(int x,int y,VMap* const map) = 0;
-                ResourceManager<sf::Texture,std::string> _textureManager;
+                virtual VMap* _createMap() = 0;
+
 
         };
     }

@@ -21,6 +21,8 @@ namespace sfutils
                 CONTENT* add(const CONTENT& content,bool resort=true);
                 CONTENT* add(CONTENT&& content,bool resort=true);
 
+                virtual void remove(void* data,bool del = false) override;
+
                 std::list<CONTENT*> getByCoords(const sf::Vector2i& coords,const VMap& map);
 
                 bool remove(const CONTENT* content_ptr,bool resort=true);
@@ -47,6 +49,8 @@ namespace sfutils
                 virtual ~Layer();
 
                 CONTENT* add(CONTENT* content,bool resort=true);
+
+                virtual void remove(void* data, bool del = true) override;
 
                 std::list<CONTENT*> getByCoords(const sf::Vector2i& coords,const VMap& map);
 

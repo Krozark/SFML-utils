@@ -26,7 +26,7 @@ namespace sfutils
         {
         }
 
-        bool MetaLayerDataTileRect::addToLayer(VLayer* layer,VMap* const map,ResourceManager<sf::Texture,std::string>& textureManager,const sf::Vector2i& areaCoord)
+        bool MetaLayerDataTileRect::addToLayer(VLayer* layer,VMap* const map,ResourceManager<sf::Texture,std::string>& textureManager,const sf::Vector2i& areaCoord,std::list<void*>& createdData)
         {
             if(layer->getType() != "tile")
             {
@@ -46,6 +46,7 @@ namespace sfutils
                     VTile* tile = map->createTileToLayer(areaCoord.x + x, areaCoord.y + y,map->getTileSize(),&tex,layer);
                     if(not tile)
                         return false;
+                    createdData.emplace_back(tile);
                 }
             }
 
@@ -67,7 +68,7 @@ namespace sfutils
         {
         }
 
-        bool MetaLayerDataSprite::addToLayer(VLayer* layer,VMap* const map,ResourceManager<sf::Texture,std::string>& textureManager,const sf::Vector2i& areaCoord)
+        bool MetaLayerDataSprite::addToLayer(VLayer* layer,VMap* const map,ResourceManager<sf::Texture,std::string>& textureManager,const sf::Vector2i& areaCoord,std::list<void*>& createdData)
         {
             if(_isPtr and layer->getType() != "sprite_ptr")
             {
@@ -91,11 +92,6 @@ namespace sfutils
 
             sf::Sprite spr(tex,_texRect);
 
-            std::cout<<"_texRect: "<<_texRect.width<<";"<<_texRect.height
-                <<" position: "<<_position.x<<";"<<_position.y
-                <<" _texCenter: "<<_texCenter.x<<";"<<_texCenter.y
-                <<std::endl;
-
             spr.setPosition(map->mapCoordsToPixel(areaCoord.x + _position.x,areaCoord.y + _position.y));
 
             spr.setOrigin(_texRect.width * _texCenter.x,
@@ -118,6 +114,8 @@ namespace sfutils
 
                 s_ptr = l->add(std::move(spr),false);
             }
+
+            createdData.emplace_back(s_ptr);
 
             return (s_ptr != nullptr);
         }
@@ -180,12 +178,7 @@ namespace sfutils
                     layer = new Layer<sf::Sprite*>(_type,_z,_static);
                 }
 
-                if(layer)
-                {
-                    std::cout<<"Add layer at the z-buffer "<<_z<<" with type "<<layer->getType()<<std::endl;
-                    map->add(layer);
-                }
-                else
+                if(not layer)
                 {
                     std::cerr<<"Unknow content-type "<<_type<<std::endl;
                     return false;
@@ -193,8 +186,33 @@ namespace sfutils
             }
             for(std::shared_ptr<MetaLayerData>& data : _data)
             {
-                if(not data->addToLayer(layer,map,textureManager,areaCoord))
+                if(not data->addToLayer(layer,map,textureManager,areaCoord,_createdData))
                     return false;
+            }
+            layer->sort();
+            map->add(layer);
+            return true;
+        }
+
+        bool MetaLayer::removeFromMap(VMap* map)const
+        {
+            VLayer* layer = map->atZ(_z);
+            if(not layer)
+            {
+                std::cerr<<"The map don't have a layer at the z-buffer "<<_z<<std::endl;
+                return false;
+
+            }
+
+            if(layer->getType() != _type)
+            {
+                std::cerr<<"Map layer at the z-buffer "<<_z<<" with a different type ("<<layer->getType()<<"/"<<_type<<std::endl;
+                return false;
+            }
+
+            for(void* data : _createdData)
+            {
+                layer->remove(data,true);
             }
             layer->sort();
             return true;
@@ -232,6 +250,16 @@ namespace sfutils
             for(MetaLayer& layer : _layers)
             {
                 if(not layer.addToMap(map,textureManager,coord))
+                    return false;
+            }
+            return true;
+        }
+
+        bool MetaArea::removeFromMap(VMap* map)const
+        {
+            for(const MetaLayer& layer : _layers)
+            {
+                if(not layer.removeFromMap(map))
                     return false;
             }
             return true;

@@ -25,7 +25,6 @@ namespace sfutils
 
                 Map(float size,const sf::Vector2i& areaSize);
 
-                //void loadFromJson(const utils::json::Object& root) override;
                 virtual VLayer* createLayerOfGeometry(const std::string& content, int z, bool isStatic)const override;
                 virtual VTile* createTileToLayer(int pos_x,int pos_y,float scale,sf::Texture* texture,VLayer* layer)const override;
 

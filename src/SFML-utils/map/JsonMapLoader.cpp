@@ -20,7 +20,7 @@ namespace sfutils
         {
         }
 
-        VMap* JsonMapLoader::createMap()
+        VMap* JsonMapLoader::_createMap()
         {
 
             std::unique_ptr<utils::json::Value> value(utils::json::Driver::parse_file(utils::string::join("/",_mapDir,"map.json")));
@@ -114,9 +114,10 @@ namespace sfutils
                 return nullptr;
             }
 
+            ResourceManager<sf::Texture,std::string>* textureManager = nullptr; //should not be used on map creation (empty layers only)
             for(MetaLayer& layer : layers)
             {
-                if(not layer.addToMap(res,_textureManager,sf::Vector2i(0,0)))
+                if(not layer.addToMap(res,*textureManager,sf::Vector2i(0,0)))
                 {
                     std::cerr<<"Impossible to add layer ["<<layer<<"] to map"<<std::endl;
                     delete res;

@@ -36,6 +36,14 @@ namespace sfutils
         }
 
         template<typename CONTENT>
+        void Layer<CONTENT>::remove(void* data, bool del)
+        {
+            _content.remove_if([data](const CONTENT& c){
+                return (&c == data);
+            });
+        }
+
+        template<typename CONTENT>
         std::list<CONTENT*> Layer<CONTENT>::getByCoords(const sf::Vector2i& coords,const VMap& map)
         {
             std::list<CONTENT*> res;
@@ -74,6 +82,7 @@ namespace sfutils
                       auto pos_b = b.getPosition();
                       return (pos_a.y < pos_b.y) or (pos_a.y == pos_b.y and pos_a.x < pos_b.x);
                     });
+            _lastViewport = sf::FloatRect();
         }
 
         template<typename CONTENT>
@@ -153,6 +162,20 @@ namespace sfutils
         }
 
         template<typename CONTENT>
+        void Layer<CONTENT*>::remove(void* data,bool del)
+        {
+            _content.remove_if([data](CONTENT* c){
+                bool res = (c == data);
+                if(res)
+                {
+                    delete reinterpret_cast<CONTENT*>(data);
+                }
+                return res;
+
+            });
+        }
+
+        template<typename CONTENT>
         std::list<CONTENT*> Layer<CONTENT*>::getByCoords(const sf::Vector2i& coords,const VMap& map)
         {
             std::list<CONTENT*> res;
@@ -189,6 +212,7 @@ namespace sfutils
                       auto pos_b = b->getPosition();
                       return (pos_a.y < pos_b.y) or (pos_a.y == pos_b.y and pos_a.x < pos_b.x);
                     });
+            _lastViewport = sf::FloatRect();
         }
 
         template<typename CONTENT>
