@@ -4,10 +4,12 @@ set(SRCROOT ${SRCROOT}/map)
 
 set(FILES_HEADER
     ${INCROOT}/Configuration.hpp
+    ${INCROOT}/CompSkin.hpp
     ${INCROOT}/JsonMapLoader.hpp
     ${INCROOT}/Layer.hpp
     ${INCROOT}/Layer.tpl
     ${INCROOT}/Map.hpp
+    ${INCROOT}/MapEntity.hpp
     ${INCROOT}/Map.tpl
     ${INCROOT}/MapManager.hpp
     ${INCROOT}/MapMetaData.hpp
@@ -32,6 +34,7 @@ set(FILES_SRC
     ${SRCROOT}/Configuration.cpp
     ${SRCROOT}/JsonMapLoader.cpp
     ${SRCROOT}/MapManager.cpp
+    ${SRCROOT}/MapEntity.cpp
     ${SRCROOT}/MapMetaData.cpp
     ${SRCROOT}/MapViewer.cpp
     ${SRCROOT}/VLayer.cpp

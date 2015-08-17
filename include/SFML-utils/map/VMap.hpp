@@ -7,6 +7,10 @@
 
 #include <SFML/Graphics.hpp>
 
+#include <SFML-utils/es/Application.hpp>
+
+#include <SFML-utils/map/MapEntity.hpp>
+
 namespace sfutils
 {
     namespace map
@@ -14,7 +18,7 @@ namespace sfutils
         class VTile;
         class VLayer;
 
-        class VMap
+        class VMap : public sfutils::es::Application<MapEntity>
         {
             public:
                 VMap(const VMap&) = delete;
