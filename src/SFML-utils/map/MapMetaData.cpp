@@ -177,6 +177,10 @@ namespace sfutils
                 {
                     layer = new Layer<sf::Sprite*>(_type,_z,_static);
                 }
+                else if(_type == "entitie")
+                {
+                    layer = new Layer<MapEntity*>(_type,_z,_static);
+                }
 
                 if(not layer)
                 {
