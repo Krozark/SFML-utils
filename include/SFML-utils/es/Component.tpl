@@ -52,6 +52,9 @@ namespace sfutils
         }
 
         ////////////////// COMPONENT //////////////////
+
+        template<typename ENTITY>
+        Family VComponent<ENTITY>::_familyCounter = 0;
         
         template<typename ENTITY>
         VComponent<ENTITY>::VComponent() : _manager(nullptr), _ownerId(-1)

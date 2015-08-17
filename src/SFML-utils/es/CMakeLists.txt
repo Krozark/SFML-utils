@@ -12,13 +12,3 @@ set(FILES_HEADER
     ${INCROOT}/System.hpp
     ${INCROOT}/System.tpl
 )
-
-set(FILES_SRC
-    ${SRCROOT}/Entity.cpp
-)
-
-build_library(${PROJECT_NAME}-es
-    SOURCES ${FILES_HEADER} ${FILES_SRC}
-    TYPE ${SFML_UTILS_BUILD_TYPE}
-    EXTERNAL_LIBS ${LIBS} ${UTILS_LIBRARY}
-)

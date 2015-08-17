@@ -23,7 +23,7 @@ endif()
 
 if(SFML_UTILS_BUILD_MODULE_ENTITY_SYSTEM)
     add_executable(es es.cpp)
-    target_link_libraries(es ${PROJECT_NAME}-es-${SFML_UTILS_BUILD_SUFIX})
+    target_link_libraries(es ${LIBS} ${UTILS_LIBRARY})
 endif()
 
 

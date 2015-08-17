@@ -56,8 +56,6 @@ namespace sfutils
                 EntityManager<ENTITY>* _manager;
         };
 
-        #define ES_INIT_ENTITY(ENTITY) __ES_INIT_VCOMPONENT__(ENTITY);__ES_INIT_VSYSTEM__(ENTITY);
-
         class DefaultEntity : public Entity<DefaultEntity>
         {
             public:
