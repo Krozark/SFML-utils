@@ -107,7 +107,7 @@ if(SFML_UTILS_BUILD_DOC)
     add_subdirectory(doc)
 endif()
 
-deploy(FILES ${CMAKE_CURRENT_SOURCE_DIR}/include
+deploy(
+    FILES ${CMAKE_CURRENT_SOURCE_DIR}/include/${PROJECT_NAME}
     DESTINATION include
 )
-
