@@ -44,8 +44,8 @@ set(FILES_SRC
     ${SRCROOT}/VMapLoader.cpp
     ${SRCROOT}/VTile.cpp
 
-    ${SRCROOT}/es/Entity.hpp
-    ${SRCROOT}/es/EntityManager.hpp
+    ${SRCROOT}/es/Entity.cpp
+    ${SRCROOT}/es/EntityManager.cpp
 
     ${SRCROOT}/tileShapes/HexaIso.cpp
     ${SRCROOT}/tileShapes/Hexa.cpp

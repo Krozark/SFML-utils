@@ -22,20 +22,14 @@ namespace sfutils
         }
 
 
-        void VMap::add(VLayer* layer,bool sort)
+        void VMap::addLayer(VLayer* layer,bool sort)
         {
             _layers.emplace_back(layer);
             if(sort)
                 sortLayers();
         }
 
-        void VMap::remove(size_t index)
-        {
-            delete _layers.at(index);
-            _layers.erase(_layers.begin()+index);
-        }
-
-        void VMap::remove(VLayer* layer)
+        void VMap::removeLayer(VLayer* layer)
         {
             auto it = std::find(_layers.begin(),_layers.end(),layer);
             if(it != _layers.end())

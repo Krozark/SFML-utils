@@ -1,8 +1,8 @@
-#include <SFML-utils/map/MapEntity.hpp>
+#include <SFML-utils/map/es/Entity.hpp>
 
 #include <cassert>
 
-#include <SFML-utils/map/CompSkin.hpp>
+#include <SFML-utils/map/es/Components.hpp>
 
 namespace sfutils
 {

@@ -28,7 +28,7 @@ int main(int argc,char* argv[])
 
     sf::ConvexShape* mouse_light = mouse_layer->add(map->getShape());
     mouse_light->setFillColor(sf::Color(255,255,255,64));
-    map->add(mouse_layer);
+    map->addLayer(mouse_layer);
 
 
     sfutils::ResourceManager<sf::Texture,int> textures; 

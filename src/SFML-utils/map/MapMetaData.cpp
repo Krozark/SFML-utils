@@ -194,7 +194,7 @@ namespace sfutils
                     return false;
             }
             layer->sort();
-            map->add(layer);
+            map->addLayer(layer);
             return true;
         }
 

@@ -9,7 +9,7 @@
 
 #include <SFML-utils/es/Application.hpp>
 
-#include <SFML-utils/map/MapEntity.hpp>
+#include <SFML-utils/map/es/Entity.hpp>
 
 namespace sfutils
 {
@@ -18,7 +18,7 @@ namespace sfutils
         class VTile;
         class VLayer;
 
-        class VMap : public sfutils::es::Application<MapEntity>
+        class VMap : protected sfutils::es::Application<MapEntity>
         {
             public:
                 VMap(const VMap&) = delete;
@@ -27,9 +27,8 @@ namespace sfutils
                 VMap(float tileSize,const sf::Vector2i& areaSize);
                 virtual ~VMap();
 
-                void add(VLayer* layer,bool sort=true);
-                void remove(VLayer* layer);
-                void remove(size_t index);
+                void addLayer(VLayer* layer,bool sort=true);
+                void removeLayer(VLayer* layer);
 
                 size_t size()const;
                 VLayer* at(size_t index)const;
