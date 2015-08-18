@@ -1,7 +1,9 @@
 #include <SFML-utils/map/VMap.hpp>
 
+//#include <SFML-utils/map/Map.hpp>
+
 #include <SFML-utils/map/VLayer.hpp>
-#include <SFML-utils/map/Map.hpp>
+#include <SFML-utils/map/Layer.hpp>
 
 
 #include <algorithm>
@@ -12,15 +14,37 @@ namespace sfutils
     {
         VMap::VMap(float size,const sf::Vector2i& areaSize) : 
             _tileSize(size),
-            _areaSize(areaSize)
+            _areaSize(areaSize),
+            _entityLayer(new Layer<Entity*>("Entity",2))
         {
+            addLayer(_entityLayer,false);
         }
 
         VMap::~VMap()
         {
-            clear();
+            _clear();
         }
 
+        Entity& VMap::createEntity()
+        {
+            std::uint32_t id = this->entities.create();
+            Entity& e = entities.get(id);
+
+            _entityLayer->add(&e);
+
+            return e;
+        }
+
+        void VMap::removeEntity(Entity& e)
+        {
+            _entityLayer->remove(&e,false);
+            e.remove();
+        }
+
+        es::SystemManager<Entity>& VMap::getSystemManager()
+        {
+            return systems;
+        }
 
         void VMap::addLayer(VLayer* layer,bool sort)
         {
@@ -39,16 +63,6 @@ namespace sfutils
             }
         }
 
-        size_t VMap::size()const
-        {
-            return _layers.size();
-        }
-
-        VLayer* VMap::at(size_t index)const
-        {
-            return _layers.at(index);
-        }
-
         VLayer* VMap::atZ(int z)const
         {
             const size_t size = _layers.size();
@@ -58,13 +72,15 @@ namespace sfutils
             return nullptr;
         }
 
-        void VMap::clear()
+        void VMap::_clear()
         {
             const size_t size = _layers.size();
             for(size_t i=0;i<size;++i)
                 delete(_layers[i]);
 
             _layers.clear();
+            _entityLayer = nullptr;
+
         }
 
         float VMap::getTileSize()const

@@ -179,7 +179,7 @@ namespace sfutils
                 }
                 else if(_type == "entitie")
                 {
-                    layer = new Layer<MapEntity*>(_type,_z,_static);
+                    layer = new Layer<Entity*>(_type,_z,_static);
                 }
 
                 if(not layer)

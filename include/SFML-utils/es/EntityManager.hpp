@@ -30,7 +30,7 @@ namespace sfutils
                 EntityManager& operator=(const EntityManager&) = delete;
 
                 EntityManager();
-                virtual ~EntityManager();
+                ~EntityManager();
 
                 template<typename ... Args>
                 std::uint32_t create(Args&& ... args);
@@ -38,7 +38,7 @@ namespace sfutils
                 template<typename ... Args>
                 void emplace(std::uint32_t id,Args&& ... args);
 
-                virtual void remove(std::size_t id);
+                void remove(std::size_t id);
 
                 void update();
 

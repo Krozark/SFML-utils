@@ -9,30 +9,31 @@ namespace sfutils
 namespace map
 {
     
-    MapEntity::MapEntity(sfutils::es::EntityManager<MapEntity>* manager,std::uint32_t id) : sfutils::es::Entity<MapEntity>(manager,id)
+    Entity::Entity(sfutils::es::EntityManager<Entity>* manager,std::uint32_t id) : sfutils::es::Entity<Entity>(manager,id)
     {
     }
 
-    sf::Vector2f MapEntity::getPosition()const
+    sf::Vector2f Entity::getPosition()const
     {
+        sf::Vector2f res;
         if(has<CompSkinStatic>())
-            return component<CompSkinStatic>()->_sprite.getPosition();
+            res = component<CompSkinStatic>()->_sprite.getPosition();
         else if(has<CompSkinDynamic>())
-            return component<CompSkinDynamic>()->_sprite.getPosition();
+            res = component<CompSkinDynamic>()->_sprite.getPosition();
 
-        assert(false and "Should never apear");
-        return {0,0};
+        return res;
     }
 
-    void MapEntity::setPosition(const sf::Vector2f& pos)
+    void Entity::setPosition(const sf::Vector2f& pos)
     {
         if(has<CompSkinStatic>())
             component<CompSkinStatic>()->_sprite.setPosition(pos);
         else if(has<CompSkinDynamic>())
             component<CompSkinDynamic>()->_sprite.setPosition(pos);
+        //TODO cache the position
     }
 
-    void MapEntity::draw(sf::RenderTarget& target,sf::RenderStates states)const
+    void Entity::draw(sf::RenderTarget& target,sf::RenderStates states)const
     {
         if(has<CompSkinStatic>())
             target.draw(component<CompSkinStatic>()->_sprite,states);

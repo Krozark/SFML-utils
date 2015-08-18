@@ -8,6 +8,8 @@ namespace sfutils
 {
     namespace map
     {
+        class VMap;
+
         class VLayer
         {
             public:

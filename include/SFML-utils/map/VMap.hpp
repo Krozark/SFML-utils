@@ -17,8 +17,9 @@ namespace sfutils
     {
         class VTile;
         class VLayer;
+        template<typename> class Layer;
 
-        class VMap : protected sfutils::es::Application<MapEntity>
+        class VMap : protected sfutils::es::Application<Entity>
         {
             public:
                 VMap(const VMap&) = delete;
@@ -27,13 +28,15 @@ namespace sfutils
                 VMap(float tileSize,const sf::Vector2i& areaSize);
                 virtual ~VMap();
 
+                Entity& createEntity();
+                void removeEntity(Entity& e);
+
+                es::SystemManager<Entity>& getSystemManager();
+
                 void addLayer(VLayer* layer,bool sort=true);
                 void removeLayer(VLayer* layer);
 
-                size_t size()const;
-                VLayer* at(size_t index)const;
                 VLayer* atZ(int z)const;
-                void clear();
 
                 float getTileSize()const;
                 const sf::Vector2i& getAreaSize()const;
@@ -54,15 +57,18 @@ namespace sfutils
                 virtual int getDistance(const sf::Vector2i& origin, const sf::Vector2i& dest)const = 0;
 
             protected:
-                void sortLayers();
                 const float _tileSize;
                 sf::Vector2i _areaSize;
+
+                void sortLayers();
+                void _clear();
                 
             private:
                 friend class MapViewer;
                 void draw(sf::RenderTarget& target, sf::RenderStates states,const sf::FloatRect& viewport) const;
                 std::vector<VLayer*> _layers;
-
+                Layer<Entity*>* _entityLayer;
+                //TODO cache the entities position
         };
 
     }

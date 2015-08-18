@@ -1,5 +1,5 @@
-#ifndef SFUTILS_MAPENTITY_HPP
-#define SFUTILS_MAPENTITY_HPP
+#ifndef SFUTILS_MAP_ENTITY_HPP
+#define SFUTILS_MAP_ENTITY_HPP
 
 #include <SFML-utils/es/EntityManager.hpp>
 #include <SFML-utils/es/Entity.hpp>
@@ -10,14 +10,14 @@ namespace sfutils
 {
 namespace map
 {
-    class MapEntity : public sfutils::es::Entity<MapEntity>, public sf::Drawable
+    class Entity : public sfutils::es::Entity<Entity>, public sf::Drawable
     {
 
         public:
-            MapEntity(const MapEntity&) = delete;
-            MapEntity& operator=(const MapEntity&) = delete;
+            Entity(const Entity&) = delete;
+            Entity& operator=(const Entity&) = delete;
 
-            MapEntity(sfutils::es::EntityManager<MapEntity>* manager,std::uint32_t id);
+            Entity(sfutils::es::EntityManager<Entity>* manager,std::uint32_t id);
 
             sf::Vector2f getPosition()const;
             void setPosition(const sf::Vector2f& pos);
