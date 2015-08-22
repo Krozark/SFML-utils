@@ -4,6 +4,7 @@
 
 #include <SFML-utils/map/VLayer.hpp>
 #include <SFML-utils/map/Layer.hpp>
+#include <SFML-utils/map/es/Systems.hpp>
 
 
 #include <algorithm>
@@ -15,9 +16,10 @@ namespace sfutils
         VMap::VMap(float size,const sf::Vector2i& areaSize) : 
             _tileSize(size),
             _areaSize(areaSize),
-            _entityLayer(new Layer<Entity*>("Entity",2))
+            _entityLayer(new Layer<Entity*>("entity",2))
         {
             addLayer(_entityLayer,false);
+            systems.add<SysSkinDynamic>();
         }
 
         VMap::~VMap()
@@ -39,6 +41,12 @@ namespace sfutils
         {
             _entityLayer->remove(&e,false);
             e.remove();
+        }
+
+        void VMap::update(const sf::Time& deltaTime)
+        {
+            _entityLayer->sort();
+            Application<Entity>::update(deltaTime);
         }
 
         es::SystemManager<Entity>& VMap::getSystemManager()
@@ -76,7 +84,9 @@ namespace sfutils
         {
             const size_t size = _layers.size();
             for(size_t i=0;i<size;++i)
+            {
                 delete(_layers[i]);
+            }
 
             _layers.clear();
             _entityLayer = nullptr;

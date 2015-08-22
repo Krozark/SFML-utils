@@ -15,13 +15,13 @@ namespace sfutils
 
         {
             assert(loader);
-            _map = _mapLoader->_createMap();
-            assert(_map);
+            _map.reset(_mapLoader->_createMap());
+            assert(_map.get());
         }
 
         VMap* MapManager::getMap()const
         {
-            return _map;
+            return _map.get();
         }
 
         bool MapManager::loadArea(int x,int y)
@@ -35,10 +35,10 @@ namespace sfutils
                 return false;
             }
 
-            std::unique_ptr<MetaArea> area = _mapLoader->_loadArea(x,y,_map);
+            std::unique_ptr<MetaArea> area = _mapLoader->_loadArea(x,y,_map.get());
             if(area)
             {
-                res = area->addToMap(_map,_textureManager);
+                res = area->addToMap(_map.get(),_textureManager);
                 if(res)
                     _areas.emplace(key,std::move(area));
             }
@@ -56,7 +56,7 @@ namespace sfutils
                 return false;
             }
 
-            if(not find->second->removeFromMap(_map))
+            if(not find->second->removeFromMap(_map.get()))
                 return false;
 
             _areas.erase(find);

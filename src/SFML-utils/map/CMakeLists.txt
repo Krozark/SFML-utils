@@ -22,7 +22,7 @@ set(FILES_HEADER
 
     ${INCROOT}/es/Components.hpp
     ${INCROOT}/es/Entity.hpp
-    ${INCROOT}/es/EntityManager.hpp
+    ${INCROOT}/es/Systems.hpp
 
     ${INCROOT}/tileShapes/BaseTile.hpp
     ${INCROOT}/tileShapes/HexaIso.hpp
@@ -45,7 +45,7 @@ set(FILES_SRC
     ${SRCROOT}/VTile.cpp
 
     ${SRCROOT}/es/Entity.cpp
-    ${SRCROOT}/es/EntityManager.cpp
+    ${SRCROOT}/es/Systems.cpp
 
     ${SRCROOT}/tileShapes/HexaIso.cpp
     ${SRCROOT}/tileShapes/Hexa.cpp

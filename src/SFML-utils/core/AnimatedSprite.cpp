@@ -7,7 +7,13 @@ namespace sfutils
 {
     AnimatedSprite::FuncType AnimatedSprite::defaultFunc = []()->void{};
 
-    AnimatedSprite::AnimatedSprite(Animation* animation,Status status,const sf::Time& deltaTime,bool loop,int repeat) : on_finished(defaultFunc),_delta(deltaTime),_loop(loop), _repeat(repeat),_status(status)
+    AnimatedSprite::AnimatedSprite(Animation* animation,Status status,const sf::Time& deltaTime,bool loop,int repeat) : 
+        on_finished(defaultFunc),
+        _animation(nullptr),
+    _delta(deltaTime),
+    _loop(loop),
+    _repeat(repeat),
+    _status(status)
     {
        setAnimation(animation); 
     }

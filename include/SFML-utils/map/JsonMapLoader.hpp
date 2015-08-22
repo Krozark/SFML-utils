@@ -28,6 +28,7 @@ namespace sfutils
                 static bool _parseLayer(VMap* map,utils::json::Object& root,std::unique_ptr<MetaArea>& meta);
                 static std::shared_ptr<MetaLayerData> _createTile(VMap* const map,utils::json::Object& root);
                 static std::shared_ptr<MetaLayerData> _createSprite(VMap* const map,utils::json::Object& root,bool isPtr);
+                static std::shared_ptr<MetaLayerData> _createEntity(VMap* const map,utils::json::Object& root);
 
             private:
                 virtual std::unique_ptr<MetaArea> _loadArea(int x,int y,VMap* const map) override;

@@ -197,6 +197,10 @@ namespace sfutils
             {
                 f = std::bind(&JsonMapLoader::_createSprite,std::placeholders::_1,std::placeholders::_2,true);
             }
+            else if(type == "entity")
+            {
+                f = &JsonMapLoader::_createEntity;
+            }
             else
             {
                 std::cerr<<"Unknow layer type "<<type<<std::endl;
@@ -210,7 +214,10 @@ namespace sfutils
             {
                 std::shared_ptr<MetaLayerData> d = f(map,value.as_object());
                 if(not d)
+                {
+                    std::cerr<<"Imposible to create MetaData with json: "<<value<<std::endl;
                     return false;
+                }
 
                 metaLayer.add(d);
             }
@@ -278,6 +285,40 @@ namespace sfutils
 
             MetaLayerDataSprite* res = new MetaLayerDataSprite(texture,pos);
             res->setIsPtr(isPtr);
+            res->setTextureOrigin(tex_origin);
+            res->setTextureRect(tex_rect);
+
+            return std::shared_ptr<MetaLayerData>(res);
+        }
+
+        std::shared_ptr<MetaLayerData> JsonMapLoader::_createEntity(VMap* const map,utils::json::Object& root)
+        {
+            std::string texture = root["texture"].as_string();
+
+            sf::Vector2i pos;
+            {//position
+                pos.x = root["position-x"].as_int();
+                pos.y = root["position-y"].as_int();
+            }
+
+            sf::IntRect tex_rect;
+            try{//texture rect
+                utils::json::Object& rect = root["texture-rect"].as_object();
+                tex_rect.top =  rect["top"].as_int();
+                tex_rect.left = rect["left"].as_int();
+                tex_rect.width = rect["width"].as_int();
+                tex_rect.height = rect["height"].as_int();
+            } catch(...){}
+
+            sf::Vector2f tex_origin(0.5,1);
+            try{//texture-center
+                utils::json::Object& rect = root["texture-center"].as_object();
+                tex_origin.x = rect["left"].as_float();
+                tex_origin.y = rect["top"].as_float();
+            }catch(...){}
+
+
+            MetaLayerDataEntity* res = new MetaLayerDataEntity(texture,pos);
             res->setTextureOrigin(tex_origin);
             res->setTextureRect(tex_rect);
 

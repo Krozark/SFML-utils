@@ -1,6 +1,7 @@
 #include <SFML-utils/Map.hpp>
 
 #include <SFML-utils/Core.hpp>
+#include <SFML-utils/map/es/Components.hpp>
 
 #include <SFML/Graphics.hpp>
 
@@ -18,9 +19,9 @@ int main(int argc,char* argv[])
     sfutils::MapManager mapManager(std::shared_ptr<sfutils::VMapLoader>(new sfutils::JsonMapLoader("./media")));
 
     sfutils::VMap* map = mapManager.getMap();
-    mapManager.loadArea(0,0);
-    mapManager.loadArea(-1,0);
-    mapManager.loadArea(0,-1);
+    mapManager.loadArea(-1,-1);
+    //mapManager.loadArea(-1,0);
+    //mapManager.loadArea(0,-1);
 
     sfutils::MapViewer viewer(window,*map);
 
@@ -41,23 +42,13 @@ int main(int argc,char* argv[])
     walkRight.addFramesLine(4,2,1);
 
 
-    sfutils::AnimatedSprite* userSprite = nullptr;
-    sfutils::Layer<sf::Sprite*>* userlayer;
+    sfutils::map::Entity& user = map->createEntity();
+    user.add<sfutils::map::CompSkinDynamic>(&walkLeft,sfutils::AnimatedSprite::Playing,sf::seconds(0.15));
+    sfutils::map::CompSkinDynamic::Handle skin = user.component<sfutils::map::CompSkinDynamic>();
 
-    {
-        sfutils::VLayer* vlayer = map->atZ(2); //layer with tree
-        if(vlayer)
-        {
-            userlayer = static_cast<sfutils::Layer<sf::Sprite*>*>(vlayer);
-            userSprite = new sfutils::AnimatedSprite(&walkLeft,sfutils::AnimatedSprite::Playing,sf::seconds(0.15));
-
-            sf::FloatRect rec = userSprite->getLocalBounds();
-            userSprite->setOrigin(rec.width*0.5,rec.height*0.8);
-            userSprite->setScale(0.3,0.3);
-
-            userlayer->add(userSprite);
-        }
-    }
+    sf::FloatRect rec = skin->_sprite.getLocalBounds();
+    skin->_sprite.setOrigin(rec.width*0.5,rec.height*0.8);
+    skin->_sprite.setScale(0.3,0.3);
 
 
 
@@ -76,13 +67,13 @@ int main(int argc,char* argv[])
                 window.close();
             else if(event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::Key::D)
             {
-                std::cout<<"deleting (-1,-1)"<<std::endl;
-                mapManager.unloadArea(-1,-1);
+                std::cout<<"deleting (0,0)"<<std::endl;
+                mapManager.unloadArea(0,0);
             }
             else if(event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::Key::L)
             {
-                std::cout<<"loading (-1,-1)"<<std::endl;
-                mapManager.loadArea(-1,-1);
+                std::cout<<"loading (0,0)"<<std::endl;
+                mapManager.loadArea(0,0);
             }
             else if(not viewer.processEvent(event))
             {
@@ -100,11 +91,7 @@ int main(int argc,char* argv[])
                     sf::Vector2f pixels = viewer.mapCoordsToPixel(coord);
                     pixels.y += 1; //to be display on top on the tree on the same tile
 
-                    if(userSprite)
-                    {
-                        userSprite->setPosition(pixels);
-                        userlayer->sort();
-                    }
+                    user.setPosition(pixels);
                 }
                 else if(event.type == sf::Event::MouseMoved)
                 {
@@ -117,16 +104,10 @@ int main(int argc,char* argv[])
 
         viewer.processEvents();
 
-        sf::Time delta = clock.restart();
-        float deltaTime = delta.asSeconds();
-
-        if(userSprite)
-        {
-            userSprite->update(delta);
-        }
+        sf::Time deltaTime = clock.restart();
 
         viewer.update(deltaTime);
-        window.setTitle("Example Tile ("+std::to_string(int(1/deltaTime))+")");
+        window.setTitle("Example Tile ("+std::to_string(int(1/deltaTime.asSeconds()))+")");
 
 
         window.clear();

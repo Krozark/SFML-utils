@@ -22,24 +22,17 @@
                 "name" : "ground"
             },
             {
-                "z-buffer" : 1,
-                "content-type" : "sprite_ptr",
-                "static" : false,
-                "name" : "hightlight"
-            },
-            {
                 "z-buffer" : 2,
-                "content-type" : "sprite_ptr",
+                "content-type" : "entity",
                 "static" : false,
-                "name" : "players"
+                "name" : "entities"
             },
             {
                 "z-buffer" : 3,
-                "content-type" : "entitie",
+                "content-type" : "sprite_ptr",
                 "static" : false,
-                "name" : "entities"
+                "name" : "hightlight"
             }
-
         ]
     }
 }

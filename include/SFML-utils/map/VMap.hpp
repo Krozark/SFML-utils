@@ -31,6 +31,8 @@ namespace sfutils
                 Entity& createEntity();
                 void removeEntity(Entity& e);
 
+                void update(const sf::Time& deltaTime);
+
                 es::SystemManager<Entity>& getSystemManager();
 
                 void addLayer(VLayer* layer,bool sort=true);
@@ -65,7 +67,9 @@ namespace sfutils
                 
             private:
                 friend class MapViewer;
+
                 void draw(sf::RenderTarget& target, sf::RenderStates states,const sf::FloatRect& viewport) const;
+
                 std::vector<VLayer*> _layers;
                 Layer<Entity*>* _entityLayer;
                 //TODO cache the entities position

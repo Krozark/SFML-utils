@@ -4,6 +4,8 @@
 #include <SFML-utils/map/Tile.hpp>
 #include <SFML-utils/map/Layer.hpp>
 
+#include <SFML-utils/map/es/Components.hpp>
+
 #include <iostream>
 
 namespace sfutils
@@ -133,6 +135,60 @@ namespace sfutils
         {
             _texRect = rect;
         }
+        //////////////////// METALAYERENTITY //////////////////
+        MetaLayerDataEntity::MetaLayerDataEntity(const std::string& tex,const sf::Vector2i& pos) :
+            _texture(tex),
+            _position(pos)
+        {
+            _texCenter = sf::Vector2f(0.5,1);
+        }
+
+        MetaLayerDataEntity::~MetaLayerDataEntity()
+        {
+        }
+
+        bool MetaLayerDataEntity::addToLayer(VLayer* layer,VMap* const map,ResourceManager<sf::Texture,std::string>& textureManager,const sf::Vector2i& areaCoord,std::list<void*>& createdData)
+        {
+            if(layer->getType() != "entity")
+            {
+                std::cerr<<"unsuported layer type '"<<layer->getType()<<"' for MetaLayerDataTileRect (should be 'entity')"<<std::endl;
+                return false;
+            }
+
+            sf::Texture& tex = textureManager.getOrLoad(_texture,_texture);
+            tex.setRepeated(false);
+
+            if(_texRect == sf::IntRect()) //default == all the texture
+            {
+                _texRect.width = tex.getSize().x;
+                _texRect.height = tex.getSize().y;
+            }
+
+            sf::Sprite spr(tex,_texRect);
+
+
+            spr.setOrigin(_texRect.width * _texCenter.x,
+                          _texRect.height * _texCenter.y);
+
+            Entity& e = map->createEntity();
+
+            e.add<CompSkinStatic>();
+            e.component<CompSkinStatic>()->_sprite = spr;
+            e.component<CompSkinStatic>()->_sprite.setPosition(map->mapCoordsToPixel(areaCoord.x + _position.x,areaCoord.y + _position.y));
+
+            createdData.emplace_back(&e);
+
+            return (&e !=nullptr);
+        }
+
+        void MetaLayerDataEntity::setTextureOrigin(const sf::Vector2f& o)
+        {
+            _texCenter = o;
+        }
+        void MetaLayerDataEntity::setTextureRect(const sf::IntRect& rect)
+        {
+            _texRect = rect;
+        }
 
         ///////////////// METALAYER //////////////////////
 
@@ -159,7 +215,7 @@ namespace sfutils
             {
                 if(layer->getType() != _type)
                 {
-                    std::cerr<<"The already have a layer at the z-buffer "<<_z<<" with a different type ("<<layer->getType()<<"/"<<_type<<std::endl;
+                    std::cerr<<"The map already have a layer at the z-buffer "<<_z<<" with a different type :'"<<layer->getType()<<"'. Imposible to add one of type '"<<_type<<"'"<<std::endl;
                     return false;
                 }
             }
@@ -187,6 +243,7 @@ namespace sfutils
                     std::cerr<<"Unknow content-type "<<_type<<std::endl;
                     return false;
                 }
+                map->addLayer(layer);
             }
             for(std::shared_ptr<MetaLayerData>& data : _data)
             {
@@ -194,7 +251,7 @@ namespace sfutils
                     return false;
             }
             layer->sort();
-            map->addLayer(layer);
+
             return true;
         }
 
@@ -214,9 +271,19 @@ namespace sfutils
                 return false;
             }
 
-            for(void* data : _createdData)
+            if(layer->getType() == "entity")
             {
-                layer->remove(data,true);
+                for(void* data : _createdData)
+                {
+                    map->removeEntity(*reinterpret_cast<Entity*>(data));
+                }
+            }
+            else
+            {
+                for(void* data : _createdData)
+                {
+                    layer->remove(data,true);
+                }
             }
             layer->sort();
             return true;

@@ -58,6 +58,26 @@ namespace sfutils
                 sf::IntRect _texRect;
         };
 
+        class MetaLayerDataEntity : public MetaLayerData
+        {
+            public:
+                MetaLayerDataEntity(const std::string& tex,const sf::Vector2i& pos);
+                virtual ~MetaLayerDataEntity();
+
+                virtual bool addToLayer(VLayer* layer,VMap* const map,ResourceManager<sf::Texture,std::string>& textureManager,const sf::Vector2i& areaCoord,std::list<void*>& createdData) override;
+
+                void setTextureOrigin(const sf::Vector2f& o);
+                void setTextureRect(const sf::IntRect& rect);
+
+            private:
+
+                std::string _texture;
+                sf::Vector2i _position;
+                //optional
+                sf::Vector2f _texCenter; ///< default is (0.5,1)
+                sf::IntRect _texRect;
+        };
+
 
         class MetaLayer
         {

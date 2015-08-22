@@ -17,7 +17,11 @@ namespace map
 
     struct CompSkinDynamic : sfutils::es::Component<CompSkinDynamic,Entity>
     {
-        explicit CompSkinDynamic(){};
+        explicit CompSkinDynamic(sfutils::Animation* animation = nullptr,sfutils::AnimatedSprite::Status status= sfutils::AnimatedSprite::Status::Playing,const sf::Time& deltaTime = sf::seconds(0.15),bool loop = true,int repeat=0) :
+            _sprite(animation,status,deltaTime,loop,repeat)
+        {
+        };
+
         sfutils::AnimatedSprite _sprite; 
     };
 }
