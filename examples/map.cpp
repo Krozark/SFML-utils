@@ -19,9 +19,10 @@ int main(int argc,char* argv[])
     sfutils::MapManager mapManager(std::shared_ptr<sfutils::VMapLoader>(new sfutils::JsonMapLoader("./media")));
 
     sfutils::VMap* map = mapManager.getMap();
+    mapManager.loadArea(0,0);
     mapManager.loadArea(-1,-1);
-    //mapManager.loadArea(-1,0);
-    //mapManager.loadArea(0,-1);
+    mapManager.loadArea(-1,0);
+    mapManager.loadArea(0,-1);
 
     sfutils::MapViewer viewer(window,*map);
 
