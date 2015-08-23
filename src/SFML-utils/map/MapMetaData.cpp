@@ -164,6 +164,10 @@ namespace sfutils
                 _texRect.height = tex.getSize().y;
             }
 
+            auto l = dynamic_cast<Layer<Entity*>*>(layer);
+            if(not l)
+                return false;
+
             sf::Sprite spr(tex,_texRect);
 
 
@@ -171,6 +175,7 @@ namespace sfutils
                           _texRect.height * _texCenter.y);
 
             Entity& e = map->createEntity();
+            l->add(&e);
 
             e.add<CompSkinStatic>();
             e.component<CompSkinStatic>()->_sprite = spr;
@@ -233,7 +238,7 @@ namespace sfutils
                 {
                     layer = new Layer<sf::Sprite*>(_type,_z,_static);
                 }
-                else if(_type == "entitie")
+                else if(_type == "entity")
                 {
                     layer = new Layer<Entity*>(_type,_z,_static);
                 }
@@ -271,10 +276,12 @@ namespace sfutils
                 return false;
             }
 
+
             if(layer->getType() == "entity")
             {
                 for(void* data : _createdData)
                 {
+                    layer->remove(data,false);
                     map->removeEntity(*reinterpret_cast<Entity*>(data));
                 }
             }

@@ -19,6 +19,7 @@ int main(int argc,char* argv[])
     sfutils::MapManager mapManager(std::shared_ptr<sfutils::VMapLoader>(new sfutils::JsonMapLoader("./media")));
 
     sfutils::VMap* map = mapManager.getMap();
+    mapManager.loadArea(1,0);
     mapManager.loadArea(0,0);
     mapManager.loadArea(-1,-1);
     mapManager.loadArea(-1,0);
@@ -43,6 +44,12 @@ int main(int argc,char* argv[])
     walkRight.addFramesLine(4,2,1);
 
 
+    auto layer = dynamic_cast<sfutils::map::Layer<sfutils::map::Entity*>*>(map->atZ(2));
+    if(not layer)
+    {
+        std::cerr<<"Layer oz z-buffer 2 must be entity for the example"<<std::endl;
+        return 0;
+    }
     sfutils::map::Entity& user = map->createEntity();
     user.add<sfutils::map::CompSkinDynamic>(&walkLeft,sfutils::AnimatedSprite::Playing,sf::seconds(0.15));
     sfutils::map::CompSkinDynamic::Handle skin = user.component<sfutils::map::CompSkinDynamic>();
@@ -50,6 +57,8 @@ int main(int argc,char* argv[])
     sf::FloatRect rec = skin->_sprite.getLocalBounds();
     skin->_sprite.setOrigin(rec.width*0.5,rec.height*0.8);
     skin->_sprite.setScale(0.3,0.3);
+
+    layer->add(&user);
 
 
 

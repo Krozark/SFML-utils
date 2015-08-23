@@ -71,7 +71,7 @@ namespace sfutils
                 void draw(sf::RenderTarget& target, sf::RenderStates states,const sf::FloatRect& viewport) const;
 
                 std::vector<VLayer*> _layers;
-                Layer<Entity*>* _entityLayer;
+                std::vector<Layer<Entity*>*> _entityLayers;
                 //TODO cache the entities position
         };
 

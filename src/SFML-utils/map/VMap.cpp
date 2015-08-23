@@ -15,10 +15,8 @@ namespace sfutils
     {
         VMap::VMap(float size,const sf::Vector2i& areaSize) : 
             _tileSize(size),
-            _areaSize(areaSize),
-            _entityLayer(new Layer<Entity*>("entity",2))
+            _areaSize(areaSize)
         {
-            addLayer(_entityLayer,false);
             systems.add<SysSkinDynamic>();
         }
 
@@ -32,20 +30,20 @@ namespace sfutils
             std::uint32_t id = this->entities.create();
             Entity& e = entities.get(id);
 
-            _entityLayer->add(&e);
-
             return e;
         }
 
         void VMap::removeEntity(Entity& e)
         {
-            _entityLayer->remove(&e,false);
             e.remove();
         }
 
         void VMap::update(const sf::Time& deltaTime)
         {
-            _entityLayer->sort();
+            unsigned int size = _entityLayers.size();
+            for(unsigned int i=0;i<size;++i)
+                _entityLayers[i]->sort();
+
             Application<Entity>::update(deltaTime);
         }
 
@@ -59,16 +57,29 @@ namespace sfutils
             _layers.emplace_back(layer);
             if(sort)
                 sortLayers();
+
+            if(layer->getType() == "entity")
+                _entityLayers.emplace_back(static_cast<Layer<Entity*>*>(layer));
         }
 
         void VMap::removeLayer(VLayer* layer)
         {
+            if(layer->getType() == "entity")
+            {
+                auto it = std::find(_entityLayers.begin(),_entityLayers.end(),layer);
+                if(it != _entityLayers.end())
+                {
+                    _entityLayers.erase(it);
+                }
+            }
+
             auto it = std::find(_layers.begin(),_layers.end(),layer);
             if(it != _layers.end())
             {
                 delete *it;
                 _layers.erase(it);
             }
+
         }
 
         VLayer* VMap::atZ(int z)const
@@ -89,7 +100,7 @@ namespace sfutils
             }
 
             _layers.clear();
-            _entityLayer = nullptr;
+            _entityLayers.clear();
 
         }
 

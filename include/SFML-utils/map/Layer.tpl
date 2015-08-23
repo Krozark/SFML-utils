@@ -164,14 +164,13 @@ namespace sfutils
         template<typename CONTENT>
         void Layer<CONTENT*>::remove(void* data,bool del)
         {
-            _content.remove_if([data](CONTENT* c){
+            _content.remove_if([data,del](CONTENT* c){
                 bool res = (c == data);
-                if(res)
+                if(res and del)
                 {
                     delete reinterpret_cast<CONTENT*>(data);
                 }
                 return res;
-
             });
         }
 
