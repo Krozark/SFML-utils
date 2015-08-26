@@ -1,3 +1,8 @@
+#include <SFML-utils/map/es/Components.hpp>
+#include <SFML-utils/map/es/Entity.hpp>
+#include <SFML-utils/map/es/Systems.hpp>
+
+#include <SFML-utils/map/tileShapes/BaseTile.hpp>
 #include <SFML-utils/map/tileShapes/Hexa.hpp>
 #include <SFML-utils/map/tileShapes/HexaIso.hpp>
 #include <SFML-utils/map/tileShapes/Square.hpp>
@@ -7,6 +12,7 @@
 
 #include <SFML-utils/map/Configuration.hpp>
 #include <SFML-utils/map/JsonMapLoader.hpp>
+#include <SFML-utils/map/JsonSpriteLoader.hpp>
 #include <SFML-utils/map/Layer.hpp>
 #include <SFML-utils/map/Map.hpp>
 #include <SFML-utils/map/MapManager.hpp>

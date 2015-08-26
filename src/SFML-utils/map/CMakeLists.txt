@@ -5,6 +5,7 @@ set(SRCROOT ${SRCROOT}/map)
 set(FILES_HEADER
     ${INCROOT}/Configuration.hpp
     ${INCROOT}/JsonMapLoader.hpp
+    ${INCROOT}/JsonSpriteLoader.hpp
     ${INCROOT}/Layer.hpp
     ${INCROOT}/Layer.tpl
     ${INCROOT}/Map.hpp
@@ -36,6 +37,7 @@ set(FILES_HEADER
 set(FILES_SRC
     ${SRCROOT}/Configuration.cpp
     ${SRCROOT}/JsonMapLoader.cpp
+    ${SRCROOT}/JsonSpriteLoader.cpp
     ${SRCROOT}/MapManager.cpp
     ${SRCROOT}/MapMetaData.cpp
     ${SRCROOT}/MapViewer.cpp
