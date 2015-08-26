@@ -17,9 +17,3 @@
 #include <SFML-utils/map/VMap.hpp>
 #include <SFML-utils/map/VMapLoader.hpp>
 #include <SFML-utils/map/VTile.hpp>
-
-
-namespace sfutils {
-    using namespace map;
-    using namespace geometry;
-}

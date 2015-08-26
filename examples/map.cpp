@@ -16,18 +16,18 @@ int main(int argc,char* argv[])
     sf::RenderWindow window(sf::VideoMode(1600,900),"Example Tile");
     window.setFramerateLimit(65);
 
-    sfutils::MapManager mapManager(std::shared_ptr<sfutils::VMapLoader>(new sfutils::JsonMapLoader("./media")));
+    sfutils::map::MapManager mapManager(std::shared_ptr<sfutils::map::VMapLoader>(new sfutils::map::JsonMapLoader("./media")));
 
-    sfutils::VMap* map = mapManager.getMap();
+    sfutils::map::VMap* map = mapManager.getMap();
     mapManager.loadArea(1,0);
     mapManager.loadArea(0,0);
     mapManager.loadArea(-1,-1);
     mapManager.loadArea(-1,0);
     mapManager.loadArea(0,-1);
 
-    sfutils::MapViewer viewer(window,*map);
+    sfutils::map::MapViewer viewer(window,*map);
 
-    sfutils::Layer<sf::ConvexShape>* mouse_layer = new sfutils::Layer<sf::ConvexShape>("ConvexShape",1);
+    sfutils::map::Layer<sf::ConvexShape>* mouse_layer = new sfutils::map::Layer<sf::ConvexShape>("ConvexShape",1);
 
     sf::ConvexShape* mouse_light = mouse_layer->add(map->getShape());
     mouse_light->setFillColor(sf::Color(255,255,255,64));
