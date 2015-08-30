@@ -4,15 +4,26 @@ set(SRCROOT ${SRCROOT}/map)
 
 set(FILES_HEADER
     ${INCROOT}/Configuration.hpp
+    ${INCROOT}/JsonMapLoader.hpp
+    ${INCROOT}/JsonSpriteLoader.hpp
     ${INCROOT}/Layer.hpp
     ${INCROOT}/Layer.tpl
     ${INCROOT}/Map.hpp
-    ${INCROOT}/MapViewer.hpp
     ${INCROOT}/Map.tpl
+    ${INCROOT}/MapManager.hpp
+    ${INCROOT}/MapMetaData.hpp
+    ${INCROOT}/MapViewer.hpp
     ${INCROOT}/Tile.hpp
     ${INCROOT}/Tile.tpl
     ${INCROOT}/VLayer.hpp
     ${INCROOT}/VMap.hpp
+    ${INCROOT}/VMapLoader.hpp
+    ${INCROOT}/VTile.hpp
+
+
+    ${INCROOT}/es/Components.hpp
+    ${INCROOT}/es/Entity.hpp
+    ${INCROOT}/es/Systems.hpp
 
     ${INCROOT}/tileShapes/BaseTile.hpp
     ${INCROOT}/tileShapes/HexaIso.hpp
@@ -25,9 +36,18 @@ set(FILES_HEADER
 
 set(FILES_SRC
     ${SRCROOT}/Configuration.cpp
-    ${SRCROOT}/VMap.cpp
+    ${SRCROOT}/JsonMapLoader.cpp
+    ${SRCROOT}/JsonSpriteLoader.cpp
+    ${SRCROOT}/MapManager.cpp
+    ${SRCROOT}/MapMetaData.cpp
     ${SRCROOT}/MapViewer.cpp
     ${SRCROOT}/VLayer.cpp
+    ${SRCROOT}/VMap.cpp
+    ${SRCROOT}/VMapLoader.cpp
+    ${SRCROOT}/VTile.cpp
+
+    ${SRCROOT}/es/Entity.cpp
+    ${SRCROOT}/es/Systems.cpp
 
     ${SRCROOT}/tileShapes/HexaIso.cpp
     ${SRCROOT}/tileShapes/Hexa.cpp
@@ -41,5 +61,5 @@ build_library(${PROJECT_NAME}-map
     SOURCES ${FILES_HEADER} ${FILES_SRC}
     TYPE ${SFML_UTILS_BUILD_TYPE}
     DEPENDS ${PROJECT_NAME}-core
-    EXTERNAL_LIBS ${LIBS} utils-json
+    EXTERNAL_LIBS ${LIBS} ${UTILS_LIBRARY} ${UTILS_JSON_LIBRARY}
 )

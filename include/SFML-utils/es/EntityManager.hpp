@@ -38,7 +38,6 @@ namespace sfutils
                 template<typename ... Args>
                 void emplace(std::uint32_t id,Args&& ... args);
 
-
                 void remove(std::size_t id);
 
                 void update();

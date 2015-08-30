@@ -1,24 +1,64 @@
 #include <SFML-utils/Map.hpp>
 
+#include <SFML-utils/Core.hpp>
+#include <SFML-utils/map/es/Components.hpp>
+
 #include <SFML/Graphics.hpp>
 
 #include <iostream>
+
+enum Textures{
+    Eye
+};
 
 int main(int argc,char* argv[])
 {
     sf::RenderWindow window(sf::VideoMode(1600,900),"Example Tile");
     window.setFramerateLimit(65);
 
-    sfutils::VMap* map = sfutils::VMap::createMapFromFile("./map.json");
-    map->loadFromFile("./map2.json");
+    sfutils::map::MapManager mapManager(std::shared_ptr<sfutils::map::VMapLoader>(new sfutils::map::JsonMapLoader("./media")));
 
-    sfutils::MapViewer viewer(window,*map);
+    sfutils::map::VMap* map = mapManager.getMap();
+    mapManager.loadArea(1,0);
+    mapManager.loadArea(0,0);
+    mapManager.loadArea(-1,-1);
+    mapManager.loadArea(-1,0);
+    mapManager.loadArea(0,-1);
 
-    sfutils::Layer<sf::ConvexShape>* mouse_layer = new sfutils::Layer<sf::ConvexShape>("ConvexShape",1);
+    sfutils::map::MapViewer viewer(window,*map);
+
+    sfutils::map::Layer<sf::ConvexShape>* mouse_layer = new sfutils::map::Layer<sf::ConvexShape>("ConvexShape",1);
 
     sf::ConvexShape* mouse_light = mouse_layer->add(map->getShape());
     mouse_light->setFillColor(sf::Color(255,255,255,64));
-    map->add(mouse_layer);
+    map->addLayer(mouse_layer);
+
+
+    sfutils::ResourceManager<sf::Texture,int> textures; 
+    textures.load(Eye,"media/img/eye.png");
+
+    sfutils::Animation walkLeft(&textures.get(Eye));
+    walkLeft.addFramesLine(4,2,0);
+
+    sfutils::Animation walkRight(&textures.get(Eye));
+    walkRight.addFramesLine(4,2,1);
+
+
+    auto layer = dynamic_cast<sfutils::map::Layer<sfutils::map::Entity*>*>(map->atZ(2));
+    if(not layer)
+    {
+        std::cerr<<"Layer oz z-buffer 2 must be entity for the example"<<std::endl;
+        return 0;
+    }
+    sfutils::map::Entity& user = map->createEntity();
+    user.add<sfutils::map::CompSkinDynamic>(&walkLeft,sfutils::AnimatedSprite::Playing,sf::seconds(0.15));
+    sfutils::map::CompSkinDynamic::Handle skin = user.component<sfutils::map::CompSkinDynamic>();
+
+    sf::FloatRect rec = skin->_sprite.getLocalBounds();
+    skin->_sprite.setOrigin(rec.width*0.5,rec.height*0.8);
+    skin->_sprite.setScale(0.3,0.3);
+
+    layer->add(&user);
 
 
 
@@ -28,7 +68,6 @@ int main(int argc,char* argv[])
 
     while (window.isOpen())
     {
-        window.clear();
 
         sf::Event event;
         while (window.pollEvent(event))
@@ -36,6 +75,16 @@ int main(int argc,char* argv[])
             // Close window : exit
             if (event.type == sf::Event::Closed)
                 window.close();
+            else if(event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::Key::D)
+            {
+                std::cout<<"deleting (0,0)"<<std::endl;
+                mapManager.unloadArea(0,0);
+            }
+            else if(event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::Key::L)
+            {
+                std::cout<<"loading (0,0)"<<std::endl;
+                mapManager.loadArea(0,0);
+            }
             else if(not viewer.processEvent(event))
             {
                 if(event.type == sf::Event::MouseButtonReleased and event.mouseButton.button == sf::Mouse::Button::Left)
@@ -45,6 +94,14 @@ int main(int argc,char* argv[])
                     std::cout<<"Distance between "<<coord.x<<":"<<coord.y<<" and "<<last.x<<":"<<last.y<<" = "<<map->getDistance(coord,last)<<std::endl;
                     last = coord;
 
+                }
+                else if(event.type == sf::Event::MouseButtonReleased and event.mouseButton.button == sf::Mouse::Button::Right)
+                {
+                    sf::Vector2i coord = viewer.mapScreenToCoords(event.mouseButton.x,event.mouseButton.y);
+                    sf::Vector2f pixels = viewer.mapCoordsToPixel(coord);
+                    pixels.y += 1; //to be display on top on the tree on the same tile
+
+                    user.setPosition(pixels);
                 }
                 else if(event.type == sf::Event::MouseMoved)
                 {
@@ -57,11 +114,13 @@ int main(int argc,char* argv[])
 
         viewer.processEvents();
 
-        float deltaTime = clock.restart().asSeconds();
+        sf::Time deltaTime = clock.restart();
 
         viewer.update(deltaTime);
-        window.setTitle("Example Tile ("+std::to_string(int(1/deltaTime))+")");
+        window.setTitle("Example Tile ("+std::to_string(int(1/deltaTime.asSeconds()))+")");
 
+
+        window.clear();
 
         viewer.draw();
         

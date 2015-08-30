@@ -36,6 +36,14 @@ namespace sfutils
         }
 
         template<typename CONTENT>
+        void Layer<CONTENT>::remove(void* data, bool del)
+        {
+            _content.remove_if([data](const CONTENT& c){
+                return (&c == data);
+            });
+        }
+
+        template<typename CONTENT>
         std::list<CONTENT*> Layer<CONTENT>::getByCoords(const sf::Vector2i& coords,const VMap& map)
         {
             std::list<CONTENT*> res;
@@ -74,6 +82,7 @@ namespace sfutils
                       auto pos_b = b.getPosition();
                       return (pos_a.y < pos_b.y) or (pos_a.y == pos_b.y and pos_a.x < pos_b.x);
                     });
+            _lastViewport = sf::FloatRect();
         }
 
         template<typename CONTENT>
@@ -127,21 +136,42 @@ namespace sfutils
         template<typename CONTENT>
         Layer<CONTENT*>::Layer(const std::string& type,int z,bool isStatic) : VLayer(type,z,isStatic)
         {
+            _autofree = false;
         }
 
         template<typename CONTENT>
         Layer<CONTENT*>::~Layer()
         {
+            if(_autofree)
+            {
+                auto end = _content.end();
+                for(auto it = _content.begin();it != end;++it)
+                {
+                    delete *it;
+                }
+            }
         }
 
         template<typename CONTENT>
         CONTENT* Layer<CONTENT*>::add(CONTENT* content,bool resort)
         {
             _content.emplace_back(content);
-            CONTENT* res = _content.back();
             if(resort)
                 sort();
-            return res;
+            return content;
+        }
+
+        template<typename CONTENT>
+        void Layer<CONTENT*>::remove(void* data,bool del)
+        {
+            _content.remove_if([data,del](CONTENT* c){
+                bool res = (c == data);
+                if(res and del)
+                {
+                    delete reinterpret_cast<CONTENT*>(data);
+                }
+                return res;
+            });
         }
 
         template<typename CONTENT>
@@ -181,6 +211,13 @@ namespace sfutils
                       auto pos_b = b->getPosition();
                       return (pos_a.y < pos_b.y) or (pos_a.y == pos_b.y and pos_a.x < pos_b.x);
                     });
+            _lastViewport = sf::FloatRect();
+        }
+
+        template<typename CONTENT>
+        void Layer<CONTENT*>::setAutofree(bool autofree)
+        {
+            _autofree = autofree;
         }
 
         template<typename CONTENT>

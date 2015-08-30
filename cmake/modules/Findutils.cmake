@@ -12,6 +12,7 @@
 #
 # This script defines the following variables:
 #   - UTILS_LIBRARY:         the path to the library to link to
+#   - UTILS_JSON_LIBRARY     the path to the json library to link to
 #   - UTILS_FOUND:           true if the UTILS library is found
 #   - UTILS_INCLUDE_DIR:     the path where UTILS headers are located
 #
@@ -42,6 +43,21 @@ find_path(
 find_library(
 	UTILS_LIBRARY
 	utils
+	PATH_SUFFIXES
+		lib
+		lib64
+	PATHS
+		/usr
+		/usr/local
+		${UTILSDIR}
+		${UTILS_ROOT}
+		$ENV{UTILS_ROOT}
+		$ENV{UTILSDIR}
+)
+
+find_library(
+	UTILS_JSON_LIBRARY
+	utils-json
 	PATH_SUFFIXES
 		lib
 		lib64

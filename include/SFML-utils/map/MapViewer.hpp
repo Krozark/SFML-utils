@@ -16,8 +16,8 @@ namespace sfutils
                 MapViewer(const MapViewer&) = delete;
                 MapViewer& operator=(const MapViewer&) = delete;
 
-                MapViewer(sf::RenderWindow& window,const VMap& map,bool bindDefault = true);
-                MapViewer(sf::RenderWindow& window,const VMap& map,const ActionMap<int>& action_map,bool bindDefault = true);
+                MapViewer(sf::RenderWindow& window,VMap& map,bool bindDefault = true);
+                MapViewer(sf::RenderWindow& window,VMap& map,const ActionMap<int>& action_map,bool bindDefault = true);
                 
                 using ActionTarget::bind;
                 using ActionTarget::unbind;
@@ -40,7 +40,7 @@ namespace sfutils
                 void setSize(float width,float height);
                 void setSize(const sf::Vector2f& size);
 
-                void update(float deltaTime);
+                void update(const sf::Time& deltaTime);
 
                 void setSpeed(float speed);
 
@@ -60,7 +60,7 @@ namespace sfutils
 
 
             private:
-                const VMap& _map;
+                VMap& _map;
                 sf::View _view;
                 float _zoom;
                 

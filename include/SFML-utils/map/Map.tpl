@@ -3,102 +3,29 @@ namespace sfutils
     namespace map
     {
         template<typename GEOMETRY>
-        Map<GEOMETRY>::Map(float size) : VMap(size)
+        Map<GEOMETRY>::Map(float size,const sf::Vector2i& areaSize) : VMap(size,areaSize)
         {
+        }
+        
+        template<typename GEOMETRY>
+        VLayer* Map<GEOMETRY>::createLayerOfGeometry(const std::string& content, int z, bool isStatic)const
+        {
+            return new Layer<Tile<GEOMETRY>>(content,z,isStatic);
         }
 
         template<typename GEOMETRY>
-        void Map<GEOMETRY>::loadFromJson(const utils::json::Object& root)
+        VTile* Map<GEOMETRY>::createTileToLayer(int pos_x,int pos_y,float scale,sf::Texture* texture,VLayer* layer)const
         {
-            const utils::json::Array& layers = root["layers"];
-            for(const utils::json::Value& value : layers)
-            {
-                const utils::json::Object& layer = value;
-                std::string content = layer["content"].as_string();
+            auto l = dynamic_cast<Layer<Tile<GEOMETRY>>*>(layer);
 
-                int z = 0;
-                try{
-                    z = layer["z"].as_int();
-                } catch(...){}
+            if(not l)
+                return nullptr;
 
-                bool isStatic = false;
-                try {
-                    isStatic = layer["static"].as_bool();
-                }catch(...){}
-                
-                if(content == "tile")
-                {
-                    auto current_layer = new Layer<Tile<GEOMETRY>>(content,z,isStatic);
-                    const utils::json::Array& textures = layer["datas"];
-                    for(const utils::json::Object& texture : textures)
-                    {
-                        int tex_x = texture["x"].as_int();
-                        int tex_y = texture["y"].as_int();
+            Tile<GEOMETRY> tile(pos_x,pos_y,_tileSize);
+            tile.setTexture(texture);
+            tile.setTextureRect(GEOMETRY::getTextureRect(pos_x,pos_y,_tileSize));
 
-                        int height = 1;
-                        try {
-                            height = std::max<int>(0,texture["height"].as_int());
-                        } catch(...){}
-
-                        int width = 1;
-                        try {
-                            width = std::max<int>(0,texture["width"].as_int());
-                        }catch (...){}
-
-                        std::string img = texture["img"];
-
-                        sf::Texture& tex = _textures.getOrLoad(img,img);
-                        tex.setRepeated(true);
-
-                        for(int y=tex_y;y< tex_y + height;++y)
-                        {
-                            for(int x=tex_x;x<tex_x + width;++x)
-                            {
-                                Tile<GEOMETRY> tile(x,y,_tileSize);
-                                tile.setTexture(&tex);
-                                tile.setTextureRect(GEOMETRY::getTextureRect(x,y,_tileSize));
-
-                                current_layer->add(std::move(tile),false);
-                            }
-                        }
-                    }
-                    add(current_layer,false);
-                }
-                else if(content == "sprite")
-                {
-                    auto current_layer = new Layer<sf::Sprite>(content,z,isStatic);
-                    const utils::json::Array& datas = layer["datas"].as_array();
-
-                    for(const utils::json::Value& value : datas)
-                    {
-                        const utils::json::Object& data = value;
-                        int x = data["x"];
-                        int y = data["y"];
-                        float ox = 0.5;
-                        float oy = 1;
-                        try{
-                            ox = data["ox"].as_float();
-                        }catch(...){}
-
-                        try{
-                            oy = data["oy"].as_float();
-                        }catch(...){}
-
-                        std::string img = data["img"];
-
-                        sf::Sprite spr(_textures.getOrLoad(img,img));
-                        spr.setPosition(GEOMETRY::mapCoordsToPixel(x,y,_tileSize));
-
-                        sf::FloatRect rec = spr.getLocalBounds();
-                        spr.setOrigin(rec.width*ox,rec.height*oy);
-
-                        current_layer->add(std::move(spr),false);
-
-                    }
-                    add(current_layer,false);
-                }
-            }
-            sortLayers();
+            return l->add(std::move(tile),false);
         }
 
         template<typename GEOMETRY>
@@ -121,6 +48,7 @@ namespace sfutils
             return shape;
         }
 
+        /*
         template<typename GEOMETRY>
         std::list<sf::Vector2i> Map<GEOMETRY>::getPath(const sf::Vector2i& origin,const sf::Vector2i& dest)const
         {
@@ -168,6 +96,7 @@ namespace sfutils
             }
             return res;
         }
+        */
 
         template<typename GEOMETRY>
         int Map<GEOMETRY>::getDistance(const sf::Vector2i& origin,const sf::Vector2i& dest) const

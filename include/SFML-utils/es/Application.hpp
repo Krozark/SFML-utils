@@ -17,7 +17,7 @@ namespace sfutils
 
                 Application();
 
-                void update(sf::Time deltaTime);
+                void update(const sf::Time& deltaTime);
 
                 EntityManager<ENTITY> entities;
                 SystemManager<ENTITY> systems;

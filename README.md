@@ -19,7 +19,8 @@ It provide some adds to the SFML library including:
 * Box2D debugDraw (optional)
 * 2D tile map framwork
   * Tile Hexa [Iso], Square [Iso], Staggered [Iso]
-  * loading from json file/stream/object
+  * loading from json file
+  * possibility to make your own mapLoader
 * Entity system
   * Customisable Components
   * Customisable Systems
@@ -39,6 +40,8 @@ Requirements
 
 Map
 ===
+
+<img src="https://raw.githubusercontent.com/Krozark/SFML-utils/master/screen/V0.3.png" alt="Hexagonal grid" width="350px">
 
 Hexagonal grid
 ---------
@@ -65,54 +68,98 @@ Only one parameter as been change in the json file to change the grid geometry:
 
 ```
 {
-    "name" : "test",
-    "geometry" :
+    "map" :
     {
-        "name" : "Hexa/HexIso/Square/SquareIso/SquareStaggered/SquareIsoStaggered",    //here is the change
-        "size" : 50.0
-    },
-    "layers" :
-    [
-      {
-            "content" : "tile", //type of the layer (grid here)
-            "z" : 1, //zbuffer (default is 0)
-            "static" : true, //default is false
-            "datas" :  //texture informations
-            [
-                {
-                    "img" :"media/img/ground2.png", //texture to apply
-                    "x" : 0, //start point x
-                    "y" : 0, //start point y
-                    "width" : 100, //number of lines (default is 1)
-                    "height" : 100 //number of collumns (default is 1)
-                }
-                //... other textures can be specify if needed
-            ]
-        }
+        "name" : "test",
+        "tile" :
+        {
+            "geometry" :"SquareIsoStaggered", //here is the change
 
-    ]
+            "size" : 50.0
+        },
+        "area" :
+        {
+            "width" : 10,
+            "height" : 15
+        },
+
+        "layers" :
+        [
+            {
+                "z-buffer" : 0,
+                "content-type" : "tile",
+                "static" : true
+            },
+            {
+                "z-buffer" : 2,
+                "content-type" : "sprite_ptr",
+                "static" : false
+            }
+
+        ]
+    }
 }
+
 ```
 
 Then another file is use for the trees:
 
 ```
 {
-    "layers" : 
+    "areas" :
     [
         {
-            "content" : "sprite", //type of the layer
-            "z" : 3, //z buffer
-            "datas" : 
+            "name" : "area fill-rect",
+            "position-x" : 0,
+            "position-y" : 0,
+            "layers" :
             [
                 {
-                    "x" : 2, // line emplacement
-                    "y" : 4, // row emplacement 
-                    "ox" : 0.5, //center point (default is 0.5) relative to the image size
-                    "oy" : 1.0, //center point (default is 1) relative to image size
-                    "img" : "media/img/tree/tree1.png" //skin file
+                    "z-buffer" : 0,
+                    "data" : 
+                    [
+                        {
+                            "texture" : "media/img/ground3.png",
+                            "position-x" : 0, //default is 0
+                            "position-y" : 0, //default is 0
+                            "width" : 5, //default is Areasize.width
+                            "height" : 4 //default is Areasize.height
+                        }
+                    ]
                 },
-                //.... other trees
+                {
+                    "z-buffer" : 2,
+                    "data" :
+                    [
+                        {
+                            "position-x" : 4,
+                            "position-y" : 1,
+                            "texture" : "media/img/tree/tree1.png"
+                        },
+                        {
+                            "position-x" : 3,
+                            "position-y" : 3,
+                            "texture" : "media/img/tree/trees.png",
+                            "texture-rect" : //default is the entire texture (in pixel)
+                            {
+                                "left" : 311, 
+                                "top" : 74,
+                                "width" : 45,
+                                "height" : 97
+                            }
+                        },
+                        {
+                            "position-x" : 1,
+                            "position-y" : 1,
+                            "texture" : "media/img/tree/tree3.png",
+                            "texture-center" : //same as default values (relative to the subrect used)
+                            {
+                                "left" : 0.5,
+                                "top" : 1.0
+                            }
+                        }
+                    ]
+                }
             ]
         }
     ]

@@ -21,6 +21,8 @@ namespace sfutils
                 CONTENT* add(const CONTENT& content,bool resort=true);
                 CONTENT* add(CONTENT&& content,bool resort=true);
 
+                virtual void remove(void* data,bool del = false) override;
+
                 std::list<CONTENT*> getByCoords(const sf::Vector2i& coords,const VMap& map);
 
                 bool remove(const CONTENT* content_ptr,bool resort=true);
@@ -48,13 +50,18 @@ namespace sfutils
 
                 CONTENT* add(CONTENT* content,bool resort=true);
 
+                virtual void remove(void* data, bool del = true) override;
+
                 std::list<CONTENT*> getByCoords(const sf::Vector2i& coords,const VMap& map);
 
                 bool remove(const CONTENT* content_ptr,bool resort=true);
 
                 virtual void sort() override;
 
+                void setAutofree(bool autofree);
+
             private:
+                bool _autofree;
                 virtual void draw(sf::RenderTarget& target, sf::RenderStates states,const sf::FloatRect& viewport) override;
 
                 std::list<CONTENT*> _content;

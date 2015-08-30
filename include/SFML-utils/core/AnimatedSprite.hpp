@@ -9,7 +9,7 @@
 namespace sfutils
 {
     class Animation;
-    class AnimatedSprite : public sf::Drawable, public sf::Transformable
+    class AnimatedSprite : public sf::Sprite 
     {
         public:
             AnimatedSprite(const AnimatedSprite&) = default;
@@ -52,9 +52,6 @@ namespace sfutils
 
             void setFrame(size_t index);
 
-
-            void setColor(const sf::Color& color);
-
             void update(const sf::Time& deltaTime);
 
         private:
@@ -65,11 +62,8 @@ namespace sfutils
             int _repeat;
             Status _status;
             size_t _currentFrame;
-            sf::Vertex _vertices[4];
 
             void setFrame(size_t index,bool resetTime);
-
-            virtual void draw(sf::RenderTarget& target,sf::RenderStates states) const override;
     };
 }
 #endif

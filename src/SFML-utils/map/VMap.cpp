@@ -1,13 +1,11 @@
 #include <SFML-utils/map/VMap.hpp>
 
-#include <SFML-utils/map/Map.hpp>
+//#include <SFML-utils/map/Map.hpp>
 
-#include <SFML-utils/map/tileShapes/HexaIso.hpp>
-#include <SFML-utils/map/tileShapes/Hexa.hpp>
-#include <SFML-utils/map/tileShapes/Square.hpp>
-#include <SFML-utils/map/tileShapes/SquareIso.hpp>
-#include <SFML-utils/map/tileShapes/SquareStaggered.hpp>
-#include <SFML-utils/map/tileShapes/SquareIsoStaggered.hpp>
+#include <SFML-utils/map/VLayer.hpp>
+#include <SFML-utils/map/Layer.hpp>
+#include <SFML-utils/map/es/Systems.hpp>
+
 
 #include <algorithm>
 
@@ -15,85 +13,105 @@ namespace sfutils
 {
     namespace map
     {
-        VMap::VMap(float size) : _tileSize(size)
+        VMap::VMap(float size,const sf::Vector2i& areaSize) : 
+            _tileSize(size),
+            _areaSize(areaSize)
         {
+            systems.add<SysSkinDynamic>();
         }
 
         VMap::~VMap()
         {
-            clear();
+            _clear();
         }
 
-        bool VMap::loadFromFile(const std::string& filename)
+        Entity& VMap::createEntity()
         {
-            utils::json::Value* value = utils::json::Driver::parse_file(filename);
-            if(value)
-            {
-                utils::json::Object& root = *value;
+            std::uint32_t id = this->entities.create();
+            Entity& e = entities.get(id);
 
-                loadFromJson(root);
-            }
-            return value != nullptr;
+            return e;
         }
 
-        bool VMap::loadFromStream(std::istream& in)
+        void VMap::removeEntity(Entity& e)
         {
-            utils::json::Value* value = utils::json::Driver::parse(in);
-            if(value)
-            {
-                utils::json::Object& root = *value;
-
-                loadFromJson(root);
-            }
-            return value != nullptr;
+            e.remove();
         }
 
-        void VMap::add(VLayer* layer,bool sort)
+        void VMap::update(const sf::Time& deltaTime)
+        {
+            unsigned int size = _entityLayers.size();
+            for(unsigned int i=0;i<size;++i)
+                _entityLayers[i]->sort();
+
+            Application<Entity>::update(deltaTime);
+        }
+
+        es::SystemManager<Entity>& VMap::getSystemManager()
+        {
+            return systems;
+        }
+
+        void VMap::addLayer(VLayer* layer,bool sort)
         {
             _layers.emplace_back(layer);
             if(sort)
                 sortLayers();
+
+            if(layer->getType() == "entity")
+                _entityLayers.emplace_back(static_cast<Layer<Entity*>*>(layer));
         }
 
-        void VMap::remove(size_t index)
+        void VMap::removeLayer(VLayer* layer)
         {
-            delete _layers.at(index);
-            _layers.erase(_layers.begin()+index);
-        }
+            if(layer->getType() == "entity")
+            {
+                auto it = std::find(_entityLayers.begin(),_entityLayers.end(),layer);
+                if(it != _entityLayers.end())
+                {
+                    _entityLayers.erase(it);
+                }
+            }
 
-        void VMap::remove(VLayer* layer)
-        {
             auto it = std::find(_layers.begin(),_layers.end(),layer);
             if(it != _layers.end())
             {
                 delete *it;
                 _layers.erase(it);
             }
+
         }
 
-        size_t VMap::size()const
-        {
-            return _layers.size();
-        }
-
-        VLayer* VMap::at(size_t index)const
-        {
-            return _layers.at(index);
-        }
-
-        void VMap::clear()
+        VLayer* VMap::atZ(int z)const
         {
             const size_t size = _layers.size();
             for(size_t i=0;i<size;++i)
+                if(_layers[i]->z() == z)
+                    return _layers[i];
+            return nullptr;
+        }
+
+        void VMap::_clear()
+        {
+            const size_t size = _layers.size();
+            for(size_t i=0;i<size;++i)
+            {
                 delete(_layers[i]);
+            }
 
             _layers.clear();
-            _textures.clear();
+            _entityLayers.clear();
+
         }
 
         float VMap::getTileSize()const
         {
             return _tileSize;
+        }
+
+        const sf::Vector2i& VMap::getAreaSize()const
+        {
+            return _areaSize;
         }
 
         sf::Vector2i VMap::mapPixelToCoords(const sf::Vector2f& pos) const
@@ -129,75 +147,5 @@ namespace sfutils
                 _layers[i]->draw(target,states,delta_viewport);
         }
 
-        
-        VMap* VMap::createMapFromFile(const std::string& filename)
-        {
-            VMap* res = nullptr;
-            utils::json::Value* value = utils::json::Driver::parse_file(filename);
-            if(value)
-            {
-                res = createMapFromJson(value->as_object());
-                delete value;
-            }
-            return res;
-        }
-
-        VMap* VMap::createMapFromStream(std::istream& in)
-        {
-            VMap* res = nullptr;
-            utils::json::Value* value = utils::json::Driver::parse(in);
-            if(value)
-            {
-                res = createMapFromJson(value->as_object());
-                delete value;
-            }
-            return res;
-        }
-
-        VMap* VMap::createMapFromJson(utils::json::Object& root)
-        {
-            VMap* res = nullptr;
-
-            utils::json::Object& geometry = root["geometry"];
-            std::string geometry_name = geometry["name"].as_string();
-            float size = geometry["size"].as_float();
-
-            if(geometry_name == "Hexa")
-            {
-                res = new Map<geometry::Hexa>(size);
-                res->loadFromJson(root);
-            }
-            else if(geometry_name == "HexaIso")
-            {
-                res = new Map<geometry::HexaIso>(size);
-                res->loadFromJson(root);
-            }
-            else if(geometry_name == "Square")
-            {
-                res = new Map<geometry::Square>(size);
-                res->loadFromJson(root);
-            }
-            else if(geometry_name == "SquareIso")
-            {
-                res = new Map<geometry::SquareIso>(size);
-                res->loadFromJson(root);
-            }
-            else if(geometry_name == "SquareStaggered")
-            {
-                res = new Map<geometry::SquareStaggered>(size);
-                res->loadFromJson(root);
-            }
-            else if(geometry_name == "SquareIsoStaggered")
-            {
-                res = new Map<geometry::SquareIsoStaggered>(size);
-                res->loadFromJson(root);
-            }
-            else
-            {
-                std::cerr<<"Unknow geometry '"<<geometry_name<<"'"<<std::endl;
-            }
-
-            return res;
-        }
     }
 }

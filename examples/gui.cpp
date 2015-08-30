@@ -8,54 +8,54 @@ int main(int argc,char* argv[])
     sf::RenderWindow window(sf::VideoMode(1000,900),"Example GUI");
     window.setFramerateLimit(60);
 
-    sfutils::Frame frame(window);
+    sfutils::gui::Frame frame(window);
 
     sf::Texture texture;
     texture.loadFromFile("media/img/hello.png");
 
     {
-        sfutils::VLayout* layout = new sfutils::VLayout;
+        sfutils::gui::VLayout* layout = new sfutils::gui::VLayout;
         layout->setSpacing(70);
 
-        sfutils::Label* label = new sfutils::Label("Hello World !");
+        sfutils::gui::Label* label = new sfutils::gui::Label("Hello World !");
         label->setCharacterSize(72);
         layout->add(label);
 
-        sfutils::TextButton* exit = new sfutils::TextButton("Exit");
-        exit->connect([&window](sfutils::event::ButtonPressed& event){
+        sfutils::gui::TextButton* exit = new sfutils::gui::TextButton("Exit");
+        exit->connect([&window](sfutils::gui::event::ButtonPressed& event){
             window.close();
         });
         layout->add(exit);
 
-        sfutils::Label* label2 = new sfutils::Label("This text can be hide");
+        sfutils::gui::Label* label2 = new sfutils::gui::Label("This text can be hide");
         label2->setCharacterSize(72);
         layout->add(label2);
 
-        sfutils::TextButton* button2 = new sfutils::TextButton("Hide/Show text");
-        button2->connect([label2](sfutils::event::ButtonPressed& event){
+        sfutils::gui::TextButton* button2 = new sfutils::gui::TextButton("Hide/Show text");
+        button2->connect([label2](sfutils::gui::event::ButtonPressed& event){
             label2->toggle();
         });
         layout->add(button2);
 
-        sfutils::Container* container = new sfutils::Container;
+        sfutils::gui::Container* container = new sfutils::gui::Container;
         {
-            sfutils::HLayout* layout = new sfutils::HLayout;
+            sfutils::gui::HLayout* layout = new sfutils::gui::HLayout;
             layout->setSpacing(20);
 
-            sfutils::Label* label = new sfutils::Label("This is another text");
+            sfutils::gui::Label* label = new sfutils::gui::Label("This is another text");
             label->setCharacterSize(36);
             layout->add(label);
 
-            sfutils::TextButton* button = new sfutils::TextButton("I'm useless");
+            sfutils::gui::TextButton* button = new sfutils::gui::TextButton("I'm useless");
             layout->add(button);
 
-            label = new sfutils::Label("blah blah");
+            label = new sfutils::gui::Label("blah blah");
             label->setCharacterSize(36);
             label->setTextColor(sf::Color(180,28,90));
             layout->add(label);
 
-            sfutils::SpriteButton* sprbutton = new sfutils::SpriteButton(texture);
-            sprbutton->connect([&window](sfutils::event::ButtonPressed& event){
+            sfutils::gui::SpriteButton* sprbutton = new sfutils::gui::SpriteButton(texture);
+            sprbutton->connect([&window](sfutils::gui::event::ButtonPressed& event){
                 std::cout<<"hello"<<std::endl;
             });
             layout->add(sprbutton);

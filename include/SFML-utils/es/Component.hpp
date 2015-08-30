@@ -55,9 +55,9 @@ namespace sfutils
                 std::uint32_t _ownerId;    
 
                 static Family _familyCounter;
+
         };
 
-        #define __ES_INIT_VCOMPONENT__(ENTITY) template<> sfutils::es::Family sfutils::es::VComponent<ENTITY>::_familyCounter = 0;
 
         template<typename COMPONENT,typename ENTITY>
         class Component : public VComponent<ENTITY>

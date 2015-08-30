@@ -42,7 +42,6 @@ namespace sfutils
                 static Family family();
         };
 
-        #define __ES_INIT_VSYSTEM__(ENTITY) template<> sfutils::es::Family sfutils::es::VSystem<ENTITY>::_familyCounter = 0;
 
 
         template<typename ENTITY>

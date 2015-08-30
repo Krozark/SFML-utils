@@ -7,6 +7,3 @@
 
 #include <SFML-utils/es/Application.hpp>
 
-namespace sfutils {
-    using namespace es;
-}

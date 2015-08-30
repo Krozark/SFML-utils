@@ -1,0 +1,177 @@
+{
+    "areas" :
+    [
+        {
+            "name" : "area fill-rect : 5;4",
+            "position-x" : 0,
+            "position-y" : 0,
+            "layers" :
+            [
+                {
+                    "z-buffer" : 0,
+                    "data" : 
+                    [
+                        {
+                            "texture" : "media/img/ground3.png",
+                            "position-x" : 0,
+                            "position-y" : 0,
+                            "width" : 5,
+                            "height" : 4
+                        },
+                        {
+                            "texture" : "media/img/ground.png",
+                            "position-x" : 5,
+                            "position-y" : 4,
+                            "width" : 2,
+                            "height" : 5
+                        },
+                        {
+                            "texture" : "media/img/ground2.png",
+                            "position-x" : 1,
+                            "position-y" : 4
+                        }
+                    ]
+                },
+                {
+                    "z-buffer" : 2,
+                    "data" :
+                    [
+                        {
+                            "position-x" : 4,
+                            "position-y" : 1,
+                            "texture" : "media/img/tree/tree1.png"
+                        },
+                        {
+                            "position-x" : 3,
+                            "position-y" : 3,
+                            "texture" : "media/img/tree/trees.png",
+                            "texture-rect" :
+                            {
+                                "left" : 311, 
+                                "top" : 74,
+                                "width" : 45,
+                                "height" : 97
+                            }
+                        },
+                        {
+                            "position-x" : 0,
+                            "position-y" : 0,
+                            "texture" : "media/img/tree/tree3.png",
+                            "texture-center" :
+                            {
+                                "left" : 0.5,
+                                "top" : 1.0
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name" : "area fill-rect : all",
+            "position-x" : 1,
+            "position-y" : 0,
+            "layers" :
+            [
+                {
+                    "z-buffer" : 0,
+                    "data" : 
+                    [
+                        {
+                            "texture" : "media/img/ground2.png"
+                        },
+                        {
+                            "texture" : "media/img/ground3.png",
+                            "position-x" : 1,
+                            "position-y" : 1
+                        }
+                    ]
+                },
+                {
+                    "z-buffer" : 2,
+                    "data" :
+                    [
+                        {
+                            "position-x" : 0,
+                            "position-y" : 0,
+                            "texture" : "media/img/tree/tree1.png"
+                        },
+                        {
+                            "position-x" : 2,
+                            "position-y" : 1,
+                            "texture" : "media/img/tree/trees.png",
+                            "texture-rect" :
+                            {
+                                "left" : 311, 
+                                "top" : 74,
+                                "width" : 45,
+                                "height" : 97
+                            }
+                        },
+                        {
+                            "position-x" : 1,
+                            "position-y" : 4,
+                            "texture" : "media/img/tree/tree3.png",
+                            "texture-center" :
+                            {
+                                "left" : 0.5,
+                                "top" : 1.0
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name" : "area fill-rect : all",
+            "position-x" : -1,
+            "position-y" : -1,
+            "layers" :
+            [
+                {
+                    "z-buffer" : 0,
+                    "data" : 
+                    [
+                        {
+                            "texture" : "media/img/ground.png"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name" : "area fill-rect : all",
+            "position-x" : -1,
+            "position-y" : 0,
+            "layers" :
+            [
+                {
+                    "z-buffer" : 0,
+                    "data" : 
+                    [
+                        {
+                            "texture" : "media/img/ground2.png"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name" : "area fill-rect : all",
+            "position-x" : 0,
+            "position-y" : -1,
+            "layers" :
+            [
+                {
+                    "z-buffer" : 0,
+                    "data" : 
+                    [
+                        {
+                            "texture" : "media/img/ground1.png"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

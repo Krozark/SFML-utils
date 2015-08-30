@@ -37,6 +37,9 @@ namespace sfutils
 
         ///////////////// SYSTEM MANAGER ///////////////
         template<typename ENTITY>
+        Family VSystem<ENTITY>::_familyCounter = 0;
+
+        template<typename ENTITY>
         SystemManager<ENTITY>::SystemManager(EntityManager<ENTITY>& manager) : _manager(manager)
         {
         }

@@ -4,18 +4,27 @@ set(SRCROOT ${PROJECT_SOURCE_DIR}/examples)
 add_executable(core core.cpp)
 target_link_libraries(core ${PROJECT_NAME}-core-${SFML_UTILS_BUILD_SUFIX})
 
-add_executable(gui gui.cpp)
-target_link_libraries(gui ${PROJECT_NAME}-gui-${SFML_UTILS_BUILD_SUFIX})
+if(SFML_UTILS_BUILD_MODULE_GUI)
+    add_executable(gui gui.cpp)
+    target_link_libraries(gui ${PROJECT_NAME}-gui-${SFML_UTILS_BUILD_SUFIX})
+endif()
 
-add_executable(map map.cpp)
-target_link_libraries(map ${PROJECT_NAME}-map-${SFML_UTILS_BUILD_SUFIX})
+if(SFML_UTILS_BUILD_MODULE_MAP)
+    add_executable(map map.cpp)
+    target_link_libraries(map ${PROJECT_NAME}-map-${SFML_UTILS_BUILD_SUFIX})
 
-add_executable(es es.cpp)
-target_link_libraries(es ${PROJECT_NAME}-es-${SFML_UTILS_BUILD_SUFIX})
+    if(SFML_UTILS_BUILD_MODULE_MAP_EDITOR)
+        find_package(Qt5Widgets REQUIRED)
+        add_executable(editor editor.cpp)
+        target_link_libraries(editor ${PROJECT_NAME}-editor-${SFML_UTILS_BUILD_SUFIX})
+        QT5_USE_MODULES(editor Widgets)
+    endif()
+endif()
 
-find_package(Qt5Widgets REQUIRED)
-add_executable(editor editor.cpp)
-target_link_libraries(editor ${PROJECT_NAME}-editor-${SFML_UTILS_BUILD_SUFIX})
-QT5_USE_MODULES(editor Widgets)
+if(SFML_UTILS_BUILD_MODULE_ENTITY_SYSTEM)
+    add_executable(es es.cpp)
+    target_link_libraries(es ${LIBS} ${UTILS_LIBRARY})
+endif()
+
 
 

@@ -1,0 +1,38 @@
+{
+    "map" :
+    {
+        "name" : "test",
+        "tile" :
+        {
+            "geometry" :"SquareIsoStaggered",
+            "size" : 50.0
+        },
+        "area" :
+        {
+            "width" : 7,
+            "height" : 5
+        },
+
+        "layers" :
+        [
+            {
+                "z-buffer" : 0,
+                "content-type" : "tile",
+                "static" : true,
+                "name" : "ground"
+            },
+            {
+                "z-buffer" : 2,
+                "content-type" : "entity",
+                "static" : false,
+                "name" : "entities"
+            },
+            {
+                "z-buffer" : 3,
+                "content-type" : "sprite_ptr",
+                "static" : false,
+                "name" : "hightlight"
+            }
+        ]
+    }
+}

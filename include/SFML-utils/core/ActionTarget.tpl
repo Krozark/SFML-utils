@@ -82,7 +82,7 @@ namespace sfutils
             return pair.first == key;
         };
 
-        const Action& action = _actionMap.get(key);
+        //const Action& action = _actionMap.get(key);
         //if(action._type & Action::Type::RealTime)
             _eventsRealTime.remove_if(remove_func);
         //else

@@ -13,11 +13,11 @@ namespace sfutils
             return value < min ? min : (value > max ? max : value);
         }
 
-        MapViewer::MapViewer(sf::RenderWindow& window,const VMap& map,bool bindDefault) : MapViewer(window,map,sfutils::map::Configuration::defaultMapInputs,bindDefault)
+        MapViewer::MapViewer(sf::RenderWindow& window,VMap& map,bool bindDefault) : MapViewer(window,map,sfutils::map::Configuration::defaultMapInputs,bindDefault)
         {
         }
         
-        MapViewer::MapViewer(sf::RenderWindow& window,const VMap& map,const ActionMap<int>& action_map,bool bindDefault) : ActionTarget(action_map),_map(map), _zoom(1), _movementSpeed(25), _window(window)
+        MapViewer::MapViewer(sf::RenderWindow& window,VMap& map,const ActionMap<int>& action_map,bool bindDefault) : ActionTarget(action_map),_map(map), _zoom(1), _movementSpeed(25), _window(window)
         {
 
             if(bindDefault)
@@ -102,16 +102,18 @@ namespace sfutils
             _view.setSize(size);
         }
 
-        void MapViewer::update(float deltaTime)
+        void MapViewer::update(const sf::Time& deltaTime)
         {
             if(_move.x or _move.y)
             {
-                float delta = _map._tileSize*_movementSpeed * deltaTime;
+                float delta = _map._tileSize*_movementSpeed * deltaTime.asSeconds();;
                 move(_move.x * delta,
                      _move.y * delta);
             }
             _move.x = 0;
             _move.y = 0;
+
+            _map.update(deltaTime);
 
         }
         void MapViewer::setSpeed(float speed)
