@@ -33,6 +33,7 @@ set_option(SFML_UTILS_BUILD_MODULE_ENTITY_SYSTEM TRUE BOOL "TRUE to build the en
 set_option(SFML_UTILS_BUILD_MODULE_GUI TRUE BOOL "TRUE to build the GUI")
 
 set_option(SFML_UTILS_BUILD_MODULE_MAP TRUE BOOL "TRUE to build the map module")
+
 if(SFML_UTILS_BUILD_MODULE_MAP)
     set_option(SFML_UTILS_BUILD_MODULE_MAP_EDITOR TRUE BOOL "TRUE to build the map module EDITOR")
 endif()

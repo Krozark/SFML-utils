@@ -14,10 +14,8 @@ if(SFML_UTILS_BUILD_MODULE_MAP)
     target_link_libraries(map ${PROJECT_NAME}-map-${SFML_UTILS_BUILD_SUFIX})
 
     if(SFML_UTILS_BUILD_MODULE_MAP_EDITOR)
-        find_package(Qt5Widgets REQUIRED)
         add_executable(editor editor.cpp)
         target_link_libraries(editor ${PROJECT_NAME}-editor-${SFML_UTILS_BUILD_SUFIX})
-        QT5_USE_MODULES(editor Widgets)
     endif()
 endif()
 

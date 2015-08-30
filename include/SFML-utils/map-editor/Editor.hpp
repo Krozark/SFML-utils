@@ -1,6 +1,9 @@
 #ifndef SFUTILS_EDITOR_EDITOR_HPP
 #define SFUTILS_EDITOR_EDITOR_HPP
 
+#include <SFML/Graphics.hpp>
+#include <SFGUI/SFGUI.hpp>
+
 namespace sfutils
 {
     namespace editor
@@ -8,13 +11,25 @@ namespace sfutils
         class Editor
         {
             public:
-                Editor();
                 Editor(const Editor&) = delete;
                 Editor& operator=(const Editor&) = delete;
+
+                explicit Editor(const sf::VideoMode& mode);
+
+                void run();
 
             protected:
 
             private:
+                sf::RenderWindow _window;
+                sf::Clock _clock;
+
+                sfg::SFGUI _sfgui;
+                sfg::Desktop _desktop;
+
+                void _processEvents();
+                void _update();
+                void _render();
         };
     }
 }

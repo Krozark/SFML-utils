@@ -39,24 +39,38 @@
                         {
                             "position-x" : 4,
                             "position-y" : 1,
-                            "texture" : "media/img/tree/tree1.png"
+                            "texture" : "media/img/trees.png",
+                            "texture-rect" :
+                            {
+                                "left" : 854,
+                                "top" : 152,
+                                "width" : 125,
+                                "height" : 97
+                            }
                         },
                         {
                             "position-x" : 3,
                             "position-y" : 3,
-                            "texture" : "media/img/tree/trees.png",
+                            "texture" : "media/img/trees.png",
                             "texture-rect" :
                             {
-                                "left" : 311, 
-                                "top" : 74,
-                                "width" : 45,
-                                "height" : 97
+                                "left" : 1034, 
+                                "top" : 63,
+                                "width" : 131,
+                                "height" : 86
                             }
                         },
                         {
                             "position-x" : 0,
                             "position-y" : 0,
-                            "texture" : "media/img/tree/tree3.png",
+                            "texture" : "media/img/trees.png",
+                            "texture-rect" :
+                            {
+                                "left" : 1167,
+                                "top" : 63,
+                                "width" : 93,
+                                "height" : 86
+                            },
                             "texture-center" :
                             {
                                 "left" : 0.5,
@@ -94,24 +108,38 @@
                         {
                             "position-x" : 0,
                             "position-y" : 0,
-                            "texture" : "media/img/tree/tree1.png"
+                            "texture" : "media/img/trees.png",
+                            "texture-rect" :
+                            {
+                                "left" : 854,
+                                "top" : 152,
+                                "width" : 125,
+                                "height" : 97
+                            }
                         },
                         {
                             "position-x" : 2,
                             "position-y" : 1,
-                            "texture" : "media/img/tree/trees.png",
+                            "texture" : "media/img/trees.png",
                             "texture-rect" :
                             {
-                                "left" : 311, 
-                                "top" : 74,
-                                "width" : 45,
-                                "height" : 97
+                                "left" : 1034, 
+                                "top" : 63,
+                                "width" : 131,
+                                "height" : 86
                             }
                         },
                         {
                             "position-x" : 1,
                             "position-y" : 4,
-                            "texture" : "media/img/tree/tree3.png",
+                            "texture" : "media/img/trees.png",
+                            "texture-rect" :
+                            {
+                                "left" : 1167,
+                                "top" : 63,
+                                "width" : 93,
+                                "height" : 86
+                            },
                             "texture-center" :
                             {
                                 "left" : 0.5,
