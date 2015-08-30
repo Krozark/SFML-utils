@@ -36,8 +36,8 @@ namespace sfutils
 
         void Editor::_update()
         {
-            sf::Time detaTime = _clock.restart();
-            _desktop.Update(detaTime.asSeconds());
+            sf::Time deltaTime = _clock.restart();
+            _desktop.Update(deltaTime.asSeconds());
         }
 
         void Editor::_render()

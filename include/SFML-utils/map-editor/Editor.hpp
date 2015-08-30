@@ -18,12 +18,8 @@ namespace sfutils
 
                 void run();
 
-            protected:
-
             private:
                 sf::RenderWindow _window;
-                sf::Clock _clock;
-
                 sfg::SFGUI _sfgui;
                 sfg::Desktop _desktop;
 
