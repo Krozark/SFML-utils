@@ -11,6 +11,8 @@ set(VERSION_MAJOR 0)
 set(VERSION_MINOR 3)
 set(VERSION_PATCH 0)
 
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules;${CMAKE_SOURCE_DIR}")
+
 
 
 # add the  header path
@@ -35,6 +37,17 @@ set_option(SFML_UTILS_BUILD_MODULE_GUI TRUE BOOL "TRUE to build the GUI")
 set_option(SFML_UTILS_BUILD_MODULE_MAP TRUE BOOL "TRUE to build the map module")
 
 if(SFML_UTILS_BUILD_MODULE_MAP)
+    find_package(CEGUI REQUIRED)
+    include_directories(${CEGUI_INCLUDE_DIR}/..)
+
+    set(LIBS_EDITOR
+        ${CEGUI_LIBRARIES}
+        ${CEGUI_LIBRARY_REL}
+        ${CEGUI_ExpatParser_LIBRARY_REL} expat
+        ${CEGUI_OpenGLRenderer_LIBRARY_REL} GL GLU
+        ${CEGUI_FreeImageImageCodec_LIBRARY_REL} freeimage
+        )
+
     set_option(SFML_UTILS_BUILD_MODULE_MAP_EDITOR TRUE BOOL "TRUE to build the map module EDITOR")
 endif()
 
@@ -67,7 +80,6 @@ else()
     set_option(SFML_ROOT ${CMAKE_INSTALL_PREFIX}/SFML PATH "The SFML root installation")
 endif()
 
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules;${CMAKE_SOURCE_DIR}")
 
 find_package(SFML 2 COMPONENTS system graphics window audio network)
 if(NOT SFML_FOUND)

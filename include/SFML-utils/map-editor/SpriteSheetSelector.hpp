@@ -20,7 +20,6 @@ namespace sfutils
             private:
                 sf::RenderWindow _window;
 
-                sfg::Desktop _desktop;
         };
     }
 }

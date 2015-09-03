@@ -9,10 +9,8 @@ set(FILES_SRC
     ${SRCROOT}/Editor.cpp
 )
 
-find_package(SFGUI REQUIRED)
-include_directories(${SFGUI_INCLUDE_DIR})
-set(LIBS ${LIBS} ${SFGUI_LIBRARY})
 
+set(LIBS ${LIBS} ${LIBS_EDITOR})
 
 build_library(${PROJECT_NAME}-editor
     SOURCES ${FILES_HEADER} ${FILES_SRC}
