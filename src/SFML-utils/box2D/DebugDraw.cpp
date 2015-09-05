@@ -3,7 +3,9 @@
 
 namespace sfutils
 {
-    DebugDraw::DebugDraw() : _render(sf::VideoMode(800,900),"Debug Draw")
+namespace box2d
+{
+    DebugDraw::DebugDraw(const sf::VideoMode& videoMode,const std::string& title) : _render(videoMode,title)
     {
         uint32 flags = b2Draw::e_shapeBit;
         //flags += b2Draw::e_jointBit;
@@ -112,4 +114,5 @@ namespace sfutils
                          (sf::Uint8)(color.b*255),
                          (sf::Uint8)alpha);
     }
+}
 }

@@ -53,6 +53,11 @@ endif()
 
 set_option(SFML_UTILS_BUILD_MODULE_BOX2D TRUE BOOL "TRUE to build box2d wrapper for SFML")
 
+if(SFML_UTILS_BUILD_MODULE_BOX2D)
+    find_package(Box2D REQUIRED)
+    include_directories(${BOX2D_INCLUDE_DIR})
+endif()
+
 set(SFML_UTILS_BUILD_TYPE "")
 if(SFML_UTILS_BUILD_SHARED)
     list(APPEND SFML_UTILS_BUILD_TYPE SHARED)
