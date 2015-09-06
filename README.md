@@ -16,7 +16,6 @@ It provide some adds to the SFML library including:
   * Layout
     * Vertical
     * Horizontal
-* Box2D debugDraw (optional)
 * 2D tile map framwork
   * Tile Hexa [Iso], Square [Iso], Staggered [Iso]
   * loading from json file
@@ -27,6 +26,9 @@ It provide some adds to the SFML library including:
   * Customisable Entity
   * Entity manager
   * Application
+* Box2D debugDraw (optional)
+* CEGUI GuiManager (optional)
+  * convert events from SFML to cegui
 
 
 Requirements
