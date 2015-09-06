@@ -21,10 +21,10 @@ namespace sfutils
                 GuiManager(const GuiManager&) = delete;
                 GuiManager& operator=(const GuiManager&) = delete;
 
-                static void init(const std::string& mediDirectory);
+                static void init(const std::string& mediDirectory,const std::string& defaultFont = "DejaVuSans-10");
 
-                static bool injectEvent(const sf::Event& event); //< inject event to CEGUI::System::getSingleton().getDefaultGUIContext()
-                static bool injectEvent(const sf::Event& event,CEGUI::GUIContext& context);
+                static bool processEvent(const sf::Event& event); //< inject event to CEGUI::System::getSingleton().getDefaultGUIContext()
+                static bool processEvent(const sf::Event& event,CEGUI::GUIContext& context);
 
                 /**
                  * update BOTH of the system and the default GUIContext
@@ -40,8 +40,9 @@ namespace sfutils
                 /**
                  * Don't forget to [push/pop]GLStates
                  * */
-                static void renderGui();
-                static void renderGui(CEGUI::GUIContext& context);
+                static void render();
+                static void render(CEGUI::GUIContext& context);
+
 
             protected:
 

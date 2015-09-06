@@ -1,18 +1,22 @@
 #include <SFML-utils/cegui/GuiManager.hpp>
+
 #include <CEGUI/RendererModules/OpenGL/GLRenderer.h>
 
 namespace sfutils
 {
     namespace cegui
     {
-        void GuiManager::init(const std::string& mediDirectory)
+        void GuiManager::init(const std::string& mediDirectory,const std::string& defaultFont)
         {
             _initMaps();
             _initRenderer();
             _initResources(mediDirectory);
+
+            CEGUI::FontManager::getSingleton().createFromFile(defaultFont + ".font");
+            CEGUI::System::getSingleton().getDefaultGUIContext().setDefaultFont(defaultFont);
         }
 
-        bool GuiManager::injectEvent(const sf::Event& event,CEGUI::GUIContext& context)
+        bool GuiManager::processEvent(const sf::Event& event,CEGUI::GUIContext& context)
         {
             switch(event.type)
             {
@@ -52,9 +56,9 @@ namespace sfutils
             }
         }
 
-        bool GuiManager::injectEvent(const sf::Event& event)
+        bool GuiManager::processEvent(const sf::Event& event)
         {
-            return injectEvent(event,
+            return processEvent(event,
                                CEGUI::System::getSingleton().getDefaultGUIContext());
         }
 
@@ -72,7 +76,7 @@ namespace sfutils
             context.injectTimePulse(sec);
         }
 
-        void GuiManager::renderGui()
+        void GuiManager::render()
         {
             _renderer->beginRendering();
             CEGUI::System::getSingleton().renderAllGUIContexts();
@@ -80,7 +84,7 @@ namespace sfutils
 
         }
 
-        void GuiManager::renderGui(CEGUI::GUIContext& context)
+        void GuiManager::render(CEGUI::GUIContext& context)
         {
             _renderer->beginRendering();
             context.draw();

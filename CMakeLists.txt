@@ -30,24 +30,29 @@ set_option(SFML_UTILS_USE_SYSTEM_CPP_UTILS TRUE BOOL "Use cpp-utils from system,
 set_option(SFML_UTILS_BUILD_STATIC FALSE BOOL "Build as STATIC library")
 set_option(SFML_UTILS_BUILD_SHARED TRUE BOOL "Build as SHARED library")
 
+####################$ MODULES ########################
+
 set_option(SFML_UTILS_BUILD_MODULE_ENTITY_SYSTEM TRUE BOOL "TRUE to build the entity system")
 
 set_option(SFML_UTILS_BUILD_MODULE_GUI TRUE BOOL "TRUE to build the GUI")
 
 set_option(SFML_UTILS_BUILD_MODULE_MAP TRUE BOOL "TRUE to build the map module")
 
-if(SFML_UTILS_BUILD_MODULE_MAP)
+set_option(SFML_UTILS_BUILD_MODULE_CEGUI TRUE BOOL "TRUE to build cegui wrapper for SFML")
+if(SFML_UTILS_BUILD_MODULE_CEGUI)
     find_package(CEGUI REQUIRED)
     include_directories(${CEGUI_INCLUDE_DIR}/..)
 
-    set(LIBS_EDITOR
+    set(LIBS_CEGUI
         ${CEGUI_LIBRARIES}
         ${CEGUI_LIBRARY_REL}
         ${CEGUI_ExpatParser_LIBRARY_REL} expat
         ${CEGUI_OpenGLRenderer_LIBRARY_REL} GL GLU
         ${CEGUI_FreeImageImageCodec_LIBRARY_REL} freeimage
         )
+endif()
 
+if(SFML_UTILS_BUILD_MODULE_MAP AND SFML_UTILS_BUILD_MODULE_CEGUI)
     set_option(SFML_UTILS_BUILD_MODULE_MAP_EDITOR TRUE BOOL "TRUE to build the map module EDITOR")
 endif()
 
@@ -57,6 +62,9 @@ if(SFML_UTILS_BUILD_MODULE_BOX2D)
     find_package(Box2D REQUIRED)
     include_directories(${BOX2D_INCLUDE_DIR})
 endif()
+
+
+######################
 
 set(SFML_UTILS_BUILD_TYPE "")
 if(SFML_UTILS_BUILD_SHARED)

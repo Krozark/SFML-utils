@@ -30,9 +30,6 @@ namespace sfutils
                 sf::RenderWindow _window;
                 sf::Clock _clock;
 
-                CEGUI::OpenGLRenderer* _renderer;
-                CEGUI::System* _system;
-
                 void _processEvents();
                 void _update();
                 void _render();

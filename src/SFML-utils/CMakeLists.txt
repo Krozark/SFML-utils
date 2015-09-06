@@ -24,6 +24,10 @@ if(SFML_UTILS_BUILD_MODULE_BOX2D)
     add_subdirectory(box2D)
 endif()
 
+if(SFML_UTILS_BUILD_MODULE_CEGUI)
+    add_subdirectory(cegui)
+endif()
+
 deploy(ROOT ${INCROOT}
     DESTINATION include
 )
