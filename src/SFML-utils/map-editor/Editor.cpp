@@ -34,7 +34,7 @@ namespace sfutils
             CEGUI::System::getSingleton().getDefaultGUIContext().setDefaultTooltipType("TaharezLook/Tooltip");
 
 
-            CEGUI::Window* root = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("TabControlDemo.layout");
+            CEGUI::Window* root = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("Console.layout");
             CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow(root);
             
             CEGUI::System::getSingleton().notifyDisplaySizeChanged(CEGUI::Sizef(_window.getSize().x,_window.getSize().y));
@@ -55,7 +55,8 @@ namespace sfutils
             {
                 if(event.type == sf::Event::Closed ) 
                     _window.close();
-                cegui::GuiManager::processEvent(event);
+                else
+                    cegui::GuiManager::processEvent(event);
                 
             }
         }
