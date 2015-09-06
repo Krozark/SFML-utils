@@ -30,5 +30,10 @@ if(SFML_UTILS_BUILD_MODULE_BOX2D)
     target_link_libraries(box2D ${LIBS} ${BOX2D_LIBRARY} ${PROJECT_NAME}-box2D-${SFML_UTILS_BUILD_SUFIX})
 endif()
 
+if(SFML_UTILS_BUILD_MODULE_CEGUI)
+    add_executable(cegui cegui.cpp)
+    target_link_libraries(cegui ${LIBS} ${LIBS_CEGUI} ${PROJECT_NAME}-cegui-${SFML_UTILS_BUILD_SUFIX})
+endif()
+
 
 
