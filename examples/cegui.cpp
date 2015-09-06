@@ -5,7 +5,7 @@
 int main(int argc,char* argv[])
 {
     //initialize SFML window
-    sf::RenderWindow window(sf::VideoMode(800,600),"cegui");
+    sf::RenderWindow window(sf::VideoMode(1200,800),"cegui");
     window.setFramerateLimit(65);
     window.setMouseCursorVisible(false);
 
