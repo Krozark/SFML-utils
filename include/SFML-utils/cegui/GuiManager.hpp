@@ -39,8 +39,14 @@ namespace sfutils
 
                 /**
                  * Don't forget to [push/pop]GLStates
+                 * render the default context
                  * */
                 static void render();
+
+                /**
+                 * Don't forget to [push/pop]GLStates
+                 * render the specified context
+                 * */
                 static void render(CEGUI::GUIContext& context);
 
 

@@ -78,9 +78,7 @@ namespace sfutils
 
         void GuiManager::render()
         {
-            _renderer->beginRendering();
-            CEGUI::System::getSingleton().renderAllGUIContexts();
-            _renderer->endRendering();
+            render(CEGUI::System::getSingleton().getDefaultGUIContext());
 
         }
 
