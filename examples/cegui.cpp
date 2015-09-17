@@ -9,6 +9,10 @@ int main(int argc,char* argv[])
     window.setFramerateLimit(65);
     window.setMouseCursorVisible(false);
 
+    sf::RenderWindow window2(sf::VideoMode(1200,800),"cegui 2");
+    window.setFramerateLimit(65);
+    //window.setMouseCursorVisible(false);
+
     //initialize cegui
     sfutils::cegui::GuiManager::init("media/datafiles/","DejaVuSans-10");
 
@@ -23,8 +27,17 @@ int main(int argc,char* argv[])
     CEGUI::Window* root = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("Console.layout");
     CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow(root);
 
+
+    CEGUI::OpenGLRenderer& renderer = sfutils::cegui::GuiManager::getRenderer();
+    window2.setActive(true); //just in case
+    CEGUI::TextureTarget* textureTarget = renderer.createTextureTarget();
+    CEGUI::GUIContext context2(*textureTarget);
+    CEGUI::Window* root2 = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("Console.layout");
+    context2.setRootWindow(root2);
+
     //resize the cegui window
     CEGUI::System::getSingleton().notifyDisplaySizeChanged(CEGUI::Sizef(window.getSize().x,window.getSize().y));
+
 
     //event handlers
     {
@@ -75,6 +88,7 @@ int main(int argc,char* argv[])
         sfutils::cegui::GuiManager::update(deltaTime);
 
         //render
+        window.setActive(true);
         window.clear();
 
         window.pushGLStates();
@@ -82,6 +96,19 @@ int main(int argc,char* argv[])
         window.popGLStates();
 
         window.display();
+
+        
+        //window 2
+        window2.setActive(true);
+        window2.clear(sf::Color::Red);
+
+        window2.pushGLStates();
+        renderer.setActiveRenderTarget(textureTarget);
+        sfutils::cegui::GuiManager::render(context2);
+        //textureTarget->deactivate();
+        window2.popGLStates();
+
+        window2.display();
 
     }
 

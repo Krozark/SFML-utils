@@ -4,12 +4,9 @@
 #include <array>
 
 #include <SFML/Graphics.hpp>
-#include <CEGUI/CEGUI.h>
 
-namespace CEGUI
-{
-    class OpenGLRenderer;
-}
+#include <CEGUI/CEGUI.h>
+#include <CEGUI/RendererModules/OpenGL/GLRenderer.h>
 
 namespace sfutils
 {
@@ -48,6 +45,8 @@ namespace sfutils
                  * render the specified context
                  * */
                 static void render(CEGUI::GUIContext& context);
+
+                static CEGUI::OpenGLRenderer& getRenderer();
 
 
             protected:

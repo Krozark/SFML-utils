@@ -1,7 +1,5 @@
 #include <SFML-utils/cegui/GuiManager.hpp>
 
-#include <CEGUI/RendererModules/OpenGL/GLRenderer.h>
-
 namespace sfutils
 {
     namespace cegui
@@ -87,6 +85,11 @@ namespace sfutils
             _renderer->beginRendering();
             context.draw();
             _renderer->endRendering();
+        }
+
+        CEGUI::OpenGLRenderer& GuiManager::getRenderer()
+        {
+            return *_renderer;
         }
 
         ///////////////// PRIVATE //////////////////
