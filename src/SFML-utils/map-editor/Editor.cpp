@@ -4,18 +4,21 @@
 
 //https://bitbucket.org/lucebac/cegui/src/ea8f8c814a4d5dbaa56344218659eb68ce173961/application_templates/SDL2.cpp?at=application-templates-devel
 
+#include <iostream>
 
 namespace sfutils
 {
     namespace editor
     {
-        Editor::Editor(const sf::VideoMode& mode):
-            _window(mode,"SFML-utils map editor")
+        Editor::Editor():
+            _window(sf::VideoMode(1600,900),"SFML-utils map editor")
         {
             _window.setFramerateLimit(65);
             _window.setMouseCursorVisible(false);
 
-            cegui::GuiManager::init("media/datafiles/","DejaVuSans-10");
+            cegui::GuiManager::init("media/editor/cegui/","DejaVuSans-10");
+
+            std::cout<<_window.getSize().x<<";"<<_window.getSize().y<<std::endl;
 
         }
 
@@ -27,14 +30,14 @@ namespace sfutils
         {
             // create (load) the TaharezLook scheme file
             // (this auto-loads the TaharezLook looknfeel and imageset files)
-            CEGUI::SchemeManager::getSingleton().createFromFile("TaharezLook.scheme", "schemes");
+            CEGUI::SchemeManager::getSingleton().createFromFile("GlossySerpentFHD.scheme", "schemes");
 
 
-            CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().setDefaultImage("TaharezLook/MouseArrow");
-            CEGUI::System::getSingleton().getDefaultGUIContext().setDefaultTooltipType("TaharezLook/Tooltip");
+            CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().setDefaultImage("GlossySerpentFHDCursors/MouseArrow");
+            CEGUI::System::getSingleton().getDefaultGUIContext().setDefaultTooltipType("GlossySerpentFHD/Tooltip");
 
 
-            CEGUI::Window* root = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("Console.layout");
+            CEGUI::Window* root = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("main.layout");
             CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow(root);
             
             CEGUI::System::getSingleton().notifyDisplaySizeChanged(CEGUI::Sizef(_window.getSize().x,_window.getSize().y));

@@ -21,7 +21,7 @@ namespace sfutils
                 Editor(const Editor&) = delete;
                 Editor& operator=(const Editor&) = delete;
 
-                explicit Editor(const sf::VideoMode& mode);
+                explicit Editor();
                 ~Editor();
 
                 void run();

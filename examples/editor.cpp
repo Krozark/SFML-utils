@@ -2,7 +2,7 @@
 
 int main(int argc,char* argv[])
 {
-    sfutils::editor::Editor editor(sf::VideoMode(1600,900));
+    sfutils::editor::Editor editor;
 
     editor.run();
 
