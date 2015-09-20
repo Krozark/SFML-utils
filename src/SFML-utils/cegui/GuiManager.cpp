@@ -18,9 +18,9 @@ namespace sfutils
         {
             switch(event.type)
             {
-                case sf::Event::TextEntered:
+                case sf::Event::Resized :
                 {
-                    return context.injectChar(event.text.unicode);
+                    CEGUI::System::getSingleton().notifyDisplaySizeChanged(CEGUI::Sizef(event.size.width,event.size.height));
                 }
                 case sf::Event::KeyPressed:
                 {
@@ -29,6 +29,10 @@ namespace sfutils
                 case sf::Event::KeyReleased:
                 {
                     return context.injectKeyUp(_keyMap[event.key.code]);
+                }
+                case sf::Event::TextEntered:
+                {
+                    return context.injectChar(event.text.unicode);
                 }
                 case sf::Event::MouseMoved:
                 {
