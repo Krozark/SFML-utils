@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include <SFML-utils/cegui/GuiManager.hpp>
 
 int main(int argc,char* argv[])
@@ -9,12 +7,14 @@ int main(int argc,char* argv[])
     window.setFramerateLimit(65);
     window.setMouseCursorVisible(false);
 
+    /*
     sf::RenderWindow window2(sf::VideoMode(1200,800),"cegui 2");
     window.setFramerateLimit(65);
-    //window.setMouseCursorVisible(false);
+    window.setMouseCursorVisible(false);
+    */
 
     //initialize cegui
-    sfutils::cegui::GuiManager::init("media/datafiles/","DejaVuSans-10");
+    sfutils::cegui::GuiManager::init("media/cegui/","DejaVuSans-10");
 
     //load a scheme
     CEGUI::SchemeManager::getSingleton().createFromFile("TaharezLook.scheme", "schemes");
@@ -28,12 +28,14 @@ int main(int argc,char* argv[])
     CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow(root);
 
 
+    /*
     CEGUI::OpenGLRenderer& renderer = sfutils::cegui::GuiManager::getRenderer();
     window2.setActive(true); //just in case
     CEGUI::TextureTarget* textureTarget = renderer.createTextureTarget();
     CEGUI::GUIContext context2(*textureTarget);
     CEGUI::Window* root2 = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("Console.layout");
     context2.setRootWindow(root2);
+    */
 
     //resize the cegui window
     CEGUI::System::getSingleton().notifyDisplaySizeChanged(CEGUI::Sizef(window.getSize().x,window.getSize().y));
@@ -42,7 +44,6 @@ int main(int argc,char* argv[])
     //event handlers
     {
         auto f = [root](const CEGUI::EventArgs& e) -> bool{
-            std::cout<<"sendButtonPressed"<<std::endl;
             CEGUI::String msg = root->getChild("EditBox")->getText();
             if(msg.size() > 0)
             {
@@ -99,6 +100,7 @@ int main(int argc,char* argv[])
 
         
         //window 2
+        /*
         window2.setActive(true);
         window2.clear(sf::Color::Red);
 
@@ -109,6 +111,7 @@ int main(int argc,char* argv[])
         window2.popGLStates();
 
         window2.display();
+        */
 
     }
 
