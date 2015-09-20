@@ -191,21 +191,34 @@ namespace sfutils
             CEGUI::Window* menuBar = _root->getChild("Left");
 
             {//textures
-                CEGUI::Window* box = menuBar->getChild("Textures")->getChildRecursive("Listbox");
+                CEGUI::Listbox* box = static_cast<CEGUI::Listbox*>(menuBar->getChild("Textures")->getChildRecursive("Listbox"));
                 assert(box);
 
-                box->subscribeEvent(CEGUI::Listbox::EventSelectionChanged,[this](const CEGUI::EventArgs& e){
-                    return this->_event_leftPanel_texture_selected();
+                box->subscribeEvent(CEGUI::Listbox::EventSelectionChanged,[this,box](const CEGUI::EventArgs& e){
+                    return this->_event_leftPanel_texture_selected(box);
+                });
+            }
+
+            {//tab
+                CEGUI::TabControl* box = static_cast<CEGUI::TabControl*>(menuBar->getChild("Tab"));
+                box->subscribeEvent(CEGUI::TabControl::EventSelectionChanged,[this,box](const CEGUI::EventArgs& e){
+                    return this->_event_leftPanel_tab_changed(box->getTabContentsAtIndex(box->getSelectedTabIndex())->getName().c_str());
                 });
             }
         }
 
-        bool Editor::_event_leftPanel_texture_selected()
+        bool Editor::_event_leftPanel_texture_selected(CEGUI::Listbox* box)
         {
             std::cout<<"_event_leftPanel_texture_selected"<<std::endl;
             return true;
         }
-        //bool Editor::_event_leftPanel_tab_changed();
+
+        bool Editor::_event_leftPanel_tab_changed(const std::string& name)
+        {
+            std::cout<<"_event_leftPanel_tab_changed :"<<name<<std::endl;
+            return true;
+        }
+
         //bool Editor::_event_leftPanel_tab_NPC_add();
         //bool Editor::_event_leftPanel_tab_NPC_remove();
         //bool Editor::_event_leftPanel_tab_NPC_selected();

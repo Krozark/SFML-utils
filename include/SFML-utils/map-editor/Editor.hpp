@@ -10,6 +10,7 @@ namespace CEGUI
     class OpenGLRenderer;
     class System;
     class Window;
+    class Listbox;
 }
 
 namespace sfutils
@@ -54,9 +55,9 @@ namespace sfutils
                 /*left panel*/
                 void _registerLeftPanelCallbacks();
                 ////texture
-                bool _event_leftPanel_texture_selected();
+                bool _event_leftPanel_texture_selected(CEGUI::Listbox* box);
                 ////Tab
-                bool _event_leftPanel_tab_changed();
+                bool _event_leftPanel_tab_changed(const std::string& name);
                 //////NPC
                 bool _event_leftPanel_tab_NPC_add();
                 bool _event_leftPanel_tab_NPC_remove();

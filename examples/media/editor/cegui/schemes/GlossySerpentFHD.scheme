@@ -42,7 +42,7 @@ Last change:	$LastChangedDate: 2014-03-19 22:40:45 +0200 (Mi, 19 mar. 2014) $
   <Font filename="BreeSerif-Regular-14.font" />
   <Font filename="BreeSerif-Regular-16.font" />
   
-	<LookNFeel filename="GlossySerpentFHD.Jade.looknfeel" />
+	<LookNFeel filename="GlossySerpentFHD.looknfeel" />
 	<WindowRendererSet filename="CEGUICoreWindowRendererSet" />
 
 	<FalagardMapping windowType="GlossySerpentFHD/Button32"      targetType="CEGUI/PushButton"   renderer="Core/Button"       lookNFeel="GlossySerpentFHD/Button32" />
