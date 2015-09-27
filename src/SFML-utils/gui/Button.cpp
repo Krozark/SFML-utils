@@ -12,19 +12,10 @@ namespace sfutils
         {
         }
 
-        void Button::clearLambdas()
-        {
-            utils::event::Emitter<event::ButtonPressed>::clearLambdas();
-            utils::event::Emitter<event::ButtonReleased>::clearLambdas();
-        }
-
         void Button::click()
         {
-            auto e1 = event::ButtonPressed(*this);
-            utils::event::Emitter<event::ButtonPressed>::emit(e1);
-
-            auto e2 = event::ButtonReleased(*this);
-            utils::event::Emitter<event::ButtonReleased>::emit(e2);
+            emit(event::ButtonPressed(*this));
+            emit(event::ButtonReleased(*this));
         }
 
         bool Button::processEvent(const sf::Event& event,const sf::Vector2f& parent_pos)
@@ -45,13 +36,11 @@ namespace sfutils
                 {
                     if(event.type == sf::Event::MouseButtonPressed)
                     {
-                        auto e = event::ButtonPressed(*this);
-                        utils::event::Emitter<event::ButtonPressed>::emit(e);
+                        emit(event::ButtonPressed(*this));
                     }
                     else
                     {
-                        auto e = event::ButtonReleased(*this);
-                        utils::event::Emitter<event::ButtonReleased>::emit(e);
+                        emit(event::ButtonReleased(*this));
                     }
                     res = true;
                 }

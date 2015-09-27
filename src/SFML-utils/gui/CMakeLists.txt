@@ -1,6 +1,8 @@
 set(INCROOT ${INCROOT}/gui)
 set(SRCROOT ${SRCROOT}/gui)
 
+set(LIBS ${LIBS} ${UTILS_LIBRARY})
+
 set(FILES_HEADER
     ${INCROOT}/Button.hpp
     ${INCROOT}/Configuration.hpp

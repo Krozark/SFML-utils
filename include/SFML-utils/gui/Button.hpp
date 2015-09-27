@@ -15,10 +15,11 @@ namespace sfutils
         /**
          * \brief A class that represent a Button with events
          */ 
-        class Button : virtual public Widget,
-        protected utils::event::Emitter<event::ButtonPressed>, protected utils::event::Emitter<event::ButtonReleased> //disable call of emit from the outside
+        class Button : virtual public Widget, public utils::event::Emitter<event::ButtonPressed,event::ButtonReleased> //disable call of emit from the outside
         {
             public:
+                using Handler = utils::event::Handler;
+
                 Button(const Button&) = delete;
                 Button& operator=(const Button&) = delete;
 
@@ -27,31 +28,6 @@ namespace sfutils
                  */
                 explicit Button(Widget* parent=nullptr);
                 virtual ~Button();
-
-                /**
-                 * \brief use the connect function for event::ButtonPressed event
-                 */
-                using utils::event::Emitter<event::ButtonPressed>::connect;
-
-                /**
-                 * \brief use the disconnect function for event::ButtonPressed event
-                 */
-                using utils::event::Emitter<event::ButtonPressed>::disconnect;
-
-                /**
-                 * \brief use the connect function for event::ButtonReleased event
-                 */
-                using utils::event::Emitter<event::ButtonReleased>::connect;
-
-                /**
-                 * \brief use the disconnect function for event::ButtonReleased event
-                 */
-                using utils::event::Emitter<event::ButtonReleased>::disconnect;
-
-                /**
-                 * \brief remove all the connections
-                 */
-                void clearLambdas();
 
                 /**
                  * \brief emit ButtonPressed and ButtonReleased event

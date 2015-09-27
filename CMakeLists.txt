@@ -113,7 +113,6 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/examples)
 if(SFML_UTILS_USE_SYSTEM_CPP_UTILS)
 	find_package(utils REQUIRED)
 	include_directories(${UTILS_INCLUDE_DIR})
-	
 else()
 	add_subdirectory(extlibs/cpp-utils)
 	set(UTILS_LIBRARY utils-shared)

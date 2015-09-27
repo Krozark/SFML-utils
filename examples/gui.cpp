@@ -13,6 +13,8 @@ int main(int argc,char* argv[])
     sf::Texture texture;
     texture.loadFromFile("media/img/hello.png");
 
+    sfutils::gui::Button::Handler guiEventHandler;
+
     {
         sfutils::gui::VLayout* layout = new sfutils::gui::VLayout;
         layout->setSpacing(70);
@@ -22,7 +24,7 @@ int main(int argc,char* argv[])
         layout->add(label);
 
         sfutils::gui::TextButton* exit = new sfutils::gui::TextButton("Exit");
-        exit->connect([&window](sfutils::gui::event::ButtonPressed& event){
+        exit->connect<sfutils::gui::event::ButtonPressed>(guiEventHandler,[&window](const sfutils::gui::event::ButtonPressed& event){
             window.close();
         });
         layout->add(exit);
@@ -32,7 +34,7 @@ int main(int argc,char* argv[])
         layout->add(label2);
 
         sfutils::gui::TextButton* button2 = new sfutils::gui::TextButton("Hide/Show text");
-        button2->connect([label2](sfutils::gui::event::ButtonPressed& event){
+        button2->connect<sfutils::gui::event::ButtonPressed>(guiEventHandler,[label2](const sfutils::gui::event::ButtonPressed& event){
             label2->toggle();
         });
         layout->add(button2);
@@ -55,7 +57,7 @@ int main(int argc,char* argv[])
             layout->add(label);
 
             sfutils::gui::SpriteButton* sprbutton = new sfutils::gui::SpriteButton(texture);
-            sprbutton->connect([&window](sfutils::gui::event::ButtonPressed& event){
+            sprbutton->connect<sfutils::gui::event::ButtonPressed>(guiEventHandler,[&window](const sfutils::gui::event::ButtonPressed& event){
                 std::cout<<"hello"<<std::endl;
             });
             layout->add(sprbutton);
