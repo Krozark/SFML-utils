@@ -194,6 +194,21 @@ namespace sfutils
                 CEGUI::Listbox* box = static_cast<CEGUI::Listbox*>(menuBar->getChild("Textures")->getChildRecursive("Listbox"));
                 assert(box);
 
+                //TEST
+                for(int i=0; i< 25; ++i)
+                {
+                    CEGUI::ListboxTextItem* newItem = new CEGUI::ListboxTextItem("Item #"+std::to_string(i));
+
+                    newItem->setTextColours(CEGUI::Colour( 0xFFFFFFFF));
+                    newItem->setSelectionColours(CEGUI::Colour(1,0,0));
+                    newItem->setSelectionBrushImage("GlossySerpentFHD/ListboxSelectionBrush");
+                    newItem->setAutoDeleted(true);
+
+                    box->addItem(newItem); // Add the new ListBoxTextItem to the ListBox
+                    //box->ensureItemIsVisible(newItem);
+                }
+
+
                 box->subscribeEvent(CEGUI::Listbox::EventSelectionChanged,[this,box](const CEGUI::EventArgs& e){
                     return this->_event_leftPanel_texture_selected(box);
                 });
@@ -209,7 +224,12 @@ namespace sfutils
 
         bool Editor::_event_leftPanel_texture_selected(CEGUI::Listbox* box)
         {
-            std::cout<<"_event_leftPanel_texture_selected"<<std::endl;
+            CEGUI::ListboxItem* item = box->getFirstSelectedItem();
+            if(item)
+            {
+                std::cout<<"_event_leftPanel_texture_selected : "<<item->getText().c_str()<<std::endl;
+            }
+
             return true;
         }
 

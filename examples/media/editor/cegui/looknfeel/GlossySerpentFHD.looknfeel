@@ -4558,7 +4558,7 @@ Brown/Orange:
 
   
     ***************************************************
-        GlossySerpentFHD/CheckListboxItem
+        GlossySerpentFHD/ListboxItemCheckable
         (based on http://cegui.org.uk/wiki/Create_a_CheckListboxItem)
     ***************************************************
     
