@@ -219,6 +219,45 @@ namespace sfutils
                 box->subscribeEvent(CEGUI::TabControl::EventSelectionChanged,[this,box](const CEGUI::EventArgs& e){
                     return this->_event_leftPanel_tab_changed(box->getTabContentsAtIndex(box->getSelectedTabIndex())->getName().c_str());
                 });
+
+                {//NPC
+                    CEGUI::Window* tab = box->getChild("NPC");
+                    //CEGUI::Listbox* list = static_cast<CEGUI::Listbox*>(tab->getChild("List"));
+                    CEGUI::Window* bottom = tab->getChild("Bottom");
+
+                    bottom->getChild("Add")->subscribeEvent(CEGUI::PushButton::EventClicked,[this](const CEGUI::EventArgs& e){
+                        return this->_event_leftPanel_tab_NPC_add();
+                    });
+                    bottom->getChild("Remove")->subscribeEvent(CEGUI::PushButton::EventClicked,[this](const CEGUI::EventArgs& e){
+                        return this->_event_leftPanel_tab_NPC_remove();
+                    });
+                }
+
+                {//Creature
+                    CEGUI::Window* tab = box->getChild("Creatures");
+                    //CEGUI::Listbox* list = static_cast<CEGUI::Listbox*>(tab->getChild("List"));
+                    CEGUI::Window* bottom = tab->getChild("Bottom");
+
+                    bottom->getChild("Add")->subscribeEvent(CEGUI::PushButton::EventClicked,[this](const CEGUI::EventArgs& e){
+                        return this->_event_leftPanel_tab_creature_add();
+                    });
+                    bottom->getChild("Remove")->subscribeEvent(CEGUI::PushButton::EventClicked,[this](const CEGUI::EventArgs& e){
+                        return this->_event_leftPanel_tab_creature_remove();
+                    });
+                }
+
+                {//Building
+                    CEGUI::Window* tab = box->getChild("Bulding");
+                    //CEGUI::Listbox* list = static_cast<CEGUI::Listbox*>(tab->getChild("List"));
+                    CEGUI::Window* bottom = tab->getChild("Bottom");
+
+                    bottom->getChild("Add")->subscribeEvent(CEGUI::PushButton::EventClicked,[this](const CEGUI::EventArgs& e){
+                        return this->_event_leftPanel_tab_bulding_add();
+                    });
+                    bottom->getChild("Remove")->subscribeEvent(CEGUI::PushButton::EventClicked,[this](const CEGUI::EventArgs& e){
+                        return this->_event_leftPanel_tab_bulding_remove();
+                    });
+                }
             }
         }
 
@@ -239,15 +278,45 @@ namespace sfutils
             return true;
         }
 
-        //bool Editor::_event_leftPanel_tab_NPC_add();
-        //bool Editor::_event_leftPanel_tab_NPC_remove();
-        //bool Editor::_event_leftPanel_tab_NPC_selected();
-        //bool Editor::_event_leftPanel_tab_creature_add();
-        //bool Editor::_event_leftPanel_tab_creature_remove();
-        //bool Editor::_event_leftPanel_tab_creature_selected();
-        //bool Editor::_event_leftPanel_tab_bulding_add();
-        //bool Editor::_event_leftPanel_tab_bulding_remove();
-        //bool Editor::_event_leftPanel_tab_bulding_selected();
+        bool Editor::_event_leftPanel_tab_NPC_add()
+        {
+            std::cout<<"_event_leftPanel_tab_NPC_add()"<<std::endl;
+            return true;
+        }
+
+        bool Editor::_event_leftPanel_tab_NPC_remove()
+        {
+            std::cout<<"_event_leftPanel_tab_NPC_remove()"<<std::endl;
+            return true;
+        }
+        //TODO bool Editor::_event_leftPanel_tab_NPC_selected();
+
+        bool Editor::_event_leftPanel_tab_creature_add()
+        {
+            std::cout<<"_event_leftPanel_tab_creature_add()"<<std::endl;
+            return true;
+        }
+
+        bool Editor::_event_leftPanel_tab_creature_remove()
+        {
+            std::cout<<"_event_leftPanel_tab_creature_remove()"<<std::endl;
+            return true;
+        }
+        //TODO bool Editor::_event_leftPanel_tab_creature_selected();
+
+        bool Editor::_event_leftPanel_tab_bulding_add()
+        {
+            std::cout<<"_event_leftPanel_tab_bulding_add()"<<std::endl;
+            return true;
+        }
+
+        bool Editor::_event_leftPanel_tab_bulding_remove()
+        {
+            std::cout<<"_event_leftPanel_tab_bulding_remove()"<<std::endl;
+            return true;
+        }
+
+        //TODO bool Editor::_event_leftPanel_tab_bulding_selected();
 
         void Editor::_registerMiniMapCallbacks()
         {
