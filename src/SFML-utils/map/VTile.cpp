@@ -1,11 +1,19 @@
 #include <SFML-utils/map/VTile.hpp>
+#include <SFML-utils/map/geometry/Geometry.hpp>
 
 namespace sfutils
 {
     namespace map
     {
-        VTile::VTile()
+        VTile::VTile(const geometry::Geometry& geometry,const sf::Vector2i& pos)
         {
+            _shape = geometry.getShape();
+
+            _shape.setOutlineColor(sf::Color(128,128,128,100));
+            _shape.setOutlineThickness(2.f/geometry.getScale());
+
+            sf::Vector2f p = geometry.mapCoordsToPixel(pos);
+            _shape.setPosition(p);
         }
 
         VTile::~VTile()

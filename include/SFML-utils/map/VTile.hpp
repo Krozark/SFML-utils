@@ -5,6 +5,11 @@
 
 namespace sfutils
 {
+    namespace geometry
+    {
+        class Geometry;
+    }
+
     namespace map
     {
         class VTile : public sf::Drawable
@@ -16,7 +21,7 @@ namespace sfutils
                 VTile(VTile&&) = default;
                 VTile& operator=(VTile&&) = default;
 
-                VTile();
+                VTile(const geometry::Geometry& geometry,const sf::Vector2i& pos);
                 virtual ~VTile();
 
                 void setFillColor(const sf::Color &color);
@@ -25,7 +30,6 @@ namespace sfutils
                 void setPosition(const sf::Vector2f& pos);
 
                 sf::Vector2f getPosition()const;
-
 
                 void setTexture(const sf::Texture *texture,bool resetRect=false);
                 void setTextureRect(const sf::IntRect& rect);
@@ -39,7 +43,6 @@ namespace sfutils
 
             private:
                 virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override final;
-                virtual void setCoords(int x,int y) = 0;
         };
     }
 }

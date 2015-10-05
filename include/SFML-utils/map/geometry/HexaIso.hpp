@@ -1,6 +1,7 @@
 #ifndef SFUTILS_GEOMETRY_HEXAISO_HPP
 #define SFUTILS_GEOMETRY_HEXAISO_HPP
 
+            static sf::Vector2f mapCoordsToPixel(int x,int y,float scale);
 #include <SFML/Graphics.hpp>
 
 namespace sfutils
@@ -10,7 +11,6 @@ namespace sfutils
         struct HexaIso
         {
             static const sf::ConvexShape& getShape();
-            static sf::Vector2f mapCoordsToPixel(int x,int y,float scale);
             static sf::Vector2i mapPixelToCoords(float x,float y,float scale);
             static sf::IntRect getTextureRect(int x,int y,float scale);
             static sf::Vector2i round(float x,float y);

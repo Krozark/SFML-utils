@@ -18,7 +18,7 @@ int main(int argc,char* argv[])
 
     sfutils::map::MapManager mapManager(std::shared_ptr<sfutils::map::VMapLoader>(new sfutils::map::JsonMapLoader("./media")));
 
-    sfutils::map::VMap* map = mapManager.getMap();
+    sfutils::map::Map* map = mapManager.getMap();
     mapManager.loadArea(1,0);
     mapManager.loadArea(0,0);
     mapManager.loadArea(-1,-1);
@@ -29,7 +29,7 @@ int main(int argc,char* argv[])
 
     sfutils::map::Layer<sf::ConvexShape>* mouse_layer = new sfutils::map::Layer<sf::ConvexShape>("ConvexShape",1);
 
-    sf::ConvexShape* mouse_light = mouse_layer->add(map->getShape());
+    sf::ConvexShape* mouse_light = mouse_layer->add(map->getGeometry().getShape());
     mouse_light->setFillColor(sf::Color(255,255,255,64));
     map->addLayer(mouse_layer);
 
@@ -89,15 +89,15 @@ int main(int argc,char* argv[])
             {
                 if(event.type == sf::Event::MouseButtonReleased and event.mouseButton.button == sf::Mouse::Button::Left)
                 {
-                    sf::Vector2i coord = viewer.mapScreenToCoords(event.mouseButton.x,event.mouseButton.y);
+                    sf::Vector2i coord = viewer.mapScreenToCoords(sf::Vector2i(event.mouseButton.x,event.mouseButton.y));
                     std::cout<<"Click on: "<<coord.x<<":"<<coord.y<<std::endl;
-                    std::cout<<"Distance between "<<coord.x<<":"<<coord.y<<" and "<<last.x<<":"<<last.y<<" = "<<map->getDistance(coord,last)<<std::endl;
+                    std::cout<<"Distance between "<<coord.x<<":"<<coord.y<<" and "<<last.x<<":"<<last.y<<" = "<<map->getGeometry().distance(coord,last)<<std::endl;
                     last = coord;
 
                 }
                 else if(event.type == sf::Event::MouseButtonReleased and event.mouseButton.button == sf::Mouse::Button::Right)
                 {
-                    sf::Vector2i coord = viewer.mapScreenToCoords(event.mouseButton.x,event.mouseButton.y);
+                    sf::Vector2i coord = viewer.mapScreenToCoords(sf::Vector2i(event.mouseButton.x,event.mouseButton.y));
                     sf::Vector2f pixels = viewer.mapCoordsToPixel(coord);
                     pixels.y += 1; //to be display on top on the tree on the same tile
 
@@ -105,9 +105,9 @@ int main(int argc,char* argv[])
                 }
                 else if(event.type == sf::Event::MouseMoved)
                 {
-                    sf::Vector2i coord = viewer.mapScreenToCoords(event.mouseMove.x,event.mouseMove.y);
-                    sf::Vector2f pos = viewer.mapCoordsToPixel(coord.x,coord.y);
-                    mouse_light->setPosition(pos);
+                    sf::Vector2i coord = viewer.mapScreenToCoords(sf::Vector2i(event.mouseMove.x,event.mouseMove.y));
+                    sf::Vector2f pixels = viewer.mapCoordsToPixel(coord);
+                    mouse_light->setPosition(pixels);
                 }
             }
         }

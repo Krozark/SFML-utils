@@ -9,15 +9,15 @@ namespace sfutils
 {
     namespace map
     {
-        class VMap;
+        class Map;
         class MapViewer : public sf::Drawable, protected ActionTarget<int>
         {
             public:
                 MapViewer(const MapViewer&) = delete;
                 MapViewer& operator=(const MapViewer&) = delete;
 
-                MapViewer(sf::RenderWindow& window,VMap& map,bool bindDefault = true);
-                MapViewer(sf::RenderWindow& window,VMap& map,const ActionMap<int>& action_map,bool bindDefault = true);
+                MapViewer(sf::RenderWindow& window,Map& map,bool bindDefault = true);
+                MapViewer(sf::RenderWindow& window,Map& map,const ActionMap<int>& action_map,bool bindDefault = true);
                 
                 using ActionTarget::bind;
                 using ActionTarget::unbind;
@@ -46,21 +46,17 @@ namespace sfutils
 
                 void draw(sf::RenderStates states = sf::RenderStates::Default) const;
 
-                sf::Vector2i mapScreenToCoords(int x,int y)const;
                 sf::Vector2i mapScreenToCoords(const sf::Vector2i& pos)const;
 
-                sf::Vector2i mapCoordsToScreen(int x,int y) const;
                 sf::Vector2i mapCoordsToScreen(const sf::Vector2i& pos) const;
 
-                sf::Vector2i mapPixelToCoords(float x,float y) const;
                 sf::Vector2i mapPixelToCoords(const sf::Vector2f& pos) const;
                 
-                sf::Vector2f mapCoordsToPixel(int x,int y) const;
                 sf::Vector2f mapCoordsToPixel(const sf::Vector2i& pos) const;
 
 
             private:
-                VMap& _map;
+                Map& _map;
                 sf::View _view;
                 float _zoom;
                 

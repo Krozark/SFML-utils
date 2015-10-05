@@ -1,4 +1,4 @@
-#include <SFML-utils/map/VMap.hpp>
+#include <SFML-utils/map/Map.hpp>
 
 //#include <SFML-utils/map/Map.hpp>
 
@@ -13,19 +13,20 @@ namespace sfutils
 {
     namespace map
     {
-        VMap::VMap(float size,const sf::Vector2i& areaSize) : 
-            _tileSize(size),
+        Map::Map(::sfutils::geometry::Geometry* geometry,const sf::Vector2i& areaSize) : 
+            _geometry(geometry),
             _areaSize(areaSize)
         {
             systems.add<SysSkinDynamic>();
         }
 
-        VMap::~VMap()
+        Map::~Map()
         {
+            delete _geometry;
             _clear();
         }
 
-        Entity& VMap::createEntity()
+        Entity& Map::createEntity()
         {
             std::uint32_t id = this->entities.create();
             Entity& e = entities.get(id);
@@ -33,12 +34,12 @@ namespace sfutils
             return e;
         }
 
-        void VMap::removeEntity(Entity& e)
+        void Map::removeEntity(Entity& e)
         {
             e.remove();
         }
 
-        void VMap::update(const sf::Time& deltaTime)
+        void Map::update(const sf::Time& deltaTime)
         {
             unsigned int size = _entityLayers.size();
             for(unsigned int i=0;i<size;++i)
@@ -47,12 +48,12 @@ namespace sfutils
             Application<Entity>::update(deltaTime);
         }
 
-        es::SystemManager<Entity>& VMap::getSystemManager()
+        es::SystemManager<Entity>& Map::getSystemManager()
         {
             return systems;
         }
 
-        void VMap::addLayer(VLayer* layer,bool sort)
+        void Map::addLayer(VLayer* layer,bool sort)
         {
             _layers.emplace_back(layer);
             if(sort)
@@ -62,7 +63,7 @@ namespace sfutils
                 _entityLayers.emplace_back(static_cast<Layer<Entity*>*>(layer));
         }
 
-        void VMap::removeLayer(VLayer* layer)
+        void Map::removeLayer(VLayer* layer)
         {
             if(layer->getType() == "entity")
             {
@@ -82,7 +83,7 @@ namespace sfutils
 
         }
 
-        VLayer* VMap::atZ(int z)const
+        VLayer* Map::atZ(int z)const
         {
             const size_t size = _layers.size();
             for(size_t i=0;i<size;++i)
@@ -91,7 +92,41 @@ namespace sfutils
             return nullptr;
         }
 
-        void VMap::_clear()
+
+        const sf::Vector2i& Map::getAreaSize()const
+        {
+            return _areaSize;
+        }
+
+        const ::sfutils::geometry::Geometry& Map::getGeometry() const
+        {
+            return *_geometry;
+        }
+
+        /*sf::Vector2i Map::mapPixelToCoords(const sf::Vector2f& pos) const
+        {
+            return mapPixelToCoords(pos.x,pos.y);
+        }
+
+        sf::Vector2f Map::mapCoordsToPixel(const sf::Vector2i& pos) const
+        {
+            return mapCoordsToPixel(pos.x,pos.y);
+        }*/
+
+        ////////////////////// PRIVATE ////////////////////
+
+        void Map::sortLayers()
+        {
+            std::sort(_layers.begin(),_layers.end(),[](const VLayer* a, const VLayer* b)->bool{
+                      return a->z() < b->z();
+                    });
+
+            const size_t size = _layers.size();
+            for(size_t i=0;i<size;++i)
+                _layers[i]->sort();
+        }
+
+        void Map::_clear()
         {
             const size_t size = _layers.size();
             for(size_t i=0;i<size;++i)
@@ -104,44 +139,15 @@ namespace sfutils
 
         }
 
-        float VMap::getTileSize()const
+
+        void Map::draw(sf::RenderTarget& target, sf::RenderStates states,const sf::FloatRect& viewport) const
         {
-            return _tileSize;
-        }
+            static float tileSize = getGeometry().getScale();
+            sf::FloatRect delta_viewport(viewport.left - tileSize,
+                                        viewport.top - tileSize,
+                                        viewport.width + tileSize*2,
+                                        viewport.height + tileSize*2);
 
-        const sf::Vector2i& VMap::getAreaSize()const
-        {
-            return _areaSize;
-        }
-
-        sf::Vector2i VMap::mapPixelToCoords(const sf::Vector2f& pos) const
-        {
-            return mapPixelToCoords(pos.x,pos.y);
-        }
-
-        sf::Vector2f VMap::mapCoordsToPixel(const sf::Vector2i& pos) const
-        {
-            return mapCoordsToPixel(pos.x,pos.y);
-        }
-
-        void VMap::sortLayers()
-        {
-            std::sort(_layers.begin(),_layers.end(),[](const VLayer* a, const VLayer* b)->bool{
-                      return a->z() < b->z();
-                    });
-
-            const size_t size = _layers.size();
-            for(size_t i=0;i<size;++i)
-                _layers[i]->sort();
-        }
-
-
-        void VMap::draw(sf::RenderTarget& target, sf::RenderStates states,const sf::FloatRect& viewport) const
-        {
-            sf::FloatRect delta_viewport(viewport.left - _tileSize,
-                                        viewport.top - _tileSize,
-                                        viewport.width + _tileSize*2,
-                                        viewport.height + _tileSize*2); 
             const size_t size = _layers.size();
             for(size_t i=0;i<size;++i)
                 _layers[i]->draw(target,states,delta_viewport);

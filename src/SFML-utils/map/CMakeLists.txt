@@ -9,14 +9,12 @@ set(FILES_HEADER
     ${INCROOT}/Layer.hpp
     ${INCROOT}/Layer.tpl
     ${INCROOT}/Map.hpp
-    ${INCROOT}/Map.tpl
     ${INCROOT}/MapManager.hpp
     ${INCROOT}/MapMetaData.hpp
     ${INCROOT}/MapViewer.hpp
-    ${INCROOT}/Tile.hpp
-    ${INCROOT}/Tile.tpl
+    #${INCROOT}/Tile.hpp
+    #${INCROOT}/Tile.tpl
     ${INCROOT}/VLayer.hpp
-    ${INCROOT}/VMap.hpp
     ${INCROOT}/VMapLoader.hpp
     ${INCROOT}/VTile.hpp
 
@@ -25,36 +23,37 @@ set(FILES_HEADER
     ${INCROOT}/es/Entity.hpp
     ${INCROOT}/es/Systems.hpp
 
-    ${INCROOT}/tileShapes/BaseTile.hpp
-    ${INCROOT}/tileShapes/HexaIso.hpp
-    ${INCROOT}/tileShapes/Hexa.hpp
-    ${INCROOT}/tileShapes/Square.hpp
-    ${INCROOT}/tileShapes/SquareIso.hpp
-    ${INCROOT}/tileShapes/SquareStaggered.hpp
-    ${INCROOT}/tileShapes/SquareIsoStaggered.hpp
+    ${INCROOT}/geometry/Geometry.hpp
+    #${INCROOT}/geometry/GeometryHexa.hpp
+    #${INCROOT}/geometry/GeometryHexaIso.hpp
+    ${INCROOT}/geometry/GeometrySquare.hpp
+    ${INCROOT}/geometry/GeometrySquareIso.hpp
+    #${INCROOT}/geometry/GeometrySquareStaggered.hpp
+    #${INCROOT}/geometry/GeometrySquareIsoStaggered.hpp
 )
 
 set(FILES_SRC
     ${SRCROOT}/Configuration.cpp
     ${SRCROOT}/JsonMapLoader.cpp
     ${SRCROOT}/JsonSpriteLoader.cpp
+    ${SRCROOT}/Map.cpp
     ${SRCROOT}/MapManager.cpp
     ${SRCROOT}/MapMetaData.cpp
     ${SRCROOT}/MapViewer.cpp
     ${SRCROOT}/VLayer.cpp
-    ${SRCROOT}/VMap.cpp
     ${SRCROOT}/VMapLoader.cpp
     ${SRCROOT}/VTile.cpp
 
     ${SRCROOT}/es/Entity.cpp
     ${SRCROOT}/es/Systems.cpp
 
-    ${SRCROOT}/tileShapes/HexaIso.cpp
-    ${SRCROOT}/tileShapes/Hexa.cpp
-    ${SRCROOT}/tileShapes/Square.cpp
-    ${SRCROOT}/tileShapes/SquareIso.cpp
-    ${SRCROOT}/tileShapes/SquareStaggered.cpp
-    ${SRCROOT}/tileShapes/SquareIsoStaggered.cpp
+    ${SRCROOT}/geometry/Geometry.cpp
+    #${SRCROOT}/geometry/GeometryHexaIso.cpp
+    #${SRCROOT}/geometry/GeometryHexa.cpp
+    ${SRCROOT}/geometry/GeometrySquare.cpp
+    ${SRCROOT}/geometry/GeometrySquareIso.cpp
+    #${SRCROOT}/geometry/GeometrySquareStaggered.cpp
+    #${SRCROOT}/geometry/GeometrySquareIsoStaggered.cpp
 )
 
 build_library(${PROJECT_NAME}-map

@@ -1,7 +1,7 @@
 #include <SFML-utils/map/MapMetaData.hpp>
-#include <SFML-utils/map/VMap.hpp>
+#include <SFML-utils/map/Map.hpp>
 
-#include <SFML-utils/map/Tile.hpp>
+#include <SFML-utils/map/VTile.hpp>
 #include <SFML-utils/map/Layer.hpp>
 
 #include <SFML-utils/map/es/Components.hpp>
@@ -28,7 +28,7 @@ namespace sfutils
         {
         }
 
-        bool MetaLayerDataTileRect::addToLayer(VLayer* layer,VMap* const map,ResourceManager<sf::Texture,std::string>& textureManager,const sf::Vector2i& areaCoord,std::list<void*>& createdData)
+        bool MetaLayerDataTileRect::addToLayer(VLayer* layer,Map* const map,ResourceManager<sf::Texture,std::string>& textureManager,const sf::Vector2i& areaCoord,std::list<void*>& createdData)
         {
             if(layer->getType() != "tile")
             {
@@ -45,7 +45,13 @@ namespace sfutils
             {
                 for(int x = _rect.left; x< _rect.left + _rect.width && x < size.x; ++x)
                 {
-                    VTile* tile = map->createTileToLayer(areaCoord.x + x, areaCoord.y + y,map->getTileSize(),&tex,layer);
+                    sf::Vector2i pos(areaCoord.x + x,areaCoord.y + y);
+                    VTile tmp(map->getGeometry(),pos);
+                    tmp.setTexture(&tex);
+                    tmp.setTextureRect(map->getGeometry().getTextureRect(pos));
+
+                    VTile* tile = dynamic_cast<Layer<VTile>*>(layer)->add(std::move(tmp));
+
                     if(not tile)
                         return false;
                     createdData.emplace_back(tile);
@@ -70,7 +76,7 @@ namespace sfutils
         {
         }
 
-        bool MetaLayerDataSprite::addToLayer(VLayer* layer,VMap* const map,ResourceManager<sf::Texture,std::string>& textureManager,const sf::Vector2i& areaCoord,std::list<void*>& createdData)
+        bool MetaLayerDataSprite::addToLayer(VLayer* layer,Map* const map,ResourceManager<sf::Texture,std::string>& textureManager,const sf::Vector2i& areaCoord,std::list<void*>& createdData)
         {
             if(_isPtr and layer->getType() != "sprite_ptr")
             {
@@ -94,7 +100,8 @@ namespace sfutils
 
             sf::Sprite spr(tex,_texRect);
 
-            spr.setPosition(map->mapCoordsToPixel(areaCoord.x + _position.x,areaCoord.y + _position.y));
+            spr.setPosition(map->getGeometry().mapCoordsToPixel(sf::Vector2i(areaCoord.x + _position.x,
+                                                                             areaCoord.y + _position.y)));
 
             spr.setOrigin(_texRect.width * _texCenter.x,
                           _texRect.height * _texCenter.y);
@@ -147,7 +154,7 @@ namespace sfutils
         {
         }
 
-        bool MetaLayerDataEntity::addToLayer(VLayer* layer,VMap* const map,ResourceManager<sf::Texture,std::string>& textureManager,const sf::Vector2i& areaCoord,std::list<void*>& createdData)
+        bool MetaLayerDataEntity::addToLayer(VLayer* layer,Map* const map,ResourceManager<sf::Texture,std::string>& textureManager,const sf::Vector2i& areaCoord,std::list<void*>& createdData)
         {
             if(layer->getType() != "entity")
             {
@@ -179,7 +186,8 @@ namespace sfutils
 
             e.add<CompSkinStatic>();
             e.component<CompSkinStatic>()->_sprite = spr;
-            e.component<CompSkinStatic>()->_sprite.setPosition(map->mapCoordsToPixel(areaCoord.x + _position.x,areaCoord.y + _position.y));
+            e.component<CompSkinStatic>()->_sprite.setPosition(map->getGeometry().mapCoordsToPixel(sf::Vector2i(areaCoord.x + _position.x,
+                                                                                                                areaCoord.y + _position.y)));
 
             createdData.emplace_back(&e);
 
@@ -213,7 +221,7 @@ namespace sfutils
             _data.emplace_back(data);
         }
 
-        bool MetaLayer::addToMap(VMap* map,ResourceManager<sf::Texture,std::string>& textureManager,const sf::Vector2i& areaCoord)
+        bool MetaLayer::addToMap(Map* map,ResourceManager<sf::Texture,std::string>& textureManager,const sf::Vector2i& areaCoord)
         {
             VLayer* layer = map->atZ(_z);
             if(layer)
@@ -228,7 +236,7 @@ namespace sfutils
             {
                 if(_type == "tile")
                 {
-                    layer = map->createLayerOfGeometry(_type,_z,_static);
+                    layer = new Layer<VTile>(_type,_z,_static);
                 }
                 else if(_type == "sprite")
                 {
@@ -260,7 +268,7 @@ namespace sfutils
             return true;
         }
 
-        bool MetaLayer::removeFromMap(VMap* map)const
+        bool MetaLayer::removeFromMap(Map* map)const
         {
             VLayer* layer = map->atZ(_z);
             if(not layer)
@@ -319,7 +327,7 @@ namespace sfutils
             return _layers.emplace_back(layer);
         }
 
-        bool MetaArea::addToMap(VMap* map,ResourceManager<sf::Texture,std::string>& textureManager)
+        bool MetaArea::addToMap(Map* map,ResourceManager<sf::Texture,std::string>& textureManager)
         {
             sf::Vector2i coord = _position;
             coord.x *= map->getAreaSize().x;
@@ -333,7 +341,7 @@ namespace sfutils
             return true;
         }
 
-        bool MetaArea::removeFromMap(VMap* map)const
+        bool MetaArea::removeFromMap(Map* map)const
         {
             for(const MetaLayer& layer : _layers)
             {
