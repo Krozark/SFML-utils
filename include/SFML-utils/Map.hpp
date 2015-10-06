@@ -3,12 +3,12 @@
 #include <SFML-utils/map/es/Systems.hpp>
 
 #include <SFML-utils/map/geometry/Geometry.hpp>
-//#include <SFML-utils/map/geometry/GeometryHexa.hpp>
-//#include <SFML-utils/map/geometry/GeometryHexaIso.hpp>
+#include <SFML-utils/map/geometry/GeometryHexa.hpp>
+#include <SFML-utils/map/geometry/GeometryHexaIso.hpp>
 #include <SFML-utils/map/geometry/GeometrySquare.hpp>
 #include <SFML-utils/map/geometry/GeometrySquareIso.hpp>
-//#include <SFML-utils/map/geometry/GeometrySquareIsoStaggered.hpp>
-//#include <SFML-utils/map/geometry/GeometrySquareStaggered.hpp>
+#include <SFML-utils/map/geometry/GeometrySquareIsoStaggered.hpp>
+#include <SFML-utils/map/geometry/GeometrySquareStaggered.hpp>
 
 #include <SFML-utils/map/Configuration.hpp>
 #include <SFML-utils/map/JsonMapLoader.hpp>

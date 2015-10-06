@@ -1,4 +1,4 @@
-#include <SFML-utils/map/tileShapes/HexaIso.hpp>
+#include <SFML-utils/map/geometry/GeometryHexaIso.hpp>
 #include <cmath>
 
 namespace sfutils

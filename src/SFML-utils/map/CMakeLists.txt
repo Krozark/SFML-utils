@@ -24,12 +24,12 @@ set(FILES_HEADER
     ${INCROOT}/es/Systems.hpp
 
     ${INCROOT}/geometry/Geometry.hpp
-    #${INCROOT}/geometry/GeometryHexa.hpp
-    #${INCROOT}/geometry/GeometryHexaIso.hpp
+    ${INCROOT}/geometry/GeometryHexa.hpp
+    ${INCROOT}/geometry/GeometryHexaIso.hpp
     ${INCROOT}/geometry/GeometrySquare.hpp
     ${INCROOT}/geometry/GeometrySquareIso.hpp
-    #${INCROOT}/geometry/GeometrySquareStaggered.hpp
-    #${INCROOT}/geometry/GeometrySquareIsoStaggered.hpp
+    ${INCROOT}/geometry/GeometrySquareStaggered.hpp
+    ${INCROOT}/geometry/GeometrySquareIsoStaggered.hpp
 )
 
 set(FILES_SRC
@@ -48,12 +48,12 @@ set(FILES_SRC
     ${SRCROOT}/es/Systems.cpp
 
     ${SRCROOT}/geometry/Geometry.cpp
-    #${SRCROOT}/geometry/GeometryHexaIso.cpp
-    #${SRCROOT}/geometry/GeometryHexa.cpp
+    ${SRCROOT}/geometry/GeometryHexaIso.cpp
+    ${SRCROOT}/geometry/GeometryHexa.cpp
     ${SRCROOT}/geometry/GeometrySquare.cpp
     ${SRCROOT}/geometry/GeometrySquareIso.cpp
-    #${SRCROOT}/geometry/GeometrySquareStaggered.cpp
-    #${SRCROOT}/geometry/GeometrySquareIsoStaggered.cpp
+    ${SRCROOT}/geometry/GeometrySquareStaggered.cpp
+    ${SRCROOT}/geometry/GeometrySquareIsoStaggered.cpp
 )
 
 build_library(${PROJECT_NAME}-map

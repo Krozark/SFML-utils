@@ -1,16 +1,16 @@
-#ifndef SFUTILS_GEOMETRY_HEXAISO_HPP
-#define SFUTILS_GEOMETRY_HEXAISO_HPP
+#ifndef SFUTILS_GEOMETRY_HEXA_HPP
+#define SFUTILS_GEOMETRY_HEXA_HPP
 
-            static sf::Vector2f mapCoordsToPixel(int x,int y,float scale);
-#include <SFML/Graphics.hpp>
+#include <SFML-utils/map/geometry/Geometry.hpp>
 
 namespace sfutils
 {
     namespace geometry
     {
-        struct HexaIso
+        class GeometryHexa : public Geometry
         {
             static const sf::ConvexShape& getShape();
+            static sf::Vector2f mapCoordsToPixel(int x,int y,float scale);
             static sf::Vector2i mapPixelToCoords(float x,float y,float scale);
             static sf::IntRect getTextureRect(int x,int y,float scale);
             static sf::Vector2i round(float x,float y);
@@ -23,7 +23,7 @@ namespace sfutils
             
                 static struct __Initiatiser {
                     __Initiatiser(){
-                        HexaIso::init();
+                        Hexa::init();
                     };
                 } __initiatiser__;
         };

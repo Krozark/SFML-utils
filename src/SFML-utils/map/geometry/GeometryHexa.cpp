@@ -1,4 +1,4 @@
-#include <SFML-utils/map/tileShapes/Hexa.hpp>
+#include <SFML-utils/map/geometry/GeometryHexa.hpp>
 #include <cmath>
 
 namespace sfutils

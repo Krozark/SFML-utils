@@ -2,12 +2,12 @@
 
 #include <SFML-utils/map/Map.hpp>
 #include <SFML-utils/map/VLayer.hpp>
-//TODO #include <SFML-utils/map/geometry/GeometryHexaIso.hpp>
-//TODO #include <SFML-utils/map/geometry/GeometryHexa.hpp>
+#include <SFML-utils/map/geometry/GeometryHexaIso.hpp>
+#include <SFML-utils/map/geometry/GeometryHexa.hpp>
 #include <SFML-utils/map/geometry/GeometrySquare.hpp>
 #include <SFML-utils/map/geometry/GeometrySquareIso.hpp>
-//TODO #include <SFML-utils/map/geometry/GeometrySquareStaggered.hpp>
-//TODO #include <SFML-utils/map/geometry/GeometrySquareIsoStaggered.hpp>
+#include <SFML-utils/map/geometry/GeometrySquareStaggered.hpp>
+#include <SFML-utils/map/geometry/GeometrySquareIsoStaggered.hpp>
 
 #include <utils/json/Driver.hpp>
 #include <utils/string.hpp>
@@ -84,36 +84,38 @@ namespace sfutils
 
 
             Map* res = nullptr;
+            geometry::Geometry* geo = nullptr;
 
             /*if(tile_geometry == "Hexa")
             {
-                res = new Map<geometry::Hexa>(tile_size,areaSize);
+                goe = new geometry::GeometryHexa(tile_size);
             }
             else if(tile_geometry == "HexaIso")
             {
-                res = new Map<geometry::HexaIso>(tile_size,areaSize);
+                geo = new geometry::GeometryHexaIso(tile_size);
             }
             else */if(tile_geometry == "Square")
             {
-                res = new Map(new geometry::GeometrySquare(tile_size),areaSize);
+                geo = new geometry::GeometrySquare(tile_size);
             }
             else if(tile_geometry == "SquareIso")
             {
-                res = new Map(new geometry::GeometrySquareIso(tile_size),areaSize);
+                geo = new geometry::GeometrySquareIso(tile_size);
             }
-            /*else if(tile_geometry == "SquareStaggered")
+            else if(tile_geometry == "SquareStaggered")
             {
-                res = new Map<geometry::SquareStaggered>(tile_size,areaSize);
+                geo = new geometry::GeometrySquareStaggered(tile_size);
             }
             else if(tile_geometry == "SquareIsoStaggered")
             {
-                res = new Map<geometry::SquareIsoStaggered>(tile_size,areaSize);
-            }*/
+                geo = new geometry::GeometrySquareIsoStaggered(tile_size);
+            }
             else
             {
                 std::cerr<<"Unknown geometry '"<<tile_geometry<<"'"<<std::endl;
                 return nullptr;
             }
+            res = new Map(geo,areaSize);
 
             ResourceManager<sf::Texture,std::string>* textureManager = nullptr; //should not be used on map creation (empty layers only)
             for(MetaLayer& layer : layers)
