@@ -20,7 +20,7 @@ namespace sfutils
         class Geometry
         {
             public:
-                Geometry(float scale);
+                Geometry(float scale,float width, float height);
                 virtual ~Geometry();
 
                 const sf::ConvexShape& getShape() const;
@@ -36,6 +36,8 @@ namespace sfutils
 
             protected:
                 const float _scale;
+                const float _width;
+                const float _height;
                 sf::ConvexShape _shape; //< need to be initialized by child class
         };
 
@@ -55,8 +57,6 @@ namespace sfutils
                 virtual int distance(const sf::Vector2i& p1, const sf::Vector2i& p2) const override;
                 
             protected:
-                const float _height;
-                const float _width;
         };
 
         /**

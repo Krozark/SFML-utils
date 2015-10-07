@@ -9,23 +9,17 @@ namespace sfutils
     {
         class GeometryHexa : public Geometry
         {
-            static const sf::ConvexShape& getShape();
-            static sf::Vector2f mapCoordsToPixel(int x,int y,float scale);
-            static sf::Vector2i mapPixelToCoords(float x,float y,float scale);
-            static sf::IntRect getTextureRect(int x,int y,float scale);
-            static sf::Vector2i round(float x,float y);
-            static int distance(int x1,int y1, int x2,int y2);
+            public:
+                GeometryHexa(float scale);
+                virtual ~GeometryHexa();
 
+                virtual sf::Vector2f mapCoordsToPixel(const sf::Vector2i& coord) const override;
+                virtual sf::Vector2i mapPixelToCoords(const sf::Vector2f& pos) const override;
 
-            private:
-                static sf::ConvexShape _shape;
-                static void init();
-            
-                static struct __Initiatiser {
-                    __Initiatiser(){
-                        Hexa::init();
-                    };
-                } __initiatiser__;
+                virtual sf::IntRect getTextureRect(const sf::Vector2i& pos) const override;
+
+                virtual sf::Vector2i round(const sf::Vector2f& pos) const override;
+                virtual int distance(const sf::Vector2i& p1, const sf::Vector2i& p2) const override;
         };
     }
 }

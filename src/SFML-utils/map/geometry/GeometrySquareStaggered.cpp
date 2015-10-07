@@ -15,8 +15,8 @@ namespace sfutils
 
         sf::Vector2f GeometrySquareStaggered::mapCoordsToPixel(const sf::Vector2i& coord) const
         {
-            static float sw = _scale * _width;
-            static float sh = _scale * _height;
+            const float sw = _scale * _width;
+            const float sh = _scale * _height;
 
             return sf::Vector2f((coord.x + (coord.y&1)/2.0 ) * sw,
                                 coord.y*sh);

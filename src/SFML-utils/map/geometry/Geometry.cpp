@@ -4,8 +4,10 @@ namespace sfutils
 {
     namespace geometry
     {
-        Geometry::Geometry(float scale) :
-            _scale(scale)
+        Geometry::Geometry(float scale,float width, float height) :
+            _scale(scale),
+            _width(width),
+            _height(height)
         {
         }
 
@@ -25,10 +27,7 @@ namespace sfutils
 
         //////////////// _GeometrySquareBase_helper ////////////////
 
-        _GeometrySquareBase_helper::_GeometrySquareBase_helper(float scale,float width, float height) :
-            Geometry(scale),
-            _height(height),
-            _width(width)
+        _GeometrySquareBase_helper::_GeometrySquareBase_helper(float scale,float width, float height) : Geometry(scale,width,height)
         {
         }
 

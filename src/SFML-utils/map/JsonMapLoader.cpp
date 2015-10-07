@@ -86,15 +86,15 @@ namespace sfutils
             Map* res = nullptr;
             geometry::Geometry* geo = nullptr;
 
-            /*if(tile_geometry == "Hexa")
+            if(tile_geometry == "Hexa")
             {
-                goe = new geometry::GeometryHexa(tile_size);
+                geo = new geometry::GeometryHexa(tile_size);
             }
             else if(tile_geometry == "HexaIso")
             {
                 geo = new geometry::GeometryHexaIso(tile_size);
             }
-            else */if(tile_geometry == "Square")
+            else if(tile_geometry == "Square")
             {
                 geo = new geometry::GeometrySquare(tile_size);
             }
