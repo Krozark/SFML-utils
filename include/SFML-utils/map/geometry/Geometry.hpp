@@ -50,11 +50,11 @@ namespace sfutils
                 _GeometrySquareBase_helper(float scale,float width, float height);
                 virtual ~_GeometrySquareBase_helper();
 
-                virtual sf::IntRect getTextureRect(const sf::Vector2i& pos) const override;
+                virtual sf::IntRect getTextureRect(const sf::Vector2i& pos) const override final;
 
-                virtual sf::Vector2i round(const sf::Vector2f& pos) const override;
+                virtual sf::Vector2i round(const sf::Vector2f& pos) const override final;
 
-                virtual int distance(const sf::Vector2i& p1, const sf::Vector2i& p2) const override;
+                virtual int distance(const sf::Vector2i& p1, const sf::Vector2i& p2) const override final;
                 
             protected:
         };
@@ -77,6 +77,20 @@ namespace sfutils
             public:
                 GeometrySquareIsoBase(float scale);
                 virtual ~GeometrySquareIsoBase();
+        };
+
+
+        class GeometryHexaBase: public Geometry
+        {
+            public:
+                GeometryHexaBase(float scale,float width, float height);
+                virtual ~GeometryHexaBase();
+
+                virtual sf::IntRect getTextureRect(const sf::Vector2i& pos) const override final;
+
+                virtual sf::Vector2i round(const sf::Vector2f& pos) const override final;
+                virtual int distance(const sf::Vector2i& p1, const sf::Vector2i& p2) const override final;
+
         };
 
     }
