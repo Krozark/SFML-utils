@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include <SFML-utils/map/VMap.hpp>
+#include <SFML-utils/map/Map.hpp>
 #include <SFML-utils/map/MapMetaData.hpp>
 
 
@@ -11,7 +11,7 @@ namespace sfutils
 {
     namespace map
     {
-        class VMap;
+        class Map;
         class VMapLoader
         {
             public:
@@ -21,8 +21,8 @@ namespace sfutils
             private:
                 friend class MapManager;
 
-                virtual std::unique_ptr<MetaArea> _loadArea(int x,int y,VMap* const map) = 0;
-                virtual VMap* _createMap() = 0;
+                virtual std::unique_ptr<MetaArea> _loadArea(int x,int y,Map* const map) = 0;
+                virtual Map* _createMap() = 0;
 
 
         };

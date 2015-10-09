@@ -22,7 +22,7 @@ namespace sfutils
 
                 MapManager(const std::shared_ptr<VMapLoader>& maploader);
 
-                VMap* getMap()const;
+                Map* getMap()const;
 
                 bool loadArea(int x,int y);
                 bool unloadArea(int x,int y);
@@ -30,7 +30,7 @@ namespace sfutils
             private:
                 std::shared_ptr<VMapLoader> _mapLoader;
                 std::unordered_map<std::pair<int,int>,std::unique_ptr<MetaArea>> _areas;
-                std::unique_ptr<VMap> _map;
+                std::unique_ptr<Map> _map;
                 ResourceManager<sf::Texture,std::string> _textureManager;
         };
     }

@@ -1,15 +1,18 @@
 #ifndef SFUTILS_MAP_TILE_HPP
 #define SFUTILS_MAP_TILE_HPP
 
-#include <SFML-utils/map/VTile.hpp>
-
+#include <SFML/Graphics.hpp>
 
 namespace sfutils
 {
+    namespace geometry
+    {
+        class Geometry;
+    }
+
     namespace map
     {
-        template<typename GEOMETRY>
-        class Tile : public VTile
+        class Tile : public sf::Drawable
         {
             public:
                 Tile(const Tile&) = delete;
@@ -18,21 +21,29 @@ namespace sfutils
                 Tile(Tile&&) = default;
                 Tile& operator=(Tile&&) = default;
 
-                Tile(int pos_x,int pos_y,float scale);
+                Tile(const geometry::Geometry& geometry,const sf::Vector2i& pos);
                 virtual ~Tile();
 
-                //convert pixel to word coord 
-                static sf::Vector2i mapPixelToCoords(float x,float y,float scale);
-                static sf::Vector2i mapPixelToCoords(const sf::Vector2f& pos,float scale);
-                
-                //return the center of the tile position in pixel relative to the openGL world
-                static sf::Vector2f mapCoordsToPixel(int x,int y,float scale);
-                static sf::Vector2f mapCoordsToPixel(const sf::Vector2i& pos,float scale);
+                void setFillColor(const sf::Color &color);
+
+                void setPosition(float x,float y);
+                void setPosition(const sf::Vector2f& pos);
+
+                sf::Vector2f getPosition()const;
+
+                void setTexture(const sf::Texture *texture,bool resetRect=false);
+                void setTextureRect(const sf::IntRect& rect);
+
+                sf::FloatRect getGlobalBounds()const;
+                sf::FloatRect getLocalBounds()const;
+
+
+            protected:
+                sf::ConvexShape _shape;
 
             private:
-                virtual void setCoords(int x, int y) override;
+                virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override final;
         };
     }
 }
-#include <SFML-utils/map/Tile.tpl>
 #endif

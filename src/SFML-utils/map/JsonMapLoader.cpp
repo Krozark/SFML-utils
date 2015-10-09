@@ -1,12 +1,13 @@
 #include <SFML-utils/map/JsonMapLoader.hpp>
 
 #include <SFML-utils/map/Map.hpp>
-#include <SFML-utils/map/tileShapes/HexaIso.hpp>
-#include <SFML-utils/map/tileShapes/Hexa.hpp>
-#include <SFML-utils/map/tileShapes/Square.hpp>
-#include <SFML-utils/map/tileShapes/SquareIso.hpp>
-#include <SFML-utils/map/tileShapes/SquareStaggered.hpp>
-#include <SFML-utils/map/tileShapes/SquareIsoStaggered.hpp>
+#include <SFML-utils/map/VLayer.hpp>
+#include <SFML-utils/map/geometry/GeometryHexaIso.hpp>
+#include <SFML-utils/map/geometry/GeometryHexa.hpp>
+#include <SFML-utils/map/geometry/GeometrySquare.hpp>
+#include <SFML-utils/map/geometry/GeometrySquareIso.hpp>
+#include <SFML-utils/map/geometry/GeometrySquareStaggered.hpp>
+#include <SFML-utils/map/geometry/GeometrySquareIsoStaggered.hpp>
 
 #include <utils/json/Driver.hpp>
 #include <utils/string.hpp>
@@ -20,7 +21,7 @@ namespace sfutils
         {
         }
 
-        VMap* JsonMapLoader::_createMap()
+        Map* JsonMapLoader::_createMap()
         {
 
             std::unique_ptr<utils::json::Value> value(utils::json::Driver::parse_file(utils::string::join("/",_mapDir,"map.json")));
@@ -82,37 +83,39 @@ namespace sfutils
             }
 
 
-            VMap* res = nullptr;
+            Map* res = nullptr;
+            geometry::Geometry* geo = nullptr;
 
             if(tile_geometry == "Hexa")
             {
-                res = new Map<geometry::Hexa>(tile_size,areaSize);
+                geo = new geometry::GeometryHexa(tile_size);
             }
             else if(tile_geometry == "HexaIso")
             {
-                res = new Map<geometry::HexaIso>(tile_size,areaSize);
+                geo = new geometry::GeometryHexaIso(tile_size);
             }
             else if(tile_geometry == "Square")
             {
-                res = new Map<geometry::Square>(tile_size,areaSize);
+                geo = new geometry::GeometrySquare(tile_size);
             }
             else if(tile_geometry == "SquareIso")
             {
-                res = new Map<geometry::SquareIso>(tile_size,areaSize);
+                geo = new geometry::GeometrySquareIso(tile_size);
             }
             else if(tile_geometry == "SquareStaggered")
             {
-                res = new Map<geometry::SquareStaggered>(tile_size,areaSize);
+                geo = new geometry::GeometrySquareStaggered(tile_size);
             }
             else if(tile_geometry == "SquareIsoStaggered")
             {
-                res = new Map<geometry::SquareIsoStaggered>(tile_size,areaSize);
+                geo = new geometry::GeometrySquareIsoStaggered(tile_size);
             }
             else
             {
                 std::cerr<<"Unknown geometry '"<<tile_geometry<<"'"<<std::endl;
                 return nullptr;
             }
+            res = new Map(geo,areaSize);
 
             ResourceManager<sf::Texture,std::string>* textureManager = nullptr; //should not be used on map creation (empty layers only)
             for(MetaLayer& layer : layers)
@@ -130,7 +133,7 @@ namespace sfutils
 
         }
 
-        std::unique_ptr<MetaArea> JsonMapLoader::_loadArea(int x,int y,VMap* const map)
+        std::unique_ptr<MetaArea> JsonMapLoader::_loadArea(int x,int y,Map* const map)
         {
             std::unique_ptr<utils::json::Value> value(utils::json::Driver::parse_file(utils::string::join("/",_mapDir,"areas.json")));
             std::unique_ptr<MetaArea> res;
@@ -171,7 +174,7 @@ namespace sfutils
             return res;
         }
 
-        bool JsonMapLoader::_parseLayer(VMap* map,utils::json::Object& root,std::unique_ptr<MetaArea>& meta)
+        bool JsonMapLoader::_parseLayer(Map* map,utils::json::Object& root,std::unique_ptr<MetaArea>& meta)
         {
             int z = root["z-buffer"].as_int();
             VLayer* layer_ptr = map->atZ(z);
@@ -183,7 +186,7 @@ namespace sfutils
 
             std::string type = layer_ptr->getType();
 
-            std::function<std::shared_ptr<MetaLayerData>(VMap* const, utils::json::Object&)> f;
+            std::function<std::shared_ptr<MetaLayerData>(Map* const, utils::json::Object&)> f;
 
             if(type == "tile")
             {
@@ -227,7 +230,7 @@ namespace sfutils
             return true;
         }
         
-        std::shared_ptr<MetaLayerData> JsonMapLoader::_createTile(VMap* const map,utils::json::Object& root)
+        std::shared_ptr<MetaLayerData> JsonMapLoader::_createTile(Map* const map,utils::json::Object& root)
         {
             std::string texture = root["texture"].as_string();
 
@@ -256,7 +259,7 @@ namespace sfutils
 
         }
 
-        std::shared_ptr<MetaLayerData> JsonMapLoader::_createSprite(VMap* const map,utils::json::Object& root,bool isPtr)
+        std::shared_ptr<MetaLayerData> JsonMapLoader::_createSprite(Map* const map,utils::json::Object& root,bool isPtr)
         {
             std::string texture = root["texture"].as_string();
 
@@ -291,7 +294,7 @@ namespace sfutils
             return std::shared_ptr<MetaLayerData>(res);
         }
 
-        std::shared_ptr<MetaLayerData> JsonMapLoader::_createEntity(VMap* const map,utils::json::Object& root)
+        std::shared_ptr<MetaLayerData> JsonMapLoader::_createEntity(Map* const map,utils::json::Object& root)
         {
             std::string texture = root["texture"].as_string();
 

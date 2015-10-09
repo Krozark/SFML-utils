@@ -8,7 +8,7 @@ namespace sfutils
 {
     namespace map
     {
-        class VMap;
+        class Map;
 
         class VLayer
         {
@@ -37,7 +37,7 @@ namespace sfutils
                 const std::string _type;
 
             private:
-                friend class VMap;
+                friend class Map;
                 virtual void draw(sf::RenderTarget& target, sf::RenderStates states,const sf::FloatRect& viewport) = 0;
 
                 const int _z;

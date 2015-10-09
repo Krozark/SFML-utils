@@ -19,7 +19,7 @@ namespace sfutils
             assert(_map.get());
         }
 
-        VMap* MapManager::getMap()const
+        Map* MapManager::getMap()const
         {
             return _map.get();
         }

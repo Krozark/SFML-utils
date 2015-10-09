@@ -1,44 +1,68 @@
 #ifndef SFUTILS_MAP_MAP_HPP
 #define SFUTILS_MAP_MAP_HPP
 
-#include <SFML-utils/map/Tile.hpp>
-#include <SFML-utils/map/Layer.hpp>
 
+#include <string>
+#include <list>
 
-/**
- * TODO
- * Add alpha = 255
- * Add replace = false
- */
+#include <SFML/Graphics.hpp>
 
+#include <SFML-utils/es/Application.hpp>
+
+#include <SFML-utils/map/es/Entity.hpp>
+#include <SFML-utils/map/geometry/Geometry.hpp>
 
 namespace sfutils
 {
     namespace map
     {
-        template<typename GEOMETRY>
-        class Map : public VMap
+        class Tile;
+        class VLayer;
+
+        template<typename> class Layer;
+
+        class Map : protected sfutils::es::Application<Entity>
         {
             public:
                 Map(const Map&) = delete;
                 Map& operator=(const Map&) = delete;
 
-                Map(float size,const sf::Vector2i& areaSize);
+                Map(::sfutils::geometry::Geometry* geometry,const sf::Vector2i& areaSize); 
 
-                virtual VLayer* createLayerOfGeometry(const std::string& content, int z, bool isStatic)const override;
-                virtual VTile* createTileToLayer(int pos_x,int pos_y,float scale,sf::Texture* texture,VLayer* layer)const override;
+                virtual ~Map();
 
-                virtual sf::Vector2i mapPixelToCoords(float x,float y) const override;
+                Entity& createEntity();
+                void removeEntity(Entity& e);
+
+                void update(const sf::Time& deltaTime);
+
+                es::SystemManager<Entity>& getSystemManager();
+
+                void addLayer(VLayer* layer,bool sort=true);
+                void removeLayer(VLayer* layer);
+
+                VLayer* atZ(int z)const;
+
+                const sf::Vector2i& getAreaSize()const;
+
+                const ::sfutils::geometry::Geometry& getGeometry() const;
+
+            private:
+                ::sfutils::geometry::Geometry* _geometry;
+                sf::Vector2i _areaSize;
+
+                void sortLayers();
+                void _clear();
                 
-                virtual sf::Vector2f mapCoordsToPixel(int x,int y) const override;
+                friend class MapViewer;
 
-                virtual const sf::ConvexShape getShape()const override;
+                void draw(sf::RenderTarget& target, sf::RenderStates states,const sf::FloatRect& viewport) const;
 
-                //virtual std::list<sf::Vector2i> getPath(const sf::Vector2i& origin,const sf::Vector2i& dest)const override;
-                //virtual sf::Vector2i getPath1(const sf::Vector2i& origin,const sf::Vector2i& dest)const override;
-                virtual int getDistance(const sf::Vector2i& origin, const sf::Vector2i& dest) const override;
+                std::vector<VLayer*> _layers;
+                std::vector<Layer<Entity*>*> _entityLayers;
+                //TODO cache the entities position
         };
+
     }
 }
-#include <SFML-utils/map/Map.tpl>
 #endif
