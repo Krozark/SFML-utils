@@ -103,15 +103,6 @@ namespace sfutils
             return *_geometry;
         }
 
-        /*sf::Vector2i Map::mapPixelToCoords(const sf::Vector2f& pos) const
-        {
-            return mapPixelToCoords(pos.x,pos.y);
-        }
-
-        sf::Vector2f Map::mapCoordsToPixel(const sf::Vector2i& pos) const
-        {
-            return mapCoordsToPixel(pos.x,pos.y);
-        }*/
 
         ////////////////////// PRIVATE ////////////////////
 

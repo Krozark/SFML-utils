@@ -47,21 +47,6 @@ namespace sfutils
 
                 const ::sfutils::geometry::Geometry& getGeometry() const;
 
-                /*virtual VLayer* createLayerOfGeometry(const std::string& content, int z, bool isStatic)const = 0;
-                virtual Tile* createTileToLayer(int pos_x,int pos_y,float scale,sf::Texture* texture,VLayer* layer)const = 0;
-
-                virtual sf::Vector2i mapPixelToCoords(float x,float y) const = 0;
-                sf::Vector2i mapPixelToCoords(const sf::Vector2f& pos) const;
-                
-                virtual sf::Vector2f mapCoordsToPixel(int x,int y) const =0;
-                sf::Vector2f mapCoordsToPixel(const sf::Vector2i& pos) const;
-
-                virtual const sf::ConvexShape getShape()const = 0;
-
-                //virtual std::list<sf::Vector2i> getPath(const sf::Vector2i& origin,const sf::Vector2i& dest)const = 0;
-                //virtual sf::Vector2i getPath1(const sf::Vector2i& origin,const sf::Vector2i& dest)const =0;
-                virtual int getDistance(const sf::Vector2i& origin, const sf::Vector2i& dest)const = 0;*/
-
             private:
                 ::sfutils::geometry::Geometry* _geometry;
                 sf::Vector2i _areaSize;
