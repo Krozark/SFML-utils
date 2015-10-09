@@ -1,5 +1,5 @@
-#ifndef SFUTILS_MAP_VTILE_HPP
-#define SFUTILS_MAP_VTILE_HPP
+#ifndef SFUTILS_MAP_TILE_HPP
+#define SFUTILS_MAP_TILE_HPP
 
 #include <SFML/Graphics.hpp>
 
@@ -12,17 +12,17 @@ namespace sfutils
 
     namespace map
     {
-        class VTile : public sf::Drawable
+        class Tile : public sf::Drawable
         {
             public:
-                VTile(const VTile&) = delete;
-                VTile& operator=(const VTile&) = delete;
+                Tile(const Tile&) = delete;
+                Tile& operator=(const Tile&) = delete;
 
-                VTile(VTile&&) = default;
-                VTile& operator=(VTile&&) = default;
+                Tile(Tile&&) = default;
+                Tile& operator=(Tile&&) = default;
 
-                VTile(const geometry::Geometry& geometry,const sf::Vector2i& pos);
-                virtual ~VTile();
+                Tile(const geometry::Geometry& geometry,const sf::Vector2i& pos);
+                virtual ~Tile();
 
                 void setFillColor(const sf::Color &color);
 

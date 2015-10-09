@@ -22,4 +22,4 @@
 #include <SFML-utils/map/VLayer.hpp>
 //#include <SFML-utils/map/VMap.hpp>
 #include <SFML-utils/map/VMapLoader.hpp>
-#include <SFML-utils/map/VTile.hpp>
+#include <SFML-utils/map/Tile.hpp>

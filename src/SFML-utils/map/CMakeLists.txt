@@ -16,7 +16,7 @@ set(FILES_HEADER
     #${INCROOT}/Tile.tpl
     ${INCROOT}/VLayer.hpp
     ${INCROOT}/VMapLoader.hpp
-    ${INCROOT}/VTile.hpp
+    ${INCROOT}/Tile.hpp
 
 
     ${INCROOT}/es/Components.hpp
@@ -42,7 +42,7 @@ set(FILES_SRC
     ${SRCROOT}/MapViewer.cpp
     ${SRCROOT}/VLayer.cpp
     ${SRCROOT}/VMapLoader.cpp
-    ${SRCROOT}/VTile.cpp
+    ${SRCROOT}/Tile.cpp
 
     ${SRCROOT}/es/Entity.cpp
     ${SRCROOT}/es/Systems.cpp

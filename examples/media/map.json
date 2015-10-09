@@ -4,7 +4,7 @@
         "name" : "test",
         "tile" :
         {
-            "geometry" :"HexaIso",
+            "geometry" :"SquareIsoStaggered",
             "size" : 50.0
         },
         "area" :

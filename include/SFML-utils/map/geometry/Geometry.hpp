@@ -8,7 +8,7 @@ namespace sfutils
 {
     namespace map
     {
-        class VTile;
+        class Tile;
         class VLayer;
     }
 

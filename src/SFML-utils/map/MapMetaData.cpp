@@ -1,7 +1,7 @@
 #include <SFML-utils/map/MapMetaData.hpp>
 #include <SFML-utils/map/Map.hpp>
 
-#include <SFML-utils/map/VTile.hpp>
+#include <SFML-utils/map/Tile.hpp>
 #include <SFML-utils/map/Layer.hpp>
 
 #include <SFML-utils/map/es/Components.hpp>
@@ -46,11 +46,11 @@ namespace sfutils
                 for(int x = _rect.left; x< _rect.left + _rect.width && x < size.x; ++x)
                 {
                     sf::Vector2i pos(areaCoord.x + x,areaCoord.y + y);
-                    VTile tmp(map->getGeometry(),pos);
+                    Tile tmp(map->getGeometry(),pos);
                     tmp.setTexture(&tex);
                     tmp.setTextureRect(map->getGeometry().getTextureRect(pos));
 
-                    VTile* tile = dynamic_cast<Layer<VTile>*>(layer)->add(std::move(tmp));
+                    Tile* tile = dynamic_cast<Layer<Tile>*>(layer)->add(std::move(tmp));
 
                     if(not tile)
                         return false;
@@ -236,7 +236,7 @@ namespace sfutils
             {
                 if(_type == "tile")
                 {
-                    layer = new Layer<VTile>(_type,_z,_static);
+                    layer = new Layer<Tile>(_type,_z,_static);
                 }
                 else if(_type == "sprite")
                 {

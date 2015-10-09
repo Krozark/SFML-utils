@@ -1,11 +1,11 @@
-#include <SFML-utils/map/VTile.hpp>
+#include <SFML-utils/map/Tile.hpp>
 #include <SFML-utils/map/geometry/Geometry.hpp>
 
 namespace sfutils
 {
     namespace map
     {
-        VTile::VTile(const geometry::Geometry& geometry,const sf::Vector2i& pos)
+        Tile::Tile(const geometry::Geometry& geometry,const sf::Vector2i& pos)
         {
             _shape = geometry.getShape();
 
@@ -16,51 +16,51 @@ namespace sfutils
             _shape.setPosition(p);
         }
 
-        VTile::~VTile()
+        Tile::~Tile()
         {
         }
 
-        void VTile::setFillColor(const sf::Color& color)
+        void Tile::setFillColor(const sf::Color& color)
         {
             _shape.setFillColor(color);
         }
 
-        void VTile::setPosition(float x,float y)
+        void Tile::setPosition(float x,float y)
         {
             _shape.setPosition(x,y);
         }
 
-        void VTile::setPosition(const sf::Vector2f& pos)
+        void Tile::setPosition(const sf::Vector2f& pos)
         {
             _shape.setPosition(pos);
         }
 
-        sf::Vector2f VTile::getPosition()const
+        sf::Vector2f Tile::getPosition()const
         {
             return _shape.getPosition();
         }
 
-        void VTile::setTexture(const sf::Texture *texture,bool resetRect)
+        void Tile::setTexture(const sf::Texture *texture,bool resetRect)
         {
             _shape.setTexture(texture,resetRect);
         }
 
-        void VTile::setTextureRect(const sf::IntRect& rect)
+        void Tile::setTextureRect(const sf::IntRect& rect)
         {
             _shape.setTextureRect(rect);
         }
 
-        sf::FloatRect VTile::getGlobalBounds()const
+        sf::FloatRect Tile::getGlobalBounds()const
         {
             return _shape.getGlobalBounds();
         }
 
-        sf::FloatRect VTile::getLocalBounds()const
+        sf::FloatRect Tile::getLocalBounds()const
         {
             return _shape.getLocalBounds();
         }
         
-        void VTile::draw(sf::RenderTarget& target, sf::RenderStates states) const
+        void Tile::draw(sf::RenderTarget& target, sf::RenderStates states) const
         {
             target.draw(_shape,states);
         }
