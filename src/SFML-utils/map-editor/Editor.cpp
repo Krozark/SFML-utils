@@ -19,6 +19,10 @@ namespace sfutils
 
             _map = _mapManager.getMap();
             _mapViewer.setMap(_map);
+
+            _highlight = _map->getGeometry().getShape();
+            _highlight.setFillColor(sf::Color(0,255,0,127));
+
             _mapManager.loadArea(1,0);
             _mapManager.loadArea(0,0);
             _mapManager.loadArea(-1,-1);
@@ -54,9 +58,16 @@ namespace sfutils
                 }
                 else if(not _gui.processEvent(event) and not _mapViewer.processEvent(event))
                 {
-                }                
+                }
+
             }
             _mapViewer.processEvents();
+
+            {
+                sf::Vector2i coord = _mapViewer.mapScreenToCoords(sf::Mouse::getPosition(_window));
+                sf::Vector2i pixels = _mapViewer.mapCoordsToScreen(coord);
+                _highlight.setPosition(pixels.x,pixels.y);
+            }
         }
 
         void Editor::_update()
@@ -74,6 +85,7 @@ namespace sfutils
             _window.clear();
 
             _mapViewer.draw();
+            _window.draw(_highlight);
 
             _gui.render(_window);
             

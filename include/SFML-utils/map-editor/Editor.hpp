@@ -32,6 +32,8 @@ namespace sfutils
                 sfutils::map::MapManager _mapManager;
                 sfutils::map::MapViewer _mapViewer;
 
+                sf::ConvexShape _highlight;
+
                 void _processEvents();
                 void _update();
                 void _render();
