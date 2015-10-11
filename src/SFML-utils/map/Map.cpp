@@ -8,6 +8,7 @@
 
 
 #include <algorithm>
+#include <cmath>
 
 namespace sfutils
 {
@@ -101,6 +102,17 @@ namespace sfutils
         const ::sfutils::geometry::Geometry& Map::getGeometry() const
         {
             return *_geometry;
+        }
+
+        sf::Vector2i Map::mapPixelToArea(const sf::Vector2f& pixels) const
+        {
+            return mapCoordsToArea(_geometry->mapPixelToCoords(pixels));
+        }
+
+        sf::Vector2i Map::mapCoordsToArea(const sf::Vector2i& coords) const
+        {
+            return sf::Vector2i(std::floor(coords.x / float(_areaSize.x)),
+                                std::floor(coords.y / float(_areaSize.y)));
         }
 
 

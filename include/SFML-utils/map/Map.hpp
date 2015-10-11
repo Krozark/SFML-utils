@@ -47,6 +47,10 @@ namespace sfutils
 
                 const ::sfutils::geometry::Geometry& getGeometry() const;
 
+                sf::Vector2i mapPixelToArea(const sf::Vector2f& pixels) const;
+                sf::Vector2i mapCoordsToArea(const sf::Vector2i& coords) const;
+
+
                 void draw(sf::RenderTarget& target, sf::RenderStates states,const sf::FloatRect& viewport) const;
 
             private:

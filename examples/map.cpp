@@ -90,7 +90,9 @@ int main(int argc,char* argv[])
                 if(event.type == sf::Event::MouseButtonReleased and event.mouseButton.button == sf::Mouse::Button::Left)
                 {
                     sf::Vector2i coord = viewer.mapScreenToCoords(sf::Vector2i(event.mouseButton.x,event.mouseButton.y));
+                    sf::Vector2i area =  map->mapCoordsToArea(coord);
                     std::cout<<"Click on: "<<coord.x<<":"<<coord.y<<std::endl;
+                    std::cout<<"Area : "<<area.x<<":"<<area.y<<std::endl;
                     std::cout<<"Distance between "<<coord.x<<":"<<coord.y<<" and "<<last.x<<":"<<last.y<<" = "<<map->getGeometry().distance(coord,last)<<std::endl;
                     last = coord;
 
