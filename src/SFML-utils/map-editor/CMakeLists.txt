@@ -3,10 +3,12 @@ set(SRCROOT ${SRCROOT}/map-editor)
 
 set(FILES_HEADER
     ${INCROOT}/Editor.hpp
+    ${INCROOT}/Gui.hpp
 )
 
 set(FILES_SRC
     ${SRCROOT}/Editor.cpp
+    ${SRCROOT}/Gui.cpp
 )
 
 

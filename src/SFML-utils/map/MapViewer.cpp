@@ -13,11 +13,17 @@ namespace sfutils
             return value < min ? min : (value > max ? max : value);
         }
 
-        MapViewer::MapViewer(sf::RenderWindow& window,Map& map,bool bindDefault) : MapViewer(window,map,sfutils::map::Configuration::defaultMapInputs,bindDefault)
+        MapViewer::MapViewer(sf::RenderWindow& window,Map* map,bool bindDefault) :
+            MapViewer(window,map,sfutils::map::Configuration::defaultMapInputs,bindDefault)
         {
         }
         
-        MapViewer::MapViewer(sf::RenderWindow& window,Map& map,const ActionMap<int>& action_map,bool bindDefault) : ActionTarget(action_map),_map(map), _zoom(1), _movementSpeed(25), _window(window)
+        MapViewer::MapViewer(sf::RenderWindow& window,Map* map,const ActionMap<int>& action_map,bool bindDefault) : 
+            ActionTarget(action_map),
+            _map(map),
+            _zoom(1),
+            _movementSpeed(25),
+            _window(window)
         {
 
             if(bindDefault)
@@ -104,16 +110,19 @@ namespace sfutils
 
         void MapViewer::update(const sf::Time& deltaTime)
         {
-            if(_move.x or _move.y)
+            if(_map)
             {
-                float delta = _map.getGeometry().getScale()*_movementSpeed * deltaTime.asSeconds();;
-                move(_move.x * delta,
-                     _move.y * delta);
-            }
-            _move.x = 0;
-            _move.y = 0;
+                if(_move.x or _move.y)
+                {
+                    float delta = _map->getGeometry().getScale()*_movementSpeed * deltaTime.asSeconds();;
+                    move(_move.x * delta,
+                         _move.y * delta);
+                }
+                _move.x = 0;
+                _move.y = 0;
 
-            _map.update(deltaTime);
+                _map->update(deltaTime);
+            }
 
         }
         void MapViewer::setSpeed(float speed)
@@ -128,34 +137,59 @@ namespace sfutils
 
         sf::Vector2i MapViewer::mapScreenToCoords(const sf::Vector2i& pos)const
         {
-            sf::Vector2f p = _window.mapPixelToCoords(pos,_view); 
-            return _map.getGeometry().mapPixelToCoords(p);
+            if(_map)
+            {
+                sf::Vector2f p = _window.mapPixelToCoords(pos,_view); 
+                return _map->getGeometry().mapPixelToCoords(p);
+            }
+            return {0,0};
         }
 
         sf::Vector2i MapViewer::mapCoordsToScreen(const sf::Vector2i& pos) const
         {
-            sf::Vector2f p = _map.getGeometry().mapCoordsToPixel(pos);
-            return _window.mapCoordsToPixel(p,_view);
+            if(_map)
+            {
+                sf::Vector2f p = _map->getGeometry().mapCoordsToPixel(pos);
+                return _window.mapCoordsToPixel(p,_view);
+            }
+            return {0,0};
         }
 
         sf::Vector2i MapViewer::mapPixelToCoords(const sf::Vector2f& pos) const
         {
-            return _map.getGeometry().mapPixelToCoords(pos);
+            if(_map)
+            {
+                return _map->getGeometry().mapPixelToCoords(pos);
+            }
+            return {0,0};
         }
 
         sf::Vector2f MapViewer::mapCoordsToPixel(const sf::Vector2i& pos) const
         {
-            return _map.getGeometry().mapCoordsToPixel(pos);
+            return _map->getGeometry().mapCoordsToPixel(pos);
+        }
+
+        void MapViewer::setMap(Map* map)
+        {
+            _map = map;
+        }
+
+        Map* MapViewer::getMap()const
+        {
+            return _map;
         }
 
         void MapViewer::draw(sf::RenderTarget& target, sf::RenderStates states) const
         {
-            sf::View view = target.getView();
-            target.setView(_view);
+            if(_map)
+            {
+                sf::View view = target.getView();
+                target.setView(_view);
 
-            _map.draw(target,states,sf::FloatRect(target.mapPixelToCoords(sf::Vector2i(0,0),_view),
-                                                  _view.getSize()));
-            target.setView(view);
+                _map->draw(target,states,sf::FloatRect(target.mapPixelToCoords(sf::Vector2i(0,0),_view),
+                                                      _view.getSize()));
+                target.setView(view);
+            }
         }
     }
 }

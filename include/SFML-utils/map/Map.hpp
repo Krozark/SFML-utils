@@ -47,6 +47,8 @@ namespace sfutils
 
                 const ::sfutils::geometry::Geometry& getGeometry() const;
 
+                void draw(sf::RenderTarget& target, sf::RenderStates states,const sf::FloatRect& viewport) const;
+
             private:
                 ::sfutils::geometry::Geometry* _geometry;
                 sf::Vector2i _areaSize;
@@ -54,9 +56,6 @@ namespace sfutils
                 void sortLayers();
                 void _clear();
                 
-                friend class MapViewer;
-
-                void draw(sf::RenderTarget& target, sf::RenderStates states,const sf::FloatRect& viewport) const;
 
                 std::vector<VLayer*> _layers;
                 std::vector<Layer<Entity*>*> _entityLayers;

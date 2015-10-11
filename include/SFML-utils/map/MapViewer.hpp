@@ -16,8 +16,8 @@ namespace sfutils
                 MapViewer(const MapViewer&) = delete;
                 MapViewer& operator=(const MapViewer&) = delete;
 
-                MapViewer(sf::RenderWindow& window,Map& map,bool bindDefault = true);
-                MapViewer(sf::RenderWindow& window,Map& map,const ActionMap<int>& action_map,bool bindDefault = true);
+                MapViewer(sf::RenderWindow& window,Map* map=nullptr,bool bindDefault = true);
+                MapViewer(sf::RenderWindow& window,Map* map,const ActionMap<int>& action_map,bool bindDefault = true);
                 
                 using ActionTarget::bind;
                 using ActionTarget::unbind;
@@ -53,10 +53,13 @@ namespace sfutils
                 sf::Vector2i mapPixelToCoords(const sf::Vector2f& pos) const;
                 
                 sf::Vector2f mapCoordsToPixel(const sf::Vector2i& pos) const;
+                
+                void setMap(Map* map);
+                Map* getMap()const;
 
 
             private:
-                Map& _map;
+                Map* _map;
                 sf::View _view;
                 float _zoom;
                 

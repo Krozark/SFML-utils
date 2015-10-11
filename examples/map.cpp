@@ -25,7 +25,7 @@ int main(int argc,char* argv[])
     mapManager.loadArea(-1,0);
     mapManager.loadArea(0,-1);
 
-    sfutils::map::MapViewer viewer(window,*map);
+    sfutils::map::MapViewer viewer(window,map);
 
     sfutils::map::Layer<sf::ConvexShape>* mouse_layer = new sfutils::map::Layer<sf::ConvexShape>("ConvexShape",1);
 
