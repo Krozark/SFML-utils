@@ -46,6 +46,13 @@ namespace sfutils
             target.popGLStates();
         }
 
+        void Gui::setMainInfo(const std::string& text)
+        {
+
+            CEGUI::Window* txt = _root->getChild("MenuBar/Coordonates");
+            txt->setText(text);
+        }
+
         ////////////////////// PRIVATE ///////////////////
 
         //Menu

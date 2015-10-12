@@ -27,6 +27,8 @@ namespace sfutils
                 void update(const sf::Time& deltaTime);
                 void render(sf::RenderTarget& target);
 
+                void setMainInfo(const std::string& text);
+
             private:
                 CEGUI::Window* _root;
 
