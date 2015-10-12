@@ -29,20 +29,28 @@ namespace sfutils
     }
 
     template<typename T>
-    void ActionTarget<T>::processEvents()const
+    bool ActionTarget<T>::processEvents()const
     {
+        bool res = false;
         for(auto& pair : _eventsRealTimeAction)
         {
             if(pair.first.test())
+            {
                 pair.second(pair.first._event);
+                res = true;
+            }
         }
         
         for(auto& pair : _eventsRealTime)
         {
             const Action& action = _actionMap.get(pair.first);
             if(action.test())
+            {
+                res = true;
                 pair.second(action._event);
+            }
         }
+        return res;
     }
 
     template<typename T>

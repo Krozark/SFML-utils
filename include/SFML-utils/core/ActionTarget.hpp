@@ -21,7 +21,7 @@ namespace sfutils
             ActionTarget(const ActionMap<T>& map);
 
             bool processEvent(const sf::Event& event)const;
-            void processEvents()const;
+            bool processEvents()const;
 
             void bind(const T& key,const FuncType& callback);
             void bind(const Action& action,const FuncType& callback);
