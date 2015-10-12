@@ -26,6 +26,7 @@ namespace sfutils
             private:
                 sf::RenderWindow _window;
                 sf::Clock _clock;
+
                 Gui _gui;
 
                 sfutils::map::Map* _map;
@@ -33,10 +34,17 @@ namespace sfutils
                 sfutils::map::MapViewer _mapViewer;
 
                 sf::ConvexShape _highlight;
+                sf::IntRect _lastVisibleRect;
 
                 void _processEvents();
                 void _update();
                 void _render();
+
+                void _loadVisiblesAreas(const sf::IntRect& rect);
+                sf::IntRect _getVisibleAreaRect()const;
+
+                std::IntRect _selectionRect;
+                std::vector<sf::ConvexShape> _selectionHighlight;
 
         };
     }

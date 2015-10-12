@@ -1,7 +1,8 @@
 #include <SFML-utils/map-editor/Editor.hpp>
 
+#include <utils/maths.hpp>
+
 #include <cassert>
-#include <iostream>
 
 namespace sfutils
 {
@@ -23,11 +24,14 @@ namespace sfutils
             _highlight = _map->getGeometry().getShape();
             _highlight.setFillColor(sf::Color(0,255,0,127));
 
-            _mapManager.loadArea(1,0);
+            /*_mapManager.loadArea(1,0);
             _mapManager.loadArea(0,0);
             _mapManager.loadArea(-1,-1);
             _mapManager.loadArea(-1,0);
-            _mapManager.loadArea(0,-1);
+            _mapManager.loadArea(0,-1);*/
+
+            sf::IntRect rect = _getVisibleAreaRect(); 
+            _loadVisiblesAreas(rect);
 
         }
 
@@ -50,29 +54,59 @@ namespace sfutils
         void Editor::_processEvents()
         {
             sf::Event event;
+
+            bool reloadAreas = false;
+
             while(_window.pollEvent(event))
             {
                 if(event.type == sf::Event::Closed ) 
                 {
                     _window.close();
                 }
-                else if(not _gui.processEvent(event) and not _mapViewer.processEvent(event))
+                else if(_gui.processEvent(event))
                 {
+                }
+                else if(_mapViewer.processEvent(event))
+                {
+                    reloadAreas = true;
+                    
+                }
+                else if(event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::F5)
+                {
+                    sf::IntRect rect = _getVisibleAreaRect(); 
+                    _mapManager.clear();
+                    _loadVisiblesAreas(rect);
                 }
 
             }
-            _mapViewer.processEvents();
+            
+            reloadAreas |= _mapViewer.processEvents();
+
+            if(reloadAreas)
+            {
+                sf::IntRect rect = _getVisibleAreaRect(); 
+                if(_lastVisibleRect != rect)
+                {
+                    _loadVisiblesAreas(rect);
+                }
+            }
 
             {
                 sf::Vector2i coord = _mapViewer.mapScreenToCoords(sf::Mouse::getPosition(_window));
                 sf::Vector2i pixels = _mapViewer.mapCoordsToScreen(coord);
                 _highlight.setPosition(pixels.x,pixels.y);
+
+                sf::Vector2i area = _map->mapCoordsToArea(coord);
+
+                _gui.setMainInfo("(" + std::to_string(coord.x) + ":" + std::to_string(coord.y)
+                                    + "),(" + std::to_string(area.x) + ":" + std::to_string(area.y) + ")");
             }
         }
 
         void Editor::_update()
         {
             sf::Time deltaTime = _clock.restart();
+
             _gui.update(deltaTime);
 
             _mapViewer.update(deltaTime);
@@ -92,6 +126,46 @@ namespace sfutils
             _window.display();
         }
 
+        void Editor::_loadVisiblesAreas(const sf::IntRect& rect)
+        {
+            _mapManager.removeIf([&rect](int x, int y){
+                return not rect.contains(x,y);
+            });
+            
+            for(int x = rect.left; x<= rect.width;++x)
+            {
+                for(int y = rect.top; y<= rect.height; ++y)
+                {
+                    _mapManager.loadArea(x,y);
+                }
+            }
+            _lastVisibleRectRect = rect;
 
+        }
+
+        sf::IntRect Editor::_getVisibleAreaRect()const
+        {
+            sf::Vector2u ws = _window.getSize();
+
+            sf::Vector2i top_left_coord = _mapViewer.mapScreenToCoords(sf::Vector2i(0,0));
+            top_left_coord = _map->mapCoordsToArea(top_left_coord);
+
+            sf::Vector2i top_right_coord = _mapViewer.mapScreenToCoords(sf::Vector2i(ws.x,0));
+            top_right_coord = _map->mapCoordsToArea(top_right_coord);
+
+            sf::Vector2i bottom_right_coord = _mapViewer.mapScreenToCoords(sf::Vector2i(ws.x,ws.y));
+            bottom_right_coord = _map->mapCoordsToArea(bottom_right_coord);
+
+            sf::Vector2i bottom_left_coord = _mapViewer.mapScreenToCoords(sf::Vector2i(0,ws.y));
+            bottom_left_coord = _map->mapCoordsToArea(bottom_left_coord);
+
+            sf::Vector2i min(utils::maths::min(top_left_coord.x,top_right_coord.x,bottom_right_coord.x,bottom_left_coord.x),
+                             utils::maths::min(top_left_coord.y,top_right_coord.y,bottom_right_coord.y,bottom_left_coord.y));
+
+            sf::Vector2i max(utils::maths::max(top_left_coord.x,top_right_coord.x,bottom_right_coord.x,bottom_left_coord.x),
+                             utils::maths::max(top_left_coord.y,top_right_coord.y,bottom_right_coord.y,bottom_left_coord.y));
+
+            return sf::IntRect(min.x,min.y,max.x,max.y);
+        }
     }
 }

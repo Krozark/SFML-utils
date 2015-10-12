@@ -37,19 +37,19 @@ namespace sfutils
         {
 
             bind(Configuration::MapInputs::InputViewMoveUp,[this](const sf::Event& event){
-                    _move.y =clamp<int>(_move.y-1,-1,1);
+                    _move.y -=1;
             });
 
             bind(Configuration::MapInputs::InputViewMoveDown,[this](const sf::Event& event){
-                    _move.y = clamp<int>(_move.y+1,-1,1);
+                    _move.y += 1;
             });
 
             bind(Configuration::MapInputs::InputViewMoveLeft,[this](const sf::Event& event){
-                    _move.x = clamp<int>(_move.x-1,-1,1);
+                    _move.x -= 1;
             });
 
             bind(Configuration::MapInputs::InputViewMoveRight,[this](const sf::Event& event){
-                    _move.x = clamp<int>(_move.x+1,-1,1);
+                    _move.x += 1;
             });
 
             bind(Configuration::MapInputs::InputViewZoomIn,[this](const sf::Event& event){
@@ -112,6 +112,8 @@ namespace sfutils
         {
             if(_map)
             {
+                _move.y =clamp<int>(_move.y,-1,1);
+                _move.x =clamp<int>(_move.x,-1,1);
                 if(_move.x or _move.y)
                 {
                     float delta = _map->getGeometry().getScale()*_movementSpeed * deltaTime.asSeconds();;
