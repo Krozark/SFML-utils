@@ -2,6 +2,7 @@
 #define SFUTILS_MAP_MAPMANAGER_HPP
 
 #include <memory>
+#include <functional>
 #include <unordered_map>
 #include <utility>
 
@@ -26,6 +27,9 @@ namespace sfutils
 
                 bool loadArea(int x,int y);
                 bool unloadArea(int x,int y);
+
+                void removeIf(const std::function<bool(int x,int y)>& criterion);
+                void clear();
 
             private:
                 std::shared_ptr<VMapLoader> _mapLoader;

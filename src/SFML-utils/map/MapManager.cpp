@@ -62,5 +62,31 @@ namespace sfutils
             _areas.erase(find);
             return true;
         }
+
+        void MapManager::removeIf(const std::function<bool(int x,int y)>& criterion)
+        {
+            auto it = _areas.begin();
+            while(it != _areas.end())
+            {
+                if(criterion(it->first.first,it->first.second))
+                {
+                    it->second->removeFromMap(_map.get());
+                    it = _areas.erase(it);
+                }
+                else
+                {
+                    ++it;
+                }
+            }
+        }
+
+        void MapManager::clear()
+        {
+            for(auto& p : _areas)
+            {
+                p.second->removeFromMap(_map.get());
+            }
+            _areas.clear();
+        }
     }
 }
