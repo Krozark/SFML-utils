@@ -15,18 +15,14 @@ namespace sfutils
 
         sf::Vector2f GeometrySquare::mapCoordsToPixel(const sf::Vector2i& coord) const
         {
-            const float sh = _scale * _height;
-            const float sw = _scale * _width;
-
-            return sf::Vector2f(coord.x*sw,coord.y*sh);
+            return sf::Vector2f(coord.x * _scale * _width,
+                                coord.y * _scale * _height);
         }
 
         sf::Vector2i GeometrySquare::mapPixelToCoords(const sf::Vector2f& pos) const
         {
-            const float sh = _scale / _height;
-            const float sw = _scale / _width;
-
-            return round(sf::Vector2f(pos.x/sw,pos.y/sh));
+            return round(sf::Vector2f(pos.x/_scale / _width,
+                                pos.y/_scale / _height));
         }
-    }
+   }
 }

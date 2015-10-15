@@ -76,7 +76,7 @@ namespace sfutils
         ///////////////////// GeometrySquareBase //////////////////
         
         GeometrySquareBase::GeometrySquareBase(float scale) : 
-            _GeometrySquareBase_helper(scale,2,2)
+            _GeometrySquareBase_helper(scale,1.5,1.5)
         {
             _shape.setPointCount(4);
 

@@ -7,7 +7,7 @@ namespace sfutils
     {
         const float SQRT_3_2 = sqrt(3)/2.0;
 
-        const float HEIGHT = 2;
+        const float HEIGHT = 1.7;
         const float WIDTH = HEIGHT * SQRT_3_2;
         const float DELTA_X = WIDTH;
         const float DELTA_Y = HEIGHT*3.0/4.0;
