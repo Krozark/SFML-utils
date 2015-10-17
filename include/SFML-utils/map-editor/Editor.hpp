@@ -33,7 +33,7 @@ namespace sfutils
                 sfutils::map::MapManager _mapManager;
                 sfutils::map::MapViewer _mapViewer;
 
-                sf::ConvexShape _highlight;
+                sf::ConvexShape* _highlight;
                 sf::IntRect _lastVisibleRect;
 
                 void _processEvents();
@@ -43,7 +43,7 @@ namespace sfutils
                 void _loadVisiblesAreas(const sf::IntRect& rect);
                 sf::IntRect _getVisibleAreaRect()const;
 
-                std::IntRect _selectionRect;
+                sf::IntRect _selectionRect;
                 std::vector<sf::ConvexShape> _selectionHighlight;
 
         };

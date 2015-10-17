@@ -3,6 +3,7 @@
 #include <utils/maths.hpp>
 
 #include <cassert>
+#include <iostream>
 
 namespace sfutils
 {
@@ -21,14 +22,12 @@ namespace sfutils
             _map = _mapManager.getMap();
             _mapViewer.setMap(_map);
 
-            _highlight = _map->getGeometry().getShape();
-            _highlight.setFillColor(sf::Color(0,255,0,127));
+            sfutils::map::Layer<sf::ConvexShape>* mouse_layer = new sfutils::map::Layer<sf::ConvexShape>("ConvexShape",100);
 
-            /*_mapManager.loadArea(1,0);
-            _mapManager.loadArea(0,0);
-            _mapManager.loadArea(-1,-1);
-            _mapManager.loadArea(-1,0);
-            _mapManager.loadArea(0,-1);*/
+            _highlight = mouse_layer->add(_map->getGeometry().getShape());
+            _highlight->setFillColor(sf::Color(0,255,0,127));
+            _map->addLayer(mouse_layer);
+
 
             sf::IntRect rect = _getVisibleAreaRect(); 
             _loadVisiblesAreas(rect);
@@ -59,17 +58,20 @@ namespace sfutils
 
             while(_window.pollEvent(event))
             {
+                _gui.processEvent(event);
+
                 if(event.type == sf::Event::Closed ) 
                 {
                     _window.close();
-                }
-                else if(_gui.processEvent(event))
-                {
                 }
                 else if(_mapViewer.processEvent(event))
                 {
                     reloadAreas = true;
                     
+                }
+                else if(event.type == sf::Event::MouseButtonPressed and event.mouseButton.button == sf::Mouse::Button::Left)
+                {
+                    std::cout<<"Click on"<<std::endl;
                 }
                 else if(event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::F5)
                 {
@@ -93,8 +95,8 @@ namespace sfutils
 
             {
                 sf::Vector2i coord = _mapViewer.mapScreenToCoords(sf::Mouse::getPosition(_window));
-                sf::Vector2i pixels = _mapViewer.mapCoordsToScreen(coord);
-                _highlight.setPosition(pixels.x,pixels.y);
+                sf::Vector2f pixels = _mapViewer.mapCoordsToPixel(coord);
+                _highlight->setPosition(pixels);
 
                 sf::Vector2i area = _map->mapCoordsToArea(coord);
 
@@ -119,7 +121,6 @@ namespace sfutils
             _window.clear();
 
             _mapViewer.draw();
-            _window.draw(_highlight);
 
             _gui.render(_window);
             
@@ -139,7 +140,7 @@ namespace sfutils
                     _mapManager.loadArea(x,y);
                 }
             }
-            _lastVisibleRectRect = rect;
+            _lastVisibleRect = rect;
 
         }
 
