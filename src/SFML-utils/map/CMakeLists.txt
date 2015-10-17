@@ -17,19 +17,6 @@ set(FILES_HEADER
     ${INCROOT}/VLayer.hpp
     ${INCROOT}/VMapLoader.hpp
     ${INCROOT}/Tile.hpp
-
-
-    ${INCROOT}/es/Components.hpp
-    ${INCROOT}/es/Entity.hpp
-    ${INCROOT}/es/Systems.hpp
-
-    ${INCROOT}/geometry/Geometry.hpp
-    ${INCROOT}/geometry/GeometryHexa.hpp
-    ${INCROOT}/geometry/GeometryHexaIso.hpp
-    ${INCROOT}/geometry/GeometrySquare.hpp
-    ${INCROOT}/geometry/GeometrySquareIso.hpp
-    ${INCROOT}/geometry/GeometrySquareStaggered.hpp
-    ${INCROOT}/geometry/GeometrySquareIsoStaggered.hpp
 )
 
 set(FILES_SRC
@@ -43,18 +30,10 @@ set(FILES_SRC
     ${SRCROOT}/VLayer.cpp
     ${SRCROOT}/VMapLoader.cpp
     ${SRCROOT}/Tile.cpp
-
-    ${SRCROOT}/es/Entity.cpp
-    ${SRCROOT}/es/Systems.cpp
-
-    ${SRCROOT}/geometry/Geometry.cpp
-    ${SRCROOT}/geometry/GeometryHexaIso.cpp
-    ${SRCROOT}/geometry/GeometryHexa.cpp
-    ${SRCROOT}/geometry/GeometrySquare.cpp
-    ${SRCROOT}/geometry/GeometrySquareIso.cpp
-    ${SRCROOT}/geometry/GeometrySquareStaggered.cpp
-    ${SRCROOT}/geometry/GeometrySquareIsoStaggered.cpp
 )
+
+add_subdirectory(es)
+add_subdirectory(geometry)
 
 build_library(${PROJECT_NAME}-map
     SOURCES ${FILES_HEADER} ${FILES_SRC}
