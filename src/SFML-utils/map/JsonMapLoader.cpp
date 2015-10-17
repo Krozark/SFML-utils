@@ -84,33 +84,9 @@ namespace sfutils
 
 
             Map* res = nullptr;
-            geometry::Geometry* geo = nullptr;
+            geometry::Geometry* geo = geometry::Geometry::factory(tile_geometry,tile_size);
 
-            if(tile_geometry == "Hexa")
-            {
-                geo = new geometry::GeometryHexa(tile_size);
-            }
-            else if(tile_geometry == "HexaIso")
-            {
-                geo = new geometry::GeometryHexaIso(tile_size);
-            }
-            else if(tile_geometry == "Square")
-            {
-                geo = new geometry::GeometrySquare(tile_size);
-            }
-            else if(tile_geometry == "SquareIso")
-            {
-                geo = new geometry::GeometrySquareIso(tile_size);
-            }
-            else if(tile_geometry == "SquareStaggered")
-            {
-                geo = new geometry::GeometrySquareStaggered(tile_size);
-            }
-            else if(tile_geometry == "SquareIsoStaggered")
-            {
-                geo = new geometry::GeometrySquareIsoStaggered(tile_size);
-            }
-            else
+            if(geo == nullptr)
             {
                 std::cerr<<"Unknown geometry '"<<tile_geometry<<"'"<<std::endl;
                 return nullptr;

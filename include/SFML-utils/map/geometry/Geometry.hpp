@@ -23,8 +23,11 @@ namespace sfutils
                 Geometry(float scale,float width, float height);
                 virtual ~Geometry();
 
+                static Geometry* factory(const std::string& name,int scale); //< factory
+
                 const sf::ConvexShape& getShape() const;
                 float getScale()const;
+
 
                 virtual sf::Vector2f mapCoordsToPixel(const sf::Vector2i& coord) const = 0;
                 virtual sf::Vector2i mapPixelToCoords(const sf::Vector2f& pos) const = 0;

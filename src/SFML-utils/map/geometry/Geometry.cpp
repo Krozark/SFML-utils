@@ -1,5 +1,12 @@
 #include <SFML-utils/map/geometry/Geometry.hpp>
 
+#include <SFML-utils/map/geometry/GeometrySquare.hpp>
+#include <SFML-utils/map/geometry/GeometrySquareIso.hpp>
+#include <SFML-utils/map/geometry/GeometrySquareIsoStaggered.hpp>
+#include <SFML-utils/map/geometry/GeometrySquareStaggered.hpp>
+#include <SFML-utils/map/geometry/GeometryHexa.hpp>
+#include <SFML-utils/map/geometry/GeometryHexaIso.hpp>
+
 namespace sfutils
 {
     namespace geometry
@@ -13,6 +20,38 @@ namespace sfutils
 
         Geometry::~Geometry()
         {
+        }
+
+        Geometry* Geometry::factory(const std::string& name,int scale)
+        {
+            Geometry* geo = nullptr;
+
+            if(name == "Hexa")
+            {
+                geo = new GeometryHexa(scale);
+            }
+            else if(name == "HexaIso")
+            {
+                geo = new GeometryHexaIso(scale);
+            }
+            else if(name == "Square")
+            {
+                geo = new GeometrySquare(scale);
+            }
+            else if(name == "SquareIso")
+            {
+                geo = new GeometrySquareIso(scale);
+            }
+            else if(name == "SquareStaggered")
+            {
+                geo = new GeometrySquareStaggered(scale);
+            }
+            else if(name == "SquareIsoStaggered")
+            {
+                geo = new GeometrySquareIsoStaggered(scale);
+            }
+
+            return geo;
         }
 
         const sf::ConvexShape& Geometry::getShape() const
