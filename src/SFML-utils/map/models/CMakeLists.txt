@@ -8,6 +8,8 @@ list(APPEND FILES_HEADER
     ${INCROOT}/LayerTypeModel.hpp
     ${INCROOT}/MapModel.hpp
     ${INCROOT}/TileModel.hpp
+
+    ${INCROOT}/InitialData.hpp
 )
 
 list(APPEND FILES_SRC
@@ -16,6 +18,8 @@ list(APPEND FILES_SRC
     ${SRCROOT}/LayerTypeModel.cpp
     ${SRCROOT}/MapModel.cpp
     ${SRCROOT}/TileModel.cpp
+
+    ${SRCROOT}/InitialData.cpp
 )
 
 set(FILES_HEADER "${FILES_HEADER}" PARENT_SCOPE)
