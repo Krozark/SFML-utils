@@ -7,6 +7,12 @@
 
 #include <iostream>
 
+#ifdef SFML_UTILS_BUILD_MODULE_MAP_DATABASE
+#include <ORM/backends/Sqlite3.hpp>
+orm::Sqlite3DB def("./map.sqlite");
+orm::DB& orm::DB::Default = def;
+#endif
+
 enum Textures{
     Eye
 };

@@ -127,7 +127,7 @@ namespace sfutils
                 if(_componentsEntities[i] != nullptr)
                 {
                     for(size_t i = 0;i<_entitiesIndex.size();++i)
-                        _componentsEntities[i]->erase<VComponent<ENTITY>>(i);
+                        _componentsEntities[i]->template erase<VComponent<ENTITY>>(i);
                     delete _componentsEntities[i];
                 }
             }
@@ -288,7 +288,7 @@ namespace sfutils
             for(std::size_t i=0;i<comp_size;++i)
             {
                 if(_componentsEntities[i] != nullptr)
-                    _componentsEntities[i]->erase<VComponent<ENTITY>>(id);
+                    _componentsEntities[i]->template erase<VComponent<ENTITY>>(id);
             }
             _entitiesComponentsMask.at(id) = 0;
 

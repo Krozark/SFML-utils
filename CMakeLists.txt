@@ -30,6 +30,8 @@ set_option(SFML_UTILS_USE_SYSTEM_CPP_UTILS TRUE BOOL "Use cpp-utils from system,
 set_option(SFML_UTILS_BUILD_STATIC FALSE BOOL "Build as STATIC library")
 set_option(SFML_UTILS_BUILD_SHARED TRUE BOOL "Build as SHARED library")
 
+set_option(SFML_UTILS_BUILD_MODULE_MAP_DATABASE TRUE BOOL "TRUE the DATABSE support for the map system")
+
 ####################$ MODULES ########################
 
 set_option(SFML_UTILS_BUILD_MODULE_ENTITY_SYSTEM TRUE BOOL "TRUE to build the entity system")
@@ -118,6 +120,12 @@ else()
 	set(UTILS_LIBRARY utils-shared)
 	set(UTILS_JSON_LIBRARY utils-json-shared)
 	include_directories(extlibs/cpp-utils/include)
+endif()
+
+if(SFML_UTILS_BUILD_MODULE_MAP_DATABASE)
+    find_package(ORM REQUIRED)
+    include_directories(${ORM_INCLUDE_DIR})
+    add_definitions("-DSFML_UTILS_BUILD_MODULE_MAP_DATABASE")
 endif()
 
 

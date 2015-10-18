@@ -1,6 +1,10 @@
 set(INCROOT ${INCROOT}/map)
 set(SRCROOT ${SRCROOT}/map)
 
+if(SFML_UTILS_BUILD_MODULE_MAP_DATABASE)
+    set(LIBS ${LIBS} ${ORM_LIBRARY})
+endif()
+
 
 set(FILES_HEADER
     ${INCROOT}/Configuration.hpp
@@ -34,6 +38,10 @@ set(FILES_SRC
 
 add_subdirectory(es)
 add_subdirectory(geometry)
+
+if(SFML_UTILS_BUILD_MODULE_MAP_DATABASE)
+    add_subdirectory(models)
+endif()
 
 build_library(${PROJECT_NAME}-map
     SOURCES ${FILES_HEADER} ${FILES_SRC}
