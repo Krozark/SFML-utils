@@ -36,6 +36,16 @@ set(FILES_SRC
     ${SRCROOT}/Tile.cpp
 )
 
+if(SFML_UTILS_BUILD_MODULE_MAP_DATABASE)
+    list(APPEND FILES_HEADER
+        ${INCROOT}/DatabaseMapLoader.hpp
+    )
+    
+list(APPEND FILES_SRC
+        ${SRCROOT}/DatabaseMapLoader.cpp
+    )
+endif()
+
 add_subdirectory(es)
 add_subdirectory(geometry)
 

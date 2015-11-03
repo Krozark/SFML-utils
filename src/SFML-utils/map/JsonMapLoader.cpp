@@ -21,7 +21,7 @@ namespace sfutils
         {
         }
 
-        Map* JsonMapLoader::_createMap()
+        Map* JsonMapLoader::_loadMap()
         {
 
             std::unique_ptr<utils::json::Value> value(utils::json::Driver::parse_file(utils::string::join("/",_mapDir,"map.json")));
@@ -131,19 +131,26 @@ namespace sfutils
                     area_pos.y = area["position-y"].as_int();
 
                     if(area_pos.x != x or area_pos.y != y)
+                    {
                         continue;
+                    }
 
                     std::string name = area["name"].as_string();
                     utils::json::Array& layers = area["layers"].as_array();
                     res.reset(new MetaArea(area_pos,name));
 
                     for(utils::json::Value& json_layer : layers)
+                    {
                         if(not _parseLayer(map,json_layer.as_object(),res))
+                        {
                             return nullptr;
-                    break;
+                        }
+                    }
                 }
 
-            } catch(std::exception& e){
+            }
+            catch(std::exception& e)
+            {
                 std::cerr<<"Exception when parsing file '"<<_mapDir<<"/areas.json : "<<e.what()<<std::endl;
             };
 

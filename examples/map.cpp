@@ -9,6 +9,7 @@
 
 #ifdef SFML_UTILS_BUILD_MODULE_MAP_DATABASE
 #include <ORM/backends/Sqlite3.hpp>
+#include <SFML-utils/map/Models.hpp>
 orm::Sqlite3DB def("./map.sqlite");
 orm::DB& orm::DB::Default = def;
 #endif
@@ -21,6 +22,10 @@ int main(int argc,char* argv[])
 {
     sf::RenderWindow window(sf::VideoMode(1600,900),"Example Tile");
     window.setFramerateLimit(65);
+
+#ifdef SFML_UTILS_BUILD_MODULE_MAP_DATABASE
+    orm::DB::Default.connect();
+#endif
 
     sfutils::map::MapManager mapManager(std::shared_ptr<sfutils::map::VMapLoader>(new sfutils::map::JsonMapLoader("./media")));
 

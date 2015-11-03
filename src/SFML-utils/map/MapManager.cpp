@@ -15,7 +15,7 @@ namespace sfutils
 
         {
             assert(loader);
-            _map.reset(_mapLoader->_createMap());
+            _map.reset(_mapLoader->_loadMap());
             assert(_map.get());
         }
 

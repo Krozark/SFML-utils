@@ -11,6 +11,11 @@
 #include <SFML-utils/map/geometry/GeometrySquareStaggered.hpp>
 
 #include <SFML-utils/map/Configuration.hpp>
+
+#ifdef SFML_UTILS_BUILD_MODULE_MAP_DATABASE
+#include <SFML-utils/map/DatabaseMapLoader.hpp>
+#endif
+
 #include <SFML-utils/map/JsonMapLoader.hpp>
 #include <SFML-utils/map/JsonSpriteLoader.hpp>
 #include <SFML-utils/map/Layer.hpp>
@@ -18,8 +23,7 @@
 #include <SFML-utils/map/MapManager.hpp>
 #include <SFML-utils/map/MapMetaData.hpp>
 #include <SFML-utils/map/MapViewer.hpp>
-//#include <SFML-utils/map/Tile.hpp>
-#include <SFML-utils/map/VLayer.hpp>
-//#include <SFML-utils/map/VMap.hpp>
-#include <SFML-utils/map/VMapLoader.hpp>
 #include <SFML-utils/map/Tile.hpp>
+#include <SFML-utils/map/VLayer.hpp>
+#include <SFML-utils/map/VMapLoader.hpp>
+

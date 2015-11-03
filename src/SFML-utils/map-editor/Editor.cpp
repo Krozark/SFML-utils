@@ -5,11 +5,14 @@
 #include <cassert>
 #include <iostream>
 
-#ifdef SFML_UTILS_BUILD_MODULE_MAP_DATABASE
+#include <ORM/all.hpp>
 #include <ORM/backends/Sqlite3.hpp>
+
+#include <SFML-utils/map/DatabaseMapLoader.hpp>
+
 orm::Sqlite3DB def("./db.sqlite");
 orm::DB& orm::DB::Default = def;
-#endif
+
 
 namespace sfutils
 {
@@ -19,24 +22,22 @@ namespace sfutils
             _window(sf::VideoMode(1600,900),"SFML-utils map editor"),
             _gui(_window.getSize()),
             _map(nullptr),
-            _mapManager(std::shared_ptr<sfutils::map::VMapLoader>(new sfutils::map::JsonMapLoader("./media"))),
             _mapViewer(_window)
         {
+
             _window.setFramerateLimit(65);
             _window.setMouseCursorVisible(false);
 
-            _map = _mapManager.getMap();
-            _mapViewer.setMap(_map);
+            {
+                orm::DB::Default.connect();
+                orm::Tables::create();
+                sfutils::map::loadInitialData();
+            }
 
-            sfutils::map::Layer<sf::ConvexShape>* mouse_layer = new sfutils::map::Layer<sf::ConvexShape>("ConvexShape",100);
+            sfutils::map::MapModel::type_ptr def = sfutils::map::MapModel::get(1);
 
-            _highlight = mouse_layer->add(_map->getGeometry().getShape());
-            _highlight->setFillColor(sf::Color(0,255,0,127));
-            _map->addLayer(mouse_layer);
+            _setMap(def);
 
-
-            sf::IntRect rect = _getVisibleAreaRect(); 
-            _loadVisiblesAreas(rect);
 
         }
 
@@ -46,6 +47,7 @@ namespace sfutils
 
         void Editor::run()
         {
+
             while(_window.isOpen())
             {
                 _processEvents();
@@ -82,7 +84,7 @@ namespace sfutils
                 else if(event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::F5)
                 {
                     sf::IntRect rect = _getVisibleAreaRect(); 
-                    _mapManager.clear();
+                    _mapManager->clear();
                     _loadVisiblesAreas(rect);
                 }
 
@@ -133,9 +135,26 @@ namespace sfutils
             _window.display();
         }
 
+        void Editor::_setMap(sfutils::map::MapModel::type_ptr& map)
+        {
+            _mapManager.reset(new sfutils::map::MapManager(std::shared_ptr<sfutils::map::VMapLoader>(new sfutils::map::DatabaseMapLoader(map))));
+
+            _map = _mapManager->getMap();
+            _mapViewer.setMap(_map);
+
+            sfutils::map::Layer<sf::ConvexShape>* mouse_layer = new sfutils::map::Layer<sf::ConvexShape>("ConvexShape",100);
+
+            _highlight = mouse_layer->add(_map->getGeometry().getShape());
+            _highlight->setFillColor(sf::Color(0,255,0,127));
+            _map->addLayer(mouse_layer);
+
+            sf::IntRect rect = _getVisibleAreaRect(); 
+            _loadVisiblesAreas(rect);
+        }
+
         void Editor::_loadVisiblesAreas(const sf::IntRect& rect)
         {
-            _mapManager.removeIf([&rect](int x, int y){
+            _mapManager->removeIf([&rect](int x, int y){
                 return not rect.contains(x,y);
             });
             
@@ -143,7 +162,7 @@ namespace sfutils
             {
                 for(int y = rect.top; y<= rect.height; ++y)
                 {
-                    _mapManager.loadArea(x,y);
+                    _mapManager->loadArea(x,y);
                 }
             }
             _lastVisibleRect = rect;

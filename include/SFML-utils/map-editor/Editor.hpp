@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 
 #include <SFML-utils/Map.hpp>
+#include <SFML-utils/map/Models.hpp>
 
 #include <SFML-utils/map-editor/Gui.hpp>
 
@@ -30,7 +31,7 @@ namespace sfutils
                 Gui _gui;
 
                 sfutils::map::Map* _map;
-                sfutils::map::MapManager _mapManager;
+                std::unique_ptr<sfutils::map::MapManager> _mapManager;
                 sfutils::map::MapViewer _mapViewer;
 
                 sf::ConvexShape* _highlight;
@@ -39,6 +40,8 @@ namespace sfutils
                 void _processEvents();
                 void _update();
                 void _render();
+
+                void _setMap(sfutils::map::MapModel::type_ptr& map);
 
                 void _loadVisiblesAreas(const sf::IntRect& rect);
                 sf::IntRect _getVisibleAreaRect()const;

@@ -32,7 +32,7 @@ namespace sfutils
 
             private:
                 virtual std::unique_ptr<MetaArea> _loadArea(int x,int y,Map* const map) override;
-                virtual Map* _createMap() override;
+                virtual Map* _loadMap() override;
 
         };
     }

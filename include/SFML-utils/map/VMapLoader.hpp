@@ -22,7 +22,7 @@ namespace sfutils
                 friend class MapManager;
 
                 virtual std::unique_ptr<MetaArea> _loadArea(int x,int y,Map* const map) = 0;
-                virtual Map* _createMap() = 0;
+                virtual Map* _loadMap() = 0;
 
 
         };
