@@ -3,8 +3,9 @@
 REGISTER_AND_CONSTRUCT_WITH_NAMESPACE(sfutils::map,LayerModel,"Layer",
                                       name,"name",
                                       zBuffer,"zBuffer",
-                                      type,"type",
-                                      isStatic,"isStatic")
+                                      isStatic,"isStatic",
+                                      type,"type_fk",
+                                      map,"map_fk")
 
 namespace sfutils
 {

@@ -5,6 +5,7 @@
 #include <ORM/models/SqlObject.hpp>
 
 #include <SFML-utils/map/models/LayerTypeModel.hpp>
+#include <SFML-utils/map/models/MapModel.hpp>
 
 namespace sfutils
 {
@@ -17,12 +18,11 @@ namespace sfutils
 
                 orm::CharField<255> name;
                 orm::IntegerField zBuffer;
-                orm::FK<LayerTypeModel> type;
                 orm::BooleanField isStatic;
+                orm::FK<LayerTypeModel> type;
+                orm::FK<MapModel> map;
 
-                MAKE_STATIC_COLUMN(name,zBuffer,type,isStatic);
-
-            protected:
+                MAKE_STATIC_COLUMN(name,zBuffer,isStatic,type,map);
 
             private:
         };

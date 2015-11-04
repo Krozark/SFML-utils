@@ -17,8 +17,6 @@ namespace sfutils
 
                 MAKE_STATIC_COLUMN(name);
 
-            protected:
-
             private:
         };
     }
