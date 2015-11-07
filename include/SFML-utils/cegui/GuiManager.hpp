@@ -2,6 +2,8 @@
 #define SFUTILS_CEGUI_GUIMANAGER_HPP
 
 #include <array>
+#include <list>
+#include <utility>
 
 #include <SFML/Graphics.hpp>
 
@@ -48,6 +50,9 @@ namespace sfutils
 
                 static CEGUI::OpenGLRenderer& getRenderer();
 
+                static CEGUI::GUIContext& createGUIContext();
+
+                static bool destroyGUIContext(CEGUI::GUIContext& context);
 
             protected:
 
@@ -60,6 +65,8 @@ namespace sfutils
 	            static KeyMap _keyMap;
 	            static MouseButtonMap _mouseButtonMap;
                 static CEGUI::OpenGLRenderer* _renderer;
+
+                static std::list<std::pair<CEGUI::RenderTarget*,CEGUI::GUIContext*>> _guiContexts;
 
                 static void _initMaps();
                 static void _initRenderer();

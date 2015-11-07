@@ -1,5 +1,7 @@
 #include <SFML-utils/cegui/GuiManager.hpp>
 
+#include <CEGUI/RendererModules/OpenGL/ViewportTarget.h>
+
 namespace sfutils
 {
     namespace cegui
@@ -96,11 +98,38 @@ namespace sfutils
             return *_renderer;
         }
 
+        CEGUI::GUIContext& GuiManager::createGUIContext()
+        {
+            CEGUI::RenderTarget* target = new CEGUI::OpenGLViewportTarget(getRenderer());
+            CEGUI::GUIContext* context = &CEGUI::System::getSingleton().createGUIContext(*target);
+
+            _guiContexts.emplace_back(std::make_pair(target,context));
+
+            return *context;
+            
+        }
+
+        bool GuiManager::destroyGUIContext(CEGUI::GUIContext& context)
+        {
+            for(auto it = _guiContexts.begin(); it != _guiContexts.end(); ++it)
+            {
+                if( it->second == &context)
+                {
+                    CEGUI::System::getSingleton().destroyGUIContext(context);
+                    delete it->first;
+                    _guiContexts.erase(it);
+                    return true;
+                }
+            }
+            return false;
+        }
+
         ///////////////// PRIVATE //////////////////
 
         GuiManager::KeyMap GuiManager::_keyMap;
         GuiManager::MouseButtonMap GuiManager::_mouseButtonMap;
         CEGUI::OpenGLRenderer* GuiManager::_renderer = nullptr;
+        std::list<std::pair<CEGUI::RenderTarget*,CEGUI::GUIContext*>> GuiManager::_guiContexts;
         
         GuiManager::GuiManager()
         {
