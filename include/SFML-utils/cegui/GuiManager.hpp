@@ -48,10 +48,19 @@ namespace sfutils
                  * */
                 static void render(CEGUI::GUIContext& context);
 
+                /**
+                 * \return the renderer use by CEGUI
+                 * */
                 static CEGUI::OpenGLRenderer& getRenderer();
 
+                /**
+                 * \brief create a new GUIContext with it's own view.
+                 * */
                 static CEGUI::GUIContext& createGUIContext();
 
+                /**
+                 * \brief destroy a context created with createGUIContext()
+                 * */
                 static bool destroyGUIContext(CEGUI::GUIContext& context);
 
             protected:
