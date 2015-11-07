@@ -9,32 +9,37 @@ namespace CEGUI
     class System;
     class Window;
     class Listbox;
+    class GUIContext;
 }
 
 namespace sfutils
 {
     namespace editor
     {
+        class Editor;
         class Gui
         {
             public:
                 Gui(const Gui&) = delete;
                 Gui& operator=(const Gui&) = delete;
 
-                Gui(const sf::Vector2u& size);
+                Gui(sf::RenderWindow& mainWindow,Editor& owner);
 
                 bool processEvent(const sf::Event& event);
                 void update(const sf::Time& deltaTime);
-                void render(sf::RenderTarget& target);
+                void render();
 
                 void setMainInfo(const std::string& text);
 
             private:
+                Editor& _owner;
+                sf::RenderWindow& _window;
                 CEGUI::Window* _root;
 
                 /*menu*/
                 void _registerMenuBarCallbacks();
                 ////file
+                bool _event_menuBar_file_new();
                 bool _event_menuBar_file_open();
                 bool _event_menuBar_file_save();
                 ////edit

@@ -13,18 +13,22 @@
                 <Property name="Text" value="File" />
                 <Property name="WantsMultiClickEvents" value="false" />
                 <Window type="GlossySerpentFHD/PopupMenu" name="Menu" >
-                    <Property name="Area" value="{{0,0},{0,40},{0,-961.333},{0,-585.778}}" />
-                    <Property name="MinSize" value="{{0,180},{0,130}}" />
+                    <Property name="Area" value="{{0,0},{0,40},{0,-960},{0,-915}}" />
+                    <Property name="MinSize" value="{{0,180},{0,185}}" />
                     <Property name="Visible" value="false" />
                     <Property name="ItemSpacing" value="2" />
                     <Property name="ClippedByParent" value="false" />
                     <Property name="AutoResizeEnabled" value="true" />
-                    <Window type="GlossySerpentFHD/Button32" name="Open" >
+                    <Window type="GlossySerpentFHD/Button32" name="New" >
                         <Property name="Area" value="{{0,5},{0,10},{0,170},{0,60}}" />
+                        <Property name="Text" value="New" />
+                    </Window>
+                    <Window type="GlossySerpentFHD/Button32" name="Open" >
+                        <Property name="Area" value="{{0,5},{0,65},{0,170},{0,115}}" />
                         <Property name="Text" value="Open" />
                     </Window>
                     <Window type="GlossySerpentFHD/Button32" name="Save" >
-                        <Property name="Area" value="{{0,5},{0,65},{0,170},{0,115}}" />
+                        <Property name="Area" value="{{0,5},{0,120},{0,170},{0,170}}" />
                         <Property name="Text" value="Save" />
                     </Window>
                 </Window>
@@ -35,7 +39,7 @@
                 <Property name="Text" value="Edit" />
                 <Property name="WantsMultiClickEvents" value="false" />
                 <Window type="GlossySerpentFHD/PopupMenu" name="Menu" >
-                    <Property name="Area" value="{{0,0},{0,40},{0,-781.333},{0,-585.778}}" />
+                    <Property name="Area" value="{{0,0},{0,40},{0,-780},{0,-585}}" />
                     <Property name="MinSize" value="{{0,150},{0,130}}" />
                     <Property name="Visible" value="false" />
                     <Property name="ItemSpacing" value="2" />
@@ -57,7 +61,7 @@
                 <Property name="Text" value="Map" />
                 <Property name="WantsMultiClickEvents" value="false" />
                 <Window type="GlossySerpentFHD/PopupMenu" name="Menu" >
-                    <Property name="Area" value="{{0,0},{0,40},{0,-781.333},{0,-915.778}}" />
+                    <Property name="Area" value="{{0,0},{0,40},{0,-780},{0,-915}}" />
                     <Property name="MinSize" value="{{0,150},{0,185}}" />
                     <Property name="Visible" value="false" />
                     <Property name="ItemSpacing" value="2" />

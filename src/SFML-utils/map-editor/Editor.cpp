@@ -13,14 +13,13 @@
 orm::Sqlite3DB def("./db.sqlite");
 orm::DB& orm::DB::Default = def;
 
-
 namespace sfutils
 {
     namespace editor
     {
         Editor::Editor():
             _window(sf::VideoMode(1600,900),"SFML-utils map editor"),
-            _gui(_window.getSize()),
+            _gui(_window,*this),
             _map(nullptr),
             _mapViewer(_window)
         {
@@ -37,8 +36,6 @@ namespace sfutils
             sfutils::map::MapModel::type_ptr def = sfutils::map::MapModel::get(1);
 
             _setMap(def);
-
-
         }
 
         Editor::~Editor()
@@ -79,7 +76,8 @@ namespace sfutils
                 }
                 else if(event.type == sf::Event::MouseButtonPressed and event.mouseButton.button == sf::Mouse::Button::Left)
                 {
-                    std::cout<<"Click on"<<std::endl;
+                    sf::Vector2i coord = _mapViewer.mapScreenToCoords(sf::Vector2i(event.mouseButton.x,event.mouseButton.y));
+                    std::cout<<"Click on ("<<coord.x<<":"<<coord.y<<")"<<std::endl;
                 }
                 else if(event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::F5)
                 {
@@ -125,12 +123,9 @@ namespace sfutils
         void Editor::_render()
         {
             _window.setActive(true);
-
             _window.clear();
-
             _mapViewer.draw();
-
-            _gui.render(_window);
+            _gui.render();
             
             _window.display();
         }

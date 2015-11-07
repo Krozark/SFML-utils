@@ -8,7 +8,10 @@ namespace sfutils
 {
     namespace editor
     {
-        Gui::Gui(const sf::Vector2u& size)
+        Gui::Gui(sf::RenderWindow& mainWindow,Editor& owner) :
+            _owner(owner),
+            _window(mainWindow),
+            _root(nullptr)
         {
             cegui::GuiManager::init("media/editor/cegui/","DejaVuSans-10");
             //load skin
@@ -20,7 +23,8 @@ namespace sfutils
             _root = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("main.layout");
             CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow(_root);
             //resize gui to the window size 
-            CEGUI::System::getSingleton().notifyDisplaySizeChanged(CEGUI::Sizef(size.x,size.y));
+            
+            CEGUI::System::getSingleton().notifyDisplaySizeChanged(CEGUI::Sizef(mainWindow.getSize().x,mainWindow.getSize().y));
 
             //register events
             _registerMenuBarCallbacks();
@@ -31,19 +35,20 @@ namespace sfutils
 
         bool Gui::processEvent(const sf::Event& event)
         {
-            return cegui::GuiManager::processEvent(event);
+            return cegui::GuiManager::processEvent(event,CEGUI::System::getSingleton().getDefaultGUIContext());
         }
 
         void Gui::update(const sf::Time& deltaTime)
         {
-            cegui::GuiManager::update(deltaTime);
+            cegui::GuiManager::update(deltaTime,CEGUI::System::getSingleton().getDefaultGUIContext());
         }
 
-        void Gui::render(sf::RenderTarget& target)
+        void Gui::render()
         {
-            target.pushGLStates();
-            cegui::GuiManager::render();
-            target.popGLStates();
+            _window.setActive(true);
+            _window.pushGLStates();
+            cegui::GuiManager::render(CEGUI::System::getSingleton().getDefaultGUIContext());
+            _window.popGLStates();
         }
 
         void Gui::setMainInfo(const std::string& text)
@@ -62,8 +67,13 @@ namespace sfutils
 
             {//file
                 CEGUI::Window* menu = menuBar->getChild("File/Menu");
+                //new
+                CEGUI::Window* btn = menu->getChild("New");
+                btn->subscribeEvent(CEGUI::PushButton::EventClicked,[this](const CEGUI::EventArgs& e){
+                        return this->_event_menuBar_file_new();
+                });
                 //open
-                CEGUI::Window* btn = menu->getChild("Open");
+                btn = menu->getChild("Open");
                 btn->subscribeEvent(CEGUI::PushButton::EventClicked,[this](const CEGUI::EventArgs& e){
                         return this->_event_menuBar_file_open();
                 });
@@ -109,6 +119,11 @@ namespace sfutils
             }
         }
         ////File
+        bool Gui::_event_menuBar_file_new()
+        {
+            std::cout<<"MenuBar/File/Menu/New clicked"<<std::endl;
+            return true;
+        }
         bool Gui::_event_menuBar_file_open()
         {
             std::cout<<"MenuBar/File/Menu/Open clicked"<<std::endl;
