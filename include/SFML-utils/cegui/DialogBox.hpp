@@ -4,6 +4,8 @@
 #include <string>
 #include <functional>
 
+#include <SFML/Graphics.hpp>
+
 namespace CEGUI
 {
     class GUIContext;
@@ -20,16 +22,15 @@ namespace sfutils
                 DialogBox(const DialogBox&) = delete;
                 DialogBox& operator=(const DialogBox&) = delete;
 
-                DialogBox(CEGUI::GUIContext& parent,const std::string& text,const std::string& title = "");
+                DialogBox(CEGUI::GUIContext& parent,const std::string& text,const std::string& title = "",const sf::Vector2u& size={200,100});
 
                 virtual ~DialogBox();
-
 
                 void setTitle(const std::string& title);
 
                 void setText(const std::string& text);
 
-                void setSize(int x,int y);
+                void setSize(const sf::Vector2u& size);
 
                 void addButton(const std::string& label,const std::function<void(DialogBox& self)>& callback);
 

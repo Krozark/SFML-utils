@@ -1,17 +1,13 @@
 #include <SFML-utils/cegui/GuiManager.hpp>
 
+#include <SFML-utils/cegui/DialogBox.hpp>
+
 int main(int argc,char* argv[])
 {
     //initialize SFML window
     sf::RenderWindow window(sf::VideoMode(1200,800),"cegui");
     window.setFramerateLimit(65);
     window.setMouseCursorVisible(false);
-
-    /*
-    sf::RenderWindow window2(sf::VideoMode(1200,800),"cegui 2");
-    window.setFramerateLimit(65);
-    window.setMouseCursorVisible(false);
-    */
 
     //initialize cegui
     sfutils::cegui::GuiManager::init("media/cegui/","TaharezLook","DejaVuSans-10");
@@ -21,18 +17,15 @@ int main(int argc,char* argv[])
     CEGUI::System::getSingleton().getDefaultGUIContext().setDefaultTooltipType("TaharezLook/Tooltip");
 
     //load a layout
-    CEGUI::Window* root = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("Console.layout");
+    CEGUI::Window* root = CEGUI::WindowManager::getSingleton().createWindow("TaharezLook/Static");
+    root->setProperty("FrameEnabled", "false");
+    //root->setSize(CEGUI::USize(CEGUI::UDim(0,window.getSize().x), CEGUI::UDim(0,window.getSize().y)));
+    root->setSize(CEGUI::USize(cegui_reldim(1.0f), cegui_reldim(1.0f)));
+    root->setProperty("BackgroundColours", "tl:FFBFBFBF tr:FFBFBFBF bl:FFBFBFBF br:FFBFBFBF");
     CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow(root);
 
-
-    /*
-    CEGUI::OpenGLRenderer& renderer = sfutils::cegui::GuiManager::getRenderer();
-    window2.setActive(true); //just in case
-    CEGUI::TextureTarget* textureTarget = renderer.createTextureTarget();
-    CEGUI::GUIContext context2(*textureTarget);
-    CEGUI::Window* root2 = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("Console.layout");
-    context2.setRootWindow(root2);
-    */
+    CEGUI::Window* console = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("Console.layout");
+    root->addChild(console);
 
     //resize the cegui window
     CEGUI::System::getSingleton().notifyDisplaySizeChanged(CEGUI::Sizef(window.getSize().x,window.getSize().y));
@@ -40,32 +33,31 @@ int main(int argc,char* argv[])
 
     //event handlers
     {
-        auto f = [root](const CEGUI::EventArgs& e) -> bool{
-            CEGUI::String msg = root->getChild("EditBox")->getText();
+        auto f = [console](const CEGUI::EventArgs& e) -> bool{
+            CEGUI::String msg = console->getChild("EditBox")->getText();
             if(msg.size() > 0)
             {
-                CEGUI::Listbox *outputWindow = static_cast<CEGUI::Listbox*>(root->getChild("ChatBox"));
+                CEGUI::Listbox *outputWindow = static_cast<CEGUI::Listbox*>(console->getChild("ChatBox"));
                 CEGUI::ListboxTextItem* newItem = new CEGUI::ListboxTextItem(msg);
                 newItem->setTextColours(CEGUI::Colour( 0xFFFFFFFF));
 	            outputWindow->addItem(newItem); // Add the new ListBoxTextItem to the ListBox
                 outputWindow->ensureItemIsVisible(newItem);
-                root->getChild("EditBox")->setText("");
+                console->getChild("EditBox")->setText("");
             }
             return true;
         };
         //send button
-        root->getChild("SendButton")->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(f));
+        console->getChild("SendButton")->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(f));
         //return key pressed
-        root->getChild("EditBox")->subscribeEvent(CEGUI::Editbox::EventTextAccepted,CEGUI::Event::Subscriber(f));
+        console->getChild("EditBox")->subscribeEvent(CEGUI::Editbox::EventTextAccepted,CEGUI::Event::Subscriber(f));
 
         //close button
-        root->subscribeEvent(CEGUI::FrameWindow::EventCloseClicked,
+        console->subscribeEvent(CEGUI::FrameWindow::EventCloseClicked,
                              CEGUI::Event::Subscriber([&window](const CEGUI::EventArgs& e){
                                 window.close();
                                 return true;
                              }));
     }
-
 
     //main loop
     sf::Clock clock;
@@ -75,10 +67,19 @@ int main(int argc,char* argv[])
         sf::Event event;
         while(window.pollEvent(event))
         {
-            if(event.type == sf::Event::Closed ) 
+            if(event.type == sf::Event::Closed )
+            { 
                 window.close();
+            }
+            else if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::D)
+            {
+                sfutils::cegui::DialogBox* dial = new sfutils::cegui::DialogBox(CEGUI::System::getSingleton().getDefaultGUIContext(),"Dialog","text");
+            }
             else
+            {
                 sfutils::cegui::GuiManager::processEvent(event);
+            }
+
         }
         
         //update
@@ -94,21 +95,6 @@ int main(int argc,char* argv[])
         window.popGLStates();
 
         window.display();
-
-        
-        //window 2
-        /*
-        window2.setActive(true);
-        window2.clear(sf::Color::Red);
-
-        window2.pushGLStates();
-        renderer.setActiveRenderTarget(textureTarget);
-        sfutils::cegui::GuiManager::render(context2);
-        //textureTarget->deactivate();
-        window2.popGLStates();
-
-        window2.display();
-        */
 
     }
 

@@ -1,15 +1,13 @@
 #include <SFML-utils/map-editor/Editor.hpp>
 
-#include <utils/maths.hpp>
-
 #include <cassert>
 #include <iostream>
 
-#include <ORM/all.hpp>
-#include <ORM/backends/Sqlite3.hpp>
-
+#include <utils/maths.hpp>
 #include <SFML-utils/map/DatabaseMapLoader.hpp>
 
+#include <ORM/all.hpp>
+#include <ORM/backends/Sqlite3.hpp>
 orm::Sqlite3DB def("./db.sqlite");
 orm::DB& orm::DB::Default = def;
 
@@ -85,7 +83,6 @@ namespace sfutils
                     _mapManager->clear();
                     _loadVisiblesAreas(rect);
                 }
-
             }
             
             reloadAreas |= _mapViewer.processEvents();
