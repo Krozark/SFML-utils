@@ -42,6 +42,7 @@
 	<FalagardMapping windowType="TaharezLook/ScrollablePane" targetType="CEGUI/ScrollablePane" renderer="Core/ScrollablePane" lookNFeel="TaharezLook/ScrollablePane" />
 	<FalagardMapping windowType="TaharezLook/Spinner" targetType="CEGUI/Spinner" renderer="Core/Default" lookNFeel="TaharezLook/Spinner" />
 	<FalagardMapping windowType="TaharezLook/Tooltip" targetType="CEGUI/Tooltip" renderer="Core/Tooltip" lookNFeel="TaharezLook/Tooltip" />
+	<FalagardMapping windowType="TaharezLook/Static" targetType="DefaultWindow" renderer="Core/Static" lookNFeel="TaharezLook/Static" />
 	<FalagardMapping windowType="TaharezLook/StaticImage" targetType="DefaultWindow" renderer="Core/StaticImage" lookNFeel="TaharezLook/StaticImage" />
 	<FalagardMapping windowType="TaharezLook/StaticText"  targetType="DefaultWindow" renderer="Core/StaticText"  lookNFeel="TaharezLook/StaticText" />
 	<FalagardMapping windowType="TaharezLook/ItemListbox" targetType="CEGUI/ItemListbox" renderer="Core/ItemListbox" lookNFeel="TaharezLook/ItemListbox" />

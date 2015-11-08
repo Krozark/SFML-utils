@@ -1970,11 +1970,103 @@
 
     <!--
     ***************************************************
+        TaharezLook/Static
+        (based on WidgetLook/Static)
+    ***************************************************
+    -->
+    <WidgetLook name="TaharezLook/Static">
+        <PropertyDefinition name="FrameColours" initialValue="tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF" redrawOnWrite="true" type="ColourRect"/>
+        <PropertyDefinition name="BackgroundColours" initialValue="tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF" redrawOnWrite="true" type="ColourRect"/>
+        <PropertyDefinition name="TextPadding" redrawOnWrite="true" initialValue="0" type="float"/>
+        <PropertyDefinition name="VertFormatting" initialValue="Stretched" redrawOnWrite="true" type="VerticalFormatting"/>
+        <PropertyDefinition name="HorzFormatting" initialValue="Stretched" redrawOnWrite="true" type="HorizontalFormatting"/>
+        <Property name="BackgroundEnabled" value="true" />
+        <Property name="FrameEnabled" value="true" />
+        <Property name="Size" value="{{0, 128}, {0, 128}}" />
+
+        <ImagerySection name="label">
+            <TextComponent>
+                <Area>
+                    <Dim type="LeftEdge">
+                        <PropertyDim name="TextPadding"/>
+                    </Dim>
+                    <Dim type="TopEdge">
+                        <PropertyDim name="TextPadding"/>
+                    </Dim>
+                    <Dim type="RightEdge">
+                        <OperatorDim op="Subtract">
+                            <UnifiedDim scale="1" type="RightEdge"/>
+                            <PropertyDim name="TextPadding"/>
+                        </OperatorDim>
+                    </Dim>
+                    <Dim type="BottomEdge">
+                        <OperatorDim op="Subtract">
+                            <UnifiedDim scale="1" type="BottomEdge"/>
+                            <PropertyDim name="TextPadding"/>
+                        </OperatorDim>
+                    </Dim>
+                </Area>
+                <Colours topLeft="FF000000" bottomLeft="FF000000" topRight="FF000000" bottomRight="FF000000"/>
+                <VertFormatProperty name="VertFormatting"/>
+                <HorzFormatProperty name="HorzFormatting"/>
+            </TextComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="label"/>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="label"/>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="EnabledFrame">
+            <Layer>
+                <Section section="frame" look="WindowsLook/StaticShared"/>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="DisabledFrame">
+            <Layer>
+                <Section section="frame" look="WindowsLook/StaticShared"/>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="WithFrameEnabledBackground">
+            <Layer>
+                <Section section="background" look="WindowsLook/StaticShared">
+                    <ColourRectProperty name="BackgroundColours"/>
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="WithFrameDisabledBackground">
+            <Layer>
+                <Section section="background" look="WindowsLook/StaticShared">
+                    <ColourRectProperty name="BackgroundColours"/>
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="NoFrameEnabledBackground">
+            <Layer>
+                <Section section="background_noframe" look="WindowsLook/StaticShared">
+                    <ColourRectProperty name="BackgroundColours"/>
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="NoFrameDisabledBackground">
+            <Layer>
+                <Section section="background_noframe" look="WindowsLook/StaticShared">
+                    <ColourRectProperty name="BackgroundColours"/>
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+
+    <!--
+    ***************************************************
         TaharezLook/StaticImage
     ***************************************************
     -->
     <WidgetLook name="TaharezLook/StaticImage">
-        <PropertyDefinition name="ImageColours" initialValue="tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF" redrawOnWrite="true" type="ColourRect"/>
         <PropertyDefinition name="FrameColours" initialValue="tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF" redrawOnWrite="true" type="ColourRect"/>
         <PropertyDefinition name="BackgroundColours" initialValue="tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF" redrawOnWrite="true" type="ColourRect"/>
         <PropertyDefinition name="VertFormatting" initialValue="Stretched" redrawOnWrite="true" type="VerticalFormatting"/>
