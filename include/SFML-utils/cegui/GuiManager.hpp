@@ -20,7 +20,9 @@ namespace sfutils
                 GuiManager(const GuiManager&) = delete;
                 GuiManager& operator=(const GuiManager&) = delete;
 
-                static void init(const std::string& mediDirectory,const std::string& defaultFont = "DejaVuSans-10");
+                static void init(const std::string& mediDirectory,const std::string& look,const std::string& defaultFont = "DejaVuSans-10");
+
+                static const std::string& getLook();
 
                 static bool processEvent(const sf::Event& event); //< inject event to CEGUI::System::getSingleton().getDefaultGUIContext()
                 static bool processEvent(const sf::Event& event,CEGUI::GUIContext& context);
@@ -74,6 +76,7 @@ namespace sfutils
 	            static KeyMap _keyMap;
 	            static MouseButtonMap _mouseButtonMap;
                 static CEGUI::OpenGLRenderer* _renderer;
+                static std::string _look;
 
                 static std::list<std::pair<CEGUI::RenderTarget*,CEGUI::GUIContext*>> _guiContexts;
 

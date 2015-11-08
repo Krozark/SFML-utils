@@ -14,10 +14,7 @@ int main(int argc,char* argv[])
     */
 
     //initialize cegui
-    sfutils::cegui::GuiManager::init("media/cegui/","DejaVuSans-10");
-
-    //load a scheme
-    CEGUI::SchemeManager::getSingleton().createFromFile("TaharezLook.scheme", "schemes");
+    sfutils::cegui::GuiManager::init("media/cegui/","TaharezLook","DejaVuSans-10");
 
     //set the cursor image
     CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().setDefaultImage("TaharezLook/MouseArrow");

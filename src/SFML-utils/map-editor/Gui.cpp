@@ -13,9 +13,7 @@ namespace sfutils
             _window(mainWindow),
             _root(nullptr)
         {
-            cegui::GuiManager::init("media/editor/cegui/","DejaVuSans-10");
-            //load skin
-            CEGUI::SchemeManager::getSingleton().createFromFile("GlossySerpentFHD.scheme", "schemes");
+            cegui::GuiManager::init("media/editor/cegui/","GlossySerpentFHD","DejaVuSans-10");
             //set mouse
             CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().setDefaultImage("GlossySerpentFHDCursors/MouseArrow");
             CEGUI::System::getSingleton().getDefaultGUIContext().setDefaultTooltipType("GlossySerpentFHD/Tooltip"); 

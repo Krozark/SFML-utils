@@ -6,14 +6,24 @@ namespace sfutils
 {
     namespace cegui
     {
-        void GuiManager::init(const std::string& mediDirectory,const std::string& defaultFont)
+        void GuiManager::init(const std::string& mediDirectory,const std::string& look,const std::string& defaultFont)
         {
+            _look = look;
+
             _initMaps();
             _initRenderer();
             _initResources(mediDirectory);
 
             CEGUI::FontManager::getSingleton().createFromFile(defaultFont + ".font");
             CEGUI::System::getSingleton().getDefaultGUIContext().setDefaultFont(defaultFont);
+
+            CEGUI::SchemeManager::getSingleton().createFromFile(_look+".scheme", "schemes");
+
+        }
+
+        const std::string& GuiManager::getLook()
+        {
+            return _look;
         }
 
         bool GuiManager::processEvent(const sf::Event& event,CEGUI::GUIContext& context)
@@ -130,6 +140,7 @@ namespace sfutils
         GuiManager::MouseButtonMap GuiManager::_mouseButtonMap;
         CEGUI::OpenGLRenderer* GuiManager::_renderer = nullptr;
         std::list<std::pair<CEGUI::RenderTarget*,CEGUI::GUIContext*>> GuiManager::_guiContexts;
+        std::string GuiManager::_look;
         
         GuiManager::GuiManager()
         {
