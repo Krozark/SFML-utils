@@ -1,20 +1,18 @@
 #ifndef SFUTILS_CEGUI_MESSAGEBOX_HPP
 #define SFUTILS_CEGUI_MESSAGEBOX_HPP
 
+#include <SFML-utils/cegui/PopupBox.hpp>
+
 namespace sfutils
 {
     namespace cegui
     {
-        class MessageBox
+        class MessageBox : public PopupBox
         {
             public:
-                MessageBox(const MessageBox&) = delete;
-                MessageBox& operator=(const MessageBox&) = delete;
-                MessageBox();
+                MessageBox(CEGUI::GUIContext& parent,const std::string& title,const std::string& text = "",const sf::Vector2u& size={350,250});
 
-            protected:
-
-            private:
+                void setText(const std::string& text);
         };
     }
 }
