@@ -7,7 +7,7 @@ namespace sfutils
     namespace cegui
     {
         
-        MessageBox::MessageBox(CEGUI::GUIContext& context,const std::string& title,const std::string& text,const sf::Vector2u& size) :
+        MessageBox::MessageBox(CEGUI::GUIContext* context,const std::string& title,const std::string& text,const sf::Vector2u& size) :
             PopupBox(context,title,size)
         {
             CEGUI::MultiLineEditbox* box = static_cast<CEGUI::MultiLineEditbox*>(CEGUI::WindowManager::getSingletonPtr()->createWindow( "TaharezLook/MultiLineEditbox"));

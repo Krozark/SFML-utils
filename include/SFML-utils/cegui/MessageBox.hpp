@@ -10,7 +10,7 @@ namespace sfutils
         class MessageBox : public PopupBox
         {
             public:
-                MessageBox(CEGUI::GUIContext& parent,const std::string& title,const std::string& text = "",const sf::Vector2u& size={350,250});
+                MessageBox(CEGUI::GUIContext* parent,const std::string& title,const std::string& text = "",const sf::Vector2u& size={350,250});
 
                 void setText(const std::string& text);
         };
