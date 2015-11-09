@@ -1,6 +1,6 @@
 #include <SFML-utils/cegui/MessageBox.hpp>
 
-#include <CEGUI/CEGUI.h>
+#include <SFML-utils/cegui/GuiManager.hpp>
 
 namespace sfutils
 {
@@ -10,7 +10,7 @@ namespace sfutils
         MessageBox::MessageBox(CEGUI::GUIContext* context,const std::string& title,const std::string& text,const sf::Vector2u& size) :
             PopupBox(context,title,size)
         {
-            CEGUI::MultiLineEditbox* box = static_cast<CEGUI::MultiLineEditbox*>(CEGUI::WindowManager::getSingletonPtr()->createWindow( "TaharezLook/MultiLineEditbox"));
+            CEGUI::MultiLineEditbox* box = static_cast<CEGUI::MultiLineEditbox*>(CEGUI::WindowManager::getSingleton().createWindow(GuiManager::getLook()+"/MultiLineEditbox"));
 
             box->setText(text);
 

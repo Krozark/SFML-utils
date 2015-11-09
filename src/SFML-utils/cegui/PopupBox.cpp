@@ -25,7 +25,7 @@ namespace sfutils
             _parent->getRootWindow()->addChild(_root);
 
             //main layout
-            _mainLayout = CEGUI::WindowManager::getSingleton().createWindow("VerticalLayoutContainer","mainlayout");
+            _mainLayout = CEGUI::WindowManager::getSingleton().createWindow("VerticalLayoutContainer");
             _root->addChild(_mainLayout);
 
             _setTitle(title);
@@ -94,13 +94,13 @@ namespace sfutils
         {
             if(_buttonLayout == nullptr)
             {
-                _buttonLayout = CEGUI::WindowManager::getSingleton().createWindow("HorizontalLayoutContainer","btnLayout");
+                _buttonLayout = CEGUI::WindowManager::getSingleton().createWindow("HorizontalLayoutContainer");
                 _buttonLayout->setSize(CEGUI::USize(CEGUI::UDim(0,0),CEGUI::UDim(0,0)));
                 _buttonLayout->setProperty("HorizontalAlignment","Right");
                 _mainLayout->addChild(_buttonLayout);
             }
 
-            CEGUI::Window* btn =  CEGUI::WindowManager::getSingleton().createWindow(GuiManager::getLook()+"/Button",label);
+            CEGUI::Window* btn =  CEGUI::WindowManager::getSingleton().createWindow(GuiManager::getLook()+"/Button");
             btn->setText(label);
             btn->subscribeEvent(CEGUI::PushButton::EventClicked,
                                 CEGUI::Event::Subscriber([this,callback](const CEGUI::EventArgs& e){
