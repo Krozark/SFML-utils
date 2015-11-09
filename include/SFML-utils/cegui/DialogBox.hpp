@@ -22,7 +22,7 @@ namespace sfutils
                 DialogBox(const DialogBox&) = delete;
                 DialogBox& operator=(const DialogBox&) = delete;
 
-                DialogBox(CEGUI::GUIContext& parent,const std::string& text,const std::string& title = "",const sf::Vector2u& size={200,100});
+                DialogBox(CEGUI::GUIContext& parent,const std::string& title,const std::string& text = "",const sf::Vector2u& size={500,300});
 
                 virtual ~DialogBox();
 
@@ -38,11 +38,15 @@ namespace sfutils
 
                 void hide();
 
+                void destroy();
+
             protected:
                 CEGUI::GUIContext& _parent;
 
             private:
                 CEGUI::Window* _root;
+                CEGUI::Window* _text;
+                CEGUI::Window* _buttonLayout;
         };
     }
 }
