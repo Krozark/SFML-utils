@@ -2023,38 +2023,38 @@
         </StateImagery>
         <StateImagery name="EnabledFrame">
             <Layer>
-                <Section section="frame" look="WindowsLook/StaticShared"/>
+                <Section section="frame" look="TaharezLook/StaticShared"/>
             </Layer>
         </StateImagery>
         <StateImagery name="DisabledFrame">
             <Layer>
-                <Section section="frame" look="WindowsLook/StaticShared"/>
+                <Section section="frame" look="TaharezLook/StaticShared"/>
             </Layer>
         </StateImagery>
         <StateImagery name="WithFrameEnabledBackground">
             <Layer>
-                <Section section="background" look="WindowsLook/StaticShared">
+                <Section section="background" look="TaharezLook/StaticShared">
                     <ColourRectProperty name="BackgroundColours"/>
                 </Section>
             </Layer>
         </StateImagery>
         <StateImagery name="WithFrameDisabledBackground">
             <Layer>
-                <Section section="background" look="WindowsLook/StaticShared">
+                <Section section="background" look="TaharezLook/StaticShared">
                     <ColourRectProperty name="BackgroundColours"/>
                 </Section>
             </Layer>
         </StateImagery>
         <StateImagery name="NoFrameEnabledBackground">
             <Layer>
-                <Section section="background_noframe" look="WindowsLook/StaticShared">
+                <Section section="background_noframe" look="TaharezLook/StaticShared">
                     <ColourRectProperty name="BackgroundColours"/>
                 </Section>
             </Layer>
         </StateImagery>
         <StateImagery name="NoFrameDisabledBackground">
             <Layer>
-                <Section section="background_noframe" look="WindowsLook/StaticShared">
+                <Section section="background_noframe" look="TaharezLook/StaticShared">
                     <ColourRectProperty name="BackgroundColours"/>
                 </Section>
             </Layer>
