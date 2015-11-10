@@ -96,6 +96,23 @@ int main(int argc,char* argv[])
                                                   [](double value){std::cout<<"Ok: "<<value<<std::endl;},
                                                   [](){std::cout<<"Cancel"<<std::endl;});
             }
+            else if(event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::F3)
+            {
+                sfutils::cegui::DialogBox::getString(nullptr,
+                                                  "Type a text",
+                                                  "Enter a string",
+                                                  [](const std::string& value){std::cout<<"Ok: "<<value<<std::endl;},
+                                                  [](){std::cout<<"Cancel"<<std::endl;});
+            }
+            else if(event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::F4)
+            {
+                sfutils::cegui::DialogBox::getItem(nullptr,
+                                                  "Choose",
+                                                  "Choose an option",
+                                                  {"item 1","item 2","another item","#4","#5","#6","#7","#8","#9","#10"},
+                                                  [](const std::string& value){std::cout<<"Ok: "<<value<<std::endl;},
+                                                  [](){std::cout<<"Cancel"<<std::endl;});
+            }
             else
             {
                 sfutils::cegui::GuiManager::processEvent(event);
