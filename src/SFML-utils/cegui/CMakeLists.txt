@@ -5,14 +5,12 @@ set(SRCROOT ${SRCROOT}/cegui)
 set(FILES_HEADER
     ${INCROOT}/DialogBox.hpp
     ${INCROOT}/GuiManager.hpp
-    ${INCROOT}/MessageBox.hpp
     ${INCROOT}/PopupBox.hpp
 )
 
 set(FILES_SRC
     ${SRCROOT}/DialogBox.cpp
     ${SRCROOT}/GuiManager.cpp
-    ${SRCROOT}/MessageBox.cpp
     ${SRCROOT}/PopupBox.cpp
 )
 

@@ -64,7 +64,6 @@ namespace sfutils
                             cancel();
                             self.destroy();
             });
-            //DialogBox* box = new DialogBox(parent,title,text,ok);
         }
 
         void DialogBox::getItem(CEGUI::GUIContext* parent,const std::string title,const std::string& text,const std::list<std::string>& choices,
@@ -109,6 +108,30 @@ namespace sfutils
                             self.destroy();
             });
         }
+
+        void DialogBox::message(CEGUI::GUIContext* parent,const std::string& title,const std::string& text,const std::function<void()>& ok, const std::function<void()>& cancel)
+        {
+
+            PopupBox* dial = new PopupBox(parent,title,sf::Vector2u(300,250));
+
+            CEGUI::MultiLineEditbox* box = static_cast<CEGUI::MultiLineEditbox*>(CEGUI::WindowManager::getSingleton().createWindow(GuiManager::getLook()+"/MultiLineEditbox"));
+
+            box->setText(text);
+
+            box->setReadOnly(true);
+            box->setWordWrapping(true);
+
+            dial->_setData(box);
+
+            dial->_addButton("Ok",[](PopupBox& self){
+                             self.destroy();
+            });
+            dial->_addButton("Close",[](PopupBox& self){
+                             self.destroy();
+                             });
+            dial->setModalState(true);
+        }
+
 
         ////////////// Private ///////////////
         DialogBox::DialogBox(CEGUI::GUIContext* parent,const std::string& title,const std::string& text,CEGUI::Window* object, const sf::Vector2u& size) :

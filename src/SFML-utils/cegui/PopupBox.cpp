@@ -37,7 +37,7 @@ namespace sfutils
 
         PopupBox::~PopupBox()
         {
-            _root->destroy();
+            CEGUI::WindowManager::getSingleton().destroyWindow(_root);
         }
 
         void PopupBox::show()

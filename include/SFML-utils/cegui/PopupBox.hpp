@@ -37,6 +37,8 @@ namespace sfutils
                 void setModalState(bool state);
                 
             protected:
+                friend class DialogBox;
+
                 void _setTitle(const std::string& title);
 
                 void _setSize(const sf::Vector2u& size);

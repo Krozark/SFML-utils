@@ -2,7 +2,6 @@
 
 #include <iostream>
 
-#include <SFML-utils/cegui/MessageBox.hpp>
 #include <SFML-utils/cegui/DialogBox.hpp>
 
 int main(int argc,char* argv[])
@@ -74,12 +73,6 @@ int main(int argc,char* argv[])
             { 
                 window.close();
             }
-            else if(event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::M)
-            {
-                new sfutils::cegui::MessageBox(nullptr,
-                                               "Dialog",
-                                               "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Fusce volutpat purus ac elit malesuada, varius vehicula ipsum mattis. Morbi blandit lorem a risus scelerisque vulputate. Vestibulum ligula nulla, efficitur a faucibus ullamcorper, faucibus a lectus. Pellentesque pretium ante ut pretium mattis. Aliquam leo tellus, suscipit non mauris feugiat, rhoncus eleifend ex. Aliquam velit massa, venenatis sed nulla eget, facilisis accumsan magna. Nullam sagittis, risus vitae pharetra varius, est ipsum condimentum ante, vitae rhoncus neque dui a magna. Integer vehicula sagittis massa, non convallis mauris hendrerit in. In semper, mauris nec blandit blandit, nibh risus egestas ipsum, eget cursus enim sapien at eros. Ut nec ante vel risus elementum pulvinar. Integer nibh sem, ullamcorper luctus ex sit amet, finibus efficitur nisi. Mauris libero dui, imperdiet sed mollis eu, mattis non massa. Sed vitae justo vel ante dignissim bibendum ut nec lectus. Duis egestas mollis tincidunt.");
-            }
             else if(event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::F1)
             {
                 sfutils::cegui::DialogBox::getInt(nullptr,
@@ -112,6 +105,14 @@ int main(int argc,char* argv[])
                                                   {"item 1","item 2","another item","#4","#5","#6","#7","#8","#9","#10"},
                                                   [](const std::string& value){std::cout<<"Ok: "<<value<<std::endl;},
                                                   [](){std::cout<<"Cancel"<<std::endl;});
+            }
+            else if(event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::F5)
+            {
+                sfutils::cegui::DialogBox::message(nullptr,
+                                                   "This is a message",
+                                                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Fusce volutpat purus ac elit malesuada, varius vehicula ipsum mattis. Morbi blandit lorem a risus scelerisque vulputate. Vestibulum ligula nulla, efficitur a faucibus ullamcorper, faucibus a lectus. Pellentesque pretium ante ut pretium mattis. Aliquam leo tellus, suscipit non mauris feugiat, rhoncus eleifend ex. Aliquam velit massa, venenatis sed nulla eget, facilisis accumsan magna. Nullam sagittis, risus vitae pharetra varius, est ipsum condimentum ante, vitae rhoncus neque dui a magna. Integer vehicula sagittis massa, non convallis mauris hendrerit in. In semper, mauris nec blandit blandit, nibh risus egestas ipsum, eget cursus enim sapien at eros. Ut nec ante vel risus elementum pulvinar. Integer nibh sem, ullamcorper luctus ex sit amet, finibus efficitur nisi. Mauris libero dui, imperdiet sed mollis eu, mattis non massa. Sed vitae justo vel ante dignissim bibendum ut nec lectus. Duis egestas mollis tincidunt.",
+                                                    [](){std::cout<<"Ok"<<std::endl;},
+                                                    [](){std::cout<<"Cancel"<<std::endl;});
             }
             else
             {
