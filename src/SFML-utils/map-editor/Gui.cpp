@@ -1,6 +1,7 @@
 #include <SFML-utils/map-editor/Gui.hpp>
 
 #include <SFML-utils/cegui/GuiManager.hpp>
+#include <SFML-utils/cegui/DialogBox.hpp>
 
 #include <iostream>
 
@@ -125,6 +126,16 @@ namespace sfutils
         bool Gui::_event_menuBar_file_open()
         {
             std::cout<<"MenuBar/File/Menu/Open clicked"<<std::endl;
+
+            std::list<std::string> list;
+            sfutils::cegui::DialogBox::getItem(_root,
+                                               "Map to load",
+                                               "Choose the map to load",
+                                               list,
+                                               [this](const std::string& value){},
+                                               [](){}
+                                               );
+
             return true;
         }
         bool Gui::_event_menuBar_file_save()

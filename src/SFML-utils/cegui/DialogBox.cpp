@@ -116,24 +116,29 @@ namespace sfutils
         void DialogBox::getItem(CEGUI::GUIContext& parent,const std::string title,const std::string& text,const std::list<std::string>& choices,
                                const std::function<void(const std::string&)>& ok, const std::function<void()>& cancel)
         {
+
+
             CEGUI::Listbox* list = static_cast<CEGUI::Listbox*>(CEGUI::WindowManager::getSingleton().createWindow(GuiManager::getLook()+"/Listbox"));
             list->setSize(CEGUI::USize(cegui_reldim(1.f), CEGUI::UDim(1,-95)));
             list->setShowVertScrollbar(false);
 
-            for(const std::string& str : choices)
+            if(choices.size() > 0)
             {
-                CEGUI::ListboxTextItem* newItem = new CEGUI::ListboxTextItem(str);
-                //newItem->setTextColours(CEGUI::Colour( 0xFFFFFFFF));
-                //newItem->setSelectionColours(CEGUI::Colour(1,0,0));
-                newItem->setSelectionBrushImage(GuiManager::getLook()+"/ListboxSelectionBrush");
-                newItem->setAutoDeleted(true);
+                for(const std::string& str : choices)
+                {
+                    CEGUI::ListboxTextItem* newItem = new CEGUI::ListboxTextItem(str);
+                    //newItem->setTextColours(CEGUI::Colour( 0xFFFFFFFF));
+                    //newItem->setSelectionColours(CEGUI::Colour(1,0,0));
+                    newItem->setSelectionBrushImage(GuiManager::getLook()+"/ListboxSelectionBrush");
+                    newItem->setAutoDeleted(true);
 
-                list->addItem(newItem); // Add the new ListBoxTextItem to the ListBox
-            }
+                    list->addItem(newItem); // Add the new ListBoxTextItem to the ListBox
+                }
 
-            if(CEGUI::ListboxItem* item = list->getListboxItemFromIndex(0))
-            {
-                list->setItemSelectState(item, true);
+                if(CEGUI::ListboxItem* item = list->getListboxItemFromIndex(0))
+                {
+                    list->setItemSelectState(item, true);
+                }
             }
 
             DialogBox* box = new DialogBox(parent,title,text,list,sf::Vector2u(300,250));
