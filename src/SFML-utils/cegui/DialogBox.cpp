@@ -6,7 +6,7 @@ namespace sfutils
 {
     namespace cegui
     {
-        void DialogBox::getInt(CEGUI::GUIContext* parent,const std::string& title,const std::string& text,
+        void DialogBox::getInt(CEGUI::GUIContext& parent,const std::string& title,const std::string& text,
                                const std::function<void(int)>& ok, const std::function<void()>& cancel)
         {
             CEGUI::Editbox* edit = static_cast<CEGUI::Editbox*>(CEGUI::WindowManager::getSingleton().createWindow(GuiManager::getLook()+"/Editbox"));
@@ -25,8 +25,24 @@ namespace sfutils
                             self.destroy();
             });
         }
+        void DialogBox::getInt(CEGUI::Window* parent,const std::string& title,const std::string& text,
+                               const std::function<void(int)>& ok, const std::function<void()>& cancel)
+        {
+            CEGUI::GUIContext* context = nullptr;
+            if(parent)
+            {
+                context = &parent->getGUIContext();
+            }
+            else
+            {
+                context =  &CEGUI::System::getSingleton().getDefaultGUIContext();
+            }
 
-        void DialogBox::getDouble(CEGUI::GUIContext* parent,const std::string& title,const std::string& text,
+            getInt(*context,title,text,ok,cancel);
+
+        }
+
+        void DialogBox::getDouble(CEGUI::GUIContext& parent,const std::string& title,const std::string& text,
                                const std::function<void(double)>& ok, const std::function<void()>& cancel)
         {
             CEGUI::Editbox* edit = static_cast<CEGUI::Editbox*>(CEGUI::WindowManager::getSingleton().createWindow(GuiManager::getLook()+"/Editbox"));
@@ -45,8 +61,23 @@ namespace sfutils
                             self.destroy();
             });
         }
+        void DialogBox::getDouble(CEGUI::Window* parent,const std::string& title,const std::string& text,
+                               const std::function<void(double)>& ok, const std::function<void()>& cancel)
+        {
+            CEGUI::GUIContext* context = nullptr;
+            if(parent)
+            {
+                context = &parent->getGUIContext();
+            }
+            else
+            {
+                context =  &CEGUI::System::getSingleton().getDefaultGUIContext();
+            }
 
-        void DialogBox::getString(CEGUI::GUIContext* parent,const std::string& title,const std::string& text,
+            getDouble(*context,title,text,ok,cancel);
+        }
+
+        void DialogBox::getString(CEGUI::GUIContext& parent,const std::string& title,const std::string& text,
                                const std::function<void(const std::string&)>& ok, const std::function<void()>& cancel)
         {
             CEGUI::Editbox* edit = static_cast<CEGUI::Editbox*>(CEGUI::WindowManager::getSingleton().createWindow(GuiManager::getLook()+"/Editbox"));
@@ -66,7 +97,23 @@ namespace sfutils
             });
         }
 
-        void DialogBox::getItem(CEGUI::GUIContext* parent,const std::string title,const std::string& text,const std::list<std::string>& choices,
+        void DialogBox::getString(CEGUI::Window* parent,const std::string& title,const std::string& text,
+                               const std::function<void(const std::string&)>& ok, const std::function<void()>& cancel)
+        {
+            CEGUI::GUIContext* context = nullptr;
+            if(parent)
+            {
+                context = &parent->getGUIContext();
+            }
+            else
+            {
+                context =  &CEGUI::System::getSingleton().getDefaultGUIContext();
+            }
+
+            getString(*context,title,text,ok,cancel);
+        }
+
+        void DialogBox::getItem(CEGUI::GUIContext& parent,const std::string title,const std::string& text,const std::list<std::string>& choices,
                                const std::function<void(const std::string&)>& ok, const std::function<void()>& cancel)
         {
             CEGUI::Listbox* list = static_cast<CEGUI::Listbox*>(CEGUI::WindowManager::getSingleton().createWindow(GuiManager::getLook()+"/Listbox"));
@@ -109,7 +156,23 @@ namespace sfutils
             });
         }
 
-        void DialogBox::message(CEGUI::GUIContext* parent,const std::string& title,const std::string& text,const std::function<void()>& ok, const std::function<void()>& cancel)
+        void DialogBox::getItem(CEGUI::Window* parent,const std::string title,const std::string& text,const std::list<std::string>& choices,
+                               const std::function<void(const std::string&)>& ok, const std::function<void()>& cancel)
+        {
+            CEGUI::GUIContext* context = nullptr;
+            if(parent)
+            {
+                context = &parent->getGUIContext();
+            }
+            else
+            {
+                context =  &CEGUI::System::getSingleton().getDefaultGUIContext();
+            }
+
+            getItem(*context,title,text,choices,ok,cancel);
+        }
+
+        void DialogBox::message(CEGUI::GUIContext& parent,const std::string& title,const std::string& text,const std::function<void()>& ok, const std::function<void()>& cancel)
         {
 
             PopupBox* dial = new PopupBox(parent,title,sf::Vector2u(300,250));
@@ -132,9 +195,25 @@ namespace sfutils
             dial->setModalState(true);
         }
 
+        void DialogBox::message(CEGUI::Window* parent,const std::string& title,const std::string& text,const std::function<void()>& ok, const std::function<void()>& cancel)
+        {
+            CEGUI::GUIContext* context = nullptr;
+            if(parent)
+            {
+                context = &parent->getGUIContext();
+            }
+            else
+            {
+                context =  &CEGUI::System::getSingleton().getDefaultGUIContext();
+            }
+
+            message(*context,title,text,ok,cancel);
+        }
+
+
 
         ////////////// Private ///////////////
-        DialogBox::DialogBox(CEGUI::GUIContext* parent,const std::string& title,const std::string& text,CEGUI::Window* object, const sf::Vector2u& size) :
+        DialogBox::DialogBox(CEGUI::GUIContext& parent,const std::string& title,const std::string& text,CEGUI::Window* object, const sf::Vector2u& size) :
             PopupBox(parent,title,size),
             _layout(nullptr)
         {

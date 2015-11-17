@@ -75,7 +75,7 @@ int main(int argc,char* argv[])
             }
             else if(event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::F1)
             {
-                sfutils::cegui::DialogBox::getInt(nullptr,
+                sfutils::cegui::DialogBox::getInt(root,
                                                   "Type a number",
                                                   "Enter an Integer",
                                                   [](int value){std::cout<<"Ok: "<<value<<std::endl;},
@@ -83,7 +83,7 @@ int main(int argc,char* argv[])
             }
             else if(event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::F2)
             {
-                sfutils::cegui::DialogBox::getDouble(nullptr,
+                sfutils::cegui::DialogBox::getDouble(root,
                                                   "Type a number",
                                                   "Enter a floating point number",
                                                   [](double value){std::cout<<"Ok: "<<value<<std::endl;},
@@ -91,7 +91,7 @@ int main(int argc,char* argv[])
             }
             else if(event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::F3)
             {
-                sfutils::cegui::DialogBox::getString(nullptr,
+                sfutils::cegui::DialogBox::getString(root,
                                                   "Type a text",
                                                   "Enter a string",
                                                   [](const std::string& value){std::cout<<"Ok: "<<value<<std::endl;},
@@ -99,7 +99,7 @@ int main(int argc,char* argv[])
             }
             else if(event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::F4)
             {
-                sfutils::cegui::DialogBox::getItem(nullptr,
+                sfutils::cegui::DialogBox::getItem(root,
                                                   "Choose",
                                                   "Choose an option",
                                                   {"item 1","item 2","another item","#4","#5","#6","#7","#8","#9","#10"},

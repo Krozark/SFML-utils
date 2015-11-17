@@ -9,20 +9,15 @@ namespace sfutils
     namespace cegui
     {
         
-        PopupBox::PopupBox(CEGUI::GUIContext* context,const std::string& title,const sf::Vector2u& size) :
+        PopupBox::PopupBox(CEGUI::GUIContext& context,const std::string& title,const sf::Vector2u& size) :
             _parent(context),
             _root(nullptr),
             _mainLayout(nullptr),
             _data(nullptr),
             _buttonLayout(nullptr)
         {
-            if(_parent == nullptr)
-            {
-                _parent = &CEGUI::System::getSingleton().getDefaultGUIContext();
-            }
-
             _root =  CEGUI::WindowManager::getSingleton().createWindow(GuiManager::getLook()+"/FrameWindow");
-            _parent->getRootWindow()->addChild(_root);
+            _parent.getRootWindow()->addChild(_root);
 
             //main layout
             _mainLayout = CEGUI::WindowManager::getSingleton().createWindow("VerticalLayoutContainer");

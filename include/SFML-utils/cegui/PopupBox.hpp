@@ -24,7 +24,7 @@ namespace sfutils
 
                 using Callback = const std::function<void(PopupBox& self)>;
 
-                PopupBox(CEGUI::GUIContext* parent,const std::string& title,const sf::Vector2u& size={350,250});
+                PopupBox(CEGUI::GUIContext& parent,const std::string& title,const sf::Vector2u& size={350,250});
 
                 virtual ~PopupBox();
 
@@ -48,7 +48,7 @@ namespace sfutils
                 void _addButton(const std::string& label,const Callback& callback);
 
             private:
-                CEGUI::GUIContext* _parent;
+                CEGUI::GUIContext& _parent;
 
                 CEGUI::Window* _root;
                 CEGUI::Window* _mainLayout;
