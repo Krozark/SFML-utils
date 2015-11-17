@@ -128,13 +128,19 @@ namespace sfutils
             std::cout<<"MenuBar/File/Menu/Open clicked"<<std::endl;
 
             std::list<std::string> list;
-            sfutils::cegui::DialogBox::getItem(_root,
+            /*sfutils::cegui::DialogBox::getItem(_root,
                                                "Map to load",
                                                "Choose the map to load",
                                                list,
                                                [this](const std::string& value){},
                                                [](){}
-                                               );
+                                               );*/
+            sfutils::cegui::DialogBox::getInt(_root,
+                                                  "Type a number",
+                                                  "Enter an Integer",
+                                                  [](int value){std::cout<<"Ok: "<<value<<std::endl;},
+                                                  [](){std::cout<<"Cancel"<<std::endl;});
+
 
             return true;
         }

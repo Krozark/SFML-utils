@@ -11,7 +11,8 @@ namespace sfutils
         {
             CEGUI::Editbox* edit = static_cast<CEGUI::Editbox*>(CEGUI::WindowManager::getSingleton().createWindow(GuiManager::getLook()+"/Editbox"));
             edit->setSize(CEGUI::USize(cegui_reldim(1.f), CEGUI::UDim(0,30)));
-            edit->setValidationString("\\d+");
+            edit->setValidationString("\\d*");
+            edit->setText("0");
 
             DialogBox* box = new DialogBox(parent,title,text,edit);
 
@@ -47,7 +48,8 @@ namespace sfutils
         {
             CEGUI::Editbox* edit = static_cast<CEGUI::Editbox*>(CEGUI::WindowManager::getSingleton().createWindow(GuiManager::getLook()+"/Editbox"));
             edit->setSize(CEGUI::USize(cegui_reldim(1.f), CEGUI::UDim(0,30)));
-            edit->setValidationString("\\d+(\\.\\d*)?");
+            edit->setValidationString("\\d*(\\.\\d*)?");
+            edit->setText("0");
 
             DialogBox* box = new DialogBox(parent,title,text,edit);
 
@@ -225,12 +227,12 @@ namespace sfutils
             _layout = CEGUI::WindowManager::getSingleton().createWindow("VerticalLayoutContainer");
             _layout->setSize(CEGUI::USize(CEGUI::UDim(0,0),CEGUI::UDim(0,0)));
 
-            _box = CEGUI::WindowManager::getSingletonPtr()->createWindow( "TaharezLook/MultiLineEditbox");
+            /*_box = CEGUI::WindowManager::getSingletonPtr()->createWindow(GuiManager::getLook()+"/MultiLineEditbox");
             _box->setSize(CEGUI::USize(cegui_reldim(1.f), CEGUI::UDim(0,60)));
             _box->setText(text);
             static_cast<CEGUI::MultiLineEditbox*>(_box)->setReadOnly(true);
             static_cast<CEGUI::MultiLineEditbox*>(_box)->setWordWrapping(true);
-            _layout->addChild(_box);
+            _layout->addChild(_box);*/
 
             _layout->addChild(object);
 
