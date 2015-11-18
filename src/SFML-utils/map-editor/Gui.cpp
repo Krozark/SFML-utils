@@ -6,7 +6,6 @@
 
 #include <iostream>
 
-#include <SFML-utils/map/Models.hpp>
 
 namespace sfutils
 {
@@ -31,6 +30,7 @@ namespace sfutils
             //register events
             _registerMenuBarCallbacks();
             _registerLeftPanelCallbacks();
+            _registerTopCallbacks();
             _registerMiniMapCallbacks();
             _registerRightPanelCallbacks();
         }
@@ -58,6 +58,20 @@ namespace sfutils
 
             CEGUI::Window* txt = _root->getChild("MenuBar/Coordonates");
             txt->setText(text);
+        }
+
+        void Gui::setTitle(const std::string& text)
+        {
+            CEGUI::Window* txt = _root->getChild("MenuBar/Title");
+            txt->setText(text);
+        }
+
+        void Gui::addLayer(sfutils::map::LayerModel::type_ptr& layer)
+        {
+        }
+
+        void Gui::clearLayers()
+        {
         }
 
         ////////////////////// PRIVATE ///////////////////
@@ -324,6 +338,12 @@ namespace sfutils
         }
 
         //TODO bool Gui::_event_leftPanel_tab_bulding_selected();
+        
+        void Gui::_registerTopCallbacks()
+        {
+        }
+
+        //void Gui::_event_top_titleChanged();
 
         void Gui::_registerMiniMapCallbacks()
         {

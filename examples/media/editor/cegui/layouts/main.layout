@@ -92,16 +92,13 @@
                     <Property name="VerticalScrollbar" value="true" />
                 </AutoWindow>
             </Window>
-            <Window type="GlossySerpentFHD/StaticText" name="Title" >
+            <Window type="GlossySerpentFHD/Editbox" name="Title" >
                 <Property name="Area" value="{{0,665},{0,5},{0,1050},{0,50}}" />
                 <Property name="Text" value="New Map" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 <Property name="FrameEnabled" value="true" />
                 <Property name="HorzFormatting" value="CentreAligned" />
                 <Property name="BackgroundEnabled" value="true" />
-                <AutoWindow namePath="__auto_vscrollbar__" >
-                    <Property name="VerticalScrollbar" value="true" />
-                </AutoWindow>
             </Window>
         </Window>
         <Window type="GlossySerpentFHD/SimplePanel" name="Left" >

@@ -58,6 +58,7 @@ namespace sfutils
             _map = _mapManager->getMap();
             _mapViewer.setMap(_map);
 
+            //special layers
             sfutils::map::Layer<sf::ConvexShape>* mouse_layer = new sfutils::map::Layer<sf::ConvexShape>("ConvexShape",100);
 
             _highlight = mouse_layer->add(_map->getGeometry().getShape());
@@ -66,6 +67,22 @@ namespace sfutils
 
             sf::IntRect rect = _getVisibleAreaRect(); 
             _loadVisiblesAreas(rect);
+
+            ////////////// GUI ///////////
+            //map
+            _gui.setTitle(map->name);
+            //layers
+            sfutils::map::LayerModel::result_type layers;
+            sfutils::map::LayerModel::query()
+                .filter(map->getPk(),orm::op::exact,sfutils::map::LayerModel::$map)
+                .orderBy(sfutils::map::LayerModel::$zBuffer,'-')
+                .get(layers);
+
+            _gui.clearLayers();
+            for(auto& layer : layers)
+            {
+                _gui.addLayer(layer);
+            }
 
         }
 

@@ -2,6 +2,7 @@
 #define SFUTILS_EDITOR_GUI_HPP
 
 #include <SFML/Graphics.hpp>
+#include <SFML-utils/map/Models.hpp>
 
 namespace CEGUI
 {
@@ -30,6 +31,10 @@ namespace sfutils
                 void render();
 
                 void setMainInfo(const std::string& text);
+                void setTitle(const std::string& text);
+
+                void addLayer(sfutils::map::LayerModel::type_ptr& layer);
+                void clearLayers();
 
             private:
                 Editor& _owner;
@@ -68,6 +73,11 @@ namespace sfutils
                 bool _event_leftPanel_tab_bulding_add();
                 bool _event_leftPanel_tab_bulding_remove();
                 bool _event_leftPanel_tab_bulding_selected();
+
+
+                /*top*/
+                void _registerTopCallbacks();
+                void _event_top_titleChanged();
 
                 /*miniMap*/
                 void _registerMiniMapCallbacks();
