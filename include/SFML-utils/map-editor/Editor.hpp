@@ -23,6 +23,7 @@ namespace sfutils
                 ~Editor();
 
                 void run();
+                void setMap(sfutils::map::MapModel::type_ptr& map);
 
             private:
                 sf::RenderWindow _window;
@@ -41,7 +42,6 @@ namespace sfutils
                 void _update();
                 void _render();
 
-                void _setMap(sfutils::map::MapModel::type_ptr& map);
 
                 void _loadVisiblesAreas(const sf::IntRect& rect);
                 sf::IntRect _getVisibleAreaRect()const;

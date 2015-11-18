@@ -51,7 +51,7 @@ namespace sfutils
                 sf::Vector2i mapCoordsToArea(const sf::Vector2i& coords) const;
 
 
-                void draw(sf::RenderTarget& target, sf::RenderStates states,const sf::FloatRect& viewport) const;
+                void draw(sf::RenderTarget& target,const sf::RenderStates& states,const sf::FloatRect& viewport) const;
 
             private:
                 ::sfutils::geometry::Geometry* _geometry;

@@ -143,7 +143,7 @@ namespace sfutils
         }
 
 
-        void Map::draw(sf::RenderTarget& target, sf::RenderStates states,const sf::FloatRect& viewport) const
+        void Map::draw(sf::RenderTarget& target,const sf::RenderStates& states,const sf::FloatRect& viewport) const
         {
             static float tileSize = getGeometry().getScale();
             sf::FloatRect delta_viewport(viewport.left - tileSize,
@@ -152,8 +152,11 @@ namespace sfutils
                                         viewport.height + tileSize*2);
 
             const size_t size = _layers.size();
+
             for(size_t i=0;i<size;++i)
+            {
                 _layers[i]->draw(target,states,delta_viewport);
+            }
         }
 
     }

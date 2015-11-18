@@ -31,9 +31,10 @@ namespace sfutils
                 sfutils::map::loadInitialData();
             }
 
-            sfutils::map::MapModel::type_ptr def = sfutils::map::MapModel::get(1);
+            auto map = sfutils::map::MapModel::get(1);
+            setMap(map);
 
-            _setMap(def);
+
         }
 
         Editor::~Editor()
@@ -42,14 +43,30 @@ namespace sfutils
 
         void Editor::run()
         {
-
             while(_window.isOpen())
             {
                 _processEvents();
                 _update();
                 _render();
-
             }
+        }
+
+        void Editor::setMap(sfutils::map::MapModel::type_ptr& map)
+        {
+            _mapManager.reset(new sfutils::map::MapManager(std::shared_ptr<sfutils::map::VMapLoader>(new sfutils::map::DatabaseMapLoader(map))));
+
+            _map = _mapManager->getMap();
+            _mapViewer.setMap(_map);
+
+            sfutils::map::Layer<sf::ConvexShape>* mouse_layer = new sfutils::map::Layer<sf::ConvexShape>("ConvexShape",100);
+
+            _highlight = mouse_layer->add(_map->getGeometry().getShape());
+            _highlight->setFillColor(sf::Color(0,255,0,127));
+            _map->addLayer(mouse_layer);
+
+            sf::IntRect rect = _getVisibleAreaRect(); 
+            _loadVisiblesAreas(rect);
+
         }
 
         ////////////////////// PRIVATE ////////////////////
@@ -80,7 +97,10 @@ namespace sfutils
                 else if(event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::F5)
                 {
                     sf::IntRect rect = _getVisibleAreaRect(); 
-                    _mapManager->clear();
+                    if(_mapManager)
+                    {
+                        _mapManager->clear();
+                    }
                     _loadVisiblesAreas(rect);
                 }
             }
@@ -96,6 +116,7 @@ namespace sfutils
                 }
             }
 
+            if(_map)
             {
                 sf::Vector2i coord = _mapViewer.mapScreenToCoords(sf::Mouse::getPosition(_window));
                 sf::Vector2f pixels = _mapViewer.mapCoordsToPixel(coord);
@@ -127,25 +148,14 @@ namespace sfutils
             _window.display();
         }
 
-        void Editor::_setMap(sfutils::map::MapModel::type_ptr& map)
-        {
-            _mapManager.reset(new sfutils::map::MapManager(std::shared_ptr<sfutils::map::VMapLoader>(new sfutils::map::DatabaseMapLoader(map))));
-
-            _map = _mapManager->getMap();
-            _mapViewer.setMap(_map);
-
-            sfutils::map::Layer<sf::ConvexShape>* mouse_layer = new sfutils::map::Layer<sf::ConvexShape>("ConvexShape",100);
-
-            _highlight = mouse_layer->add(_map->getGeometry().getShape());
-            _highlight->setFillColor(sf::Color(0,255,0,127));
-            _map->addLayer(mouse_layer);
-
-            sf::IntRect rect = _getVisibleAreaRect(); 
-            _loadVisiblesAreas(rect);
-        }
 
         void Editor::_loadVisiblesAreas(const sf::IntRect& rect)
         {
+            if(_mapManager == nullptr)
+            {
+                return;
+            }
+
             _mapManager->removeIf([&rect](int x, int y){
                 return not rect.contains(x,y);
             });
@@ -163,6 +173,10 @@ namespace sfutils
 
         sf::IntRect Editor::_getVisibleAreaRect()const
         {
+            if(_map == nullptr)
+            {
+                return sf::IntRect(0,0,0,0);
+            }
             sf::Vector2u ws = _window.getSize();
 
             sf::Vector2i top_left_coord = _mapViewer.mapScreenToCoords(sf::Vector2i(0,0));

@@ -1,9 +1,12 @@
 #include <SFML-utils/map-editor/Gui.hpp>
+#include <SFML-utils/map-editor/Editor.hpp>
 
 #include <SFML-utils/cegui/GuiManager.hpp>
 #include <SFML-utils/cegui/DialogBox.hpp>
 
 #include <iostream>
+
+#include <SFML-utils/map/Models.hpp>
 
 namespace sfutils
 {
@@ -128,13 +131,29 @@ namespace sfutils
             std::cout<<"MenuBar/File/Menu/Open clicked"<<std::endl;
 
             std::list<std::string> list;
+            for(auto& map :  sfutils::map::MapModel::all())
+            {
+                list.emplace_back(map->name);
+            }
+
             sfutils::cegui::DialogBox::getItem(_root,
                                                "Map to load",
                                                "Choose the map to load",
                                                list,
-                                               [](const std::string& value){},
+                                               [this](const std::string& value){
+                                                   for(auto& map :  sfutils::map::MapModel::all())
+                                                   {
+                                                       if(map->name == value)
+                                                       {
+                                                           this->_owner.setMap(map);
+                                                           break;
+                                                       }
+                                                   }
+
+                                               },
                                                [](){}
                                               );
+
 
             return true;
         }

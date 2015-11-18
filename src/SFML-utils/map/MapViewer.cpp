@@ -27,7 +27,9 @@ namespace sfutils
         {
 
             if(bindDefault)
+            {
                 this->bindDefault();
+            }
 
             auto size = _window.getSize();
             setSize(size.x,size.y);
@@ -132,7 +134,7 @@ namespace sfutils
             _movementSpeed = speed;
         }
 
-        void MapViewer::draw(sf::RenderStates states) const
+        void MapViewer::draw(const sf::RenderStates& states) const
         {
             draw(_window,states);
         }
@@ -181,7 +183,7 @@ namespace sfutils
             return _map;
         }
 
-        void MapViewer::draw(sf::RenderTarget& target, sf::RenderStates states) const
+        void MapViewer::draw(sf::RenderTarget& target,sf::RenderStates states) const
         {
             if(_map)
             {

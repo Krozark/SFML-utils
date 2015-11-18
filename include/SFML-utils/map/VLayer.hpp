@@ -38,7 +38,7 @@ namespace sfutils
 
             private:
                 friend class Map;
-                virtual void draw(sf::RenderTarget& target, sf::RenderStates states,const sf::FloatRect& viewport) = 0;
+                virtual void draw(sf::RenderTarget& target, const sf::RenderStates& states,const sf::FloatRect& viewport) = 0;
 
                 const int _z;
         };

@@ -49,7 +49,7 @@ namespace sfutils
                 case sf::Event::MouseMoved:
                 {
                     return context.injectMousePosition(static_cast<float>(event.mouseMove.x),
-                                                        static_cast<float>(event.mouseMove.y));
+                                                       static_cast<float>(event.mouseMove.y));
                 }
                 case sf::Event::MouseButtonPressed:
                 {

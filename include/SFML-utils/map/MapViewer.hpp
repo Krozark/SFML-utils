@@ -44,7 +44,7 @@ namespace sfutils
 
                 void setSpeed(float speed);
 
-                void draw(sf::RenderStates states = sf::RenderStates::Default) const;
+                void draw(const sf::RenderStates& states = sf::RenderStates::Default) const;
 
                 sf::Vector2i mapScreenToCoords(const sf::Vector2i& pos)const;
 
@@ -67,7 +67,7 @@ namespace sfutils
                 float _movementSpeed;
                 sf::RenderWindow& _window;
 
-                virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+                virtual void draw(sf::RenderTarget& target,sf::RenderStates states) const override;
         };
     }
 }

@@ -86,7 +86,7 @@ namespace sfutils
         }
 
         template<typename CONTENT>
-        void Layer<CONTENT>::draw(sf::RenderTarget& target, sf::RenderStates states,const sf::FloatRect& viewport)
+        void Layer<CONTENT>::draw(sf::RenderTarget& target,const sf::RenderStates& states,const sf::FloatRect& viewport)
         {
             if(_isStatic)
             {
@@ -126,7 +126,9 @@ namespace sfutils
                     const CONTENT& content = *it;
                     auto pos = content.getPosition();
                     if(viewport.contains(pos.x,pos.y))
+                    {
                         target.draw(content,states);
+                    }
                 }
             }
         }
@@ -221,7 +223,7 @@ namespace sfutils
         }
 
         template<typename CONTENT>
-        void Layer<CONTENT*>::draw(sf::RenderTarget& target, sf::RenderStates states,const sf::FloatRect& viewport)
+        void Layer<CONTENT*>::draw(sf::RenderTarget& target,const sf::RenderStates& states,const sf::FloatRect& viewport)
         {
             if(_isStatic)
             {

@@ -32,7 +32,7 @@ namespace sfutils
                 
 
             private:
-                virtual void draw(sf::RenderTarget& target, sf::RenderStates states,const sf::FloatRect& viewport) override;
+                virtual void draw(sf::RenderTarget& target,const sf::RenderStates& states,const sf::FloatRect& viewport) override;
 
                 std::list<CONTENT> _content;
 
@@ -62,7 +62,7 @@ namespace sfutils
 
             private:
                 bool _autofree;
-                virtual void draw(sf::RenderTarget& target, sf::RenderStates states,const sf::FloatRect& viewport) override;
+                virtual void draw(sf::RenderTarget& target,const sf::RenderStates& states,const sf::FloatRect& viewport) override;
 
                 std::list<CONTENT*> _content;
 
