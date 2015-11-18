@@ -16,12 +16,12 @@ namespace sfutils
 
             DialogBox* box = new DialogBox(parent,title,text,edit);
 
-            box->_addButton("Ok",[&ok,edit](PopupBox& self){
+            box->_addButton("Ok",[ok,edit](PopupBox& self){
                             ok(std::atoi(edit->getText().c_str()));
                             self.destroy();
             });
 
-            box->_addButton("Close",[&cancel](PopupBox& self){
+            box->_addButton("Close",[cancel](PopupBox& self){
                             cancel();
                             self.destroy();
             });
@@ -53,12 +53,12 @@ namespace sfutils
 
             DialogBox* box = new DialogBox(parent,title,text,edit);
 
-            box->_addButton("Ok",[&ok,edit](PopupBox& self){
+            box->_addButton("Ok",[ok,edit](PopupBox& self){
                             ok(std::atof(edit->getText().c_str()));
                             self.destroy();
             });
 
-            box->_addButton("Close",[&cancel](PopupBox& self){
+            box->_addButton("Close",[cancel](PopupBox& self){
                             cancel();
                             self.destroy();
             });
@@ -88,12 +88,12 @@ namespace sfutils
 
             DialogBox* box = new DialogBox(parent,title,text,edit);
 
-            box->_addButton("Ok",[&ok,edit](PopupBox& self){
+            box->_addButton("Ok",[ok,edit](PopupBox& self){
                             ok(edit->getText().c_str());
                             self.destroy();
             });
 
-            box->_addButton("Close",[&cancel](PopupBox& self){
+            box->_addButton("Close",[cancel](PopupBox& self){
                             cancel();
                             self.destroy();
             });
@@ -145,19 +145,20 @@ namespace sfutils
 
             DialogBox* box = new DialogBox(parent,title,text,list,sf::Vector2u(300,250));
 
-            box->_addButton("Ok",[&ok,list](PopupBox& self){
-                            if(CEGUI::ListboxItem* item = list->getFirstSelectedItem())
-                            {
-                                ok(item->getText().c_str());
-                            }
-                            else
-                            {
-                                ok("");
-                            }
-                            self.destroy();
+            box->_addButton("Ok",[ok,list](PopupBox& self){
+                CEGUI::ListboxItem* item = list->getFirstSelectedItem();
+                if(item != nullptr)
+                {
+                    ok(item->getText().c_str());
+                }
+                else
+                {
+                    ok("");
+                }
+                self.destroy();
             });
 
-            box->_addButton("Close",[&cancel](PopupBox& self){
+            box->_addButton("Close",[cancel](PopupBox& self){
                             cancel();
                             self.destroy();
             });
@@ -193,10 +194,12 @@ namespace sfutils
 
             dial->_setData(box);
 
-            dial->_addButton("Ok",[](PopupBox& self){
+            dial->_addButton("Ok",[ok](PopupBox& self){
+                             ok();
                              self.destroy();
             });
-            dial->_addButton("Close",[](PopupBox& self){
+            dial->_addButton("Close",[cancel](PopupBox& self){
+                             cancel();
                              self.destroy();
                              });
             dial->setModalState(true);
@@ -227,12 +230,12 @@ namespace sfutils
             _layout = CEGUI::WindowManager::getSingleton().createWindow("VerticalLayoutContainer");
             _layout->setSize(CEGUI::USize(CEGUI::UDim(0,0),CEGUI::UDim(0,0)));
 
-            /*_box = CEGUI::WindowManager::getSingletonPtr()->createWindow(GuiManager::getLook()+"/MultiLineEditbox");
+            _box = CEGUI::WindowManager::getSingletonPtr()->createWindow(GuiManager::getLook()+"/MultiLineEditbox");
             _box->setSize(CEGUI::USize(cegui_reldim(1.f), CEGUI::UDim(0,60)));
             _box->setText(text);
             static_cast<CEGUI::MultiLineEditbox*>(_box)->setReadOnly(true);
             static_cast<CEGUI::MultiLineEditbox*>(_box)->setWordWrapping(true);
-            _layout->addChild(_box);*/
+            _layout->addChild(_box);
 
             _layout->addChild(object);
 

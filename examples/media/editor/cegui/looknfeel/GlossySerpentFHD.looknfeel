@@ -101,7 +101,7 @@ Brown/Orange:
         <PropertyDefinition name="TextUsesGlyph" initialValue="0" redrawOnWrite="true" />
         <PropertyDefinition name="VertImageFormatting" initialValue="Stretched" redrawOnWrite="true" />
         <PropertyDefinition name="HorzImageFormatting" initialValue="Stretched" redrawOnWrite="true" />
-        
+
         <PropertyDefinition name="GS_DarkerThemeColour" initialValue="FF940000" redrawOnWrite="true" />
         <PropertyDefinition name="GS_LighterThemeColour" initialValue="FFFF0101" redrawOnWrite="true" />
         <PropertyDefinition name="GS_MainThemeColour" initialValue="FFDC5F5F" redrawOnWrite="true" />
