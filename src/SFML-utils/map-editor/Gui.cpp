@@ -298,6 +298,7 @@ namespace sfutils
 
         bool Gui::_event_leftPanel_tab_changed(const std::string& name)
         {
+            std::cout<<"_event_leftPanel_tab_changed"<<std::endl;
             std::cout<<"_event_leftPanel_tab_changed :"<<name<<std::endl;
             return true;
         }
@@ -372,14 +373,128 @@ namespace sfutils
 
         void Gui::_registerRightPanelCallbacks()
         {
+            CEGUI::Window* bar = _root->getChild("Right");
+
+            {//layers
+                CEGUI::Window* layers = bar->getChild("Layers");
+                CEGUI::Listbox* box = static_cast<CEGUI::Listbox*>(layers->getChildRecursive("List"));
+                assert(box);
+
+                //TEST
+                for(int i=0; i< 25; ++i)
+                {
+                    CEGUI::ListboxTextItem* newItem = new CEGUI::ListboxTextItem("Item #"+std::to_string(i));
+
+                    newItem->setTextColours(CEGUI::Colour( 0xFFFFFFFF));
+                    newItem->setSelectionColours(CEGUI::Colour(1,0,0));
+                    newItem->setSelectionBrushImage("GlossySerpentFHD/ListboxSelectionBrush");
+                    newItem->setAutoDeleted(true);
+
+                    box->addItem(newItem); // Add the new ListBoxTextItem to the ListBox
+                    //box->ensureItemIsVisible(newItem);
+                }
+
+
+                /*box->subscribeEvent(CEGUI::Listbox::EventSelectionChanged,[this,box](const CEGUI::EventArgs& e){
+                    return this->_event_leftPanel_texture_selected(box);
+                });*/
+
+                CEGUI::Window* bottom = layers->getChildRecursive("Bottom");
+                assert(bottom);
+
+                bottom->getChild("Add")->subscribeEvent(CEGUI::PushButton::EventClicked,[this](const CEGUI::EventArgs& e){
+                    return this->_event_rightPanel_layers_add();
+                });
+
+                bottom->getChild("Up")->subscribeEvent(CEGUI::PushButton::EventClicked,[this](const CEGUI::EventArgs& e){
+                    return this->_event_rightPanel_layers_up();
+                });
+
+                bottom->getChild("Down")->subscribeEvent(CEGUI::PushButton::EventClicked,[this](const CEGUI::EventArgs& e){
+                    return this->_event_rightPanel_layers_down();
+                });
+
+                bottom->getChild("Remove")->subscribeEvent(CEGUI::PushButton::EventClicked,[this](const CEGUI::EventArgs& e){
+                   return this->_event_rightPanel_layers_remove();
+               });
+            }
+
+            {//Tab
+                CEGUI::TabControl* box = static_cast<CEGUI::TabControl*>(bar->getChild("Tab"));
+
+                box->subscribeEvent(CEGUI::TabControl::EventSelectionChanged,[this,box](const CEGUI::EventArgs& e){
+                    return this->_event_rightPanel_tab_changed(box->getTabContentsAtIndex(box->getSelectedTabIndex())->getName().c_str());
+                });
+
+
+                {//Brush
+                    CEGUI::Listbox* tab = static_cast<CEGUI::Listbox*>(box->getChild("Brush")->getChildRecursive("List"));
+                    assert(tab);
+
+                    tab->subscribeEvent(CEGUI::Listbox::EventSelectionChanged,[this,tab](const CEGUI::EventArgs& e){
+                        return this->_event_rightPanel_tab_brush_selected(tab);
+                    });
+
+                    //TODO load brush
+
+                }
+
+                {//NPC
+                    CEGUI::Listbox* tab = static_cast<CEGUI::Listbox*>(box->getChild("NPC")->getChildRecursive("List"));
+                    assert(tab);
+
+                    tab->subscribeEvent(CEGUI::Listbox::EventSelectionChanged,[this,tab](const CEGUI::EventArgs& e){
+                        return this->_event_rightPanel_tab_NPC_selected(tab);
+                    });
+
+                    //TODO load edit mode
+                }
+                
+            }
+
         }
-        //bool Gui::_event_rightPanel_layers_add();
-        //bool Gui::_event_rightPanel_layers_up();
-        //bool Gui::_event_rightPanel_layers_down();
-        //bool Gui::_event_rightPanel_layers_remove();
-        //bool Gui::_event_rightPanel_tab_changed();
-        //bool Gui::_event_rightPanel_tab_brush_selected();
-        //bool Gui::_event_rightPanel_tab_NPC_selected();
+
+        bool Gui::_event_rightPanel_layers_add()
+        {
+            std::cout<<"_event_rightPanel_layers_add"<<std::endl;
+            return true;
+        }
+
+        bool Gui::_event_rightPanel_layers_up()
+        {
+            std::cout<<"_event_rightPanel_layers_up"<<std::endl;
+            return true;
+        }
+
+        bool Gui::_event_rightPanel_layers_down()
+        {
+            std::cout<<"_event_rightPanel_layers_down"<<std::endl;
+            return true;
+        }
+
+        bool Gui::_event_rightPanel_layers_remove()
+        {
+            std::cout<<"_event_rightPanel_layers_remove"<<std::endl;
+            return true;
+        }
+
+        bool Gui::_event_rightPanel_tab_changed(const std::string& name)
+        {
+            std::cout<<"_event_rightPanel_tab_changed("<<name<<")"<<std::endl;
+            return true;
+        }
+
+        bool Gui::_event_rightPanel_tab_brush_selected(CEGUI::Listbox* box)
+        {
+            std::cout<<"_event_rightPanel_tab_brush_selected"<<std::endl;
+            return true;
+        }
+
+        bool Gui::_event_rightPanel_tab_NPC_selected(CEGUI::Listbox* box)
+        {
+            std::cout<<"_event_rightPanel_tab_NPC_selected"<<std::endl;
+            return true;
+        }
 
     }
 }

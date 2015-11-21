@@ -89,11 +89,11 @@ namespace sfutils
                 bool _event_rightPanel_layers_down();
                 bool _event_rightPanel_layers_remove();
                 ////tab
-                bool _event_rightPanel_tab_changed();
+                bool _event_rightPanel_tab_changed(const std::string& name);
                 //////Brush
-                bool _event_rightPanel_tab_brush_selected();
+                bool _event_rightPanel_tab_brush_selected(CEGUI::Listbox* box);
                 //////NPC
-                bool _event_rightPanel_tab_NPC_selected();
+                bool _event_rightPanel_tab_NPC_selected(CEGUI::Listbox* box);
 
         };
     }

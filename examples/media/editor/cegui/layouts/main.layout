@@ -256,42 +256,12 @@
 					<Property name="Area" value="{{0,0},{0,10},{1,-10},{1,-63}}" />
 					<Property name="InheritsAlpha" value="false" />
 					
-					<Window type="GlossySerpentFHD/ListboxItemCheckable">
+					<!--Window type="GlossySerpentFHD/ListboxItemCheckable">
 						<Property name="Area" value="{{0,0},{0,0},{1,0},{0,30}}" />
 						<Property name="Text" value="ground" />
 						<Property name="Selectable" value="true" />
 						<Property name="MouseInputPropagationEnabled" value="false" />
-					</Window>
-					<Window type="GlossySerpentFHD/ListboxItemCheckable">
-						<Property name="Area" value="{{0,0},{0,30},{1,0},{0,60}}" />
-						<Property name="Text" value="ground arts" />
-						<Property name="Selectable" value="true" />
-						<Property name="MouseInputPropagationEnabled" value="false" />
-					</Window>
-					<Window type="GlossySerpentFHD/ListboxItemCheckable">
-						<Property name="Area" value="{{0,0},{0,60},{1,0},{0,90}}" />
-						<Property name="Text" value="ground effects" />
-						<Property name="Selectable" value="true" />
-						<Property name="MouseInputPropagationEnabled" value="false" />
-					</Window>
-					<Window type="GlossySerpentFHD/ListboxItemCheckable">
-						<Property name="Area" value="{{0,0},{0,90},{1,0},{0,120}}" />
-						<Property name="Text" value="entities" />
-						<Property name="Selectable" value="true" />
-						<Property name="MouseInputPropagationEnabled" value="false" />
-					</Window>
-					<Window type="GlossySerpentFHD/ListboxItemCheckable">
-						<Property name="Area" value="{{0,0},{0,120},{1,0},{0,150}}" />
-						<Property name="Text" value="ligths" />
-						<Property name="Selectable" value="true" />
-						<Property name="MouseInputPropagationEnabled" value="false" />
-					</Window>
-					<Window type="GlossySerpentFHD/ListboxItemCheckable">
-						<Property name="Area" value="{{0,0},{0,150},{1,0},{0,180}}" />
-						<Property name="Text" value="sky" />
-						<Property name="Selectable" value="true" />
-						<Property name="MouseInputPropagationEnabled" value="false" />
-					</Window>
+					</Window-->
 				</Window>
 				
 				
@@ -327,9 +297,21 @@
                     <Property name="Alpha" value="0" />
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
                     <Property name="InheritsAlpha" value="false" />
+
+					<Window type="GlossySerpentFHD/ListboxTransparent" name="List" >
+                        <Property name="Area" value="{{0,10},{0,10},{1,-10},{1,-10}}" />
+                        <Property name="InheritsAlpha" value="false" />
+						
+						<Window type="GlossySerpentFHD/ListboxItem" name="quest">
+							<Property name="Area" value="{{0,0},{0,0},{1,0},{0,30}}" />
+							<Property name="Text" value="Brush #1" />
+							<Property name="Selectable" value="true" />
+							<Property name="MouseInputPropagationEnabled" value="false" />
+						</Window>
+                    </Window>
                 </Window>
 				
-				<Window type="GlossySerpentFHD/TabContentPane" name="Npc" >
+				<Window type="GlossySerpentFHD/TabContentPane" name="NPC" >
                     <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}}" />
                     <Property name="Text" value="NPC" />
                     <Property name="Alpha" value="0" />
