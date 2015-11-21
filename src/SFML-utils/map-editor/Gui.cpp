@@ -353,10 +353,10 @@ namespace sfutils
                 assert(box);
 
                 box->setPageSize(0);
-                box->setDocumentSize(3);
-                box->setStepSize(0.2);
+                box->setDocumentSize(3); //max zoom
+                box->setStepSize(0.2); //step
 
-                box->setScrollPosition(1);
+                box->setScrollPosition(1); //initial
 
                 box->subscribeEvent(CEGUI::Scrollbar::EventScrollPositionChanged,[this,box](const CEGUI::EventArgs& e){
                     return this->_event_miniMap_zoom(box->getScrollPosition());
