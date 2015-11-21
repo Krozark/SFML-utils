@@ -76,8 +76,6 @@ namespace sfutils
 
 
                 /*top*/
-                void _registerTopCallbacks();
-                void _event_top_titleChanged();
 
                 /*miniMap*/
                 void _registerMiniMapCallbacks();

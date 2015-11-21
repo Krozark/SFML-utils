@@ -30,7 +30,6 @@ namespace sfutils
             //register events
             _registerMenuBarCallbacks();
             _registerLeftPanelCallbacks();
-            _registerTopCallbacks();
             _registerMiniMapCallbacks();
             _registerRightPanelCallbacks();
         }
@@ -174,6 +173,10 @@ namespace sfutils
         bool Gui::_event_menuBar_file_save()
         {
             std::cout<<"MenuBar/File/Menu/Save clicked"<<std::endl;
+
+            CEGUI::Window* box = _root->getChild("MenuBar/Title");
+            std::string title = box->getText().c_str();
+
             return true;
         }
 
@@ -339,16 +342,33 @@ namespace sfutils
 
         //TODO bool Gui::_event_leftPanel_tab_bulding_selected();
         
-        void Gui::_registerTopCallbacks()
-        {
-        }
-
         //void Gui::_event_top_titleChanged();
-
+        
         void Gui::_registerMiniMapCallbacks()
         {
+            CEGUI::Window* bar = _root->getChild("MiniMap");
+
+            {//Zoom slider
+                CEGUI::Scrollbar* box = static_cast<CEGUI::Scrollbar*>(bar->getChild("Slider"));
+                assert(box);
+
+                box->setPageSize(0);
+                box->setDocumentSize(3);
+                box->setStepSize(0.2);
+
+                box->setScrollPosition(1);
+
+                box->subscribeEvent(CEGUI::Scrollbar::EventScrollPositionChanged,[this,box](const CEGUI::EventArgs& e){
+                    return this->_event_miniMap_zoom(box->getScrollPosition());
+                });
+            }
         }
-        //bool Gui::_event_miniMap_zoom(float value);
+
+        bool Gui::_event_miniMap_zoom(float value)
+        {
+            std::cout<<"_event_miniMap_zoom("<<value<<")"<<std::endl;
+            return true;
+        }
 
         void Gui::_registerRightPanelCallbacks()
         {

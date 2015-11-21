@@ -96,9 +96,6 @@
                 <Property name="Area" value="{{0,665},{0,5},{0,1050},{0,50}}" />
                 <Property name="Text" value="New Map" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
-                <Property name="FrameEnabled" value="true" />
-                <Property name="HorzFormatting" value="CentreAligned" />
-                <Property name="BackgroundEnabled" value="true" />
             </Window>
         </Window>
         <Window type="GlossySerpentFHD/SimplePanel" name="Left" >
@@ -236,6 +233,7 @@
             <Property name="Area" value="{{1,-250},{0,55},{1,0},{0,305}}" />
             <Property name="MaxSize" value="{{1,0},{1,0}}" />
             <Property name="BackgroundPictureColour" value="000000FF" />
+
             <Window type="GlossySerpentFHD/VerticalScrollbar" name="Slider" >
                 <Property name="Area" value="{{0.92,-4},{0.102696,-16},{0.99,-7},{0.88,20}}" />
                 <Property name="StepSize" value="0.2" />
