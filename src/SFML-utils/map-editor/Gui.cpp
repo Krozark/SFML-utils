@@ -368,6 +368,7 @@ namespace sfutils
         bool Gui::_event_miniMap_zoom(float value)
         {
             std::cout<<"_event_miniMap_zoom("<<value<<")"<<std::endl;
+            _owner.setMiniMapZoom(value);
             return true;
         }
 

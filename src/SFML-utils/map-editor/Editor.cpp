@@ -19,7 +19,7 @@ namespace sfutils
             _window(sf::VideoMode(1600,900),"SFML-utils map editor"),
             _gui(_window,*this),
             _map(nullptr),
-            _mapViewer(_window)
+            _mapViewer(_window,nullptr,false)
         {
 
             _window.setFramerateLimit(65);
@@ -33,8 +33,6 @@ namespace sfutils
 
             auto map = sfutils::map::MapModel::get(1);
             setMap(map);
-
-
         }
 
         Editor::~Editor()
@@ -86,6 +84,18 @@ namespace sfutils
 
         }
 
+        void Editor::setZoom(float value)
+        {
+            auto size = _window.getSize();
+            _mapViewer.setSize(size.x * value, size.y * value);
+        }
+
+        void Editor::setMiniMapZoom(float value)
+        {
+            //TODO
+            setZoom(value);
+        }
+
         ////////////////////// PRIVATE ////////////////////
         void Editor::_processEvents()
         {
@@ -104,11 +114,24 @@ namespace sfutils
                 {
                     _window.close();
                 }
-                else if(_mapViewer.processEvent(event))
+                ///////////////////map viewer/////////////////////
+                else if(event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::Up)
                 {
-                    reloadAreas = true;
-                    
+                    _mapViewer.move(0,-20);
                 }
+                else if(event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::Down)
+                {
+                    _mapViewer.move(0,20);
+                }
+                else if(event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::Right)
+                {
+                    _mapViewer.move(20,0);
+                }
+                else if(event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::Left)
+                {
+                    _mapViewer.move(-20,0);
+                }
+                ///////////////////editor logics//////////////////
                 else if(event.type == sf::Event::MouseButtonPressed and event.mouseButton.button == sf::Mouse::Button::Left)
                 {
                     sf::Vector2i coord = _mapViewer.mapScreenToCoords(sf::Vector2i(event.mouseButton.x,event.mouseButton.y));

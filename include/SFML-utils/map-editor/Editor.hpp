@@ -24,6 +24,8 @@ namespace sfutils
 
                 void run();
                 void setMap(sfutils::map::MapModel::type_ptr& map);
+                void setZoom(float value);
+                void setMiniMapZoom(float value);
 
             private:
                 sf::RenderWindow _window;
