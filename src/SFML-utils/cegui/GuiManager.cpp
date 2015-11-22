@@ -28,46 +28,49 @@ namespace sfutils
 
         bool GuiManager::processEvent(const sf::Event& event,CEGUI::GUIContext& context)
         {
+            bool res = false;
+
             switch(event.type)
             {
                 case sf::Event::Resized :
                 {
                     CEGUI::System::getSingleton().notifyDisplaySizeChanged(CEGUI::Sizef(event.size.width,event.size.height));
-                }
+                }break;
                 case sf::Event::KeyPressed:
                 {
-                    return context.injectKeyDown(_keyMap[event.key.code]);
-                }
+                    res = context.injectKeyDown(_keyMap[event.key.code]);
+                }break;
                 case sf::Event::KeyReleased:
                 {
-                    return context.injectKeyUp(_keyMap[event.key.code]);
-                }
+                    res = context.injectKeyUp(_keyMap[event.key.code]);
+                }break;
                 case sf::Event::TextEntered:
                 {
-                    return context.injectChar(event.text.unicode);
-                }
+                    res = context.injectChar(event.text.unicode);
+                }break;
                 case sf::Event::MouseMoved:
                 {
-                    return context.injectMousePosition(static_cast<float>(event.mouseMove.x),
+                    res = context.injectMousePosition(static_cast<float>(event.mouseMove.x),
                                                        static_cast<float>(event.mouseMove.y));
-                }
+                }break;
                 case sf::Event::MouseButtonPressed:
                 {
-                    return context.injectMouseButtonDown(_mouseButtonMap[event.mouseButton.button]);
-                }
+                    res = context.injectMouseButtonDown(_mouseButtonMap[event.mouseButton.button]);
+                }break;
                 case sf::Event::MouseButtonReleased:
                 {
-                    return context.injectMouseButtonUp(_mouseButtonMap[event.mouseButton.button]);
-                }
+                    res = context.injectMouseButtonUp(_mouseButtonMap[event.mouseButton.button]);
+                }break;
                 case sf::Event::MouseWheelMoved:
                 {
-                    return context.injectMouseWheelChange(static_cast<float>(event.mouseWheel.delta));
-                }
+                    res = context.injectMouseWheelChange(static_cast<float>(event.mouseWheel.delta));
+                }break;
                 default : 
                 {
-                    return false;
-                }
+                    res = false;
+                }break;
             }
+            return res;
         }
 
         bool GuiManager::processEvent(const sf::Event& event)

@@ -90,7 +90,7 @@ namespace sfutils
             if(_buttonLayout == nullptr)
             {
                 _buttonLayout = CEGUI::WindowManager::getSingleton().createWindow("HorizontalLayoutContainer");
-                _buttonLayout->setSize(CEGUI::USize(CEGUI::UDim(0,0),CEGUI::UDim(-1,40)));
+                _buttonLayout->setSize(CEGUI::USize(CEGUI::UDim(0,0),CEGUI::UDim(0,0)));
                 _buttonLayout->setProperty("HorizontalAlignment","Right");
                 _mainLayout->addChild(_buttonLayout);
             }

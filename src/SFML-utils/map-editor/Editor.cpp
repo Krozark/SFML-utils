@@ -95,7 +95,10 @@ namespace sfutils
 
             while(_window.pollEvent(event))
             {
-                _gui.processEvent(event);
+                if(_gui.processEvent(event))
+                {
+                    continue;
+                }
 
                 if(event.type == sf::Event::Closed ) 
                 {
