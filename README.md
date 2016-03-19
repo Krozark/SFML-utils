@@ -36,6 +36,7 @@ Requirements
 
 * SFML 2.0 +
 * Box2D 2.3 + (optional)
+* CEGUI 0.8.x (optional)
 * cpp-utils : json parser (for map framwork, https://github.com/Krozark/cpp-utils)
 * C++11 compiler
 

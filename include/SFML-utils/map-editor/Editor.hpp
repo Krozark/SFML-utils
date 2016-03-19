@@ -44,6 +44,8 @@ namespace sfutils
                 void _update();
                 void _render();
 
+                void _onClick(const sf::Vector2i& Coord);
+
 
                 void _loadVisiblesAreas(const sf::IntRect& rect);
                 sf::IntRect _getVisibleAreaRect()const;

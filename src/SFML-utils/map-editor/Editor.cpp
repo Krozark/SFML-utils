@@ -135,7 +135,7 @@ namespace sfutils
                 else if(event.type == sf::Event::MouseButtonPressed and event.mouseButton.button == sf::Mouse::Button::Left)
                 {
                     sf::Vector2i coord = _mapViewer.mapScreenToCoords(sf::Vector2i(event.mouseButton.x,event.mouseButton.y));
-                    std::cout<<"Click on ("<<coord.x<<":"<<coord.y<<")"<<std::endl;
+                    _onClick(coord);
                 }
                 else if(event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::F5)
                 {
@@ -189,6 +189,11 @@ namespace sfutils
             _gui.render();
             
             _window.display();
+        }
+
+        void Editor::_onClick(const sf::Vector2i& coord)
+        {
+            std::cout<<"Click on ("<<coord.x<<":"<<coord.y<<")"<<std::endl;
         }
 
 
