@@ -43,7 +43,7 @@ set_option(SFML_UTILS_BUILD_MODULE_MAP TRUE BOOL "TRUE to build the map module")
 set_option(SFML_UTILS_BUILD_MODULE_CEGUI TRUE BOOL "TRUE to build cegui wrapper for SFML")
 if(SFML_UTILS_BUILD_MODULE_CEGUI)
     find_package(CEGUI REQUIRED)
-    include_directories(${CEGUI_INCLUDE_DIR}/..)
+    include_directories(${CEGUI_INCLUDE_DIR})
 
     set(LIBS_CEGUI
         ${CEGUI_LIBRARIES}
