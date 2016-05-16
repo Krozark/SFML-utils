@@ -29,17 +29,13 @@ namespace sfutils
 
             std::unique_ptr<MetaArea> meta(new MetaArea(sf::Vector2i(x,y),""));
 
-            std::cout<<"    area "<<x<<":"<<y<<std::endl;
-
             LayerModel::pointer current;
             std::unique_ptr<MetaLayer> metaLayer;
 
             for(TileModel::pointer& tile : models)
             {
-                std::cout<<(*tile)<<std::endl;
                 if(current.get() == nullptr or current->getPk() != tile->layer->getPk())
                 {
-                    std::cout<<"add"<<std::endl;
                     current = tile->layer;
                     if(metaLayer)
                     {
