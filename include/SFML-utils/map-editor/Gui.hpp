@@ -33,7 +33,7 @@ namespace sfutils
                 void setMainInfo(const std::string& text);
                 void setTitle(const std::string& text);
 
-                void addLayer(sfutils::map::LayerModel::type_ptr& layer);
+                void addLayer(sfutils::map::LayerModel::pointer& layer);
                 void clearLayers();
 
             private:

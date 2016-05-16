@@ -21,7 +21,7 @@ namespace sfutils
                 orm::IntegerField areaWidth;
                 orm::IntegerField areaHeight;
 
-                MAKE_STATIC_COLUMN(name,geometry,scale,areaWidth,areaHeight);
+                ORM_MAKE_STATIC_COLUMN(name,geometry,scale,areaWidth,areaHeight);
 
             private:
         };

@@ -12,14 +12,14 @@ namespace sfutils
         class DatabaseMapLoader : public VMapLoader
         {
             public:
-                DatabaseMapLoader(MapModel::type_ptr& map);
+                DatabaseMapLoader(MapModel::pointer& map);
 
                 virtual ~DatabaseMapLoader();
 
             protected:
 
             private:
-                MapModel::type_ptr _map;
+                MapModel::pointer _map;
 
                 virtual std::unique_ptr<MetaArea> _loadArea(int x,int y,Map* const map) override;
                 virtual Map* _loadMap() override;

@@ -65,7 +65,7 @@ namespace sfutils
             txt->setText(text);
         }
 
-        void Gui::addLayer(sfutils::map::LayerModel::type_ptr& layer)
+        void Gui::addLayer(sfutils::map::LayerModel::pointer& layer)
         {
         }
 

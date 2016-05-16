@@ -21,7 +21,7 @@ namespace sfutils
                 orm::IntegerField y;
                 orm::FK<LayerModel> layer;
                 
-                MAKE_STATIC_COLUMN(texture,textureFrame,x,y,layer);
+                ORM_MAKE_STATIC_COLUMN(texture,textureFrame,x,y,layer);
 
             private:
         };

@@ -15,7 +15,7 @@ namespace sfutils
 
                 orm::CharField<255> name;
 
-                MAKE_STATIC_COLUMN(name);
+                ORM_MAKE_STATIC_COLUMN(name);
         };
     }
 }

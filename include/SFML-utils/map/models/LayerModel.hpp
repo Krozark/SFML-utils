@@ -22,7 +22,7 @@ namespace sfutils
                 orm::FK<LayerTypeModel> type;
                 orm::FK<MapModel> map;
 
-                MAKE_STATIC_COLUMN(name,zBuffer,isStatic,type,map);
+                ORM_MAKE_STATIC_COLUMN(name,zBuffer,isStatic,type,map);
 
             private:
         };

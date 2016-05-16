@@ -17,7 +17,7 @@ namespace sfutils
 
                 for(auto& name :  {"Hexa","HexaIso","Square","SquareIso","SquareStaggered","SquareIsoStaggered"})
                 {
-                    GeometryModel::result_type res;
+                    GeometryModel::pointer_array res;
 
                     GeometryModel::query()
                         .filter(std::string(name),orm::op::exact,GeometryModel::$name)
@@ -27,7 +27,7 @@ namespace sfutils
                     if(res.size() == 0)
                     {
                         std::cout<<"missing. Will be created"<<std::endl;
-                        GeometryModel::type_ptr tmp = GeometryModel::create();
+                        GeometryModel::pointer tmp = GeometryModel::create();
                         tmp->name = name;
                         tmp->save();
 
@@ -44,7 +44,7 @@ namespace sfutils
 
                 for(auto& name : {"tile", "sprite", "sprite_ptr","entity"})
                 {
-                    LayerTypeModel::result_type res;
+                    LayerTypeModel::pointer_array res;
 
                     LayerTypeModel::query()
                         .filter(std::string(name),orm::op::exact,LayerTypeModel::$name)
@@ -54,7 +54,7 @@ namespace sfutils
                     if(res.size() == 0)
                     {
                         std::cout<<"missing. Will be created"<<std::endl;
-                        LayerTypeModel::type_ptr tmp = LayerTypeModel::create();
+                        LayerTypeModel::pointer tmp = LayerTypeModel::create();
                         tmp->name = name;
                         tmp->save();
 
@@ -70,7 +70,7 @@ namespace sfutils
             {
                 std::cout<<"== Cheching MapModel =="<<std::endl;
 
-                MapModel::result_type res;
+                MapModel::pointer_array res;
                 MapModel::query()
                     .filter(std::string("default"),orm::op::exact,MapModel::$name)
                     .get(res);
@@ -79,7 +79,7 @@ namespace sfutils
                 if(res.size() == 0)
                 {
                     std::cout<<"missing. Will be created"<<std::endl;
-                    MapModel::type_ptr tmp = MapModel::create();
+                    MapModel::pointer tmp = MapModel::create();
                     tmp->name = "default";
                     tmp->geometry = GeometryModel::get(1);
                     tmp->scale = 50;

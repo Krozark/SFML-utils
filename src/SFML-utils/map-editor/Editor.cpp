@@ -49,7 +49,7 @@ namespace sfutils
             }
         }
 
-        void Editor::setMap(sfutils::map::MapModel::type_ptr& map)
+        void Editor::setMap(sfutils::map::MapModel::pointer& map)
         {
             _mapManager.reset(new sfutils::map::MapManager(std::shared_ptr<sfutils::map::VMapLoader>(new sfutils::map::DatabaseMapLoader(map))));
 
@@ -70,7 +70,7 @@ namespace sfutils
             //map
             _gui.setTitle(map->name);
             //layers
-            sfutils::map::LayerModel::result_type layers;
+            sfutils::map::LayerModel::pointer_array layers;
             sfutils::map::LayerModel::query()
                 .filter(map->getPk(),orm::op::exact,sfutils::map::LayerModel::$map)
                 .orderBy(sfutils::map::LayerModel::$zBuffer,'-')

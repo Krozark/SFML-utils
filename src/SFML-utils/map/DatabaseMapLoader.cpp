@@ -6,7 +6,7 @@ namespace sfutils
 {
     namespace map
     {
-        DatabaseMapLoader::DatabaseMapLoader(MapModel::type_ptr& map) : 
+        DatabaseMapLoader::DatabaseMapLoader(MapModel::pointer& map) : 
             _map(map)
         {
         }
@@ -17,7 +17,7 @@ namespace sfutils
 
         std::unique_ptr<MetaArea> DatabaseMapLoader::_loadArea(int x,int y,Map* const map)
         {
-            TileModel::result_type models;
+            TileModel::pointer_array models;
             TileModel::query()
                 .filter(orm::Q<TileModel>(x * _map->areaWidth, orm::op::gte, TileModel::$x)
                          and orm::Q<TileModel>((x+1) * _map->areaWidth, orm::op::lt, TileModel::$x)
@@ -31,10 +31,10 @@ namespace sfutils
 
             std::cout<<"    area "<<x<<":"<<y<<std::endl;
 
-            LayerModel::type_ptr current;
+            LayerModel::pointer current;
             std::unique_ptr<MetaLayer> metaLayer;
 
-            for(TileModel::type_ptr& tile : models)
+            for(TileModel::pointer& tile : models)
             {
                 std::cout<<(*tile)<<std::endl;
                 if(current.get() == nullptr or current->getPk() != tile->layer->getPk())
@@ -73,7 +73,7 @@ namespace sfutils
             std::list<MetaLayer> layers;
 
             {
-                LayerModel::result_type res;
+                LayerModel::pointer_array res;
                 LayerModel::query()
                     .filter(_map->getPk(),orm::op::exact,LayerModel::$map)
                     .get(res);

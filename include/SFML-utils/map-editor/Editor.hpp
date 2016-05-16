@@ -23,7 +23,7 @@ namespace sfutils
                 ~Editor();
 
                 void run();
-                void setMap(sfutils::map::MapModel::type_ptr& map);
+                void setMap(sfutils::map::MapModel::pointer& map);
                 void setZoom(float value);
                 void setMiniMapZoom(float value);
 
