@@ -34,12 +34,16 @@ namespace sfutils
                 void setTitle(const std::string& text);
 
                 void addLayer(sfutils::map::LayerModel::pointer& layer);
-                void clearLayers();
+
+                void reset();
 
             private:
                 Editor& _owner;
                 sf::RenderWindow& _window;
                 CEGUI::Window* _root;
+
+                CEGUI::Listbox* _layerList;
+                void _clearLayerList();
 
                 /*menu*/
                 void _registerMenuBarCallbacks();
@@ -84,7 +88,6 @@ namespace sfutils
                 /*Right panel*/
                 void _registerRightPanelCallbacks();
                 ////Layers
-                CEGUI::Listbox* _layerList;
                 bool _event_rightPanel_layer_selected(CEGUI::Listbox* box);
                 bool _event_rightPanel_layers_add();
                 bool _event_rightPanel_layers_up();

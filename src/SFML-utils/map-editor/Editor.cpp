@@ -67,8 +67,11 @@ namespace sfutils
             _loadVisiblesAreas(rect);
 
             ////////////// GUI ///////////
+            _gui.reset();
+
             //map
             _gui.setTitle(map->name);
+
             //layers
             sfutils::map::LayerModel::pointer_array layers;
             sfutils::map::LayerModel::query()
@@ -76,7 +79,6 @@ namespace sfutils
                 .orderBy(sfutils::map::LayerModel::$zBuffer,'-')
                 .get(layers);
 
-            _gui.clearLayers();
             for(auto& layer : layers)
             {
                 _gui.addLayer(layer);

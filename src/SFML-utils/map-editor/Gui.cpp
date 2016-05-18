@@ -75,15 +75,26 @@ namespace sfutils
             newItem->setSelectionColours(CEGUI::Colour(1,0,0));
             newItem->setSelectionBrushImage("GlossySerpentFHD/ListboxSelectionBrush");
             newItem->setAutoDeleted(true);
+            newItem->setUserData(layer.get());
 
             _layerList->addItem(newItem);
         }
 
-        void Gui::clearLayers()
+        void Gui::reset()
         {
+            setMainInfo("");
+            setTitle("");
+            _clearLayerList();
         }
 
         ////////////////////// PRIVATE ///////////////////
+
+        void Gui::_clearLayerList()
+        {
+            assert(_layerList);
+            _layerList->resetList();
+        }
+
 
         //Menu
         void Gui::_registerMenuBarCallbacks()
