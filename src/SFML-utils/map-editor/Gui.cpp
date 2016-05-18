@@ -270,6 +270,10 @@ namespace sfutils
                     CEGUI::Listbox* list = static_cast<CEGUI::Listbox*>(tab->getChild("List"));
                     CEGUI::Window* bottom = tab->getChild("Bottom");
 
+                    list->subscribeEvent(CEGUI::Listbox::EventSelectionChanged,[this,list](const CEGUI::EventArgs& e){
+                        return this->_event_leftPanel_tab_NPC_selected(list);
+                    });
+
                     //TODO TEST
                     for(int i=0; i< 25; ++i)
                     {
@@ -296,6 +300,10 @@ namespace sfutils
                     CEGUI::Listbox* list = static_cast<CEGUI::Listbox*>(tab->getChild("List"));
                     CEGUI::Window* bottom = tab->getChild("Bottom");
 
+                    list->subscribeEvent(CEGUI::Listbox::EventSelectionChanged,[this,list](const CEGUI::EventArgs& e){
+                        return this->_event_leftPanel_tab_creature_selected(list);
+                    });
+
                     //TODO TEST
                     for(int i=0; i< 25; ++i)
                     {
@@ -321,6 +329,10 @@ namespace sfutils
                     CEGUI::Window* tab = box->getChild("Bulding");
                     CEGUI::Listbox* list = static_cast<CEGUI::Listbox*>(tab->getChild("List"));
                     CEGUI::Window* bottom = tab->getChild("Bottom");
+
+                    list->subscribeEvent(CEGUI::Listbox::EventSelectionChanged,[this,list](const CEGUI::EventArgs& e){
+                        return this->_event_leftPanel_tab_bulding_selected(list);
+                    });
 
                     //TODO TEST
                     for(int i=0; i< 25; ++i)
@@ -374,7 +386,17 @@ namespace sfutils
             std::cout<<"_event_leftPanel_tab_NPC_remove()"<<std::endl;
             return true;
         }
-        //TODO bool Gui::_event_leftPanel_tab_NPC_selected();
+
+        bool Gui::_event_leftPanel_tab_NPC_selected(CEGUI::Listbox* box)
+        {
+            CEGUI::ListboxItem* item = box->getFirstSelectedItem();
+            if(item)
+            {
+                std::cout<<"_event_leftPanel_tab_NPC_selected : "<<item->getText().c_str()<<std::endl;
+            }
+
+            return true;
+        }
 
         bool Gui::_event_leftPanel_tab_creature_add()
         {
@@ -387,7 +409,17 @@ namespace sfutils
             std::cout<<"_event_leftPanel_tab_creature_remove()"<<std::endl;
             return true;
         }
-        //TODO bool Gui::_event_leftPanel_tab_creature_selected();
+
+        bool Gui::_event_leftPanel_tab_creature_selected(CEGUI::Listbox* box)
+        {
+            CEGUI::ListboxItem* item = box->getFirstSelectedItem();
+            if(item)
+            {
+                std::cout<<"_event_leftPanel_tab_creature_selected : "<<item->getText().c_str()<<std::endl;
+            }
+
+            return true;
+        }
 
         bool Gui::_event_leftPanel_tab_bulding_add()
         {
@@ -401,7 +433,16 @@ namespace sfutils
             return true;
         }
 
-        //TODO bool Gui::_event_leftPanel_tab_bulding_selected();
+        bool Gui::_event_leftPanel_tab_bulding_selected(CEGUI::Listbox* box)
+        {
+            CEGUI::ListboxItem* item = box->getFirstSelectedItem();
+            if(item)
+            {
+                std::cout<<"_event_leftPanel_tab_bulding_selected : "<<item->getText().c_str()<<std::endl;
+            }
+
+            return true;
+        }
         
         //void Gui::_event_top_titleChanged();
         
@@ -568,13 +609,23 @@ namespace sfutils
 
         bool Gui::_event_rightPanel_tab_brush_selected(CEGUI::Listbox* box)
         {
-            std::cout<<"_event_rightPanel_tab_brush_selected"<<std::endl;
+            CEGUI::ListboxItem* item = box->getFirstSelectedItem();
+            if(item)
+            {
+                std::cout<<"_event_rightPanel_tab_brush_selected : "<<item->getText().c_str()<<std::endl;
+            }
+
             return true;
         }
 
         bool Gui::_event_rightPanel_tab_NPC_selected(CEGUI::Listbox* box)
         {
-            std::cout<<"_event_rightPanel_tab_NPC_selected"<<std::endl;
+            CEGUI::ListboxItem* item = box->getFirstSelectedItem();
+            if(item)
+            {
+                std::cout<<"_event_rightPanel_tab_NPC_selected : "<<item->getText().c_str()<<std::endl;
+            }
+
             return true;
         }
 

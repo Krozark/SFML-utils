@@ -66,17 +66,17 @@ namespace sfutils
                 ////Tab
                 bool _event_leftPanel_tab_changed(const std::string& name);
                 //////NPC
+                bool _event_leftPanel_tab_NPC_selected(CEGUI::Listbox* box);
                 bool _event_leftPanel_tab_NPC_add();
                 bool _event_leftPanel_tab_NPC_remove();
-                bool _event_leftPanel_tab_NPC_selected();
                 //////creatures
+                bool _event_leftPanel_tab_creature_selected(CEGUI::Listbox* box);
                 bool _event_leftPanel_tab_creature_add();
                 bool _event_leftPanel_tab_creature_remove();
-                bool _event_leftPanel_tab_creature_selected();
                 //////buldings
+                bool _event_leftPanel_tab_bulding_selected(CEGUI::Listbox* box);
                 bool _event_leftPanel_tab_bulding_add();
                 bool _event_leftPanel_tab_bulding_remove();
-                bool _event_leftPanel_tab_bulding_selected();
 
 
                 /*top*/
