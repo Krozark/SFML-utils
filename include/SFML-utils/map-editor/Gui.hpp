@@ -84,6 +84,8 @@ namespace sfutils
                 /*Right panel*/
                 void _registerRightPanelCallbacks();
                 ////Layers
+                CEGUI::Listbox* _layerList;
+                bool _event_rightPanel_layer_selected(CEGUI::Listbox* box);
                 bool _event_rightPanel_layers_add();
                 bool _event_rightPanel_layers_up();
                 bool _event_rightPanel_layers_down();

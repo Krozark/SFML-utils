@@ -14,7 +14,8 @@ namespace sfutils
         Gui::Gui(sf::RenderWindow& mainWindow,Editor& owner) :
             _owner(owner),
             _window(mainWindow),
-            _root(nullptr)
+            _root(nullptr),
+            _layerList(nullptr)
         {
             cegui::GuiManager::init("media/editor/cegui/","GlossySerpentFHD","DejaVuSans-10");
             //set mouse
@@ -67,6 +68,15 @@ namespace sfutils
 
         void Gui::addLayer(sfutils::map::LayerModel::pointer& layer)
         {
+            assert(_layerList);
+            CEGUI::ListboxTextItem* newItem = new CEGUI::ListboxTextItem(layer->name.value());
+
+            newItem->setTextColours(CEGUI::Colour( 0xFFFFFFFF));
+            newItem->setSelectionColours(CEGUI::Colour(1,0,0));
+            newItem->setSelectionBrushImage("GlossySerpentFHD/ListboxSelectionBrush");
+            newItem->setAutoDeleted(true);
+
+            _layerList->addItem(newItem);
         }
 
         void Gui::clearLayers()
@@ -419,26 +429,12 @@ namespace sfutils
 
             {//layers
                 CEGUI::Window* layers = bar->getChild("Layers");
-                CEGUI::Listbox* box = static_cast<CEGUI::Listbox*>(layers->getChildRecursive("List"));
-                assert(box);
+                _layerList = static_cast<CEGUI::Listbox*>(layers->getChildRecursive("List"));
+                assert(_layerList);
 
-                //TEST
-                for(int i=0; i< 25; ++i)
-                {
-                    CEGUI::ListboxTextItem* newItem = new CEGUI::ListboxTextItem("Item #"+std::to_string(i));
-
-                    newItem->setTextColours(CEGUI::Colour( 0xFFFFFFFF));
-                    newItem->setSelectionColours(CEGUI::Colour(1,0,0));
-                    newItem->setSelectionBrushImage("GlossySerpentFHD/ListboxSelectionBrush");
-                    newItem->setAutoDeleted(true);
-
-                    box->addItem(newItem); // Add the new ListBoxTextItem to the ListBox
-                }
-
-
-                /*box->subscribeEvent(CEGUI::Listbox::EventSelectionChanged,[this,box](const CEGUI::EventArgs& e){
-                    return this->_event_leftPanel_texture_selected(box);
-                });*/
+                _layerList->subscribeEvent(CEGUI::Listbox::EventSelectionChanged,[this](const CEGUI::EventArgs& e){
+                    return this->_event_rightPanel_layer_selected(_layerList);
+                });
 
                 CEGUI::Window* bottom = layers->getChildRecursive("Bottom");
                 assert(bottom);
@@ -516,6 +512,17 @@ namespace sfutils
                 
             }
 
+        }
+
+        bool Gui::_event_rightPanel_layer_selected(CEGUI::Listbox* box)
+        {
+            CEGUI::ListboxItem* item = box->getFirstSelectedItem();
+            if(item)
+            {
+                std::cout<<"_event_rightPanel_layer_selected : "<<item->getText().c_str()<<std::endl;
+            }
+
+            return true;
         }
 
         bool Gui::_event_rightPanel_layers_add()
