@@ -109,7 +109,7 @@
                 <Property name="Text" value="Textures" />
                 <Property name="RiseOnClickEnabled" value="false" />
 				
-				<Window type="GlossySerpentFHD/ListboxTransparent" name="Listbox" >
+				<Window type="GlossySerpentFHD/Listbox" name="Listbox" >
 					<Property name="Area" value="{{0,5},{0,5},{1,-5},{1,-5}}" />
 				</Window>
             </Window>
@@ -128,16 +128,9 @@
                     <Property name="InheritsAlpha" value="false" />
 					
 					
-                    <Window type="GlossySerpentFHD/ListboxTransparent" name="List" >
+                    <Window type="GlossySerpentFHD/Listbox" name="List" >
                         <Property name="Area" value="{{0,10},{0,10},{1,-10},{1,-60}}" />
                         <Property name="InheritsAlpha" value="false" />
-						
-						<Window type="GlossySerpentFHD/ListboxItem">
-							<Property name="Area" value="{{0,0},{0,0},{1,0},{0,30}}" />
-							<Property name="Text" value="Empty NPC" />
-							<Property name="Selectable" value="true" />
-							<Property name="MouseInputPropagationEnabled" value="false" />
-						</Window>
                     </Window>
 					
 					<Window type="GlossySerpentFHD/SerpentScaledBottomBorder" name="Bottom" >
@@ -164,16 +157,9 @@
                     <Property name="InheritsAlpha" value="false" />
 					
 					
-                    <Window type="GlossySerpentFHD/ListboxTransparent" name="List" >
+                    <Window type="GlossySerpentFHD/Listbox" name="List" >
                         <Property name="Area" value="{{0,10},{0,10},{1,-10},{1,-60}}" />
                         <Property name="InheritsAlpha" value="false" />
-						
-						<Window type="GlossySerpentFHD/ListboxItem">
-							<Property name="Area" value="{{0,0},{0,0},{1,0},{0,30}}" />
-							<Property name="Text" value="Empty Creatures" />
-							<Property name="Selectable" value="true" />
-							<Property name="MouseInputPropagationEnabled" value="false" />
-						</Window>
                     </Window>
 					
 					<Window type="GlossySerpentFHD/SerpentScaledBottomBorder" name="Bottom" >
@@ -200,16 +186,9 @@
                     <Property name="InheritsAlpha" value="false" />
 					
 					
-                    <Window type="GlossySerpentFHD/ListboxTransparent" name="List" >
+                    <Window type="GlossySerpentFHD/Listbox" name="List" >
                         <Property name="Area" value="{{0,10},{0,10},{1,-10},{1,-60}}" />
                         <Property name="InheritsAlpha" value="false" />
-						
-						<Window type="GlossySerpentFHD/ListboxItem">
-							<Property name="Area" value="{{0,0},{0,0},{1,0},{0,30}}" />
-							<Property name="Text" value="Empty Bulding" />
-							<Property name="Selectable" value="true" />
-							<Property name="MouseInputPropagationEnabled" value="false" />
-						</Window>
                     </Window>
 					
 					<Window type="GlossySerpentFHD/SerpentScaledBottomBorder" name="Bottom" >
@@ -254,16 +233,9 @@
                 <Property name="Text" value="Layers" />
                 <Property name="RiseOnClickEnabled" value="false" />
 				
-				<Window type="GlossySerpentFHD/ListboxTransparent" name="List" >
+				<Window type="GlossySerpentFHD/Listbox" name="List" >
 					<Property name="Area" value="{{0,0},{0,10},{1,-10},{1,-63}}" />
 					<Property name="InheritsAlpha" value="false" />
-					
-					<!--Window type="GlossySerpentFHD/ListboxItemCheckable">
-						<Property name="Area" value="{{0,0},{0,0},{1,0},{0,30}}" />
-						<Property name="Text" value="ground" />
-						<Property name="Selectable" value="true" />
-						<Property name="MouseInputPropagationEnabled" value="false" />
-					</Window-->
 				</Window>
 				
 				
@@ -300,16 +272,9 @@
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
                     <Property name="InheritsAlpha" value="false" />
 
-					<Window type="GlossySerpentFHD/ListboxTransparent" name="List" >
+					<Window type="GlossySerpentFHD/Listbox" name="List" >
                         <Property name="Area" value="{{0,10},{0,10},{1,-10},{1,-10}}" />
                         <Property name="InheritsAlpha" value="false" />
-						
-						<Window type="GlossySerpentFHD/ListboxItem" name="quest">
-							<Property name="Area" value="{{0,0},{0,0},{1,0},{0,30}}" />
-							<Property name="Text" value="Brush #1" />
-							<Property name="Selectable" value="true" />
-							<Property name="MouseInputPropagationEnabled" value="false" />
-						</Window>
                     </Window>
                 </Window>
 				
@@ -320,16 +285,9 @@
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
                     <Property name="InheritsAlpha" value="false" />
 					
-					<Window type="GlossySerpentFHD/ListboxTransparent" name="List" >
+					<Window type="GlossySerpentFHD/Listbox" name="List" >
                         <Property name="Area" value="{{0,10},{0,10},{1,-10},{1,-10}}" />
                         <Property name="InheritsAlpha" value="false" />
-						
-						<Window type="GlossySerpentFHD/ListboxItem" name="quest">
-							<Property name="Area" value="{{0,0},{0,0},{1,0},{0,30}}" />
-							<Property name="Text" value="Quest edit" />
-							<Property name="Selectable" value="true" />
-							<Property name="MouseInputPropagationEnabled" value="false" />
-						</Window>
                     </Window>
 					
                 </Window>

@@ -218,7 +218,7 @@ namespace sfutils
                 CEGUI::Listbox* box = static_cast<CEGUI::Listbox*>(menuBar->getChild("Textures")->getChildRecursive("Listbox"));
                 assert(box);
 
-                //TEST
+                //TODO TEST
                 for(int i=0; i< 25; ++i)
                 {
                     CEGUI::ListboxTextItem* newItem = new CEGUI::ListboxTextItem("Item #"+std::to_string(i));
@@ -246,8 +246,21 @@ namespace sfutils
 
                 {//NPC
                     CEGUI::Window* tab = box->getChild("NPC");
-                    //CEGUI::Listbox* list = static_cast<CEGUI::Listbox*>(tab->getChild("List"));
+                    CEGUI::Listbox* list = static_cast<CEGUI::Listbox*>(tab->getChild("List"));
                     CEGUI::Window* bottom = tab->getChild("Bottom");
+
+                    //TODO TEST
+                    for(int i=0; i< 25; ++i)
+                    {
+                        CEGUI::ListboxTextItem* newItem = new CEGUI::ListboxTextItem("Item #"+std::to_string(i));
+
+                        newItem->setTextColours(CEGUI::Colour( 0xFFFFFFFF));
+                        newItem->setSelectionColours(CEGUI::Colour(1,0,0));
+                        newItem->setSelectionBrushImage("GlossySerpentFHD/ListboxSelectionBrush");
+                        newItem->setAutoDeleted(true);
+
+                        list->addItem(newItem); // Add the new ListBoxTextItem to the ListBox
+                    }
 
                     bottom->getChild("Add")->subscribeEvent(CEGUI::PushButton::EventClicked,[this](const CEGUI::EventArgs& e){
                         return this->_event_leftPanel_tab_NPC_add();
@@ -259,8 +272,21 @@ namespace sfutils
 
                 {//Creature
                     CEGUI::Window* tab = box->getChild("Creatures");
-                    //CEGUI::Listbox* list = static_cast<CEGUI::Listbox*>(tab->getChild("List"));
+                    CEGUI::Listbox* list = static_cast<CEGUI::Listbox*>(tab->getChild("List"));
                     CEGUI::Window* bottom = tab->getChild("Bottom");
+
+                    //TODO TEST
+                    for(int i=0; i< 25; ++i)
+                    {
+                        CEGUI::ListboxTextItem* newItem = new CEGUI::ListboxTextItem("Item #"+std::to_string(i));
+
+                        newItem->setTextColours(CEGUI::Colour( 0xFFFFFFFF));
+                        newItem->setSelectionColours(CEGUI::Colour(1,0,0));
+                        newItem->setSelectionBrushImage("GlossySerpentFHD/ListboxSelectionBrush");
+                        newItem->setAutoDeleted(true);
+
+                        list->addItem(newItem); // Add the new ListBoxTextItem to the ListBox
+                    }
 
                     bottom->getChild("Add")->subscribeEvent(CEGUI::PushButton::EventClicked,[this](const CEGUI::EventArgs& e){
                         return this->_event_leftPanel_tab_creature_add();
@@ -272,8 +298,21 @@ namespace sfutils
 
                 {//Building
                     CEGUI::Window* tab = box->getChild("Bulding");
-                    //CEGUI::Listbox* list = static_cast<CEGUI::Listbox*>(tab->getChild("List"));
+                    CEGUI::Listbox* list = static_cast<CEGUI::Listbox*>(tab->getChild("List"));
                     CEGUI::Window* bottom = tab->getChild("Bottom");
+
+                    //TODO TEST
+                    for(int i=0; i< 25; ++i)
+                    {
+                        CEGUI::ListboxTextItem* newItem = new CEGUI::ListboxTextItem("Item #"+std::to_string(i));
+
+                        newItem->setTextColours(CEGUI::Colour( 0xFFFFFFFF));
+                        newItem->setSelectionColours(CEGUI::Colour(1,0,0));
+                        newItem->setSelectionBrushImage("GlossySerpentFHD/ListboxSelectionBrush");
+                        newItem->setAutoDeleted(true);
+
+                        list->addItem(newItem); // Add the new ListBoxTextItem to the ListBox
+                    }
 
                     bottom->getChild("Add")->subscribeEvent(CEGUI::PushButton::EventClicked,[this](const CEGUI::EventArgs& e){
                         return this->_event_leftPanel_tab_bulding_add();
@@ -394,7 +433,6 @@ namespace sfutils
                     newItem->setAutoDeleted(true);
 
                     box->addItem(newItem); // Add the new ListBoxTextItem to the ListBox
-                    //box->ensureItemIsVisible(newItem);
                 }
 
 
@@ -431,26 +469,49 @@ namespace sfutils
 
 
                 {//Brush
-                    CEGUI::Listbox* tab = static_cast<CEGUI::Listbox*>(box->getChild("Brush")->getChildRecursive("List"));
-                    assert(tab);
+                    CEGUI::Listbox* list = static_cast<CEGUI::Listbox*>(box->getChild("Brush")->getChildRecursive("List"));
+                    assert(list);
 
-                    tab->subscribeEvent(CEGUI::Listbox::EventSelectionChanged,[this,tab](const CEGUI::EventArgs& e){
-                        return this->_event_rightPanel_tab_brush_selected(tab);
+                    list->subscribeEvent(CEGUI::Listbox::EventSelectionChanged,[this,list](const CEGUI::EventArgs& e){
+                        return this->_event_rightPanel_tab_brush_selected(list);
                     });
 
                     //TODO load brush
+                    for(int i=0; i< 25; ++i)
+                    {
+                        CEGUI::ListboxTextItem* newItem = new CEGUI::ListboxTextItem("Item #"+std::to_string(i));
+
+                        newItem->setTextColours(CEGUI::Colour( 0xFFFFFFFF));
+                        newItem->setSelectionColours(CEGUI::Colour(1,0,0));
+                        newItem->setSelectionBrushImage("GlossySerpentFHD/ListboxSelectionBrush");
+                        newItem->setAutoDeleted(true);
+
+                        list->addItem(newItem); // Add the new ListBoxTextItem to the ListBox
+                    }
 
                 }
 
                 {//NPC
-                    CEGUI::Listbox* tab = static_cast<CEGUI::Listbox*>(box->getChild("NPC")->getChildRecursive("List"));
-                    assert(tab);
+                    CEGUI::Listbox* list = static_cast<CEGUI::Listbox*>(box->getChild("NPC")->getChildRecursive("List"));
+                    assert(list);
 
-                    tab->subscribeEvent(CEGUI::Listbox::EventSelectionChanged,[this,tab](const CEGUI::EventArgs& e){
-                        return this->_event_rightPanel_tab_NPC_selected(tab);
+
+                    list->subscribeEvent(CEGUI::Listbox::EventSelectionChanged,[this,list](const CEGUI::EventArgs& e){
+                        return this->_event_rightPanel_tab_NPC_selected(list);
                     });
 
                     //TODO load edit mode
+                    for(int i=0; i< 25; ++i)
+                    {
+                        CEGUI::ListboxTextItem* newItem = new CEGUI::ListboxTextItem("Item #"+std::to_string(i));
+
+                        newItem->setTextColours(CEGUI::Colour( 0xFFFFFFFF));
+                        newItem->setSelectionColours(CEGUI::Colour(1,0,0));
+                        newItem->setSelectionBrushImage("GlossySerpentFHD/ListboxSelectionBrush");
+                        newItem->setAutoDeleted(true);
+
+                        list->addItem(newItem); // Add the new ListBoxTextItem to the ListBox
+                    }
                 }
                 
             }
