@@ -10,6 +10,7 @@ namespace CEGUI
     class System;
     class Window;
     class Listbox;
+    class ListboxItem;
     class GUIContext;
 }
 
@@ -34,6 +35,7 @@ namespace sfutils
                 void setTitle(const std::string& text);
 
                 void addLayer(sfutils::map::LayerModel::pointer& layer);
+                void delLayer(sfutils::map::LayerModel::pointer& layer);
 
                 void reset();
 
@@ -44,6 +46,7 @@ namespace sfutils
 
                 CEGUI::Listbox* _layerList;
                 void _clearLayerList();
+                void _setLayerListItemName(CEGUI::ListboxItem* item);
 
                 /*menu*/
                 void _registerMenuBarCallbacks();
@@ -88,7 +91,7 @@ namespace sfutils
                 /*Right panel*/
                 void _registerRightPanelCallbacks();
                 ////Layers
-                bool _event_rightPanel_layer_selected(CEGUI::Listbox* box);
+                bool _event_rightPanel_layer_selected();
                 bool _event_rightPanel_layers_add();
                 bool _event_rightPanel_layers_up();
                 bool _event_rightPanel_layers_down();

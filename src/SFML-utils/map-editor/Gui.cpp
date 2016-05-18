@@ -69,15 +69,22 @@ namespace sfutils
         void Gui::addLayer(sfutils::map::LayerModel::pointer& layer)
         {
             assert(_layerList);
-            CEGUI::ListboxTextItem* newItem = new CEGUI::ListboxTextItem(layer->name.value());
+            CEGUI::ListboxTextItem* newItem = new CEGUI::ListboxTextItem("");
+
 
             newItem->setTextColours(CEGUI::Colour( 0xFFFFFFFF));
             newItem->setSelectionColours(CEGUI::Colour(1,0,0));
             newItem->setSelectionBrushImage("GlossySerpentFHD/ListboxSelectionBrush");
             newItem->setAutoDeleted(true);
             newItem->setUserData(layer.get());
-
             _layerList->addItem(newItem);
+
+            _setLayerListItemName(newItem);
+        }
+
+        void Gui::delLayer(sfutils::map::LayerModel::pointer& layer)
+        {
+            //TODO
         }
 
         void Gui::reset()
@@ -93,6 +100,12 @@ namespace sfutils
         {
             assert(_layerList);
             _layerList->resetList();
+        }
+
+        void Gui::_setLayerListItemName(CEGUI::ListboxItem* item)
+        {
+            sfutils::map::LayerModel* layer = static_cast<sfutils::map::LayerModel*>(item->getUserData());
+            item->setText(layer->name.value() + " (" + std::to_string(layer->zBuffer.value()) + ")");
         }
 
 
@@ -485,7 +498,7 @@ namespace sfutils
                 assert(_layerList);
 
                 _layerList->subscribeEvent(CEGUI::Listbox::EventSelectionChanged,[this](const CEGUI::EventArgs& e){
-                    return this->_event_rightPanel_layer_selected(_layerList);
+                    return this->_event_rightPanel_layer_selected();
                 });
 
                 CEGUI::Window* bottom = layers->getChildRecursive("Bottom");
@@ -566,9 +579,9 @@ namespace sfutils
 
         }
 
-        bool Gui::_event_rightPanel_layer_selected(CEGUI::Listbox* box)
+        bool Gui::_event_rightPanel_layer_selected()
         {
-            CEGUI::ListboxItem* item = box->getFirstSelectedItem();
+            CEGUI::ListboxItem* item = _layerList->getFirstSelectedItem();
             if(item)
             {
                 std::cout<<"_event_rightPanel_layer_selected : "<<item->getText().c_str()<<std::endl;
@@ -585,13 +598,80 @@ namespace sfutils
 
         bool Gui::_event_rightPanel_layers_up()
         {
-            std::cout<<"_event_rightPanel_layers_up"<<std::endl;
+            CEGUI::ListboxItem* item = _layerList->getFirstSelectedItem();
+            if(item == nullptr)
+            {
+                return true;
+            }
+
+            unsigned int size = _layerList->getItemCount();
+            unsigned int index = _layerList->getItemIndex(item);
+            if(size == 1 or index == 0) //already on top
+            {
+                return true;
+            }
+
+            sfutils::map::LayerModel* layer = static_cast<sfutils::map::LayerModel*>(item->getUserData());
+            assert(layer);
+
+            int from = layer->zBuffer.value();
+            if(_owner.requestMoveLayer(from,from+1) == false)
+            {
+                return true;
+            }
+
+             CEGUI::ListboxItem* itemTop = _layerList->getListboxItemFromIndex(index -1);
+             assert(itemTop);
+
+            //remove move item
+            item->setAutoDeleted(false);
+            _layerList->removeItem(item);
+
+            //readd it at new place
+             _layerList->insertItem(item,itemTop);
+            item->setAutoDeleted(true);
+
+
             return true;
         }
 
         bool Gui::_event_rightPanel_layers_down()
         {
-            std::cout<<"_event_rightPanel_layers_down"<<std::endl;
+            CEGUI::ListboxItem* item = _layerList->getFirstSelectedItem();
+            if(item == nullptr)
+            {
+                return true;
+            }
+
+            unsigned int size = _layerList->getItemCount();
+            unsigned int index = _layerList->getItemIndex(item);
+
+            if(size == 1 or index == size - 1) //already on bottom
+            {
+                return true;
+            }
+            
+            sfutils::map::LayerModel* layer = static_cast<sfutils::map::LayerModel*>(item->getUserData());
+            assert(layer);
+
+            int from = layer->zBuffer.value();
+            if(_owner.requestMoveLayer(from,from-1) == false)
+            {
+                return true;
+            }
+
+
+            CEGUI::ListboxItem* itemBottom = _layerList->getListboxItemFromIndex(index + 1);
+            assert(itemBottom);
+
+            //remove move item
+            itemBottom->setAutoDeleted(false);
+            _layerList->removeItem(itemBottom);
+
+            //readd it at new place
+            _layerList->insertItem(itemBottom,item);
+            itemBottom->setAutoDeleted(true);
+
             return true;
         }
 

@@ -27,6 +27,10 @@ namespace sfutils
                 void setZoom(float value);
                 void setMiniMapZoom(float value);
 
+                bool requestNewLayer();
+                bool requestDelLayer(int index);
+                bool requestMoveLayer(int from,int to);
+
             private:
                 sf::RenderWindow _window;
                 sf::Clock _clock;

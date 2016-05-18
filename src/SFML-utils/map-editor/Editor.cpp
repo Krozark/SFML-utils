@@ -98,6 +98,24 @@ namespace sfutils
             setZoom(value);
         }
 
+        bool Editor::requestNewLayer()
+        {
+            //TODO
+            return false;
+        }
+
+        bool Editor::requestDelLayer(int index)
+        {
+            //TODO
+            return false;
+        }
+
+        bool Editor::requestMoveLayer(int from,int to)
+        {
+            //TODO change zbuffer of it, and all others to be sure that no z index is duplicated
+            return false;
+        }
+
         ////////////////////// PRIVATE ////////////////////
         void Editor::_processEvents()
         {
