@@ -79,7 +79,12 @@ namespace sfutils
             newItem->setUserData(layer.get());
             _layerList->addItem(newItem);
 
-            _setLayerListItemName(newItem);
+            unsigned int size = _layerList->getItemCount();
+            for(unsigned int i = 0; i < size; ++i)
+            {
+                CEGUI::ListboxItem* item = _layerList->getListboxItemFromIndex(i);
+                _setLayerListItemName(item);
+            }
         }
 
         void Gui::delLayer(sfutils::map::LayerModel::pointer& layer)
