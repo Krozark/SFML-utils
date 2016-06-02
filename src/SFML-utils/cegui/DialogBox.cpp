@@ -7,12 +7,13 @@ namespace sfutils
     namespace cegui
     {
         void DialogBox::getInt(CEGUI::GUIContext& parent,const std::string& title,const std::string& text,
-                               const std::function<void(int)>& ok, const std::function<void()>& cancel)
+                               const std::function<void(int)>& ok, const std::function<void()>& cancel,
+                               int defaultValue)
         {
             CEGUI::Editbox* edit = static_cast<CEGUI::Editbox*>(CEGUI::WindowManager::getSingleton().createWindow(GuiManager::getLook()+"/Editbox"));
-            edit->setSize(CEGUI::USize(cegui_reldim(1.f), CEGUI::UDim(0,30)));
+            edit->setSize(CEGUI::USize(cegui_reldim(1.f), CEGUI::UDim(1,-95)));
             edit->setValidationString("\\d*");
-            edit->setText("0");
+            edit->setText(std::to_string(defaultValue));
 
             DialogBox* box = new DialogBox(parent,title,text,{edit});
 
@@ -27,7 +28,8 @@ namespace sfutils
             });
         }
         void DialogBox::getInt(CEGUI::Window* parent,const std::string& title,const std::string& text,
-                               const std::function<void(int)>& ok, const std::function<void()>& cancel)
+                               const std::function<void(int)>& ok, const std::function<void()>& cancel,
+                               int defaultValue)
         {
             CEGUI::GUIContext* context = nullptr;
             if(parent)
@@ -39,17 +41,18 @@ namespace sfutils
                 context =  &CEGUI::System::getSingleton().getDefaultGUIContext();
             }
 
-            getInt(*context,title,text,ok,cancel);
+            getInt(*context,title,text,ok,cancel,defaultValue);
 
         }
 
         void DialogBox::getDouble(CEGUI::GUIContext& parent,const std::string& title,const std::string& text,
-                               const std::function<void(double)>& ok, const std::function<void()>& cancel)
+                               const std::function<void(double)>& ok, const std::function<void()>& cancel,
+                               double defaultValue)
         {
             CEGUI::Editbox* edit = static_cast<CEGUI::Editbox*>(CEGUI::WindowManager::getSingleton().createWindow(GuiManager::getLook()+"/Editbox"));
-            edit->setSize(CEGUI::USize(cegui_reldim(1.f), CEGUI::UDim(0,30)));
+            edit->setSize(CEGUI::USize(cegui_reldim(1.f), CEGUI::UDim(1,-95)));
             edit->setValidationString("\\d*(\\.\\d*)?");
-            edit->setText("0");
+            edit->setText(std::to_string(defaultValue));
 
             DialogBox* box = new DialogBox(parent,title,text,{edit});
 
@@ -64,7 +67,8 @@ namespace sfutils
             });
         }
         void DialogBox::getDouble(CEGUI::Window* parent,const std::string& title,const std::string& text,
-                               const std::function<void(double)>& ok, const std::function<void()>& cancel)
+                               const std::function<void(double)>& ok, const std::function<void()>& cancel,
+                               double defaultValue)
         {
             CEGUI::GUIContext* context = nullptr;
             if(parent)
@@ -76,15 +80,17 @@ namespace sfutils
                 context =  &CEGUI::System::getSingleton().getDefaultGUIContext();
             }
 
-            getDouble(*context,title,text,ok,cancel);
+            getDouble(*context,title,text,ok,cancel,defaultValue);
         }
 
         void DialogBox::getString(CEGUI::GUIContext& parent,const std::string& title,const std::string& text,
-                               const std::function<void(const std::string&)>& ok, const std::function<void()>& cancel)
+                               const std::function<void(const std::string&)>& ok, const std::function<void()>& cancel,
+                               const std::string& defaultValue, const std::string& regex)
         {
             CEGUI::Editbox* edit = static_cast<CEGUI::Editbox*>(CEGUI::WindowManager::getSingleton().createWindow(GuiManager::getLook()+"/Editbox"));
-            edit->setSize(CEGUI::USize(cegui_reldim(1.f), CEGUI::UDim(0,30)));
-            edit->setValidationString(".*");
+            edit->setSize(CEGUI::USize(cegui_reldim(1.f), CEGUI::UDim(1,-95)));
+            edit->setValidationString(regex);
+            edit->setText(defaultValue);
 
             DialogBox* box = new DialogBox(parent,title,text,{edit});
 
@@ -100,7 +106,8 @@ namespace sfutils
         }
 
         void DialogBox::getString(CEGUI::Window* parent,const std::string& title,const std::string& text,
-                               const std::function<void(const std::string&)>& ok, const std::function<void()>& cancel)
+                               const std::function<void(const std::string&)>& ok, const std::function<void()>& cancel,
+                               const std::string& defaultValue, const std::string& regex)
         {
             CEGUI::GUIContext* context = nullptr;
             if(parent)
@@ -112,7 +119,7 @@ namespace sfutils
                 context =  &CEGUI::System::getSingleton().getDefaultGUIContext();
             }
 
-            getString(*context,title,text,ok,cancel);
+            getString(*context,title,text,ok,cancel,defaultValue,regex);
         }
 
         void DialogBox::getItem(CEGUI::GUIContext& parent,const std::string title,const std::string& text,const std::list<std::string>& choices,
@@ -251,7 +258,7 @@ namespace sfutils
                 }
             }
 
-            DialogBox* box = new DialogBox(parent,title,text,{edit,list},sf::Vector2u(300,300));
+            DialogBox* box = new DialogBox(parent,title,text,{edit,list},sf::Vector2u(300,350));
 
 
             box->_addButton("Ok",[ok,edit,list](PopupBox& self){

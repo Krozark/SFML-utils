@@ -4,6 +4,8 @@
 #include <SFML-utils/cegui/GuiManager.hpp>
 #include <SFML-utils/cegui/DialogBox.hpp>
 
+#include <utils/string.hpp>
+
 #include <iostream>
 
 
@@ -175,8 +177,6 @@ namespace sfutils
         ////File
         bool Gui::_event_menuBar_file_new()
         {
-            std::cout<<"MenuBar/File/Menu/New clicked"<<std::endl;
-
             std::list<std::string> list;
             for(auto& map :  sfutils::map::GeometryModel::all())
             {
@@ -211,8 +211,6 @@ namespace sfutils
 
         bool Gui::_event_menuBar_file_open()
         {
-            std::cout<<"MenuBar/File/Menu/Open clicked"<<std::endl;
-
             std::list<std::string> list;
             for(auto& map :  sfutils::map::MapModel::all())
             {
@@ -266,14 +264,32 @@ namespace sfutils
         //Map
         bool Gui::_event_menuBar_map_resize()
         {
-            std::cout<<"MenuBar/Map/Menu/Resize clicked"<<std::endl;
+            std::stringstream ss;
+            ss<<_owner.getMap()->scale.getValue()<<" "
+                <<_owner.getMap()->areaHeight.getValue()<<" "
+                <<_owner.getMap()->areaWidth.getValue();
+
+            sfutils::cegui::DialogBox::getString(_root,
+                                               "Change map size",
+                                               "Choose a new size\nScale Height Width",
+                                               [this](const std::string& size){
+                                                    std::cout<<"size : "<<size<<std::endl;
+                                                    auto split = utils::string::split(size," ");
+                                                    _owner.getMap()->scale = std::stoi(split[0]);
+                                                    _owner.getMap()->areaHeight = std::stoi(split[1]);
+                                                    _owner.getMap()->areaWidth = std::stoi(split[2]);
+
+                                                    _owner.reloadMap();
+                                               },
+                                               [](){},
+                                               ss.str(),
+                                               "\\d(\\d)* \\d(\\d)* \\d(\\d)*"
+                                               );
             return true;
         }
 
         bool Gui::_event_menuBar_map_shape()
         {
-            std::cout<<"MenuBar/Map/Menu/Shape clicked"<<std::endl;
-
             std::list<std::string> list;
             for(auto& map :  sfutils::map::GeometryModel::all())
             {
@@ -297,6 +313,7 @@ namespace sfutils
                                                });
             return true;
         }
+
         bool Gui::_event_menuBar_map_position()
         {
             std::cout<<"MenuBar/Map/Menu/Position clicked"<<std::endl;
