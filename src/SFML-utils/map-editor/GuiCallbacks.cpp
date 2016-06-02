@@ -82,6 +82,7 @@ namespace sfutils
 
         bool Gui::_event_menuBar_file_save()
         {
+            //TODO
             std::cout<<"MenuBar/File/Menu/Save clicked"<<std::endl;
 
             CEGUI::Window* box = _root->getChild("MenuBar/Title");
@@ -96,11 +97,14 @@ namespace sfutils
         ////Edit
         bool Gui::_event_menuBar_edit_undo()
         {
+            //TODO
             std::cout<<"MenuBar/Edit/Menu/Undo clicked"<<std::endl;
             return true;
         }
+
         bool Gui::_event_menuBar_edit_redo()
         {
+            //TODO
             std::cout<<"MenuBar/Edit/Menu/Redo clicked"<<std::endl;
             return true;
         }
@@ -162,6 +166,7 @@ namespace sfutils
 
         bool Gui::_event_menuBar_map_position()
         {
+            //TODO
             std::cout<<"MenuBar/Map/Menu/Position clicked"<<std::endl;
             return true;
         }
@@ -169,6 +174,7 @@ namespace sfutils
         ////LeftPanel
         bool Gui::_event_leftPanel_texture_selected(CEGUI::Listbox* box)
         {
+            //TODO
             CEGUI::ListboxItem* item = box->getFirstSelectedItem();
             if(item)
             {
@@ -180,6 +186,7 @@ namespace sfutils
 
         bool Gui::_event_leftPanel_tab_changed(const std::string& name)
         {
+            //TODO
             std::cout<<"_event_leftPanel_tab_changed"<<std::endl;
             std::cout<<"_event_leftPanel_tab_changed :"<<name<<std::endl;
             return true;
@@ -187,18 +194,21 @@ namespace sfutils
 
         bool Gui::_event_leftPanel_tab_NPC_add()
         {
+            //TODO
             std::cout<<"_event_leftPanel_tab_NPC_add()"<<std::endl;
             return true;
         }
 
         bool Gui::_event_leftPanel_tab_NPC_remove()
         {
+            //TODO
             std::cout<<"_event_leftPanel_tab_NPC_remove()"<<std::endl;
             return true;
         }
 
         bool Gui::_event_leftPanel_tab_NPC_selected(CEGUI::Listbox* box)
         {
+            //TODO
             CEGUI::ListboxItem* item = box->getFirstSelectedItem();
             if(item)
             {
@@ -210,18 +220,21 @@ namespace sfutils
 
         bool Gui::_event_leftPanel_tab_creature_add()
         {
+            //TODO
             std::cout<<"_event_leftPanel_tab_creature_add()"<<std::endl;
             return true;
         }
 
         bool Gui::_event_leftPanel_tab_creature_remove()
         {
+            //TODO
             std::cout<<"_event_leftPanel_tab_creature_remove()"<<std::endl;
             return true;
         }
 
         bool Gui::_event_leftPanel_tab_creature_selected(CEGUI::Listbox* box)
         {
+            //TODO
             CEGUI::ListboxItem* item = box->getFirstSelectedItem();
             if(item)
             {
@@ -233,18 +246,21 @@ namespace sfutils
 
         bool Gui::_event_leftPanel_tab_bulding_add()
         {
+            //TODO
             std::cout<<"_event_leftPanel_tab_bulding_add()"<<std::endl;
             return true;
         }
 
         bool Gui::_event_leftPanel_tab_bulding_remove()
         {
+            //TODO
             std::cout<<"_event_leftPanel_tab_bulding_remove()"<<std::endl;
             return true;
         }
 
         bool Gui::_event_leftPanel_tab_bulding_selected(CEGUI::Listbox* box)
         {
+            //TODO
             CEGUI::ListboxItem* item = box->getFirstSelectedItem();
             if(item)
             {
@@ -267,6 +283,7 @@ namespace sfutils
 
         bool Gui::_event_rightPanel_layer_selected()
         {
+            //TODO
             CEGUI::ListboxItem* item = _layerList->getFirstSelectedItem();
             if(item)
             {
@@ -278,6 +295,7 @@ namespace sfutils
 
         bool Gui::_event_rightPanel_layers_add()
         {
+            //TODO
             std::cout<<"_event_rightPanel_layers_add"<<std::endl;
             return true;
         }
@@ -363,18 +381,21 @@ namespace sfutils
 
         bool Gui::_event_rightPanel_layers_remove()
         {
+            //TODO
             std::cout<<"_event_rightPanel_layers_remove"<<std::endl;
             return true;
         }
 
         bool Gui::_event_rightPanel_tab_changed(const std::string& name)
         {
+            //TODO
             std::cout<<"_event_rightPanel_tab_changed("<<name<<")"<<std::endl;
             return true;
         }
 
         bool Gui::_event_rightPanel_tab_brush_selected(CEGUI::Listbox* box)
         {
+            //TODO
             CEGUI::ListboxItem* item = box->getFirstSelectedItem();
             if(item)
             {
@@ -386,6 +407,7 @@ namespace sfutils
 
         bool Gui::_event_rightPanel_tab_NPC_selected(CEGUI::Listbox* box)
         {
+            //TODO
             CEGUI::ListboxItem* item = box->getFirstSelectedItem();
             if(item)
             {
