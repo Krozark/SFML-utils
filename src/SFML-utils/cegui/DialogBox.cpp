@@ -14,7 +14,7 @@ namespace sfutils
             edit->setValidationString("\\d*");
             edit->setText("0");
 
-            DialogBox* box = new DialogBox(parent,title,text,edit);
+            DialogBox* box = new DialogBox(parent,title,text,{edit});
 
             box->_addButton("Ok",[ok,edit](PopupBox& self){
                             ok(std::atoi(edit->getText().c_str()));
@@ -51,7 +51,7 @@ namespace sfutils
             edit->setValidationString("\\d*(\\.\\d*)?");
             edit->setText("0");
 
-            DialogBox* box = new DialogBox(parent,title,text,edit);
+            DialogBox* box = new DialogBox(parent,title,text,{edit});
 
             box->_addButton("Ok",[ok,edit](PopupBox& self){
                             ok(std::atof(edit->getText().c_str()));
@@ -86,7 +86,7 @@ namespace sfutils
             edit->setSize(CEGUI::USize(cegui_reldim(1.f), CEGUI::UDim(0,30)));
             edit->setValidationString(".*");
 
-            DialogBox* box = new DialogBox(parent,title,text,edit);
+            DialogBox* box = new DialogBox(parent,title,text,{edit});
 
             box->_addButton("Ok",[ok,edit](PopupBox& self){
                             ok(edit->getText().c_str());
@@ -143,7 +143,7 @@ namespace sfutils
                 }
             }
 
-            DialogBox* box = new DialogBox(parent,title,text,list,sf::Vector2u(300,250));
+            DialogBox* box = new DialogBox(parent,title,text,{list},sf::Vector2u(300,250));
 
             box->_addButton("Ok",[ok,list](PopupBox& self){
                 CEGUI::ListboxItem* item = list->getFirstSelectedItem();
@@ -220,10 +220,82 @@ namespace sfutils
             message(*context,title,text,ok,cancel);
         }
 
+        void DialogBox::getStringAndItem(CEGUI::GUIContext& parent,const std::string& title,const std::string& text,const std::list<std::string>& choices,
+                                     const std::function<void(const std::string& txt, const std::string& item)>& ok, const std::function<void()>& cancel)
+        {
+            CEGUI::Editbox* edit = static_cast<CEGUI::Editbox*>(CEGUI::WindowManager::getSingleton().createWindow(GuiManager::getLook()+"/Editbox"));
+            edit->setSize(CEGUI::USize(cegui_reldim(1.f), CEGUI::UDim(0,30)));
+            edit->setValidationString(".*");
+
+
+            CEGUI::Listbox* list = static_cast<CEGUI::Listbox*>(CEGUI::WindowManager::getSingleton().createWindow(GuiManager::getLook()+"/Listbox"));
+            list->setSize(CEGUI::USize(cegui_reldim(1.f), CEGUI::UDim(1,-125)));
+            list->setShowVertScrollbar(false);
+
+            if(choices.size() > 0)
+            {
+                for(const std::string& str : choices)
+                {
+                    CEGUI::ListboxTextItem* newItem = new CEGUI::ListboxTextItem(str);
+                    //newItem->setTextColours(CEGUI::Colour( 0xFFFFFFFF));
+                    //newItem->setSelectionColours(CEGUI::Colour(1,0,0));
+                    newItem->setSelectionBrushImage(GuiManager::getLook()+"/ListboxSelectionBrush");
+                    newItem->setAutoDeleted(true);
+
+                    list->addItem(newItem); // Add the new ListBoxTextItem to the ListBox
+                }
+
+                if(CEGUI::ListboxItem* item = list->getListboxItemFromIndex(0))
+                {
+                    list->setItemSelectState(item, true);
+                }
+            }
+
+            DialogBox* box = new DialogBox(parent,title,text,{edit,list},sf::Vector2u(300,300));
+
+
+            box->_addButton("Ok",[ok,edit,list](PopupBox& self){
+                CEGUI::ListboxItem* item = list->getFirstSelectedItem();
+                if(item != nullptr)
+                {
+                    ok(edit->getText().c_str(),item->getText().c_str());
+                }
+                else
+                {
+                    ok(edit->getText().c_str(),"");
+                }
+                self.destroy();
+            });
+
+            box->_addButton("Close",[cancel](PopupBox& self){
+                            cancel();
+                            self.destroy();
+            });
+
+            
+
+        }
+
+        void DialogBox::getStringAndItem(CEGUI::Window* parent,const std::string& title,const std::string& text,const std::list<std::string>& choices,
+                                     const std::function<void(const std::string& txt,const std::string& item)>& ok, const std::function<void()>& cancel)
+        {
+            CEGUI::GUIContext* context = nullptr;
+            if(parent)
+            {
+                context = &parent->getGUIContext();
+            }
+            else
+            {
+                context =  &CEGUI::System::getSingleton().getDefaultGUIContext();
+            }
+
+            getStringAndItem(*context,title,text,choices,ok,cancel);
+        }
+
 
 
         ////////////// Private ///////////////
-        DialogBox::DialogBox(CEGUI::GUIContext& parent,const std::string& title,const std::string& text,CEGUI::Window* object, const sf::Vector2u& size) :
+        DialogBox::DialogBox(CEGUI::GUIContext& parent,const std::string& title,const std::string& text,const std::list<CEGUI::Window*>& objects, const sf::Vector2u& size) :
             PopupBox(parent,title,size),
             _layout(nullptr)
         {
@@ -237,7 +309,10 @@ namespace sfutils
             static_cast<CEGUI::MultiLineEditbox*>(_box)->setWordWrapping(true);
             _layout->addChild(_box);
 
-            _layout->addChild(object);
+            for(CEGUI::Window* object : objects)
+            {
+                _layout->addChild(object);
+            }
 
             _setData(_layout);
             
