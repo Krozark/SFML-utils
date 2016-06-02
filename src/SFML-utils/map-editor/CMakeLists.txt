@@ -10,6 +10,7 @@ set(FILES_HEADER
 set(FILES_SRC
     ${SRCROOT}/Editor.cpp
     ${SRCROOT}/Gui.cpp
+    ${SRCROOT}/GuiCallbacks.cpp
     ${SRCROOT}/GuiWindow.cpp
 )
 
