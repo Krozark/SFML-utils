@@ -176,8 +176,39 @@ namespace sfutils
         bool Gui::_event_menuBar_file_new()
         {
             std::cout<<"MenuBar/File/Menu/New clicked"<<std::endl;
+
+            std::list<std::string> list;
+            for(auto& map :  sfutils::map::GeometryModel::all())
+            {
+                list.emplace_back(map->name);
+            }
+
+            sfutils::cegui::DialogBox::getStringAndItem(_root,
+                                                        "Create a new map",
+                                                        "Enter the title, and choose the tile format",
+                                                        list,
+                                                        [this](const std::string& title,const std::string& geometry){
+                                                            for(auto& geo :  sfutils::map::GeometryModel::all())
+                                                            {
+                                                                if(geo->name == geometry)
+                                                                {
+                                                                    sfutils::map::MapModel::pointer tmp = sfutils::map::MapModel::create();
+                                                                    tmp->name = title;
+                                                                    tmp->geometry = geo;
+                                                                    tmp->scale = 50;
+                                                                    tmp->areaWidth = 10;
+                                                                    tmp->areaHeight = 10;
+                                                                    tmp->save();
+
+                                                                    this->_owner.setMap(tmp);
+                                                                    break;
+                                                                }
+                                                            }
+
+                                                        });
             return true;
         }
+
         bool Gui::_event_menuBar_file_open()
         {
             std::cout<<"MenuBar/File/Menu/Open clicked"<<std::endl;
@@ -202,19 +233,20 @@ namespace sfutils
                                                        }
                                                    }
 
-                                               },
-                                               [](){}
-                                              );
-
+                                               });
 
             return true;
         }
+
         bool Gui::_event_menuBar_file_save()
         {
             std::cout<<"MenuBar/File/Menu/Save clicked"<<std::endl;
 
             CEGUI::Window* box = _root->getChild("MenuBar/Title");
             std::string title = box->getText().c_str();
+            _owner.getMap()->name = title;
+            _owner.getMap()->save();
+
 
             return true;
         }
@@ -237,9 +269,32 @@ namespace sfutils
             std::cout<<"MenuBar/Map/Menu/Resize clicked"<<std::endl;
             return true;
         }
+
         bool Gui::_event_menuBar_map_shape()
         {
             std::cout<<"MenuBar/Map/Menu/Shape clicked"<<std::endl;
+
+            std::list<std::string> list;
+            for(auto& map :  sfutils::map::GeometryModel::all())
+            {
+                list.emplace_back(map->name);
+            }
+
+            sfutils::cegui::DialogBox::getItem(_root,
+                                               "Change map shape",
+                                               "Choose the new geometry",
+                                               list,
+                                               [this](const std::string& geometry){
+                                                   for(auto& geo :  sfutils::map::GeometryModel::all())
+                                                   {
+                                                       if(geo->name == geometry)
+                                                       {
+                                                           this->_owner.getMap()->geometry = geo;
+                                                           this->_owner.reloadMap();
+                                                           break;
+                                                       }
+                                                   }
+                                               });
             return true;
         }
         bool Gui::_event_menuBar_map_position()

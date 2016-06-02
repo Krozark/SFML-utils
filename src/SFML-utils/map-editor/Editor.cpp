@@ -51,6 +51,8 @@ namespace sfutils
 
         void Editor::setMap(sfutils::map::MapModel::pointer& map)
         {
+            _dbMap = map;
+
             _mapManager.reset(new sfutils::map::MapManager(std::shared_ptr<sfutils::map::VMapLoader>(new sfutils::map::DatabaseMapLoader(map))));
 
             _map = _mapManager->getMap();
@@ -84,6 +86,17 @@ namespace sfutils
                 _gui.addLayer(layer);
             }
 
+        }
+
+        sfutils::map::MapModel::pointer Editor::getMap()const
+        {
+            return _dbMap;
+        }
+
+        void Editor::reloadMap()
+        {
+            _dbMap->save();
+            setMap(_dbMap);
         }
 
         void Editor::setZoom(float value)

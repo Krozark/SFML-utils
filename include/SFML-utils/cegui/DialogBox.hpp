@@ -14,39 +14,39 @@ namespace sfutils
         {
             public:
                 static void getInt(CEGUI::GUIContext& parent,const std::string& title,const std::string& text,
-                                   const std::function<void(int)>& ok, const std::function<void()>& cancel);
+                                   const std::function<void(int)>& ok, const std::function<void()>& cancel = [](){});
 
                 static void getInt(CEGUI::Window* parent,const std::string& title,const std::string& text,
-                                   const std::function<void(int)>& ok, const std::function<void()>& cancel);
+                                   const std::function<void(int)>& ok, const std::function<void()>& cancel = [](){});
 
                 static void getDouble(CEGUI::GUIContext& parent,const std::string& title,const std::string& text,
-                                      const std::function<void(double)>& ok, const std::function<void()>& cancel);
+                                      const std::function<void(double)>& ok, const std::function<void()>& cancel = [](){});
 
                 static void getDouble(CEGUI::Window* parent,const std::string& title,const std::string& text,
-                                      const std::function<void(double)>& ok, const std::function<void()>& cancel);
+                                      const std::function<void(double)>& ok, const std::function<void()>& cancel = [](){});
 
                 static void getString(CEGUI::GUIContext& parent,const std::string& title,const std::string& text,
-                                      const std::function<void(const std::string&)>& ok, const std::function<void()>& cancel);
+                                      const std::function<void(const std::string&)>& ok, const std::function<void()>& cancel = [](){});
 
                 static void getString(CEGUI::Window* parent,const std::string& title,const std::string& text,
-                                      const std::function<void(const std::string&)>& ok, const std::function<void()>& cancel);
+                                      const std::function<void(const std::string&)>& ok, const std::function<void()>& cancel = [](){});
 
                 static void getItem(CEGUI::GUIContext& parent,const std::string title,const std::string& text,const std::list<std::string>& choices,
-                                    const std::function<void(const std::string&)>& ok, const std::function<void()>& cancel);
+                                    const std::function<void(const std::string&)>& ok, const std::function<void()>& cancel = [](){});
 
                 static void getItem(CEGUI::Window* parent,const std::string title,const std::string& text,const std::list<std::string>& choices,
-                                    const std::function<void(const std::string&)>& ok, const std::function<void()>& cancel);
+                                    const std::function<void(const std::string&)>& ok, const std::function<void()>& cancel = [](){});
 
                 static void message(CEGUI::GUIContext& parent,const std::string& title,const std::string& text,
-                                    const std::function<void()>& ok, const std::function<void()>& cancel);
+                                    const std::function<void()>& ok, const std::function<void()>& cancel = [](){});
                 static void message(CEGUI::Window* parent,const std::string& title,const std::string& text,
-                                    const std::function<void()>& ok, const std::function<void()>& cancel);
+                                    const std::function<void()>& ok, const std::function<void()>& cancel = [](){});
 
                 static void getStringAndItem(CEGUI::GUIContext& parent,const std::string& title,const std::string& text,const std::list<std::string>& choices,
-                                             const std::function<void(const std::string& txt, const std::string& item)>& ok, const std::function<void()>& cancel);
+                                             const std::function<void(const std::string& txt, const std::string& item)>& ok, const std::function<void()>& cancel = [](){});
 
                 static void getStringAndItem(CEGUI::Window* parent,const std::string& title,const std::string& text,const std::list<std::string>& choices,
-                                             const std::function<void(const std::string& txt,const std::string& item)>& ok, const std::function<void()>& cancel);
+                                             const std::function<void(const std::string& txt,const std::string& item)>& ok, const std::function<void()>& cancel = [](){});
 
 
 

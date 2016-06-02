@@ -23,7 +23,11 @@ namespace sfutils
                 ~Editor();
 
                 void run();
+
                 void setMap(sfutils::map::MapModel::pointer& map);
+                sfutils::map::MapModel::pointer getMap() const;
+                void reloadMap();
+
                 void setZoom(float value);
                 void setMiniMapZoom(float value);
 
@@ -38,6 +42,8 @@ namespace sfutils
                 Gui _gui;
 
                 sfutils::map::Map* _map;
+                sfutils::map::MapModel::pointer _dbMap;
+
                 std::unique_ptr<sfutils::map::MapManager> _mapManager;
                 sfutils::map::MapViewer _mapViewer;
 
