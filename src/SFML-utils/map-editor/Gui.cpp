@@ -110,7 +110,7 @@ namespace sfutils
         void Gui::_setLayerListItemName(CEGUI::ListboxItem* item)
         {
             sfutils::map::LayerModel* layer = static_cast<sfutils::map::LayerModel*>(item->getUserData());
-            item->setText(layer->name.value() + " (" + std::to_string(layer->zBuffer.value()) + ")");
+            item->setText(layer->name.getValue() + " (" + std::to_string(layer->zBuffer.getValue()) + ")");
         }
 
 
@@ -619,7 +619,7 @@ namespace sfutils
             sfutils::map::LayerModel* layer = static_cast<sfutils::map::LayerModel*>(item->getUserData());
             assert(layer);
 
-            int from = layer->zBuffer.value();
+            int from = layer->zBuffer.getValue();
             if(_owner.requestMoveLayer(from,from+1) == false)
             {
                 return true;
@@ -659,7 +659,7 @@ namespace sfutils
             sfutils::map::LayerModel* layer = static_cast<sfutils::map::LayerModel*>(item->getUserData());
             assert(layer);
 
-            int from = layer->zBuffer.value();
+            int from = layer->zBuffer.getValue();
             if(_owner.requestMoveLayer(from,from-1) == false)
             {
                 return true;
