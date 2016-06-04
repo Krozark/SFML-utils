@@ -380,9 +380,15 @@ namespace sfutils
 
         bool Gui::_event_rightPanel_layers_remove()
         {
-            //TODO
-            std::cout<<"_event_rightPanel_layers_remove"<<std::endl;
-            return true;
+            CEGUI::ListboxItem* item = _layerList->getFirstSelectedItem();
+            if(item == nullptr)
+            {
+                return true;
+            }
+            sfutils::map::LayerModel* layer = static_cast<sfutils::map::LayerModel*>(item->getUserData());
+            assert(layer);
+
+            return _owner.requestDelLayer(layer->zBuffer.getValue());
         }
 
         bool Gui::_event_rightPanel_tab_changed(const std::string& name)

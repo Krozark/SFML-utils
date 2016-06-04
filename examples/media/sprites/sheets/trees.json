@@ -714,7 +714,7 @@
 "meta": {
 	"app": "http://www.codeandweb.com/texturepacker",
 	"version": "1.0",
-	"image": "trees1.png",
+	"image": "trees.png",
 	"format": "RGBA8888",
 	"size": {"w":1462,"h":978},
 	"scale": "1",

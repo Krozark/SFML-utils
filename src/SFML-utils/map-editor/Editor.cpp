@@ -31,6 +31,7 @@ namespace sfutils
         Editor::Editor():
             _window(sf::VideoMode(1600,900),"SFML-utils map editor"),
             _gui(_window,*this),
+            _spriteSheetSelector(*this),
             _map(nullptr),
             _mapViewer(_window,nullptr,false)
         {
@@ -83,6 +84,8 @@ namespace sfutils
             _loadVisiblesAreas(rect);
 
             ////////////// GUI ///////////
+            _spriteSheetSelector.setVisible(false);
+
             _gui.reset();
 
             //map
@@ -152,13 +155,20 @@ namespace sfutils
         bool Editor::requestTextureSelected(const std::string& texture)
         {
             //TODO
+            std::cout<<texture<<std::endl;
             bool res = true;
             if(utils::string::endswith(texture,".json"))
             {
                 //json file
+                res = _spriteSheetSelector.setFile(DIRECTORY_SPRITES + texture,_mapManager->getTextureManager());
+                if(res == true)
+                {
+                    _spriteSheetSelector.setVisible(true);
+                }
             }
             else
             {
+                _spriteSheetSelector.setVisible(false);
                 //image file
                 if(setCurrentSprite(DIRECTORY_SPRITES + texture) == false)
                 {
@@ -246,6 +256,8 @@ namespace sfutils
             
             reloadAreas |= _mapViewer.processEvents();
 
+            _spriteSheetSelector.processEvents();
+
             if(reloadAreas)
             {
                 sf::IntRect rect = _getVisibleAreaRect(); 
@@ -266,6 +278,7 @@ namespace sfutils
                 _gui.setMainInfo("(" + std::to_string(coord.x) + ":" + std::to_string(coord.y)
                                     + "),(" + std::to_string(area.x) + ":" + std::to_string(area.y) + ")");
             }
+
         }
 
         void Editor::_update()
@@ -273,6 +286,7 @@ namespace sfutils
             sf::Time deltaTime = _clock.restart();
 
             _gui.update(deltaTime);
+            _spriteSheetSelector.update(deltaTime);
 
             _mapViewer.update(deltaTime);
         }
@@ -283,8 +297,9 @@ namespace sfutils
             _window.clear();
             _mapViewer.draw();
             _gui.render();
-            
             _window.display();
+
+            _spriteSheetSelector.render();
         }
 
         void Editor::_onClick(const sf::Vector2i& coord)
@@ -354,7 +369,7 @@ namespace sfutils
            {
                if(utils::string::endswith(f,".json"))
                {
-                   list.emplace_back( DIRECTORY_SPRITES__SHEETS_NAME + f);
+                   list.emplace_back( DIRECTORY_SPRITES__SHEETS_NAME + "/" + f);
                }
            }
 

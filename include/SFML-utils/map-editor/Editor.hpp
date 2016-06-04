@@ -7,6 +7,7 @@
 #include <SFML-utils/map/Models.hpp>
 
 #include <SFML-utils/map-editor/Gui.hpp>
+#include <SFML-utils/map-editor/SpriteSheetSelector.hpp>
 
 
 namespace sfutils
@@ -46,6 +47,7 @@ namespace sfutils
                 sf::Clock _clock;
 
                 Gui _gui;
+                SpriteSheetSelector _spriteSheetSelector;
 
                 sfutils::map::Map* _map;
                 sfutils::map::MapModel::pointer _dbMap;

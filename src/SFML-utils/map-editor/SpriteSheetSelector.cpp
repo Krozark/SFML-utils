@@ -1,8 +1,11 @@
 #include <SFML-utils/map-editor/SpriteSheetSelector.hpp>
 
+#include <SFML-utils/map-editor/Editor.hpp>
+
 #include <SFML-utils/cegui/GuiManager.hpp>
 
 #include <utils/json/Driver.hpp>
+#include <utils/string.hpp>
 
 
 namespace sfutils
@@ -10,19 +13,20 @@ namespace sfutils
     namespace editor
     {
         
-        SpriteSheetSelector::SpriteSheetSelector() : 
+        SpriteSheetSelector::SpriteSheetSelector(Editor& owner) : 
+            _owner(owner),
             _window(sf::VideoMode(800,600),"SpriteSheet Selector")
         {
-            _context = &cegui::GuiManager::createGUIContext();
+            //_context = &cegui::GuiManager::createGUIContext();
             setVisible(false);
         }
 
         SpriteSheetSelector::~SpriteSheetSelector()
         {
-            cegui::GuiManager::destroyGUIContext(*_context);
+            //cegui::GuiManager::destroyGUIContext(*_context);
         }
 
-        bool SpriteSheetSelector::setFile(const std::string& file)
+        bool SpriteSheetSelector::setFile(const std::string& file, sfutils::ResourceManager<sf::Texture,std::string>& textureManager)
         {
             auto value = utils::json::Driver::parse_file(file);
             if(not value)
@@ -63,6 +67,14 @@ namespace sfutils
                 imageFile = meta["image"].as_string();
                 size.width = jsonSize["w"].as_int();
                 size.height = jsonSize["h"].as_int();
+
+                auto sp = utils::string::split(file,"/");
+                sp.pop_back();
+                sp.push_back(imageFile);
+                imageFile = utils::string::join("/",sp);
+
+                sf::Texture& tex = textureManager.getOrLoad(imageFile,imageFile);
+                _background.setTexture(tex,true);
             }
             catch(std::exception& e)
             {
@@ -92,24 +104,28 @@ namespace sfutils
                 { 
                     setVisible(false);
                 }
-                else
+                /*else
                 {
                     cegui::GuiManager::processEvent(event,*_context);
-                }
+                }*/
             }
         }
 
         void SpriteSheetSelector::update(const sf::Time& deltaTime)
         {
-            cegui::GuiManager::update(deltaTime,*_context);
+            //cegui::GuiManager::update(deltaTime,*_context);
         }
 
         void SpriteSheetSelector::render()
         {
             _window.setActive(true);
-            _window.pushGLStates();
+            _window.clear();
+
+            _window.draw(_background);
+            /*_window.pushGLStates();
             cegui::GuiManager::render(*_context);
-            _window.popGLStates();
+            _window.popGLStates();*/
+            _window.display();
         }
 
     }

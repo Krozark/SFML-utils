@@ -99,7 +99,17 @@ namespace sfutils
 
         void Gui::delLayer(sfutils::map::LayerModel::pointer& layer)
         {
-            //TODO
+            assert(_layerList);
+            unsigned int size = _layerList->getItemCount();
+            for(unsigned int i = 0; i < size; ++i)
+            {
+                CEGUI::ListboxItem* item = _layerList->getListboxItemFromIndex(i);
+                if(item->getUserData() == layer.get())
+                {
+                    _layerList->removeItem(item);
+                    break;
+                }
+            }
         }
 
         void Gui::addTexture(const std::string& tex)
@@ -117,7 +127,12 @@ namespace sfutils
 
         void Gui::delTexture(const std::string& tex)
         {
-            //TODO
+            assert(_textureList);
+            CEGUI::ListboxItem* item = _textureList->findItemWithText(tex,nullptr);
+            if(item)
+            {
+                _textureList->removeItem(item);
+            }
         }
 
         void Gui::reset()
