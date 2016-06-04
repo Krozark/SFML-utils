@@ -47,6 +47,10 @@ namespace sfutils
                 //CEGUI::GUIContext* _context;
 
                 sf::Sprite _background;
+                sf::RectangleShape _selectionShape;
+                sf::RectangleShape _highlightShape;
+
+                std::vector<sf::RectangleShape> _borders; //change into  	VertexArray
 
                 std::unordered_map<std::string,sf::IntRect> _rect;
                 std::string _imageFile;

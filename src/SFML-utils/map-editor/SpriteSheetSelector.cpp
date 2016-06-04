@@ -19,6 +19,9 @@ namespace sfutils
         {
             //_context = &cegui::GuiManager::createGUIContext();
             setVisible(false);
+
+            _selectionShape.setFillColor(sf::Color(127,127,127));
+            _highlightShape.setFillColor(sf::Color(0,127,0));
         }
 
         SpriteSheetSelector::~SpriteSheetSelector()
@@ -85,6 +88,20 @@ namespace sfutils
             std::swap(_imageFile,imageFile);
             std::swap(_rect,tmpRect);
 
+            _borders.clear();
+            for(auto& pair : _rect)
+            {
+                //TODO, change  	VertexArray
+                auto& rect = pair.second;
+                sf::RectangleShape tmpShape(sf::Vector2f(rect.width,rect.height));
+                tmpShape.setPosition(sf::Vector2f(rect.left,rect.top));
+                tmpShape.setOutlineColor(sf::Color::Black);
+                tmpShape.setOutlineThickness(1);
+                _borders.emplace_back(std::move(tmpShape));
+            }
+
+            std::vector<sf::RectangleShape> _borders;
+
             _window.create(sf::VideoMode(size.width,size.height),"SpriteSheet Selector ("+_imageFile+")");
 
             return res;
@@ -97,12 +114,30 @@ namespace sfutils
 
         void SpriteSheetSelector::processEvents()
         {
+            sf::Vector2i coord = sf::Mouse::getPosition(_window);
+            for(auto& pair : _rect)
+            {
+                auto& rect = pair.second;
+                if(rect.contains(coord))
+                {
+                    _highlightShape.setPosition(sf::Vector2f(rect.left,rect.top));
+                    _highlightShape.setSize(sf::Vector2f(rect.width,rect.height));
+                    break;
+                }
+            }
+
+
             sf::Event event;
             while(_window.pollEvent(event))
             {
                 if(event.type == sf::Event::Closed )
                 { 
                     setVisible(false);
+                }
+                else if(event.type == sf::Event::MouseButtonPressed and event.mouseButton.button == sf::Mouse::Button::Left)
+                {
+                    _selectionShape.setPosition(_highlightShape.getPosition());
+                    _selectionShape.setSize(_highlightShape.getSize());
                 }
                 /*else
                 {
@@ -119,9 +154,17 @@ namespace sfutils
         void SpriteSheetSelector::render()
         {
             _window.setActive(true);
-            _window.clear();
+            _window.clear(sf::Color::White);
 
+            for(auto& border : _borders)
+            {
+                _window.draw(border);
+            }
+
+            _window.draw(_selectionShape);
+            _window.draw(_highlightShape);
             _window.draw(_background);
+
             /*_window.pushGLStates();
             cegui::GuiManager::render(*_context);
             _window.popGLStates();*/
