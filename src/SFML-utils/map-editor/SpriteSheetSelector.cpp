@@ -1,4 +1,4 @@
-#include <SpriteSheetSelector.hpp>
+#include <SFML-utils/map-editor/SpriteSheetSelector.hpp>
 
 namespace sfutils
 {

@@ -4,14 +4,16 @@ set(SRCROOT ${SRCROOT}/map-editor)
 set(FILES_HEADER
     ${INCROOT}/Editor.hpp
     ${INCROOT}/Gui.hpp
-    ${INCROOT}/GuiWindow.hpp
+    ${INCROOT}/SpriteSheetSelector.hpp
+    ${INCROOT}/SpriteSheetSelectorGui.hpp
 )
 
 set(FILES_SRC
     ${SRCROOT}/Editor.cpp
     ${SRCROOT}/Gui.cpp
     ${SRCROOT}/GuiCallbacks.cpp
-    ${SRCROOT}/GuiWindow.cpp
+    ${SRCROOT}/SpriteSheetSelector.cpp
+    ${SRCROOT}/SpriteSheetSelectorGui.cpp
 )
 
 

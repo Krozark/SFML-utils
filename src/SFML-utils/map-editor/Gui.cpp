@@ -21,11 +21,13 @@ namespace sfutils
         {
             cegui::GuiManager::init("media/editor/cegui/","GlossySerpentFHD","DejaVuSans-10");
             //set mouse
-            CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().setDefaultImage("GlossySerpentFHDCursors/MouseArrow");
-            CEGUI::System::getSingleton().getDefaultGUIContext().setDefaultTooltipType("GlossySerpentFHD/Tooltip"); 
+            _context = &sfutils::cegui::GuiManager::createGUIContext();
+
+            _context->getMouseCursor().setDefaultImage("GlossySerpentFHDCursors/MouseArrow");
+            _context->setDefaultTooltipType("GlossySerpentFHD/Tooltip"); 
             //load main layout
-            _root = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("main.layout");
-            CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow(_root);
+            _root = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("Editor.layout");
+            _context->setRootWindow(_root);
             //resize gui to the window size 
             
             CEGUI::System::getSingleton().notifyDisplaySizeChanged(CEGUI::Sizef(mainWindow.getSize().x,mainWindow.getSize().y));
@@ -39,19 +41,19 @@ namespace sfutils
 
         bool Gui::processEvent(const sf::Event& event)
         {
-            return cegui::GuiManager::processEvent(event,CEGUI::System::getSingleton().getDefaultGUIContext());
+            return cegui::GuiManager::processEvent(event,*_context);
         }
 
         void Gui::update(const sf::Time& deltaTime)
         {
-            cegui::GuiManager::update(deltaTime,CEGUI::System::getSingleton().getDefaultGUIContext());
+            cegui::GuiManager::update(deltaTime,*_context);
         }
 
         void Gui::render()
         {
             _window.setActive(true);
             _window.pushGLStates();
-            cegui::GuiManager::render(CEGUI::System::getSingleton().getDefaultGUIContext());
+            cegui::GuiManager::render(*_context);
             _window.popGLStates();
         }
 

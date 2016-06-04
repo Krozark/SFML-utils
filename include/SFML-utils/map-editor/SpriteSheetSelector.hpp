@@ -1,6 +1,8 @@
 #ifndef SFUTILS_EDITOR_SPRITESHEETSELECTOR_HPP
 #define SFUTILS_EDITOR_SPRITESHEETSELECTOR_HPP
 
+#include <SFML/Graphics.hpp>
+
 namespace sfutils
 {
     namespace editor
@@ -15,7 +17,7 @@ namespace sfutils
 
                 void processEvents();
                 void update(const sf::Time& deltaTime);
-                void render(sfg::SFGUI& sfgui);
+                void render();
 
             private:
                 sf::RenderWindow _window;

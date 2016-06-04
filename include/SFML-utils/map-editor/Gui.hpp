@@ -43,6 +43,7 @@ namespace sfutils
                 Editor& _owner;
                 sf::RenderWindow& _window;
                 CEGUI::Window* _root;
+                CEGUI::GUIContext* _context;
 
                 CEGUI::Listbox* _layerList;
                 void _clearLayerList();

@@ -37,6 +37,7 @@ namespace sfutils
 
         Editor::~Editor()
         {
+            orm::DB::Default.disconnect();
         }
 
         void Editor::run()
