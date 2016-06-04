@@ -5,7 +5,6 @@ set(FILES_HEADER
     ${INCROOT}/Editor.hpp
     ${INCROOT}/Gui.hpp
     ${INCROOT}/SpriteSheetSelector.hpp
-    ${INCROOT}/SpriteSheetSelectorGui.hpp
 )
 
 set(FILES_SRC
@@ -13,7 +12,6 @@ set(FILES_SRC
     ${SRCROOT}/Gui.cpp
     ${SRCROOT}/GuiCallbacks.cpp
     ${SRCROOT}/SpriteSheetSelector.cpp
-    ${SRCROOT}/SpriteSheetSelectorGui.cpp
 )
 
 

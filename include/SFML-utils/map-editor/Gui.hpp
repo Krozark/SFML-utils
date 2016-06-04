@@ -26,6 +26,7 @@ namespace sfutils
                 Gui& operator=(const Gui&) = delete;
 
                 Gui(sf::RenderWindow& mainWindow,Editor& owner);
+                ~Gui();
 
                 bool processEvent(const sf::Event& event);
                 void update(const sf::Time& deltaTime);

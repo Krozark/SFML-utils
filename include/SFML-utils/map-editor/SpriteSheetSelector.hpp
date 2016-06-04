@@ -3,6 +3,16 @@
 
 #include <SFML/Graphics.hpp>
 
+namespace CEGUI
+{
+    //class OpenGLRenderer;
+    //class System;
+    class Window;
+    //class Listbox;
+    //class ListboxItem;
+    class GUIContext;
+}
+
 namespace sfutils
 {
     namespace editor
@@ -14,6 +24,9 @@ namespace sfutils
                 SpriteSheetSelector& operator=(const SpriteSheetSelector&) = delete;
 
                 SpriteSheetSelector();
+                ~SpriteSheetSelector();
+
+                bool setFile(const std::string& file);
 
                 void processEvents();
                 void update(const sf::Time& deltaTime);
@@ -21,6 +34,7 @@ namespace sfutils
 
             private:
                 sf::RenderWindow _window;
+                CEGUI::GUIContext* _context;
 
         };
     }

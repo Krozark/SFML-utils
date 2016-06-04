@@ -24,7 +24,7 @@ namespace sfutils
         Map* JsonMapLoader::_loadMap()
         {
 
-            std::unique_ptr<utils::json::Value> value(utils::json::Driver::parse_file(utils::string::join("/",_mapDir,"map.json")));
+            auto value = utils::json::Driver::parse_file(utils::string::join("/",_mapDir,"map.json"));
 
             if(not value)
             {
@@ -111,7 +111,7 @@ namespace sfutils
 
         std::unique_ptr<MetaArea> JsonMapLoader::_loadArea(int x,int y,Map* const map)
         {
-            std::unique_ptr<utils::json::Value> value(utils::json::Driver::parse_file(utils::string::join("/",_mapDir,"areas.json")));
+            auto value = utils::json::Driver::parse_file(utils::string::join("/",_mapDir,"areas.json"));
             std::unique_ptr<MetaArea> res;
             if(not value)
             {

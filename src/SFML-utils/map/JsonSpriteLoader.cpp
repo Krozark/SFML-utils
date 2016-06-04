@@ -10,7 +10,7 @@ namespace sfutils
         std::unordered_map<std::string,sf::IntRect> JsonSpriteLoader::parse(const std::string& filename)
         {
             std::unordered_map<std::string,sf::IntRect> res;
-            std::unique_ptr<utils::json::Value> value(utils::json::Driver::parse_file(filename));
+            auto value = utils::json::Driver::parse_file(filename);
             if(not value)
             {
                 std::cerr<<"Impossible to parse file "<<filename<<std::endl;

@@ -39,6 +39,11 @@ namespace sfutils
             _registerRightPanelCallbacks();
         }
 
+        Gui::~Gui()
+        {
+            cegui::GuiManager::destroyGUIContext(*_context);
+        }
+
         bool Gui::processEvent(const sf::Event& event)
         {
             return cegui::GuiManager::processEvent(event,*_context);
