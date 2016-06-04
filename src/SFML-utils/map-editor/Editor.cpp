@@ -4,12 +4,25 @@
 #include <iostream>
 
 #include <utils/maths.hpp>
+#include <utils/sys.hpp>
+#include <utils/string.hpp>
+
 #include <SFML-utils/map/DatabaseMapLoader.hpp>
+
 
 #include <ORM/all.hpp>
 #include <ORM/backends/Sqlite3.hpp>
 orm::Sqlite3DB def("./db.sqlite");
 orm::DB& orm::DB::Default = def;
+
+const std::string DIRECTORY_MEDIA_NAME = "media";
+const std::string DIRECTORY_MEDIA = DIRECTORY_MEDIA_NAME + "/";
+
+const std::string DIRECTORY_SPRITES_NAME = "sprites";
+const std::string DIRECTORY_SPRITES = DIRECTORY_MEDIA + DIRECTORY_SPRITES_NAME + "/";
+
+const std::string DIRECTORY_SPRITES__SHEETS_NAME = "sheets";
+const std::string DIRECTORY_SPRITES_SHEETS = DIRECTORY_SPRITES + DIRECTORY_SPRITES__SHEETS_NAME + "/";
 
 namespace sfutils
 {
@@ -87,6 +100,12 @@ namespace sfutils
                 _gui.addLayer(layer);
             }
 
+
+            for(auto& tex : _getTextureList())
+            {
+                _gui.addTexture(tex);
+            }
+
         }
 
         sfutils::map::MapModel::pointer Editor::getMap()const
@@ -129,6 +148,49 @@ namespace sfutils
             //TODO change zbuffer of it, and all others to be sure that no z index is duplicated
             return false;
         }
+
+        bool Editor::requestTextureSelected(const std::string& texture)
+        {
+            //TODO
+            bool res = true;
+            if(utils::string::endswith(texture,".json"))
+            {
+                //json file
+            }
+            else
+            {
+                //image file
+                if(setCurrentSprite(DIRECTORY_SPRITES + texture) == false)
+                {
+                    _gui.delTexture(texture);
+                    res = false;
+                }
+            }
+            return res;
+        }
+
+        bool Editor::setCurrentSprite(const std::string& spr)
+        {
+            bool res = true;
+            try
+            {
+                sf::Texture& tex = _mapManager->getTextureManager().getOrLoad(spr,spr);
+            }
+            catch(const std::exception& e)
+            {
+                std::cerr<<"Catch "<<e.what()<<std::endl;
+                res = false;
+            }
+
+            return res;
+        }
+
+        bool Editor::setCurrentSprite(const std::string& spr,const  sf::IntRect rect)
+        {
+            //TODO
+            return false;
+        }
+
 
         ////////////////////// PRIVATE ////////////////////
         void Editor::_processEvents()
@@ -280,6 +342,25 @@ namespace sfutils
                              utils::maths::max(top_left_coord.y,top_right_coord.y,bottom_right_coord.y,bottom_left_coord.y));
 
             return sf::IntRect(min.x,min.y,max.x,max.y);
+        }
+
+        std::list<std::string> Editor::_getTextureList()const
+        {
+           std::list<std::string> list = utils::sys::dir::list_files(DIRECTORY_SPRITES);
+
+           std::list<std::string> list2 = utils::sys::dir::list_files(DIRECTORY_SPRITES_SHEETS);
+
+           for(std::string& f : list2)
+           {
+               if(utils::string::endswith(f,".json"))
+               {
+                   list.emplace_back( DIRECTORY_SPRITES__SHEETS_NAME + f);
+               }
+           }
+
+           list.sort();
+
+            return list;
         }
     }
 }

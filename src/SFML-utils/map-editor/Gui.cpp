@@ -17,7 +17,8 @@ namespace sfutils
             _owner(owner),
             _window(mainWindow),
             _root(nullptr),
-            _layerList(nullptr)
+            _layerList(nullptr),
+            _textureList(nullptr)
         {
             cegui::GuiManager::init("media/editor/cegui/","GlossySerpentFHD","DejaVuSans-10");
             //set mouse
@@ -101,11 +102,30 @@ namespace sfutils
             //TODO
         }
 
+        void Gui::addTexture(const std::string& tex)
+        {
+            assert(_textureList);
+
+            CEGUI::ListboxTextItem* newItem = new CEGUI::ListboxTextItem(tex);
+            newItem->setTextColours(CEGUI::Colour( 0xFFFFFFFF));
+            newItem->setSelectionColours(CEGUI::Colour(1,0,0));
+            newItem->setSelectionBrushImage("GlossySerpentFHD/ListboxSelectionBrush");
+            newItem->setAutoDeleted(true);
+
+            _textureList->addItem(newItem); // Add the new ListBoxTextItem to the ListBox
+        }
+
+        void Gui::delTexture(const std::string& tex)
+        {
+            //TODO
+        }
+
         void Gui::reset()
         {
             setMainInfo("");
             setTitle("");
             _clearLayerList();
+            _clearTextureList();
         }
 
         ////////////////////// PRIVATE ///////////////////
@@ -122,6 +142,11 @@ namespace sfutils
             item->setText(layer->name.getValue() + " (" + std::to_string(layer->zBuffer.getValue()) + ")");
         }
 
+        void Gui::_clearTextureList()
+        {
+            assert(_textureList);
+            _textureList->resetList();
+        }
 
         //Menu
         void Gui::_registerMenuBarCallbacks()
@@ -189,26 +214,11 @@ namespace sfutils
             CEGUI::Window* menuBar = _root->getChild("Left");
 
             {//textures
-                CEGUI::Listbox* box = static_cast<CEGUI::Listbox*>(menuBar->getChild("Textures")->getChildRecursive("Listbox"));
-                assert(box);
+                _textureList = static_cast<CEGUI::Listbox*>(menuBar->getChild("Textures")->getChildRecursive("Listbox"));
+                assert(_textureList);
 
-                //TODO TEST
-                for(int i=0; i< 25; ++i)
-                {
-                    CEGUI::ListboxTextItem* newItem = new CEGUI::ListboxTextItem("Item #"+std::to_string(i));
-
-                    newItem->setTextColours(CEGUI::Colour( 0xFFFFFFFF));
-                    newItem->setSelectionColours(CEGUI::Colour(1,0,0));
-                    newItem->setSelectionBrushImage("GlossySerpentFHD/ListboxSelectionBrush");
-                    newItem->setAutoDeleted(true);
-
-                    box->addItem(newItem); // Add the new ListBoxTextItem to the ListBox
-                    //box->ensureItemIsVisible(newItem);
-                }
-
-
-                box->subscribeEvent(CEGUI::Listbox::EventSelectionChanged,[this,box](const CEGUI::EventArgs& e){
-                    return this->_event_leftPanel_texture_selected(box);
+                _textureList->subscribeEvent(CEGUI::Listbox::EventSelectionChanged,[this](const CEGUI::EventArgs& e){
+                    return this->_event_leftPanel_texture_selected();
                 });
             }
 

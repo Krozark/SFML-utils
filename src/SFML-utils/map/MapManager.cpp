@@ -88,5 +88,10 @@ namespace sfutils
             }
             _areas.clear();
         }
+
+        ResourceManager<sf::Texture,std::string>& MapManager::getTextureManager()
+        {
+            return _textureManager;
+        }
     }
 }

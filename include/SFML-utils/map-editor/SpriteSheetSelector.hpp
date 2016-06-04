@@ -3,6 +3,8 @@
 
 #include <SFML/Graphics.hpp>
 
+#include <unordered_map>
+
 namespace CEGUI
 {
     //class OpenGLRenderer;
@@ -28,6 +30,8 @@ namespace sfutils
 
                 bool setFile(const std::string& file);
 
+                void setVisible(bool);
+
                 void processEvents();
                 void update(const sf::Time& deltaTime);
                 void render();
@@ -35,6 +39,9 @@ namespace sfutils
             private:
                 sf::RenderWindow _window;
                 CEGUI::GUIContext* _context;
+
+                std::unordered_map<std::string,sf::IntRect> _rect;
+                std::string _imageFile;
 
         };
     }

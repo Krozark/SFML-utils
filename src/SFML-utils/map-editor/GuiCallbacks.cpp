@@ -172,13 +172,12 @@ namespace sfutils
         }
 
         ////LeftPanel
-        bool Gui::_event_leftPanel_texture_selected(CEGUI::Listbox* box)
+        bool Gui::_event_leftPanel_texture_selected()
         {
-            //TODO
-            CEGUI::ListboxItem* item = box->getFirstSelectedItem();
+            CEGUI::ListboxItem* item = _textureList->getFirstSelectedItem();
             if(item)
             {
-                std::cout<<"_event_leftPanel_texture_selected : "<<item->getText().c_str()<<std::endl;
+                _owner.requestTextureSelected(item->getText().c_str());
             }
 
             return true;

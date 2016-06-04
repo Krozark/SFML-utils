@@ -9,9 +9,15 @@ namespace sfutils
     {
         std::unique_ptr<RESOURCE> ptr(new RESOURCE);
         if(not ptr->loadFromFile(std::forward<Args>(args)...))
+        {
             throw std::runtime_error("Impossible to load file");
+        }
+
         if(_map.emplace(id,std::move(ptr)).second == false)
-            throw std::runtime_error("Impossible to emplace in map. Object already load?");
+        {
+            throw std::runtime_error("Impossible to emplace in map. Object already exists?");
+        }
+
         return *_map[id];
     }
 
@@ -32,7 +38,9 @@ namespace sfutils
     RESOURCE& ResourceManager<RESOURCE,IDENTIFIER>::getOrLoad(const IDENTIFIER& id,Args&& ... args)
     {
         if(_map.count(id) == 0)
+        {
             return load(id,args...);
+        }
         return get(id);
     }
 
@@ -51,9 +59,14 @@ namespace sfutils
         std::unique_ptr<sf::Music> ptr(new sf::Music);
 
         if(not ptr->openFromFile(std::forward<Args>(args)...))
+        {
             throw std::runtime_error("Impossible to load file");
+        }
+
         if(_map.emplace(id,std::move(ptr)).second == false)
-            throw std::runtime_error("Impossible to emplace in map. Object aleardy load?");
+        {
+            throw std::runtime_error("Impossible to emplace in map. Object aleardy exists?");
+        }
         return *_map[id];
     };
 
@@ -74,7 +87,9 @@ namespace sfutils
     sf::Music& ResourceManager<sf::Music,IDENTIFIER>::getOrLoad(const IDENTIFIER& id,Args&& ... args)
     {
         if(_map.count(id) == 0)
+        {
             return load(id,args...);
+        }
         return get(id);
     }
 
@@ -92,7 +107,9 @@ namespace sfutils
     {
         std::unique_ptr<Animation> ptr(new Animation(std::forward<Args>(args)...));
         if(_map.emplace(id,std::move(ptr)).second == false)
-            throw std::runtime_error("Impossible to emplace in map. Object aleardy load?");
+        {
+            throw std::runtime_error("Impossible to emplace in map. Object aleardy exists?");
+        }
         return *_map[id];
     };
 
@@ -113,7 +130,9 @@ namespace sfutils
     Animation& ResourceManager<Animation,IDENTIFIER>::getOrLoad(const IDENTIFIER& id,Args&& ... args)
     {
         if(_map.count(id) == 0)
+        {
             return load(id,args...);
+        }
         return get(id);
     }
 

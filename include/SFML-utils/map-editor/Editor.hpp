@@ -35,6 +35,12 @@ namespace sfutils
                 bool requestDelLayer(int index);
                 bool requestMoveLayer(int from,int to);
 
+                bool requestTextureSelected(const std::string& texture);
+                
+                bool setCurrentSprite(const std::string& spr);
+                bool setCurrentSprite(const std::string& spr,const  sf::IntRect rect);
+
+
             private:
                 sf::RenderWindow _window;
                 sf::Clock _clock;
@@ -62,6 +68,7 @@ namespace sfutils
 
                 sf::IntRect _selectionRect;
                 std::vector<sf::ConvexShape> _selectionHighlight;
+                std::list<std::string> _getTextureList()const;
 
         };
     }

@@ -31,6 +31,8 @@ namespace sfutils
                 void removeIf(const std::function<bool(int x,int y)>& criterion);
                 void clear();
 
+                ResourceManager<sf::Texture,std::string>& getTextureManager();
+
             private:
                 std::shared_ptr<VMapLoader> _mapLoader;
                 std::unordered_map<std::pair<int,int>,std::unique_ptr<MetaArea>> _areas;

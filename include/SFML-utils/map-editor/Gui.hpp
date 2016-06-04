@@ -38,6 +38,9 @@ namespace sfutils
                 void addLayer(sfutils::map::LayerModel::pointer& layer);
                 void delLayer(sfutils::map::LayerModel::pointer& layer);
 
+                void addTexture(const std::string& tex);
+                void delTexture(const std::string& tex);
+
                 void reset();
 
             private:
@@ -49,6 +52,9 @@ namespace sfutils
                 CEGUI::Listbox* _layerList;
                 void _clearLayerList();
                 void _setLayerListItemName(CEGUI::ListboxItem* item);
+
+                CEGUI::Listbox* _textureList;
+                void _clearTextureList();
 
                 /*menu*/
                 void _registerMenuBarCallbacks();
@@ -67,7 +73,7 @@ namespace sfutils
                 /*left panel*/
                 void _registerLeftPanelCallbacks();
                 ////texture
-                bool _event_leftPanel_texture_selected(CEGUI::Listbox* box);
+                bool _event_leftPanel_texture_selected();
                 ////Tab
                 bool _event_leftPanel_tab_changed(const std::string& name);
                 //////NPC

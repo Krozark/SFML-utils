@@ -17,7 +17,6 @@
 #endif
 
 #include <SFML-utils/map/JsonMapLoader.hpp>
-#include <SFML-utils/map/JsonSpriteLoader.hpp>
 #include <SFML-utils/map/Layer.hpp>
 #include <SFML-utils/map/Map.hpp>
 #include <SFML-utils/map/MapManager.hpp>
