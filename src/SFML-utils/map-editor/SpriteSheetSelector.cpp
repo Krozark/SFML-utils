@@ -20,8 +20,8 @@ namespace sfutils
             //_context = &cegui::GuiManager::createGUIContext();
             setVisible(false);
 
-            _selectionShape.setFillColor(sf::Color(127,127,127));
-            _highlightShape.setFillColor(sf::Color(0,127,0));
+            _selectionShape.setFillColor(sf::Color::White);
+            _highlightShape.setFillColor(sf::Color(0,255,0,127));
         }
 
         SpriteSheetSelector::~SpriteSheetSelector()
@@ -42,6 +42,8 @@ namespace sfutils
             sf::IntRect size;
             std::string imageFile;
             bool res = true;
+
+            sf::Texture* spriteSheetTexture = nullptr;
 
             try
             {
@@ -76,8 +78,15 @@ namespace sfutils
                 sp.push_back(imageFile);
                 imageFile = utils::string::join("/",sp);
 
-                sf::Texture& tex = textureManager.getOrLoad(imageFile,imageFile);
-                _background.setTexture(tex,true);
+                //_imageTexture file
+                spriteSheetTexture = &textureManager.getOrLoad(imageFile,imageFile);
+
+                //transparent background
+                sf::Texture& backgroundTexture = textureManager.getOrLoad("media/gui/bg-transparent.png","media/gui/bg-transparent.png");
+                backgroundTexture.setRepeated(true);
+                _backgroundSprite.setTexture(backgroundTexture);
+                _backgroundSprite.setTextureRect(size);
+
             }
             catch(std::exception& e)
             {
@@ -88,19 +97,28 @@ namespace sfutils
             std::swap(_imageFile,imageFile);
             std::swap(_rect,tmpRect);
 
-            _borders.clear();
+            //set background futur image
+            _imageTexture.create(size.width,size.height);
+            _imageTexture.clear(sf::Color::Transparent);
+
+            //sprite sheet image
+            _imageSprite.setTexture(*spriteSheetTexture,true);
+            _imageTexture.draw(_imageSprite);
+            //borders
+            sf::RectangleShape tmpShape;
+            tmpShape.setFillColor(sf::Color::Transparent);
+            tmpShape.setOutlineColor(sf::Color::Black);
+            tmpShape.setOutlineThickness(1);
             for(auto& pair : _rect)
             {
-                //TODO, change  	VertexArray
                 auto& rect = pair.second;
-                sf::RectangleShape tmpShape(sf::Vector2f(rect.width,rect.height));
+                tmpShape.setSize(sf::Vector2f(rect.width,rect.height));
                 tmpShape.setPosition(sf::Vector2f(rect.left,rect.top));
-                tmpShape.setOutlineColor(sf::Color::Black);
-                tmpShape.setOutlineThickness(1);
-                _borders.emplace_back(std::move(tmpShape));
+                _imageTexture.draw(tmpShape);
             }
+            _imageTexture.display();
 
-            std::vector<sf::RectangleShape> _borders;
+            _imageSprite.setTexture(_imageTexture.getTexture(),true);
 
             _window.create(sf::VideoMode(size.width,size.height),"SpriteSheet Selector ("+_imageFile+")");
 
@@ -156,14 +174,10 @@ namespace sfutils
             _window.setActive(true);
             _window.clear(sf::Color::White);
 
-            for(auto& border : _borders)
-            {
-                _window.draw(border);
-            }
-
+            _window.draw(_backgroundSprite);
             _window.draw(_selectionShape);
             _window.draw(_highlightShape);
-            _window.draw(_background);
+            _window.draw(_imageSprite);
 
             /*_window.pushGLStates();
             cegui::GuiManager::render(*_context);
