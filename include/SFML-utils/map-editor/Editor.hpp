@@ -39,7 +39,7 @@ namespace sfutils
                 bool requestTextureSelected(const std::string& texture);
                 
                 bool setCurrentSprite(const std::string& spr);
-                bool setCurrentSprite(const std::string& spr,const  sf::IntRect rect);
+                bool setCurrentSprite(const std::string& spr,const sf::IntRect& rect);
 
 
             private:

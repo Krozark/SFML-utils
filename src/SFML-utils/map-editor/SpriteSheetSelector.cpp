@@ -156,6 +156,10 @@ namespace sfutils
                 {
                     _selectionShape.setPosition(_highlightShape.getPosition());
                     _selectionShape.setSize(_highlightShape.getSize());
+
+                    sf::IntRect rect(_selectionShape.getPosition().x,_selectionShape.getPosition().y,
+                                     _selectionShape.getSize().x,_selectionShape.getSize().y);
+                    _owner.setCurrentSprite(_imageFile,rect);
                 }
                 /*else
                 {

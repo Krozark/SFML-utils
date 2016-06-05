@@ -154,33 +154,31 @@ namespace sfutils
 
         bool Editor::requestTextureSelected(const std::string& texture)
         {
-            //TODO
-            std::cout<<texture<<std::endl;
             bool res = true;
             if(utils::string::endswith(texture,".json"))
             {
                 //json file
                 res = _spriteSheetSelector.setFile(DIRECTORY_SPRITES + texture,_mapManager->getTextureManager());
-                if(res == true)
-                {
-                    _spriteSheetSelector.setVisible(true);
-                }
+                _spriteSheetSelector.setVisible(res);
             }
             else
             {
                 _spriteSheetSelector.setVisible(false);
                 //image file
-                if(setCurrentSprite(DIRECTORY_SPRITES + texture) == false)
-                {
-                    _gui.delTexture(texture);
-                    res = false;
-                }
+                res = setCurrentSprite(DIRECTORY_SPRITES + texture);
             }
+
+            if(res == false)
+            {
+                _gui.delTexture(texture);
+            }
+
             return res;
         }
 
         bool Editor::setCurrentSprite(const std::string& spr)
         {
+            //TODO
             bool res = true;
             try
             {
@@ -195,7 +193,7 @@ namespace sfutils
             return res;
         }
 
-        bool Editor::setCurrentSprite(const std::string& spr,const  sf::IntRect rect)
+        bool Editor::setCurrentSprite(const std::string& spr,const sf::IntRect& rect)
         {
             //TODO
             return false;
