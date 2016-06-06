@@ -8,6 +8,9 @@
 
 #include <SFML-utils/map-editor/Gui.hpp>
 #include <SFML-utils/map-editor/SpriteSheetSelector.hpp>
+#include <SFML-utils/map-editor/TileInfo.hpp>
+
+#include <utility>
 
 
 namespace sfutils
@@ -35,6 +38,10 @@ namespace sfutils
                 bool requestNewLayer();
                 bool requestDelLayer(int index);
                 bool requestMoveLayer(int from,int to);
+                bool requestSetCurrentLayer(int index);
+
+                bool requestSaveMap();
+
 
                 bool requestTextureSelected(const std::string& texture);
                 
@@ -51,6 +58,8 @@ namespace sfutils
 
                 sfutils::map::Map* _map;
                 sfutils::map::MapModel::pointer _dbMap;
+                sfutils::map::LayerModel::pointer_array _getMapLayers()const;
+
 
                 std::unique_ptr<sfutils::map::MapManager> _mapManager;
                 sfutils::map::MapViewer _mapViewer;
@@ -58,19 +67,38 @@ namespace sfutils
                 sf::ConvexShape* _highlight;
                 sf::IntRect _lastVisibleRect;
 
+                //sf::IntRect _selectionRect;
+                //std::vector<sf::ConvexShape> _selectionHighlight;
+
+                sf::IntRect _currentTextureRect;
+                std::string _currentTextureFile;
+
+                int _currentLayerIndex;
+
                 void _processEvents();
                 void _update();
                 void _render();
 
                 void _onClick(const sf::Vector2i& Coord);
 
-
                 void _loadVisiblesAreas(const sf::IntRect& rect);
                 sf::IntRect _getVisibleAreaRect()const;
 
-                sf::IntRect _selectionRect;
-                std::vector<sf::ConvexShape> _selectionHighlight;
                 std::list<std::string> _getTextureList()const;
+
+                void _reset();
+
+
+                void _addTile(sfutils::map::Layer<sfutils::map::Tile>& layer,const sf::Vector2i& coord);
+
+                std::list<TileInfo> _tileToRemove;
+                std::list<TileInfo> _tileToAdd;
+
+
+                void _addSprite(sfutils::map::Layer<sf::Sprite>& layer,const sf::Vector2i& coord);
+                void _addSpritePtr(sfutils::map::Layer<sf::Sprite*>& layer,const sf::Vector2i& coord);
+                void _addEntity(sfutils::map::Layer<sfutils::map::Entity*>& layer,const sf::Vector2i& coord);
+
 
         };
     }

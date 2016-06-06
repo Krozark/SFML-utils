@@ -88,10 +88,8 @@ namespace sfutils
             CEGUI::Window* box = _root->getChild("MenuBar/Title");
             std::string title = box->getText().c_str();
             _owner.getMap()->name = title;
-            _owner.getMap()->save();
 
-
-            return true;
+            return _owner.requestSaveMap();
         }
 
         ////Edit
@@ -282,11 +280,12 @@ namespace sfutils
 
         bool Gui::_event_rightPanel_layer_selected()
         {
-            //TODO
             CEGUI::ListboxItem* item = _layerList->getFirstSelectedItem();
             if(item)
             {
-                std::cout<<"_event_rightPanel_layer_selected : "<<item->getText().c_str()<<std::endl;
+                sfutils::map::LayerModel* layer = static_cast<sfutils::map::LayerModel*>(item->getUserData());
+                assert(layer);
+                _owner.requestSetCurrentLayer(layer->zBuffer.getValue());
             }
 
             return true;

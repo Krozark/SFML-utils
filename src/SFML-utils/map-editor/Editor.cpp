@@ -66,6 +66,8 @@ namespace sfutils
 
         void Editor::setMap(sfutils::map::MapModel::pointer& map)
         {
+            _reset();
+
             _dbMap = map;
 
             _mapManager.reset(new sfutils::map::MapManager(std::shared_ptr<sfutils::map::VMapLoader>(new sfutils::map::DatabaseMapLoader(map))));
@@ -86,17 +88,11 @@ namespace sfutils
             ////////////// GUI ///////////
             _spriteSheetSelector.setVisible(false);
 
-            _gui.reset();
-
             //map
             _gui.setTitle(map->name);
 
             //layers
-            sfutils::map::LayerModel::pointer_array layers;
-            sfutils::map::LayerModel::query()
-                .filter(map->getPk(),orm::op::exact,sfutils::map::LayerModel::$map)
-                .orderBy(sfutils::map::LayerModel::$zBuffer,'-')
-                .get(layers);
+            sfutils::map::LayerModel::pointer_array layers = _getMapLayers();
 
             for(auto& layer : layers)
             {
@@ -143,18 +139,51 @@ namespace sfutils
         bool Editor::requestDelLayer(int index)
         {
             //TODO
+
+            auto tileFunc = [index](const TileInfo& i){
+                return index == i.z;
+            };
+
+            _tileToRemove.remove_if(tileFunc);
+            _tileToAdd.remove_if(tileFunc);
+
             return false;
         }
 
         bool Editor::requestMoveLayer(int from,int to)
         {
             //TODO change zbuffer of it, and all others to be sure that no z index is duplicated
+            //TODO update _tileToXXX
             return false;
+        }
+
+        bool Editor::requestSetCurrentLayer(int index)
+        {
+            _currentLayerIndex = index;
+            return true;
+        }
+
+        bool Editor::requestSaveMap()
+        {
+
+            _tileToRemove.sort();
+            _tileToRemove.unique();
+
+            _tileToAdd.sort();
+            _tileToAdd.unique();
+
+            _dbMap->save();
+
+            return true;
         }
 
         bool Editor::requestTextureSelected(const std::string& texture)
         {
             bool res = true;
+            //reset
+            _currentTextureRect = sf::IntRect();
+            _currentTextureFile.clear();
+
             if(utils::string::endswith(texture,".json"))
             {
                 //json file
@@ -183,6 +212,8 @@ namespace sfutils
             try
             {
                 sf::Texture& tex = _mapManager->getTextureManager().getOrLoad(spr,spr);
+                tex.setRepeated(true);
+                _currentTextureFile = spr;
             }
             catch(const std::exception& e)
             {
@@ -196,11 +227,26 @@ namespace sfutils
         bool Editor::setCurrentSprite(const std::string& spr,const sf::IntRect& rect)
         {
             //TODO
+            _currentTextureFile = spr;
+            _currentTextureRect = rect;
             return false;
         }
 
 
         ////////////////////// PRIVATE ////////////////////
+        sfutils::map::LayerModel::pointer_array Editor::_getMapLayers()const
+        {
+            assert(_dbMap);
+
+            sfutils::map::LayerModel::pointer_array layers;
+            sfutils::map::LayerModel::query()
+                .filter(_dbMap->getPk(),orm::op::exact,sfutils::map::LayerModel::$map)
+                .orderBy(sfutils::map::LayerModel::$zBuffer,'-')
+                .get(layers);
+
+            return layers;
+        }
+
         void Editor::_processEvents()
         {
             sf::Event event;
@@ -250,6 +296,12 @@ namespace sfutils
                     }
                     _loadVisiblesAreas(rect);
                 }
+            }
+
+            if((sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) ||  sf::Keyboard::isKeyPressed(sf::Keyboard::RControl)) && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+            {
+                sf::Vector2i coord = _mapViewer.mapScreenToCoords(sf::Mouse::getPosition(_window));
+                _onClick(coord);
             }
             
             reloadAreas |= _mapViewer.processEvents();
@@ -302,7 +354,40 @@ namespace sfutils
 
         void Editor::_onClick(const sf::Vector2i& coord)
         {
+            //TODO
             std::cout<<"Click on ("<<coord.x<<":"<<coord.y<<")"<<std::endl;
+            std::cout<<"Current texture file : "<<_currentTextureFile<<std::endl;
+            std::cout<<"Current layer index : "<<_currentLayerIndex<<std::endl;
+
+            sfutils::map::VLayer* currentLayer = _map->atZ(_currentLayerIndex);
+
+            if((currentLayer != nullptr) && (_currentTextureFile.empty() == false))
+            {
+                std::string type = currentLayer->getType();
+                std::cout<<"Layer type: "<<currentLayer->getType()<<std::endl;
+
+                if(type == "tile")
+                {
+                    _addTile(dynamic_cast<sfutils::map::Layer<sfutils::map::Tile>&>(*currentLayer),coord);
+                }
+                else if(type == "sprite")
+                {
+                    _addSprite(dynamic_cast<sfutils::map::Layer<sf::Sprite>&>(*currentLayer),coord);
+                }
+                else if(type == "sprite_ptr")
+                {
+                    _addSpritePtr(dynamic_cast<sfutils::map::Layer<sf::Sprite*>&>(*currentLayer),coord);
+                }
+                else if(type == "entity")
+                {
+                    _addEntity(dynamic_cast<sfutils::map::Layer<sfutils::map::Entity*>&>(*currentLayer),coord);
+                }
+                else
+                {
+                    std::cerr<<"Unknow layer type "<<type<<std::endl;
+                }
+            }
+
         }
 
 
@@ -374,6 +459,58 @@ namespace sfutils
            list.sort();
 
             return list;
+        }
+
+        void Editor::_reset()
+        {
+            _currentTextureRect = sf::IntRect();
+            _currentTextureFile.clear();
+            _currentLayerIndex = 0;
+
+            _tileToRemove.clear();
+            _tileToAdd.clear();
+
+            _gui.reset();
+        }
+
+        void Editor::_addTile(sfutils::map::Layer<sfutils::map::Tile>& layer,const sf::Vector2i& coord)
+        {
+            assert(_map);
+
+            std::cout<<"Tile"<<std::endl;
+
+            auto objs = layer.getByCoords(coord,*_map);
+            if(objs.size() > 0)
+            {
+                std::cout<<objs.size()<<" objects here in "<<coord.x<<" "<<coord.y<<std::endl;
+                for(auto ptr : objs)
+                {
+                    layer.remove(ptr,false);
+                    _tileToRemove.emplace_back(layer.z(),coord);
+                }
+            }
+
+            sfutils::map::Tile tmp(_map->getGeometry(),coord);
+            tmp.setTexture(&_mapManager->getTextureManager().get(_currentTextureFile));
+            tmp.setTextureRect(_map->getGeometry().getTextureRect(coord));
+
+            layer.add(std::move(tmp));
+            _tileToAdd.emplace_back(layer.z(),coord);
+        }
+
+        void Editor::_addSprite(sfutils::map::Layer<sf::Sprite>& layer,const sf::Vector2i& coord)
+        {
+            std::cout<<"Sprite"<<std::endl;
+        }
+
+        void Editor::_addSpritePtr(sfutils::map::Layer<sf::Sprite*>& layer,const sf::Vector2i& coord)
+        {
+            std::cout<<"SpritePtr"<<std::endl;
+        }
+
+        void Editor::_addEntity(sfutils::map::Layer<sfutils::map::Entity*>& layer,const sf::Vector2i& coord)
+        {
+            std::cout<<"Entity"<<std::endl;
         }
     }
 }
