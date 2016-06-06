@@ -168,11 +168,16 @@ namespace sfutils
 
             _tileToRemove.sort();
             _tileToRemove.unique();
+            //TODO remove from DB
 
             _tileToAdd.sort();
             _tileToAdd.unique();
+            //TODO insert from DB
 
+            
             _dbMap->save();
+
+            reloadMap();
 
             return true;
         }
@@ -500,16 +505,19 @@ namespace sfutils
 
         void Editor::_addSprite(sfutils::map::Layer<sf::Sprite>& layer,const sf::Vector2i& coord)
         {
+            //TODO
             std::cout<<"Sprite"<<std::endl;
         }
 
         void Editor::_addSpritePtr(sfutils::map::Layer<sf::Sprite*>& layer,const sf::Vector2i& coord)
         {
+            //TODO
             std::cout<<"SpritePtr"<<std::endl;
         }
 
         void Editor::_addEntity(sfutils::map::Layer<sfutils::map::Entity*>& layer,const sf::Vector2i& coord)
         {
+            //TODO
             std::cout<<"Entity"<<std::endl;
         }
     }
