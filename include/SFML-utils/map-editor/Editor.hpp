@@ -8,7 +8,7 @@
 
 #include <SFML-utils/map-editor/Gui.hpp>
 #include <SFML-utils/map-editor/SpriteSheetSelector.hpp>
-#include <SFML-utils/map-editor/TileInfo.hpp>
+#include <SFML-utils/map-editor/MapStateChanger.hpp>
 
 #include <utility>
 
@@ -29,8 +29,10 @@ namespace sfutils
                 void run();
 
                 void setMap(sfutils::map::MapModel::pointer& map);
-                sfutils::map::MapModel::pointer getMap() const;
-                void reloadMap();
+                const sfutils::map::MapModel::pointer getMap()const;
+
+                MapStateChanger& getMapStateChanger();
+
 
                 void setZoom(float value);
                 void setMiniMapZoom(float value);
@@ -41,6 +43,7 @@ namespace sfutils
                 bool requestSetCurrentLayer(int index);
 
                 bool requestSaveMap();
+                bool requestReloadMap();
 
 
                 bool requestTextureSelected(const std::string& texture);
@@ -50,11 +53,14 @@ namespace sfutils
 
 
             private:
+                friend class MapStateChanger;
+
                 sf::RenderWindow _window;
                 sf::Clock _clock;
 
                 Gui _gui;
                 SpriteSheetSelector _spriteSheetSelector;
+                MapStateChanger _mapStateChanger;
 
                 sfutils::map::Map* _map;
                 sfutils::map::MapModel::pointer _dbMap;
@@ -79,7 +85,7 @@ namespace sfutils
                 void _update();
                 void _render();
 
-                void _onClick(const sf::Vector2i& Coord);
+                void _fillTile(const sf::Vector2i& Coord);
 
                 void _loadVisiblesAreas(const sf::IntRect& rect);
                 sf::IntRect _getVisibleAreaRect()const;
@@ -87,18 +93,6 @@ namespace sfutils
                 std::list<std::string> _getTextureList()const;
 
                 void _reset();
-
-
-                void _addTile(sfutils::map::Layer<sfutils::map::Tile>& layer,const sf::Vector2i& coord);
-
-                std::list<TileInfo> _tileToRemove;
-                std::list<TileInfo> _tileToAdd;
-
-
-                void _addSprite(sfutils::map::Layer<sf::Sprite>& layer,const sf::Vector2i& coord);
-                void _addSpritePtr(sfutils::map::Layer<sf::Sprite*>& layer,const sf::Vector2i& coord);
-                void _addEntity(sfutils::map::Layer<sfutils::map::Entity*>& layer,const sf::Vector2i& coord);
-
 
         };
     }

@@ -87,7 +87,7 @@ namespace sfutils
 
             CEGUI::Window* box = _root->getChild("MenuBar/Title");
             std::string title = box->getText().c_str();
-            _owner.getMap()->name = title;
+            _owner.getMapStateChanger().setTitle(title);
 
             return _owner.requestSaveMap();
         }
@@ -112,21 +112,16 @@ namespace sfutils
         {
             std::stringstream ss;
             ss<<_owner.getMap()->scale.getValue()<<" "
-                <<_owner.getMap()->areaHeight.getValue()<<" "
-                <<_owner.getMap()->areaWidth.getValue();
+                <<_owner.getMap()->areaWidth.getValue() << " "
+                <<_owner.getMap()->areaHeight.getValue();
 
             sfutils::cegui::DialogBox::getString(
                  _root,
                  "Change map size",
-                 "Choose a new size\nScale Height Width",
+                 "Choose a new size\nScale Width Height",
                  [this](const std::string& size){
-                      std::cout<<"size : "<<size<<std::endl;
                       auto split = utils::string::split(size," ");
-                      _owner.getMap()->scale = std::stoi(split[0]);
-                      _owner.getMap()->areaHeight = std::stoi(split[1]);
-                      _owner.getMap()->areaWidth = std::stoi(split[2]);
-
-                      _owner.reloadMap();
+                      _owner.getMapStateChanger().setSize(std::stoi(split[0]),std::stoi(split[1]),std::stoi(split[2]));
                  },
                  [](){},
                  ss.str(),
@@ -153,8 +148,7 @@ namespace sfutils
                        {
                            if(geo->name == geometry)
                            {
-                               this->_owner.getMap()->geometry = geo;
-                               this->_owner.reloadMap();
+                               this->_owner.getMapStateChanger().setGeometry(geo);
                                break;
                            }
                        }
