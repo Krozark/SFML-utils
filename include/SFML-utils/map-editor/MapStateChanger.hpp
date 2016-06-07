@@ -52,6 +52,10 @@ namespace sfutils
                 std::list<TileInfo> _tileToRemove;
                 std::list<TileInfo> _tileToAdd;
 
+                sfutils::map::LayerModel::pointer _getLayer(int zbuffer);
+                static void _delTile(sfutils::map::LayerModel::pointer& layer,const TileInfo& info);
+                static void _addTile(sfutils::map::LayerModel::pointer& layer,const TileInfo& info);
+
 
         };
     }

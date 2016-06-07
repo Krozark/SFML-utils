@@ -220,7 +220,7 @@ namespace sfutils
         void Editor::fillTile(const sf::Vector2i& coord)
         {
             //TODO
-            std::cout<<"Click on ("<<coord.x<<":"<<coord.y<<")"<<std::endl;
+            std::cout<<"fill tile ("<<coord.x<<":"<<coord.y<<")"<<std::endl;
             std::cout<<"Current texture file : "<<_currentTextureFile<<std::endl;
             std::cout<<"Current layer index : "<<_currentLayerIndex<<std::endl;
 

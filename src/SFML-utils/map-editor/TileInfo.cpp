@@ -4,9 +4,10 @@ namespace sfutils
 {
     namespace editor
     {
-        TileInfo::TileInfo(int az,const sf::Vector2i& acoord):
+        TileInfo::TileInfo(int az,const sf::Vector2i& acoord,FuncType f):
             z(az),
-            coord(acoord)
+            coord(acoord),
+            func(f)
         {
         }
 

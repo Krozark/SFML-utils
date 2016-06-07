@@ -22,15 +22,46 @@ namespace sfutils
             assert(_owner._map);
             assert(_owner._dbMap);
 
-            _owner._dbMap->save();
-
             _tileToRemove.sort();
             _tileToRemove.unique();
             //TODO remove from DB
+            
+
+            int lastZ = -99999;
+            sfutils::map::LayerModel::pointer layer;
+            for(TileInfo& tile: _tileToRemove)
+            {
+                if(tile.z != lastZ)
+                {
+                    lastZ = tile.z;
+                    layer = _getLayer(lastZ);
+                    if(layer == nullptr)
+                    {
+                        assert(false && "this should never apear");
+                        continue;
+                    }
+                }
+                tile.func(layer,tile);                    
+            }
 
             _tileToAdd.sort();
             _tileToAdd.unique();
             //TODO insert into DB
+            lastZ = -99999;
+            for(TileInfo& tile: _tileToAdd)
+            {
+                if(tile.z != lastZ)
+                {
+                    lastZ = tile.z;
+                    layer = _getLayer(lastZ);
+                    if(layer == nullptr)
+                    {
+                        assert(false && "this should never apear");
+                        continue;
+                    }
+                }
+                tile.func(layer,tile);                    
+            }
 
             _owner._dbMap->save();
         }
@@ -103,16 +134,20 @@ namespace sfutils
                 for(auto ptr : objs)
                 {
                     layer.remove(ptr,false);
-                    _tileToRemove.emplace_back(layer.z(),coord);
+                    _tileToRemove.emplace_back(layer.z(),coord,_delTile);
                 }
             }
 
-            sfutils::map::Tile tmp(_owner._map->getGeometry(),coord);
-            tmp.setTexture(&_owner._mapManager->getTextureManager().get(textureFile));
-            tmp.setTextureRect(_owner._map->getGeometry().getTextureRect(coord));
+            if(textureFile.empty() == false)
+            {
+                sfutils::map::Tile tmp(_owner._map->getGeometry(),coord);
+                tmp.setTexture(&_owner._mapManager->getTextureManager().get(textureFile));
+                tmp.setTextureRect(_owner._map->getGeometry().getTextureRect(coord));
 
-            layer.add(std::move(tmp));
-            _tileToAdd.emplace_back(layer.z(),coord);
+                layer.add(std::move(tmp));
+                _tileToAdd.emplace_back(layer.z(),coord,_addTile);
+                _tileToAdd.back().texture = textureFile;
+            }
         }
 
         void MapStateChanger::addSprite(sfutils::map::Layer<sf::Sprite>& layer,const sf::Vector2i& coord,const std::string& textureFile,const sf::IntRect& textureRect)
@@ -137,6 +172,56 @@ namespace sfutils
             assert(_owner._dbMap);
             //TODO
             std::cout<<"Entity"<<std::endl;
+        }
+
+
+        ///////////////////// PRIVATE ////////////////////////////
+        sfutils::map::LayerModel::pointer MapStateChanger::_getLayer(int zbuffer)
+        {
+            sfutils::map::LayerModel::pointer_array layers;
+            sfutils::map::LayerModel::query()
+                .filter(
+                        orm::Q<sfutils::map::LayerModel>(_owner._dbMap->getPk(),orm::op::exact,sfutils::map::LayerModel::$map)
+                        && orm::Q<sfutils::map::LayerModel>(zbuffer,orm::op::exact,sfutils::map::LayerModel::$zBuffer)
+                       )
+                .get(layers);
+
+            if(layers.size()> 0)
+            {
+                return layers.front();
+            }
+            return nullptr;
+        }
+
+        void MapStateChanger::_delTile(sfutils::map::LayerModel::pointer& layer,const TileInfo& info)
+        {
+            sfutils::map::TileModel::pointer_array tiles;
+            sfutils::map::TileModel::query()
+                .filter(
+                        orm::Q<sfutils::map::TileModel>(layer->getPk(),orm::op::exact,sfutils::map::TileModel::$layer)
+                        && orm::Q<sfutils::map::TileModel>(info.coord.x,orm::op::exact,sfutils::map::TileModel::$x)
+                        && orm::Q<sfutils::map::TileModel>(info.coord.y,orm::op::exact,sfutils::map::TileModel::$y)
+                )
+                .get(tiles);
+
+            if(tiles.size()> 0)
+            {
+                std::cout<<"deleting "<<*tiles.front()<<std::endl;
+                tiles.front()->del();
+            }
+        }
+
+        void MapStateChanger::_addTile(sfutils::map::LayerModel::pointer& layer,const TileInfo& info)
+        {
+            auto tile = sfutils::map::TileModel::create();
+            tile->texture = info.texture;
+            tile->x = info.coord.x;
+            tile->y = info.coord.y;
+            tile->layer = layer;
+
+            tile->save();
+
+            std::cout<<"adding "<<*tile<<std::endl;
         }
     }
 }
