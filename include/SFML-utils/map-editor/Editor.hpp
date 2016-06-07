@@ -9,6 +9,7 @@
 #include <SFML-utils/map-editor/Gui.hpp>
 #include <SFML-utils/map-editor/SpriteSheetSelector.hpp>
 #include <SFML-utils/map-editor/MapStateChanger.hpp>
+#include <SFML-utils/map-editor/MapSelectionManager.hpp>
 
 #include <utility>
 
@@ -51,6 +52,8 @@ namespace sfutils
                 bool setCurrentSprite(const std::string& spr);
                 bool setCurrentSprite(const std::string& spr,const sf::IntRect& rect);
 
+                void fillTile(const sf::Vector2i& Coord);
+
 
             private:
                 friend class MapStateChanger;
@@ -61,6 +64,7 @@ namespace sfutils
                 Gui _gui;
                 SpriteSheetSelector _spriteSheetSelector;
                 MapStateChanger _mapStateChanger;
+                MapSelectionManager _mapSelectionManager;
 
                 sfutils::map::Map* _map;
                 sfutils::map::MapModel::pointer _dbMap;
@@ -70,7 +74,6 @@ namespace sfutils
                 std::unique_ptr<sfutils::map::MapManager> _mapManager;
                 sfutils::map::MapViewer _mapViewer;
 
-                sf::ConvexShape* _highlight;
                 sf::IntRect _lastVisibleRect;
 
                 //sf::IntRect _selectionRect;
@@ -85,7 +88,6 @@ namespace sfutils
                 void _update();
                 void _render();
 
-                void _fillTile(const sf::Vector2i& Coord);
 
                 void _loadVisiblesAreas(const sf::IntRect& rect);
                 sf::IntRect _getVisibleAreaRect()const;

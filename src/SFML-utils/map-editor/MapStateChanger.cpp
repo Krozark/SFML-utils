@@ -30,9 +30,8 @@ namespace sfutils
 
             _tileToAdd.sort();
             _tileToAdd.unique();
-            //TODO insert from DB
+            //TODO insert into DB
 
-            
             _owner._dbMap->save();
         }
 

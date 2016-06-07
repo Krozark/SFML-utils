@@ -5,6 +5,7 @@ set(FILES_HEADER
     ${INCROOT}/Editor.hpp
     ${INCROOT}/Gui.hpp
     ${INCROOT}/MapStateChanger.hpp
+    ${INCROOT}/MapSelectionManager.hpp
     ${INCROOT}/SpriteSheetSelector.hpp
     ${INCROOT}/TileInfo.hpp
 )
@@ -14,6 +15,7 @@ set(FILES_SRC
     ${SRCROOT}/Gui.cpp
     ${SRCROOT}/GuiCallbacks.cpp
     ${SRCROOT}/MapStateChanger.cpp
+    ${SRCROOT}/MapSelectionManager.cpp
     ${SRCROOT}/SpriteSheetSelector.cpp
     ${SRCROOT}/TileInfo.cpp
 )

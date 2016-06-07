@@ -33,6 +33,7 @@ namespace sfutils
             _gui(_window,*this),
             _spriteSheetSelector(*this),
             _mapStateChanger(*this),
+            _mapSelectionManager(*this),
             _map(nullptr),
             _mapViewer(_window,nullptr,false)
         {
@@ -76,12 +77,7 @@ namespace sfutils
             _map = _mapManager->getMap();
             _mapViewer.setMap(_map);
 
-            //special layers
-            sfutils::map::Layer<sf::ConvexShape>* mouse_layer = new sfutils::map::Layer<sf::ConvexShape>("ConvexShape",100);
-
-            _highlight = mouse_layer->add(_map->getGeometry().getShape());
-            _highlight->setFillColor(sf::Color(0,255,0,127));
-            _map->addLayer(mouse_layer);
+            _mapSelectionManager.setMap(_map);
 
             sf::IntRect rect = _getVisibleAreaRect(); 
             _loadVisiblesAreas(rect);
@@ -221,6 +217,43 @@ namespace sfutils
             return false;
         }
 
+        void Editor::fillTile(const sf::Vector2i& coord)
+        {
+            //TODO
+            std::cout<<"Click on ("<<coord.x<<":"<<coord.y<<")"<<std::endl;
+            std::cout<<"Current texture file : "<<_currentTextureFile<<std::endl;
+            std::cout<<"Current layer index : "<<_currentLayerIndex<<std::endl;
+
+            sfutils::map::VLayer* currentLayer = _map->atZ(_currentLayerIndex);
+
+            if((currentLayer != nullptr) && (_currentTextureFile.empty() == false))
+            {
+                std::string type = currentLayer->getType();
+
+                if(type == "tile")
+                {
+                    _mapStateChanger.addTile(dynamic_cast<sfutils::map::Layer<sfutils::map::Tile>&>(*currentLayer),coord,_currentTextureFile);
+                }
+                else if(type == "sprite")
+                {
+                    _mapStateChanger.addSprite(dynamic_cast<sfutils::map::Layer<sf::Sprite>&>(*currentLayer),coord,_currentTextureFile,_currentTextureRect);
+                }
+                else if(type == "sprite_ptr")
+                {
+                    _mapStateChanger.addSpritePtr(dynamic_cast<sfutils::map::Layer<sf::Sprite*>&>(*currentLayer),coord,_currentTextureFile,_currentTextureRect);
+                }
+                else if(type == "entity")
+                {
+                    _mapStateChanger.addEntity(dynamic_cast<sfutils::map::Layer<sfutils::map::Entity*>&>(*currentLayer),coord,_currentTextureFile);
+                }
+                else
+                {
+                    std::cerr<<"Unknow layer type "<<type<<std::endl;
+                }
+            }
+
+        }
+
 
         ////////////////////// PRIVATE ////////////////////
         sfutils::map::LayerModel::pointer_array Editor::_getMapLayers()const
@@ -271,11 +304,6 @@ namespace sfutils
                     _mapViewer.move(-20,0);
                 }
                 ///////////////////editor logics//////////////////
-                else if(event.type == sf::Event::MouseButtonPressed and event.mouseButton.button == sf::Mouse::Button::Left)
-                {
-                    sf::Vector2i coord = _mapViewer.mapScreenToCoords(sf::Vector2i(event.mouseButton.x,event.mouseButton.y));
-                    _fillTile(coord);
-                }
                 else if(event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::F5)
                 {
                     sf::IntRect rect = _getVisibleAreaRect(); 
@@ -285,14 +313,11 @@ namespace sfutils
                     }
                     _loadVisiblesAreas(rect);
                 }
+                else if(_mapSelectionManager.processEvent(event,_mapViewer))
+                {
+                }
             }
 
-            if((sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) ||  sf::Keyboard::isKeyPressed(sf::Keyboard::RControl)) && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
-            {
-                sf::Vector2i coord = _mapViewer.mapScreenToCoords(sf::Mouse::getPosition(_window));
-                _fillTile(coord);
-            }
-            
             reloadAreas |= _mapViewer.processEvents();
 
             _spriteSheetSelector.processEvents();
@@ -306,23 +331,21 @@ namespace sfutils
                 }
             }
 
+        }
+
+        void Editor::_update()
+        {
+            sf::Time deltaTime = _clock.restart();
+
             if(_map)
             {
                 sf::Vector2i coord = _mapViewer.mapScreenToCoords(sf::Mouse::getPosition(_window));
-                sf::Vector2f pixels = _mapViewer.mapCoordsToPixel(coord);
-                _highlight->setPosition(pixels);
 
                 sf::Vector2i area = _map->mapCoordsToArea(coord);
 
                 _gui.setMainInfo("(" + std::to_string(coord.x) + ":" + std::to_string(coord.y)
                                     + "),(" + std::to_string(area.x) + ":" + std::to_string(area.y) + ")");
             }
-
-        }
-
-        void Editor::_update()
-        {
-            sf::Time deltaTime = _clock.restart();
 
             _gui.update(deltaTime);
             _spriteSheetSelector.update(deltaTime);
@@ -341,42 +364,6 @@ namespace sfutils
             _spriteSheetSelector.render();
         }
 
-        void Editor::_fillTile(const sf::Vector2i& coord)
-        {
-            //TODO
-            std::cout<<"Click on ("<<coord.x<<":"<<coord.y<<")"<<std::endl;
-            std::cout<<"Current texture file : "<<_currentTextureFile<<std::endl;
-            std::cout<<"Current layer index : "<<_currentLayerIndex<<std::endl;
-
-            sfutils::map::VLayer* currentLayer = _map->atZ(_currentLayerIndex);
-
-            if((currentLayer != nullptr) && (_currentTextureFile.empty() == false))
-            {
-                std::string type = currentLayer->getType();
-
-                if(type == "tile")
-                {
-                    _mapStateChanger.addTile(dynamic_cast<sfutils::map::Layer<sfutils::map::Tile>&>(*currentLayer),coord,_currentTextureFile);
-                }
-                else if(type == "sprite")
-                {
-                    _mapStateChanger.addSprite(dynamic_cast<sfutils::map::Layer<sf::Sprite>&>(*currentLayer),coord,_currentTextureFile,_currentTextureRect);
-                }
-                else if(type == "sprite_ptr")
-                {
-                    _mapStateChanger.addSpritePtr(dynamic_cast<sfutils::map::Layer<sf::Sprite*>&>(*currentLayer),coord,_currentTextureFile,_currentTextureRect);
-                }
-                else if(type == "entity")
-                {
-                    _mapStateChanger.addEntity(dynamic_cast<sfutils::map::Layer<sfutils::map::Entity*>&>(*currentLayer),coord,_currentTextureFile);
-                }
-                else
-                {
-                    std::cerr<<"Unknow layer type "<<type<<std::endl;
-                }
-            }
-
-        }
 
 
         void Editor::_loadVisiblesAreas(const sf::IntRect& rect)
@@ -457,6 +444,7 @@ namespace sfutils
 
             _gui.reset();
             _mapStateChanger.reset();
+            _mapSelectionManager.reset();
         }
 
     }
