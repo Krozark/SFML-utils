@@ -23,7 +23,6 @@ namespace sfutils
             assert(_owner._dbMap);
 
             _tileToRemove.sort();
-            _tileToRemove.unique();
             //TODO remove from DB
             
 
@@ -45,7 +44,6 @@ namespace sfutils
             }
 
             _tileToAdd.sort();
-            _tileToAdd.unique();
             //TODO insert into DB
             lastZ = -99999;
             for(TileInfo& tile: _tileToAdd)
@@ -134,19 +132,31 @@ namespace sfutils
                 for(auto ptr : objs)
                 {
                     layer.remove(ptr,false);
-                    _tileToRemove.emplace_back(layer.z(),coord,_delTile);
+
+                    TileInfo tmp(layer.z(),coord,_delTile);
+
+                    _tileToRemove.remove(_tileToRemove.back());
+
+                    _tileToRemove.emplace_back(std::move(tmp));
                 }
             }
 
             if(textureFile.empty() == false)
             {
-                sfutils::map::Tile tmp(_owner._map->getGeometry(),coord);
-                tmp.setTexture(&_owner._mapManager->getTextureManager().get(textureFile));
-                tmp.setTextureRect(_owner._map->getGeometry().getTextureRect(coord));
+                {
+                    sfutils::map::Tile tmp(_owner._map->getGeometry(),coord);
+                    tmp.setTexture(&_owner._mapManager->getTextureManager().get(textureFile));
+                    tmp.setTextureRect(_owner._map->getGeometry().getTextureRect(coord));
+                    layer.add(std::move(tmp));
+                }
 
-                layer.add(std::move(tmp));
-                _tileToAdd.emplace_back(layer.z(),coord,_addTile);
-                _tileToAdd.back().texture = textureFile;
+                {
+                    TileInfo tmp(layer.z(),coord,_addTile);
+                    tmp.texture = textureFile;
+
+                    _tileToAdd.remove(tmp);
+                    _tileToAdd.emplace_back(std::move(tmp));
+                }
             }
         }
 
@@ -206,7 +216,7 @@ namespace sfutils
 
             if(tiles.size()> 0)
             {
-                std::cout<<"deleting "<<*tiles.front()<<std::endl;
+                std::cout<<"deleting tile "<<info.coord.x<<":"<<info.coord.y<<std::endl;
                 tiles.front()->del();
             }
         }
@@ -221,7 +231,7 @@ namespace sfutils
 
             tile->save();
 
-            std::cout<<"adding "<<*tile<<std::endl;
+            std::cout<<"adding tile "<<info.coord.x<<":"<<info.coord.y<<std::endl;
         }
     }
 }
