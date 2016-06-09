@@ -76,9 +76,6 @@ namespace sfutils
 
                 sf::IntRect _lastVisibleRect;
 
-                //sf::IntRect _selectionRect;
-                //std::vector<sf::ConvexShape> _selectionHighlight;
-
                 sf::IntRect _currentTextureRect;
                 std::string _currentTextureFile;
 

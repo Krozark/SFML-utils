@@ -355,12 +355,18 @@ namespace sfutils
 
         void Editor::_render()
         {
+            //window 1
             _window.setActive(true);
             _window.clear();
+
             _mapViewer.draw();
             _gui.render();
-            _window.display();
+            _mapSelectionManager.render(_window);
 
+            _window.display();
+            
+
+            //window2
             _spriteSheetSelector.render();
         }
 

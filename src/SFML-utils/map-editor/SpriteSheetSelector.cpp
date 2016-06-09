@@ -41,7 +41,6 @@ namespace sfutils
             std::unordered_map<std::string,sf::IntRect> tmpRect;
             sf::IntRect size;
             std::string imageFile;
-            bool res = true;
 
             sf::Texture* spriteSheetTexture = nullptr;
 
@@ -49,7 +48,9 @@ namespace sfutils
             {
                 utils::json::Object& root = value->asObject();
                 //frames
+                std::cout<<root<<std::endl;
                 utils::json::Array& json_frames = root["frames"].asArray();
+                std::cout<<"Frames"<<std::endl;
                 for(utils::json::Value& value : json_frames)
                 {
                     utils::json::Object& obj = value.asObject();
@@ -91,7 +92,7 @@ namespace sfutils
             catch(std::exception& e)
             {
                 std::cerr<<"Exception when parsing file '"<<file<<"' : "<<e.what()<<std::endl;
-                res = false;
+                return false;
             }
 
             std::swap(_imageFile,imageFile);
@@ -122,7 +123,7 @@ namespace sfutils
 
             _window.create(sf::VideoMode(size.width,size.height),"SpriteSheet Selector ("+_imageFile+")");
 
-            return res;
+            return true;
         }
 
         void SpriteSheetSelector::setVisible(bool visible)

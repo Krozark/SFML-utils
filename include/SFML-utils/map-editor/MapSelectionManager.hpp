@@ -22,6 +22,8 @@ namespace sfutils
 
                 bool processEvent(const sf::Event& event, sfutils::map::MapViewer& viewer);
 
+                void render(sf::RenderTarget& target,sf::RenderStates states=sf::RenderStates::Default);
+
                 void setMap(sfutils::map::Map* map);
 
 
@@ -38,6 +40,16 @@ namespace sfutils
                 sf::Vector2i _clickReleasedCoord;
                 sf::Vector2i _lastCoord;
                 bool _isPressed;
+
+                sf::VertexArray _clickIndicator;
+
+                void _updateSelectionArea(sfutils::map::MapViewer& viewer);
+                void _valideSelectedArea();
+                void _resetSelection();
+
+                std::list<sf::Vector2i> _selectedCoords;
+                std::list<sf::ConvexShape*> _selectionHighlight;
+
         };
     }
 }
