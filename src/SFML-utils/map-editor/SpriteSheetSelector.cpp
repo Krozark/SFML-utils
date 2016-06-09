@@ -12,8 +12,8 @@ namespace sfutils
 {
     namespace editor
     {
-        
-        SpriteSheetSelector::SpriteSheetSelector(Editor& owner) : 
+
+        SpriteSheetSelector::SpriteSheetSelector(Editor& owner) :
             _owner(owner),
             _window(sf::VideoMode(800,600),"SpriteSheet Selector")
         {
@@ -47,31 +47,31 @@ namespace sfutils
 
             try
             {
-                utils::json::Object& root = value->as_object();
+                utils::json::Object& root = value->asObject();
                 //frames
-                utils::json::Array& json_frames = root["frames"].as_array();
+                utils::json::Array& json_frames = root["frames"].asArray();
                 for(utils::json::Value& value : json_frames)
                 {
-                    utils::json::Object& obj = value.as_object();
-                    std::string name = obj["filename"].as_string();
+                    utils::json::Object& obj = value.asObject();
+                    std::string name = obj["filename"].asString();
 
-                    utils::json::Object& frame = obj["frame"].as_object();
+                    utils::json::Object& frame = obj["frame"].asObject();
                     sf::IntRect rect;
-                    rect.left = frame["x"].as_int();
-                    rect.top = frame["y"].as_int();
-                    rect.width = frame["w"].as_int();
-                    rect.height = frame["h"].as_int();
+                    rect.left = frame["x"].asInt();
+                    rect.top = frame["y"].asInt();
+                    rect.width = frame["w"].asInt();
+                    rect.height = frame["h"].asInt();
 
                     tmpRect.emplace(name,rect);
                 }
 
                 //meta
-                utils::json::Object& meta = root["meta"].as_object();
-                utils::json::Object& jsonSize = meta["size"].as_object();
+                utils::json::Object& meta = root["meta"].asObject();
+                utils::json::Object& jsonSize = meta["size"].asObject();
 
-                imageFile = meta["image"].as_string();
-                size.width = jsonSize["w"].as_int();
-                size.height = jsonSize["h"].as_int();
+                imageFile = meta["image"].asString();
+                size.width = jsonSize["w"].asInt();
+                size.height = jsonSize["h"].asInt();
 
                 auto sp = utils::string::split(file,"/");
                 sp.pop_back();
@@ -149,7 +149,7 @@ namespace sfutils
             while(_window.pollEvent(event))
             {
                 if(event.type == sf::Event::Closed )
-                { 
+                {
                     setVisible(false);
                 }
                 else if(event.type == sf::Event::MouseButtonPressed and event.mouseButton.button == sf::Mouse::Button::Left)

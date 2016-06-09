@@ -43,34 +43,34 @@ namespace sfutils
 
             try
             {
-                utils::json::Object& root = value->as_object();
+                utils::json::Object& root = value->asObject();
 
-                utils::json::Object& json_map = root["map"].as_object();
+                utils::json::Object& json_map = root["map"].asObject();
 
-                name = json_map["name"].as_string();
+                name = json_map["name"].asString();
 
                 { //map.tile
-                    utils::json::Object& json_tile = json_map["tile"].as_object();
-                    tile_geometry = json_tile["geometry"].as_string();
-                    tile_size = json_tile["size"].as_float();
+                    utils::json::Object& json_tile = json_map["tile"].asObject();
+                    tile_geometry = json_tile["geometry"].asString();
+                    tile_size = json_tile["size"].asFloat();
                 }
                 {//map.area
-                    utils::json::Object& json_area = json_map["area"].as_object();
-                    areaSize.x = json_area["width"].as_int();
-                    areaSize.y = json_area["height"].as_int();
+                    utils::json::Object& json_area = json_map["area"].asObject();
+                    areaSize.x = json_area["width"].asInt();
+                    areaSize.y = json_area["height"].asInt();
                 }
 
                 {//map.layers
-                    utils::json::Array& json_layers = json_map["layers"].as_array();
+                    utils::json::Array& json_layers = json_map["layers"].asArray();
 
                     for(utils::json::Value& value : json_layers)
                     {
-                        utils::json::Object& json_obj = value.as_object();
-                        int z = json_obj["z-buffer"].as_int();
-                        std::string content_type = json_obj["content-type"].as_string();
+                        utils::json::Object& json_obj = value.asObject();
+                        int z = json_obj["z-buffer"].asInt();
+                        std::string content_type = json_obj["content-type"].asString();
                         bool isStatic = false;
                         try{
-                            isStatic = json_obj["static"].as_bool();
+                            isStatic = json_obj["static"].asBool();
                         }catch(...){};
 
                         layers.emplace_back(z,content_type,isStatic);
@@ -119,29 +119,29 @@ namespace sfutils
                 return res;
             }
 
-            utils::json::Object& root = value->as_object();
-            utils::json::Array& json_areas = root["areas"].as_array();
+            utils::json::Object& root = value->asObject();
+            utils::json::Array& json_areas = root["areas"].asArray();
 
             try {
                 for(utils::json::Value& json_area : json_areas)
                 {
-                    utils::json::Object& area = json_area.as_object();
+                    utils::json::Object& area = json_area.asObject();
                     sf::Vector2i area_pos;
-                    area_pos.x = area["position-x"].as_int();
-                    area_pos.y = area["position-y"].as_int();
+                    area_pos.x = area["position-x"].asInt();
+                    area_pos.y = area["position-y"].asInt();
 
                     if(area_pos.x != x or area_pos.y != y)
                     {
                         continue;
                     }
 
-                    std::string name = area["name"].as_string();
-                    utils::json::Array& layers = area["layers"].as_array();
+                    std::string name = area["name"].asString();
+                    utils::json::Array& layers = area["layers"].asArray();
                     res.reset(new MetaArea(area_pos,name));
 
                     for(utils::json::Value& json_layer : layers)
                     {
-                        if(not _parseLayer(map,json_layer.as_object(),res))
+                        if(not _parseLayer(map,json_layer.asObject(),res))
                         {
                             return nullptr;
                         }
@@ -159,7 +159,7 @@ namespace sfutils
 
         bool JsonMapLoader::_parseLayer(Map* map,utils::json::Object& root,std::unique_ptr<MetaArea>& meta)
         {
-            int z = root["z-buffer"].as_int();
+            int z = root["z-buffer"].asInt();
             VLayer* layer_ptr = map->atZ(z);
             if(not layer_ptr)
             {
@@ -194,11 +194,11 @@ namespace sfutils
             }
 
             MetaLayer metaLayer(z,type,layer_ptr->isStatic());
-            utils::json::Array& data = root["data"].as_array();
+            utils::json::Array& data = root["data"].asArray();
 
             for(utils::json::Value& value : data)
             {
-                std::shared_ptr<MetaLayerData> d = f(map,value.as_object());
+                std::shared_ptr<MetaLayerData> d = f(map,value.asObject());
                 if(not d)
                 {
                     std::cerr<<"Imposible to create MetaData with json: "<<value<<std::endl;
@@ -212,22 +212,22 @@ namespace sfutils
 
             return true;
         }
-        
+
         std::shared_ptr<MetaLayerData> JsonMapLoader::_createTile(Map* const map,utils::json::Object& root)
         {
-            std::string texture = root["texture"].as_string();
+            std::string texture = root["texture"].asString();
 
             sf::IntRect rect(0,0,1,1);
 
             try{
                 //point
-                rect.left = root["position-x"].as_int();
-                rect.top = root["position-y"].as_int();
+                rect.left = root["position-x"].asInt();
+                rect.top = root["position-y"].asInt();
 
                 try //is it an area
                 {
-                    rect.width = root["width"].as_int();
-                    rect.height = root["height"].as_int();
+                    rect.width = root["width"].asInt();
+                    rect.height = root["height"].asInt();
                 } catch (...) { //or a point
                 }
             }catch(...){ //all
@@ -244,28 +244,28 @@ namespace sfutils
 
         std::shared_ptr<MetaLayerData> JsonMapLoader::_createSprite(Map* const map,utils::json::Object& root,bool isPtr)
         {
-            std::string texture = root["texture"].as_string();
+            std::string texture = root["texture"].asString();
 
             sf::Vector2i pos;
             {//position
-                pos.x = root["position-x"].as_int();
-                pos.y = root["position-y"].as_int();
+                pos.x = root["position-x"].asInt();
+                pos.y = root["position-y"].asInt();
             }
 
             sf::IntRect tex_rect;
             try{//texture rect
-                utils::json::Object& rect = root["texture-rect"].as_object();
-                tex_rect.top =  rect["top"].as_int();
-                tex_rect.left = rect["left"].as_int();
-                tex_rect.width = rect["width"].as_int();
-                tex_rect.height = rect["height"].as_int();
+                utils::json::Object& rect = root["texture-rect"].asObject();
+                tex_rect.top =  rect["top"].asInt();
+                tex_rect.left = rect["left"].asInt();
+                tex_rect.width = rect["width"].asInt();
+                tex_rect.height = rect["height"].asInt();
             } catch(...){}
 
             sf::Vector2f tex_origin(0.5,1);
             try{//texture-center
-                utils::json::Object& rect = root["texture-center"].as_object();
-                tex_origin.x = rect["left"].as_float();
-                tex_origin.y = rect["top"].as_float();
+                utils::json::Object& rect = root["texture-center"].asObject();
+                tex_origin.x = rect["left"].asFloat();
+                tex_origin.y = rect["top"].asFloat();
             }catch(...){}
 
 
@@ -279,28 +279,28 @@ namespace sfutils
 
         std::shared_ptr<MetaLayerData> JsonMapLoader::_createEntity(Map* const map,utils::json::Object& root)
         {
-            std::string texture = root["texture"].as_string();
+            std::string texture = root["texture"].asString();
 
             sf::Vector2i pos;
             {//position
-                pos.x = root["position-x"].as_int();
-                pos.y = root["position-y"].as_int();
+                pos.x = root["position-x"].asInt();
+                pos.y = root["position-y"].asInt();
             }
 
             sf::IntRect tex_rect;
             try{//texture rect
-                utils::json::Object& rect = root["texture-rect"].as_object();
-                tex_rect.top =  rect["top"].as_int();
-                tex_rect.left = rect["left"].as_int();
-                tex_rect.width = rect["width"].as_int();
-                tex_rect.height = rect["height"].as_int();
+                utils::json::Object& rect = root["texture-rect"].asObject();
+                tex_rect.top =  rect["top"].asInt();
+                tex_rect.left = rect["left"].asInt();
+                tex_rect.width = rect["width"].asInt();
+                tex_rect.height = rect["height"].asInt();
             } catch(...){}
 
             sf::Vector2f tex_origin(0.5,1);
             try{//texture-center
-                utils::json::Object& rect = root["texture-center"].as_object();
-                tex_origin.x = rect["left"].as_float();
-                tex_origin.y = rect["top"].as_float();
+                utils::json::Object& rect = root["texture-center"].asObject();
+                tex_origin.x = rect["left"].asFloat();
+                tex_origin.y = rect["top"].asFloat();
             }catch(...){}
 
 
