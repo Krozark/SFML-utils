@@ -20,12 +20,8 @@ set(FILES_SRC
     ${SRCROOT}/TileInfo.cpp
 )
 
-find_package(MySQL REQUIRED)
-include_directories(${MYSQL_INCLUDE_DIR})
-set(LIBS ${LIBS} ${MYSQL_LIBRARIES})
-
-
-set(LIBS ${LIBS} ${LIBS_EDITOR})
+set(LIBS ${LIBS} ${ORM_LIBRARY})
+message("${LIBS}")
 
 build_library(${PROJECT_NAME}-editor
     SOURCES ${FILES_HEADER} ${FILES_SRC}

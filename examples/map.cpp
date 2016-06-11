@@ -8,7 +8,7 @@
 #include <iostream>
 
 #ifdef SFML_UTILS_BUILD_MODULE_MAP_DATABASE
-#if ORM_BUILD_SUPPORT_MYSQL == 1
+#ifdef ORM_BUILD_SUPPORT_MYSQL
 #include <ORM/backends/MySql.hpp>
 #else
 #include <ORM/backends/Sqlite3.hpp>
@@ -26,7 +26,7 @@ int main(int argc,char* argv[])
     sf::RenderWindow window(sf::VideoMode(1600,900),"Example Tile");
     window.setFramerateLimit(65);
 #ifdef SFML_UTILS_BUILD_MODULE_MAP_DATABASE
-#if ORM_BUILD_SUPPORT_MYSQL == 1
+#ifdef ORM_BUILD_SUPPORT_MYSQL
     orm::DB::Default.reset(new orm::MySqlDB("root","toor","sfml_utils"));
 #else
     orm::DB::Default.reset(new orm::Sqlite3DB("./db.sqlite"));

@@ -38,7 +38,6 @@ namespace sfutils
 
                 sf::Vector2i _clickPressedCoord;
                 sf::Vector2i _clickReleasedCoord;
-                sf::Vector2i _lastCoord;
                 bool _isPressed;
 
                 sf::VertexArray _clickIndicator;

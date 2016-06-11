@@ -16,7 +16,7 @@ if(SFML_UTILS_BUILD_MODULE_MAP)
 
     if(SFML_UTILS_BUILD_MODULE_MAP_EDITOR)
         add_executable(editor editor.cpp)
-        target_link_libraries(editor ${PROJECT_NAME}-editor-${SFML_UTILS_BUILD_SUFIX})
+        target_link_libraries(editor ${PROJECT_NAME}-editor-${SFML_UTILS_BUILD_SUFIX} ${ORM_LIBRARY})
     endif()
 endif()
 

@@ -215,9 +215,8 @@ namespace sfutils
         void Editor::fillTile(const sf::Vector2i& coord)
         {
             //TODO
-            std::cout<<"fill tile ("<<coord.x<<":"<<coord.y<<":"<<_currentLayerIndex<<")"<<std::endl;
-            std::cout<<"Current texture file : "<<_currentTextureFile<<std::endl;
-            std::cout<<"Current layer index : "<<_currentLayerIndex<<std::endl;
+            std::cout<<"fill tile ("<<coord.x<<":"<<coord.y<<":"<<_currentLayerIndex<<")"
+                     <<", Current texture file : "<<_currentTextureFile<<std::endl;
 
             sfutils::map::VLayer* currentLayer = _map->atZ(_currentLayerIndex);
 

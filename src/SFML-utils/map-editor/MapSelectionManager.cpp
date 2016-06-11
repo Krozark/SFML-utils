@@ -19,7 +19,6 @@ namespace sfutils
             {
                 _clickIndicator[i].color = sf::Color(255,20,125);
             }
-
         }
 
         void MapSelectionManager::reset()
@@ -29,7 +28,6 @@ namespace sfutils
             _highlightLayer = nullptr;
             _clickPressedCoord = sf::Vector2i(0,0);
             _clickReleasedCoord = sf::Vector2i(0,0);
-            _lastCoord = sf::Vector2i(0,0);
             _isPressed = false;
 
             _resetSelection();
@@ -40,23 +38,19 @@ namespace sfutils
         {
             if(event.type == sf::Event::MouseButtonPressed and event.mouseButton.button == sf::Mouse::Button::Left)
             {
-                _clickPressedCoord = _clickReleasedCoord = _lastCoord = viewer.mapScreenToCoords(sf::Vector2i(event.mouseButton.x,event.mouseButton.y));
+                _clickPressedCoord = _clickReleasedCoord = viewer.mapScreenToCoords(sf::Vector2i(event.mouseButton.x,event.mouseButton.y));
                 _isPressed = true;
 
-                sf::Vector2i coordSreen = viewer.mapCoordsToScreen(_lastCoord);
-
-                _clickIndicator[0].position = _clickIndicator[1].position = sf::Vector2f(coordSreen.x,coordSreen.y);
+                _updateSelectionArea(viewer);
             }
             else if(event.type == sf::Event::MouseButtonReleased and event.mouseButton.button == sf::Mouse::Button::Left)
             {
-                _clickReleasedCoord = _lastCoord = viewer.mapScreenToCoords(sf::Vector2i(event.mouseButton.x,event.mouseButton.y));
+                _clickReleasedCoord = viewer.mapScreenToCoords(sf::Vector2i(event.mouseButton.x,event.mouseButton.y));
+                _updateSelectionArea(viewer);
 
                 _valideSelectedArea();
 
-
                 _isPressed = false;
-                sf::Vector2i coordSreen = viewer.mapCoordsToScreen(_lastCoord);
-                _clickIndicator[1].position = sf::Vector2f(coordSreen.x,coordSreen.y);
             }
             else if(event.type == sf::Event::MouseMoved)
             {
@@ -64,12 +58,9 @@ namespace sfutils
                 sf::Vector2f pixels = viewer.mapCoordsToPixel(coord);
                 _cursorHighlight->setPosition(pixels);
 
-                if(_isPressed && (_lastCoord != coord))
+                if(_isPressed && (_clickReleasedCoord != coord))
                 {
-                    _lastCoord = coord;
-
-                    sf::Vector2i coordSreen = viewer.mapCoordsToScreen(_lastCoord);
-                    _clickIndicator[1].position = sf::Vector2f(coordSreen.x,coordSreen.y);
+                    _clickReleasedCoord = coord;
 
                     _updateSelectionArea(viewer);
                 }
@@ -105,6 +96,9 @@ namespace sfutils
         {
             _resetSelection();
 
+            _clickIndicator[0].position = sf::Vector2f(viewer.mapCoordsToScreen(_clickPressedCoord));
+            _clickIndicator[1].position = sf::Vector2f(viewer.mapCoordsToScreen(_clickReleasedCoord));
+
             _squareSelection(viewer);
 
         }
@@ -134,9 +128,9 @@ namespace sfutils
 
         void MapSelectionManager::_squareSelection(sfutils::map::MapViewer& viewer)
         {
-            for(int y = std::min(_clickPressedCoord.y,_lastCoord.y); y <= std::max(_clickPressedCoord.y,_lastCoord.y);++y)
+            for(int y = std::min(_clickPressedCoord.y,_clickReleasedCoord.y); y <= std::max(_clickPressedCoord.y,_clickReleasedCoord.y);++y)
             {
-                for(int x = std::min(_clickPressedCoord.x,_lastCoord.x); x <= std::max(_clickPressedCoord.x,_lastCoord.x);++x)
+                for(int x = std::min(_clickPressedCoord.x,_clickReleasedCoord.x); x <= std::max(_clickPressedCoord.x,_clickReleasedCoord.x);++x)
                 {
                     _selectedCoords.emplace_back(x,y);
 

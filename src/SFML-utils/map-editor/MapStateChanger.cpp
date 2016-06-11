@@ -132,13 +132,11 @@ namespace sfutils
                 for(auto ptr : objs)
                 {
                     layer.remove(ptr,false);
-
-                    TileInfo tmp(layer.z(),coord,_delTile);
-
-                    _tileToRemove.remove(_tileToRemove.back());
-
-                    _tileToRemove.emplace_back(std::move(tmp));
                 }
+
+                TileInfo tmp(layer.z(),coord,_delTile);
+                _tileToRemove.remove(tmp);
+                _tileToRemove.emplace_back(std::move(tmp));
             }
 
             if(textureFile.empty() == false)
