@@ -33,6 +33,7 @@ namespace sfutils
             _isPressed = false;
 
             _resetSelection();
+
         }
 
         bool MapSelectionManager::processEvent(const sf::Event& event, sfutils::map::MapViewer& viewer)
@@ -94,7 +95,7 @@ namespace sfutils
             //special layers
             _highlightLayer = new sfutils::map::Layer<sf::ConvexShape>("ConvexShape",100);
 
-            _cursorHighlight = _highlightLayer->add(_map->getGeometry().getShape());
+            _cursorHighlight = _highlightLayer->add(_map->getGeometry().getShape(),false);
             _cursorHighlight->setFillColor(sf::Color(0,255,0,127));
             _map->addLayer(_highlightLayer);
         }
@@ -104,23 +105,8 @@ namespace sfutils
         {
             _resetSelection();
 
-            for(int y = std::min(_clickPressedCoord.y,_lastCoord.y); y <= std::max(_clickPressedCoord.y,_lastCoord.y);++y)
-            {
-                for(int x = std::min(_clickPressedCoord.x,_lastCoord.x); x <= std::max(_clickPressedCoord.x,_lastCoord.x);++x)
-                {
-                    _selectedCoords.emplace_back(x,y);
+            _squareSelection(viewer);
 
-                    sf::Vector2f pixels = viewer.mapCoordsToPixel(_selectedCoords.back());
-
-                    sf::ConvexShape* ptr = _highlightLayer->add(_map->getGeometry().getShape());
-
-                    ptr->setFillColor(sf::Color(133,202,215,127));
-                    ptr->setPosition(pixels);
-
-                    _selectionHighlight.emplace_back(ptr);
-
-                }
-            }
         }
 
         void MapSelectionManager::_valideSelectedArea()
@@ -135,12 +121,37 @@ namespace sfutils
 
         void MapSelectionManager::_resetSelection()
         {
-            for(auto& ptr : _selectionHighlight)
+            if(_highlightLayer != nullptr)
             {
-                _highlightLayer->remove(ptr,false);
+                for(auto& ptr : _selectionHighlight)
+                {
+                    _highlightLayer->remove(ptr,false);
+                }
             }
 
             _selectedCoords.clear();
+        }
+
+        void MapSelectionManager::_squareSelection(sfutils::map::MapViewer& viewer)
+        {
+            for(int y = std::min(_clickPressedCoord.y,_lastCoord.y); y <= std::max(_clickPressedCoord.y,_lastCoord.y);++y)
+            {
+                for(int x = std::min(_clickPressedCoord.x,_lastCoord.x); x <= std::max(_clickPressedCoord.x,_lastCoord.x);++x)
+                {
+                    _selectedCoords.emplace_back(x,y);
+
+                    sf::Vector2f pixels = viewer.mapCoordsToPixel(_selectedCoords.back());
+
+                    sf::ConvexShape* ptr = _highlightLayer->add(_map->getGeometry().getShape(),false);
+
+                    ptr->setFillColor(sf::Color(133,202,215,127));
+                    ptr->setPosition(pixels);
+
+                    _selectionHighlight.emplace_back(ptr);
+
+                }
+            }
+            _highlightLayer->sort();
         }
     }
 }

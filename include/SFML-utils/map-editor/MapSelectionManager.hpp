@@ -46,6 +46,7 @@ namespace sfutils
                 void _updateSelectionArea(sfutils::map::MapViewer& viewer);
                 void _valideSelectedArea();
                 void _resetSelection();
+                void _squareSelection(sfutils::map::MapViewer& viewer);
 
                 std::list<sf::Vector2i> _selectedCoords;
                 std::list<sf::ConvexShape*> _selectionHighlight;

@@ -86,6 +86,21 @@ namespace sfutils
                     tmp->areaWidth = 10;
                     tmp->areaHeight = 10;
                     tmp->save();
+
+                    LayerTypeModel::pointer_array models;
+                    LayerTypeModel::query()
+                        .filter(std::string("tile"),orm::op::exact,LayerTypeModel::$name)
+                        .get(models);
+
+                    LayerModel::pointer tmpLayer = LayerModel::create();
+                    tmpLayer->name = "default";
+                    tmpLayer->zBuffer = 1;
+                    tmpLayer->isStatic = true;
+                    tmpLayer->type = models[0];
+                    tmpLayer->map = tmp;
+
+                    tmpLayer->save();
+
                 }
                 else
                 {

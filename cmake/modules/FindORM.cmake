@@ -25,16 +25,6 @@
 
 set( ORM_FOUND false )
 
-if(NOT DEFINED ORM_USE_CACHE)
-    set(ORM_USE_CACHE TRUE)
-endif()
-
-if(ORM_USE_CACHE)
-    add_definitions("-DORM_USE_CACHE")
-endif()
-
-set(ORM_USE_CACHE ${ORM_USE_CACHE} CACHE BOOL "use ORM cache" FORCE)
-
 
 find_path(
 	ORM_INCLUDE_DIR
@@ -69,4 +59,10 @@ if( NOT ORM_INCLUDE_DIR OR NOT ORM_LIBRARY )
 	message( FATAL_ERROR "cpp-utils not found. Set ORM_ROOT to the installation root directory (containing inculde/ and lib/)" )
 else()
 	message( STATUS "cpp-utils found: ${ORM_INCLUDE_DIR}" )
+endif()
+
+if(ORM_BUILD_SUPPORT_MYSQL)
+    find_package(MySQL REQUIRED)
+    set(ORM_INCLUDE_DIR ${ORM_INCLUDE_DIR} ${MYSQL_INCLUDE_DIR})
+    set(ORM_INCLUDE_DIR ${ORM_INCLUDE_DIR} ${MYSQL_LIBRARIES})
 endif()

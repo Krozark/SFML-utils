@@ -11,9 +11,6 @@
 
 
 #include <ORM/all.hpp>
-#include <ORM/backends/Sqlite3.hpp>
-orm::Sqlite3DB def("./db.sqlite");
-orm::DB& orm::DB::Default = def;
 
 const std::string DIRECTORY_MEDIA_NAME = "media";
 const std::string DIRECTORY_MEDIA = DIRECTORY_MEDIA_NAME + "/";
@@ -42,7 +39,6 @@ namespace sfutils
             _window.setMouseCursorVisible(false);
 
             {
-                orm::DB::Default.connect();
                 orm::Tables::create();
                 sfutils::map::loadInitialData();
             }
@@ -53,7 +49,6 @@ namespace sfutils
 
         Editor::~Editor()
         {
-            orm::DB::Default.disconnect();
         }
 
         void Editor::run()
@@ -220,7 +215,7 @@ namespace sfutils
         void Editor::fillTile(const sf::Vector2i& coord)
         {
             //TODO
-            std::cout<<"fill tile ("<<coord.x<<":"<<coord.y<<")"<<std::endl;
+            std::cout<<"fill tile ("<<coord.x<<":"<<coord.y<<":"<<_currentLayerIndex<<")"<<std::endl;
             std::cout<<"Current texture file : "<<_currentTextureFile<<std::endl;
             std::cout<<"Current layer index : "<<_currentLayerIndex<<std::endl;
 

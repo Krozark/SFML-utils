@@ -34,7 +34,7 @@ namespace sfutils
 
             for(TileModel::pointer& tile : models)
             {
-                if(current.get() == nullptr or current->getPk() != tile->layer->getPk())
+                if((current.get() == nullptr) or (current->getPk() != tile->layer->getPk()))
                 {
                     current = tile->layer;
                     if(metaLayer)
