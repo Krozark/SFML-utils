@@ -54,7 +54,7 @@ namespace sfutils
 
         void PopupBox::setModalState(bool state)
         {
-            _root->setModalState(true);
+            _root->setModalState(state);
         }
 
         //////////////////// Protected ///////////////////////

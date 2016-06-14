@@ -287,8 +287,14 @@ namespace sfutils
 
         bool Gui::_event_rightPanel_layers_add()
         {
-            //TODO
-            std::cout<<"_event_rightPanel_layers_add"<<std::endl;
+            //new layer popup
+            _newLayerPopup = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("NewLayer.layout");
+            _registerNewLayerCallbacks();
+
+            _root->addChild(_newLayerPopup);
+            _newLayerPopup->setModalState(true);
+
+            //TODO return _owner.requestNewLayer();
             return true;
         }
 
@@ -397,15 +403,28 @@ namespace sfutils
 
         bool Gui::_event_rightPanel_layers_remove()
         {
-            CEGUI::ListboxItem* item = _layerList->getFirstSelectedItem();
-            if(item == nullptr)
-            {
-                return true;
-            }
-            sfutils::map::LayerModel* layer = static_cast<sfutils::map::LayerModel*>(item->getUserData());
-            assert(layer);
+            sfutils::cegui::DialogBox::message(_root,
+                                               "Are you sure?",
+                                               "Do you realy want to delete this layer forever?",
+                                               [this](){//Ok
+                                                   CEGUI::ListboxItem* item = _layerList->getFirstSelectedItem();
+                                                   if(item == nullptr)
+                                                   {
+                                                       return;
+                                                   }
+                                                   sfutils::map::LayerModel* layer = static_cast<sfutils::map::LayerModel*>(item->getUserData());
+                                                   assert(layer);
 
-            return _owner.requestDelLayer(layer->zBuffer.getValue());
+                                                   if(_owner.requestDelLayer(layer->zBuffer.getValue()) == false)
+                                                   {
+                                                       return;
+                                                   }
+
+                                                   _layerList->removeItem(item);
+                                                   _setLayerListItemNames();
+                                               }
+                                              );
+            return true;
 
         }
 

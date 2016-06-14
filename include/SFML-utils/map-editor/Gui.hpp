@@ -49,6 +49,7 @@ namespace sfutils
                 Editor& _owner;
                 sf::RenderWindow& _window;
                 CEGUI::Window* _root;
+                CEGUI::Window* _newLayer;
                 CEGUI::GUIContext* _context;
 
                 CEGUI::Listbox* _layerList;
@@ -113,6 +114,11 @@ namespace sfutils
                 bool _event_rightPanel_tab_brush_selected(CEGUI::Listbox* box);
                 //////NPC
                 bool _event_rightPanel_tab_NPC_selected(CEGUI::Listbox* box);
+
+
+                /* New Layer Popup */
+                CEGUI::Window* _newLayerPopup;
+                void _registerNewLayerCallbacks();
 
         };
     }

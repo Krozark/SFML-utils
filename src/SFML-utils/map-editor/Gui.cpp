@@ -19,7 +19,8 @@ namespace sfutils
             _window(mainWindow),
             _root(nullptr),
             _layerList(nullptr),
-            _textureList(nullptr)
+            _textureList(nullptr),
+            _newLayerPopup(nullptr)
         {
             cegui::GuiManager::init("media/editor/cegui/","GlossySerpentFHD","DejaVuSans-10");
             //set mouse
@@ -39,6 +40,7 @@ namespace sfutils
             _registerLeftPanelCallbacks();
             _registerMiniMapCallbacks();
             _registerRightPanelCallbacks();
+
         }
 
         Gui::~Gui()
@@ -481,5 +483,8 @@ namespace sfutils
 
         }
 
+        void Gui::_registerNewLayerCallbacks()
+        {
+        }
     }
 }

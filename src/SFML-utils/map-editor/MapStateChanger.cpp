@@ -98,15 +98,60 @@ namespace sfutils
 
         bool MapStateChanger::delLayer(int index)
         {
-            auto tileFunc = [index](const TileInfo& i){
-                return index == i.z;
-            };
 
-            _tileToRemove.remove_if(tileFunc);
-            _tileToAdd.remove_if(tileFunc);
+            {
+                //internal data
+                auto tileFunc = [index](const TileInfo& i){
+                    return index == i.z;
+                };
 
-            //TODO remove from _map
-            std::cout<<"TODO : "<<__FILE__<<":"<<__LINE__<<std::endl;
+                _tileToRemove.remove_if(tileFunc);
+                _tileToAdd.remove_if(tileFunc);
+            }
+
+            {
+                //visual
+                sfutils::map::VLayer* current = _owner._map->atZ(index);
+                assert(current);
+                _owner._map->removeLayer(current);
+            }
+
+            {
+                //database
+                auto current = _getLayer(index);
+                assert(current.get());
+
+                sfutils::map::TileModel::pointer_array tiles;
+                sfutils::map::TileModel::query()
+                    .filter(current->getPk(),orm::op::exact,sfutils::map::TileModel::$layer)
+                    .get(tiles);
+                
+                //remove tiles
+                for(auto& t : tiles)
+                {
+                    t->del();
+                }
+                //remove layer
+                current->del();
+
+                //decrease other layer z buffer
+                sfutils::map::LayerModel::pointer_array layers;
+                sfutils::map::LayerModel::query()
+                    .filter(
+                            orm::Q<sfutils::map::LayerModel>(current->zBuffer.getValue(),orm::op::gte,sfutils::map::LayerModel::$zBuffer)
+                            && orm::Q<sfutils::map::LayerModel>(current->map->getPk(),orm::op::gte,sfutils::map::LayerModel::$map)
+                    )
+                    .get(layers);
+
+                int z = current->zBuffer.getValue();
+                for(auto& l : layers)
+                {
+                    l->zBuffer = z;
+                    ++z;
+                    l->save();
+                }
+            }
+
 
             return true;
         }
