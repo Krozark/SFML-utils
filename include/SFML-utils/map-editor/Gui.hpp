@@ -41,6 +41,8 @@ namespace sfutils
                 void addTexture(const std::string& tex);
                 void delTexture(const std::string& tex);
 
+                int getCurrentLayerZIndex() const;
+
                 void reset();
 
             private:
@@ -51,7 +53,7 @@ namespace sfutils
 
                 CEGUI::Listbox* _layerList;
                 void _clearLayerList();
-                void _setLayerListItemName(CEGUI::ListboxItem* item);
+                void _setLayerListItemNames();
 
                 CEGUI::Listbox* _textureList;
                 void _clearTextureList();
@@ -99,10 +101,11 @@ namespace sfutils
                 /*Right panel*/
                 void _registerRightPanelCallbacks();
                 ////Layers
-                bool _event_rightPanel_layer_selected();
+                //bool _event_rightPanel_layer_selected();
                 bool _event_rightPanel_layers_add();
                 bool _event_rightPanel_layers_up();
                 bool _event_rightPanel_layers_down();
+                bool _event_rightPanel_layers_check();
                 bool _event_rightPanel_layers_remove();
                 ////tab
                 bool _event_rightPanel_tab_changed(const std::string& name);

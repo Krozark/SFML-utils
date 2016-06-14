@@ -73,7 +73,7 @@ namespace sfutils
                             isStatic = json_obj["static"].asBool();
                         }catch(...){};
 
-                        layers.emplace_back(z,content_type,isStatic);
+                        layers.emplace_back(z,content_type,true,isStatic);
                     }
                 }
             }
@@ -193,7 +193,7 @@ namespace sfutils
                 return false;
             }
 
-            MetaLayer metaLayer(z,type,layer_ptr->isStatic());
+            MetaLayer metaLayer(z,type,true,layer_ptr->isStatic());
             utils::json::Array& data = root["data"].asArray();
 
             for(utils::json::Value& value : data)

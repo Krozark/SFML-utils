@@ -43,7 +43,9 @@ namespace sfutils
                     }
                     metaLayer.reset(new MetaLayer(tile->layer->zBuffer,
                                                   tile->layer->type->name,
-                                                  tile->layer->isStatic));
+                                                  tile->layer->isVisible,
+                                                  tile->layer->isStatic
+                                                  ));
                 }
                 //TODO
                 std::shared_ptr<MetaLayerData> data(new MetaLayerDataTileRect(tile->texture,sf::IntRect(tile->x -x * _map->areaWidth,
@@ -76,7 +78,7 @@ namespace sfutils
 
                 for(auto& layer : res)
                 {
-                    layers.emplace_back(layer->zBuffer,layer->type->name,layer->isStatic);
+                    layers.emplace_back(layer->zBuffer,layer->type->name,layer->isVisible,layer->isStatic);
                 }
             }
 

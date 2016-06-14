@@ -7,6 +7,7 @@
 #include <utils/string.hpp>
 
 #include <iostream>
+#include <sstream>
 
 
 namespace sfutils
@@ -89,12 +90,8 @@ namespace sfutils
             newItem->setUserData(layer.get());
             _layerList->addItem(newItem);
 
-            unsigned int size = _layerList->getItemCount();
-            for(unsigned int i = 0; i < size; ++i)
-            {
-                CEGUI::ListboxItem* item = _layerList->getListboxItemFromIndex(i);
-                _setLayerListItemName(item);
-            }
+            _setLayerListItemNames();
+
         }
 
         void Gui::delLayer(sfutils::map::LayerModel::pointer& layer)
@@ -135,6 +132,18 @@ namespace sfutils
             }
         }
 
+        int Gui::getCurrentLayerZIndex() const
+        {
+            CEGUI::ListboxItem* item = _layerList->getFirstSelectedItem();
+            if(item)
+            {
+                sfutils::map::LayerModel* layer = static_cast<sfutils::map::LayerModel*>(item->getUserData());
+                assert(layer);
+                return layer->zBuffer.getValue();
+            }
+            return -1;
+        }
+
         void Gui::reset()
         {
             setMainInfo("");
@@ -151,10 +160,30 @@ namespace sfutils
             _layerList->resetList();
         }
 
-        void Gui::_setLayerListItemName(CEGUI::ListboxItem* item)
+        void Gui::_setLayerListItemNames()
         {
-            sfutils::map::LayerModel* layer = static_cast<sfutils::map::LayerModel*>(item->getUserData());
-            item->setText(layer->name.getValue() + " (" + std::to_string(layer->zBuffer.getValue()) + ")");
+            unsigned int size = _layerList->getItemCount();
+            for(unsigned int i = 0; i < size; ++i)
+            {
+                CEGUI::ListboxTextItem* item = reinterpret_cast< CEGUI::ListboxTextItem*>(_layerList->getListboxItemFromIndex(i));
+                sfutils::map::LayerModel* layer = static_cast<sfutils::map::LayerModel*>(item->getUserData());
+
+                if(layer->isVisible.getValue() == false)
+                {
+                    item->setTextColours(CEGUI::Colour(1,0,0,1));
+                }
+                else
+                {
+                    item->setTextColours(CEGUI::Colour(1,1,1,1));
+                }
+                std::stringstream ss;
+                ss<<layer->name.getValue()
+                    <<" (" << std::to_string(layer->zBuffer.getValue())<< ")";
+                item->setText(ss.str());
+
+            }
+
+            _layerList->handleUpdatedItemData();
         }
 
         void Gui::_clearTextureList()
@@ -366,9 +395,9 @@ namespace sfutils
                 _layerList = static_cast<CEGUI::Listbox*>(layers->getChildRecursive("List"));
                 assert(_layerList);
 
-                _layerList->subscribeEvent(CEGUI::Listbox::EventSelectionChanged,[this](const CEGUI::EventArgs& e){
+                /*_layerList->subscribeEvent(CEGUI::Listbox::EventSelectionChanged,[this](const CEGUI::EventArgs& e){
                     return this->_event_rightPanel_layer_selected();
-                });
+                });*/
 
                 CEGUI::Window* bottom = layers->getChildRecursive("Bottom");
                 assert(bottom);
@@ -383,6 +412,10 @@ namespace sfutils
 
                 bottom->getChild("Down")->subscribeEvent(CEGUI::PushButton::EventClicked,[this](const CEGUI::EventArgs& e){
                     return this->_event_rightPanel_layers_down();
+                });
+
+                bottom->getChild("Check")->subscribeEvent(CEGUI::PushButton::EventClicked,[this](const CEGUI::EventArgs& e){
+                    return this->_event_rightPanel_layers_check();
                 });
 
                 bottom->getChild("Remove")->subscribeEvent(CEGUI::PushButton::EventClicked,[this](const CEGUI::EventArgs& e){

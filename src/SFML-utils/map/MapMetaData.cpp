@@ -205,10 +205,11 @@ namespace sfutils
 
         ///////////////// METALAYER //////////////////////
 
-        MetaLayer::MetaLayer(int z,const std::string& type,bool isStatic) :
+        MetaLayer::MetaLayer(int z,const std::string& type,bool isVisble,bool isStatic) :
             _z(z),
             _type(type),
-            _static(isStatic)
+            _static(isStatic),
+            _isVisible(isVisble)
         {
         }
 
@@ -256,6 +257,7 @@ namespace sfutils
                     std::cerr<<"Unknow content-type "<<_type<<std::endl;
                     return false;
                 }
+                layer->setVisible(_isVisible);
                 map->addLayer(layer);
             }
             for(std::shared_ptr<MetaLayerData>& data : _data)

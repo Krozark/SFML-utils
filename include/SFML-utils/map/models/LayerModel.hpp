@@ -19,10 +19,11 @@ namespace sfutils
                 orm::CharField<255> name;
                 orm::IntegerField zBuffer;
                 orm::BooleanField isStatic;
+                orm::BooleanField isVisible;
                 orm::FK<LayerTypeModel> type;
                 orm::FK<MapModel> map;
 
-                ORM_MAKE_STATIC_COLUMN(name,zBuffer,isStatic,type,map);
+                ORM_MAKE_STATIC_COLUMN(name,zBuffer,isStatic,isVisible,type,map);
 
             private:
         };

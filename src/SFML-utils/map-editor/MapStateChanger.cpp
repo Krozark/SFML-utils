@@ -23,7 +23,6 @@ namespace sfutils
             assert(_owner._dbMap);
 
             _tileToRemove.sort();
-            //TODO remove from DB
             
 
             int lastZ = -99999;
@@ -44,7 +43,7 @@ namespace sfutils
             }
 
             _tileToAdd.sort();
-            //TODO insert into DB
+
             lastZ = -99999;
             for(TileInfo& tile: _tileToAdd)
             {
@@ -93,7 +92,7 @@ namespace sfutils
 
         bool MapStateChanger::newLayer()
         {
-            //TODO
+            std::cout<<"TODO : "<<__FILE__<<":"<<__LINE__<<std::endl;
             return false;
         }
 
@@ -107,15 +106,105 @@ namespace sfutils
             _tileToAdd.remove_if(tileFunc);
 
             //TODO remove from _map
+            std::cout<<"TODO : "<<__FILE__<<":"<<__LINE__<<std::endl;
 
             return true;
         }
 
         bool MapStateChanger::moveLayer(int from,int to)
         {
-            //TODO change zbuffer of it, and all others to be sure that no z index is duplicated
-            //TODO update _tileToXXX
-            return false;
+            if(from == to)
+            {
+                return false;
+            }
+
+            {
+                //DB objects
+                sfutils::map::LayerModel::pointer currentLayer = _getLayer(from);
+                assert(currentLayer.get());
+
+                sfutils::map::LayerModel::pointer_array layers;
+                sfutils::map::LayerModel::query()
+                    .filter(
+                            orm::Q<sfutils::map::LayerModel>(to,orm::op::exact,sfutils::map::LayerModel::$zBuffer)
+                           )
+                    .get(layers);
+
+                for(auto& layer : layers)
+                {
+                    layer->zBuffer = currentLayer->zBuffer;
+                    layer->save();
+                }
+                currentLayer->zBuffer = to;
+                currentLayer->save();
+            }
+
+            {
+                //update visual map
+                sfutils::map::VLayer* current = _owner._map->atZ(from);
+                sfutils::map::VLayer* other = _owner._map->atZ(to);
+
+                assert(current);
+                assert(other);
+
+                _owner._map->removeLayer(current,false);
+                _owner._map->removeLayer(other,false);
+
+                current->setZ(to);
+                other->setZ(from);
+
+                _owner._map->addLayer(current,false);
+                _owner._map->addLayer(other);
+            }
+
+            {
+                //update internal data
+                for(auto& t : _tileToAdd)
+                {
+                    if(t.z == from)
+                    {
+                        t.z = to;
+                    }
+                    else if(t.z == to)
+                    {
+                        t.z = from;
+                    }
+                }
+
+                for(auto& t : _tileToRemove)
+                {
+                    if(t.z == from)
+                    {
+                        t.z = to;
+                    }
+                    else if(t.z == to)
+                    {
+                        t.z = from;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        bool MapStateChanger::changeVisibilityLayer(int index)
+        {
+            auto l = _getLayer(index);
+            if(l == nullptr)
+            {
+                return false;
+            }
+
+            l->isVisible = not l->isVisible.getValue();
+            l->save();
+
+            sfutils::map::VLayer* current = _owner._map->atZ(index);
+
+            assert(current);
+
+            current->setVisible(l->isVisible.getValue());
+
+            return true;
         }
 
         void MapStateChanger::addTile(sfutils::map::Layer<sfutils::map::Tile>& layer,const sf::Vector2i& coord,const std::string& textureFile)
@@ -134,7 +223,7 @@ namespace sfutils
                     layer.remove(ptr,false);
                 }
 
-                TileInfo tmp(layer.z(),coord,_delTile);
+                TileInfo tmp(layer.getZ(),coord,_delTile);
                 _tileToRemove.remove(tmp);
                 _tileToRemove.emplace_back(std::move(tmp));
             }
@@ -149,7 +238,7 @@ namespace sfutils
                 }
 
                 {
-                    TileInfo tmp(layer.z(),coord,_addTile);
+                    TileInfo tmp(layer.getZ(),coord,_addTile);
                     tmp.texture = textureFile;
 
                     _tileToAdd.remove(tmp);
@@ -163,6 +252,7 @@ namespace sfutils
             assert(_owner._map);
             assert(_owner._dbMap);
             //TODO
+            std::cout<<"TODO : "<<__FILE__<<":"<<__LINE__<<std::endl;
             std::cout<<"Sprite"<<std::endl;
         }
 
@@ -171,6 +261,7 @@ namespace sfutils
             assert(_owner._map);
             assert(_owner._dbMap);
             //TODO
+            std::cout<<"TODO : "<<__FILE__<<":"<<__LINE__<<std::endl;
             std::cout<<"SpritePtr"<<std::endl;
         }
 
@@ -179,6 +270,7 @@ namespace sfutils
             assert(_owner._map);
             assert(_owner._dbMap);
             //TODO
+            std::cout<<"TODO : "<<__FILE__<<":"<<__LINE__<<std::endl;
             std::cout<<"Entity"<<std::endl;
         }
 

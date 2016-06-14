@@ -258,6 +258,10 @@
 						<Property name="Area" value="{{0,85},{0,15},{0,120},{0,50}}" />
 						<Property name="GlyphImage" value="GlossySerpentFHD/GlyphArrowDown" />
 					</Window>
+					<Window type="GlossySerpentFHD/GlyphButton" name="Check" >
+						<Property name="Area" value="{{0,125},{0,15},{0,165},{0,50}}" />
+						<Property name="GlyphImage" value="GlossySerpentFHD/GlyphCheckmark" />
+					</Window>
 				</Window>
             </Window>
 			

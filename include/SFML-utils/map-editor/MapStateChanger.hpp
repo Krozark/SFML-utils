@@ -37,6 +37,8 @@ namespace sfutils
 
                 bool moveLayer(int from,int to);
 
+                bool changeVisibilityLayer(int index);
+
                 //adding tiles contents
                 void addTile(sfutils::map::Layer<sfutils::map::Tile>& layer,const sf::Vector2i& coord,const std::string& textureFile);
                 void addSprite(sfutils::map::Layer<sf::Sprite>& layer,const sf::Vector2i& coord,const std::string& textureFile,const sf::IntRect& textureRect);

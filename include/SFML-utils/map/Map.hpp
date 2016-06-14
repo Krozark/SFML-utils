@@ -39,7 +39,7 @@ namespace sfutils
                 es::SystemManager<Entity>& getSystemManager();
 
                 void addLayer(VLayer* layer,bool sort=true);
-                void removeLayer(VLayer* layer);
+                void removeLayer(VLayer* layer,bool del = true);
 
                 VLayer* atZ(int z)const;
 
@@ -57,7 +57,7 @@ namespace sfutils
                 ::sfutils::geometry::Geometry* _geometry;
                 sf::Vector2i _areaSize;
 
-                void sortLayers();
+                void _sortLayers();
                 void _clear();
                 
 

@@ -101,7 +101,7 @@ namespace sfutils
 
                     _renderTexture.setView(sf::View(viewport));
 
-                    _renderTexture.clear();
+                    _renderTexture.clear(sf::Color::Transparent);
                     auto end = _content.end();
                     for(auto it = _content.begin();it != end;++it)
                     {
@@ -238,7 +238,7 @@ namespace sfutils
 
                     _renderTexture.setView(sf::View(viewport));
 
-                    _renderTexture.clear();
+                    _renderTexture.clear(sf::Color::Transparent);
                     auto end = _content.end();
                     for(auto it = _content.begin();it != end;++it)
                     {

@@ -7,6 +7,7 @@ namespace sfutils
         VLayer::VLayer(const std::string& type,int z,bool isStatic) :
             _isStatic(isStatic),
             _type(type),
+            _visibility(true),
             _z(z)
         {
         }
@@ -15,9 +16,14 @@ namespace sfutils
         {
         }
 
-        int VLayer::z()const
+        int VLayer::getZ()const
         {
             return _z;
+        }
+
+        void VLayer::setZ(int z)
+        {
+            _z = z;
         }
 
         const std::string& VLayer::getType()const
@@ -28,6 +34,16 @@ namespace sfutils
         bool VLayer::isStatic()const
         {
             return _isStatic;
+        }
+
+        bool VLayer::isVisible() const
+        {
+            return _visibility;
+        }
+
+        void VLayer::setVisible(bool visibility)
+        {
+            _visibility = visibility;
         }
 
 

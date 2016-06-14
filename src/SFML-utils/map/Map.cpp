@@ -58,13 +58,15 @@ namespace sfutils
         {
             _layers.emplace_back(layer);
             if(sort)
-                sortLayers();
+            {
+                _sortLayers();
+            }
 
             if(layer->getType() == "entity")
                 _entityLayers.emplace_back(static_cast<Layer<Entity*>*>(layer));
         }
 
-        void Map::removeLayer(VLayer* layer)
+        void Map::removeLayer(VLayer* layer,bool del)
         {
             if(layer->getType() == "entity")
             {
@@ -78,7 +80,10 @@ namespace sfutils
             auto it = std::find(_layers.begin(),_layers.end(),layer);
             if(it != _layers.end())
             {
-                delete *it;
+                if(del)
+                {
+                    delete *it;
+                }
                 _layers.erase(it);
             }
 
@@ -88,7 +93,7 @@ namespace sfutils
         {
             const size_t size = _layers.size();
             for(size_t i=0;i<size;++i)
-                if(_layers[i]->z() == z)
+                if(_layers[i]->getZ() == z)
                     return _layers[i];
             return nullptr;
         }
@@ -118,10 +123,10 @@ namespace sfutils
 
         ////////////////////// PRIVATE ////////////////////
 
-        void Map::sortLayers()
+        void Map::_sortLayers()
         {
             std::sort(_layers.begin(),_layers.end(),[](const VLayer* a, const VLayer* b)->bool{
-                      return a->z() < b->z();
+                      return a->getZ() < b->getZ();
                     });
 
             const size_t size = _layers.size();
@@ -155,7 +160,11 @@ namespace sfutils
 
             for(size_t i=0;i<size;++i)
             {
-                _layers[i]->draw(target,states,delta_viewport);
+                auto& l = *_layers[i];
+                if(l.isVisible())
+                {
+                    l.draw(target,states,delta_viewport);
+                }
             }
         }
 

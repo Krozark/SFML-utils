@@ -84,7 +84,7 @@ namespace sfutils
             _map = map;
 
             //special layers
-            _highlightLayer = new sfutils::map::Layer<sf::ConvexShape>("ConvexShape",100);
+            _highlightLayer = new sfutils::map::Layer<sf::ConvexShape>("ConvexShape",100,false);
 
             _cursorHighlight = _highlightLayer->add(_map->getGeometry().getShape(),false);
             _cursorHighlight->setFillColor(sf::Color(0,255,0,127));

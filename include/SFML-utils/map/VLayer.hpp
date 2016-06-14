@@ -16,16 +16,21 @@ namespace sfutils
                 VLayer(const VLayer&) = delete;
                 VLayer& operator=(const VLayer&) = delete;
 
-                VLayer(const std::string& type,int z=0,bool isStatic=false);
+                VLayer(const std::string& type,int z,bool isStatic);
                 virtual ~VLayer();
+
                 virtual void sort() = 0;
 
-                int z()const;
+                int getZ()const;
+                void setZ(int z);
+
                 const std::string& getType()const;
 
                 virtual void remove(void* data,bool del = true) = 0;
 
                 bool isStatic()const;
+                bool isVisible() const;
+                void setVisible(bool visibility);
 
             protected:
                 const bool _isStatic;
@@ -34,13 +39,13 @@ namespace sfutils
                 sf::Sprite _sprite;
                 sf::FloatRect _lastViewport;
 
-                const std::string _type;
-
             private:
                 friend class Map;
                 virtual void draw(sf::RenderTarget& target, const sf::RenderStates& states,const sf::FloatRect& viewport) = 0;
 
-                const int _z;
+                const std::string _type;
+                bool _visibility;
+                int _z;
         };
     }
 }

@@ -41,7 +41,7 @@ namespace sfutils
                 bool requestNewLayer();
                 bool requestDelLayer(int index);
                 bool requestMoveLayer(int from,int to);
-                bool requestSetCurrentLayer(int index);
+                bool requestVisibilityLayer(int index);
 
                 bool requestSaveMap();
                 bool requestReloadMap();
@@ -78,8 +78,6 @@ namespace sfutils
 
                 sf::IntRect _currentTextureRect;
                 std::string _currentTextureFile;
-
-                int _currentLayerIndex;
 
                 void _processEvents();
                 void _update();

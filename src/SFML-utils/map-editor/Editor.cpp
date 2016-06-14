@@ -117,7 +117,8 @@ namespace sfutils
 
         void Editor::setMiniMapZoom(float value)
         {
-            //TODO
+            std::cout<<"TODO : "<<__FILE__<<":"<<__LINE__<<std::endl;
+
             setZoom(value);
         }
 
@@ -136,10 +137,9 @@ namespace sfutils
             return _mapStateChanger.moveLayer(from,to);
         }
 
-        bool Editor::requestSetCurrentLayer(int index)
+        bool Editor::requestVisibilityLayer(int index)
         {
-            _currentLayerIndex = index;
-            return true;
+            return _mapStateChanger.changeVisibilityLayer(index);
         }
 
         bool Editor::requestSaveMap()
@@ -187,7 +187,8 @@ namespace sfutils
 
         bool Editor::setCurrentSprite(const std::string& spr)
         {
-            //TODO
+            std::cout<<"TODO : "<<__FILE__<<":"<<__LINE__<<std::endl;
+
             bool res = true;
             try
             {
@@ -206,7 +207,8 @@ namespace sfutils
 
         bool Editor::setCurrentSprite(const std::string& spr,const sf::IntRect& rect)
         {
-            //TODO
+            std::cout<<"TODO : "<<__FILE__<<":"<<__LINE__<<std::endl;
+
             _currentTextureFile = spr;
             _currentTextureRect = rect;
             return false;
@@ -214,11 +216,13 @@ namespace sfutils
 
         void Editor::fillTile(const sf::Vector2i& coord)
         {
-            //TODO
-            std::cout<<"fill tile ("<<coord.x<<":"<<coord.y<<":"<<_currentLayerIndex<<")"
+            std::cout<<"TODO : "<<__FILE__<<":"<<__LINE__<<std::endl;
+
+            int currentLayerIndex = _gui.getCurrentLayerZIndex();
+            std::cout<<"fill tile ("<<coord.x<<":"<<coord.y<<":"<<currentLayerIndex<<")"
                      <<", Current texture file : "<<_currentTextureFile<<std::endl;
 
-            sfutils::map::VLayer* currentLayer = _map->atZ(_currentLayerIndex);
+            sfutils::map::VLayer* currentLayer = _map->atZ(currentLayerIndex);
 
             if((currentLayer != nullptr) && (_currentTextureFile.empty() == false))
             {
@@ -440,7 +444,6 @@ namespace sfutils
         {
             _currentTextureRect = sf::IntRect();
             _currentTextureFile.clear();
-            _currentLayerIndex = 0;
 
             _gui.reset();
             _mapStateChanger.reset();

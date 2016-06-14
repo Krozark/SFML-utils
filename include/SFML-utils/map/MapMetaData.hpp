@@ -82,7 +82,7 @@ namespace sfutils
         class MetaLayer
         {
             public:
-                MetaLayer(int z,const std::string& type,bool isStatic = false);
+                MetaLayer(int z,const std::string& type, bool isVisble,bool isStatic);
                 virtual ~MetaLayer();
 
                 void add(std::shared_ptr<MetaLayerData> data);
@@ -97,6 +97,7 @@ namespace sfutils
                 int _z;
                 const std::string _type;
                 bool _static;
+                bool _isVisible;
                 std::list<std::shared_ptr<MetaLayerData>> _data;
                 std::list<void*> _createdData;
         };

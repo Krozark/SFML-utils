@@ -272,7 +272,7 @@ namespace sfutils
             return true;
         }
 
-        bool Gui::_event_rightPanel_layer_selected()
+        /*bool Gui::_event_rightPanel_layer_selected()
         {
             CEGUI::ListboxItem* item = _layerList->getFirstSelectedItem();
             if(item)
@@ -283,7 +283,7 @@ namespace sfutils
             }
 
             return true;
-        }
+        }*/
 
         bool Gui::_event_rightPanel_layers_add()
         {
@@ -327,6 +327,7 @@ namespace sfutils
              _layerList->insertItem(item,itemTop);
             item->setAutoDeleted(true);
 
+            _setLayerListItemNames();
 
             return true;
         }
@@ -368,6 +369,29 @@ namespace sfutils
             _layerList->insertItem(itemBottom,item);
             itemBottom->setAutoDeleted(true);
 
+            _setLayerListItemNames();
+
+            return true;
+        }
+
+        bool Gui::_event_rightPanel_layers_check()
+        {
+            CEGUI::ListboxItem* item = _layerList->getFirstSelectedItem();
+            if(item == nullptr)
+            {
+                return true;
+            }
+
+            sfutils::map::LayerModel* layer = static_cast<sfutils::map::LayerModel*>(item->getUserData());
+            assert(layer);
+
+            if(_owner.requestVisibilityLayer(layer->zBuffer.getValue()) == false)
+            {
+                return false;
+            }
+
+            _setLayerListItemNames();
+
             return true;
         }
 
@@ -382,6 +406,7 @@ namespace sfutils
             assert(layer);
 
             return _owner.requestDelLayer(layer->zBuffer.getValue());
+
         }
 
         bool Gui::_event_rightPanel_tab_changed(const std::string& name)
