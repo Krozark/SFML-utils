@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout version="4">
+        <Window type="GlossySerpentFHD/FrameWindow" name="Root" >
+            <Property name="Text" value="Console" />
+            <Property name="TitlebarFont" value="DejaVuSans-10" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Property name="TitlebarEnabled" value="True" />
+            <Property name="Area" value="{{0.25,0},{0.25,0},{0.5,0},{0.25,410}}" />
+
+            <Window type="VerticalLayoutContainer" name="Layer">
+                <Window type="GlossySerpentFHD/Editbox" name="name" >
+                    <Property name="Area" value="{{0,0},{0,0},{1,0},{0,50}}" />
+                    <Property name="Text" value="name" />
+                </Window>
+
+                <Window type="GlossySerpentFHD/Listbox" name="TypeList" >
+                    <Property name="Area" value="{{0,0},{0,0},{1,0},{0,150}}" />
+                    <Property name="Text" value="type" />
+                </Window>
+
+                <Window type="GlossySerpentFHD/Checkbox" name="isStatic" >
+                    <Property name="Area" value="{{0,0},{0,0},{1,0},{0,50}}" />
+                    <Property name="Text" value="is static" />
+                </Window>
+
+                <Window type="GlossySerpentFHD/Checkbox" name="isVisible" >
+                    <Property name="Area" value="{{0,0},{0,0},{1,0},{0,50}}" />
+                    <Property name="Text" value="is visible" />
+                </Window>
+
+
+                <Window type="HorizontalLayoutContainer" name="ValidButtonLayer">
+                    <Property name="Area" value="{{0,0},{1,0},{1,0},{0,50}}" />
+                    <Property name="HorizontalAlignment" value="true"/>
+
+                    <Window type="GlossySerpentFHD/Button32" name="Ok">
+                        <Property name="Area" value="{{0,0},{0,0},{0,100},{0,50}}" />
+                        <Property name="Text" value="Ok" />
+                    </Window>
+
+                    <Window type="GlossySerpentFHD/Button32" name="Cancel">
+                        <Property name="Area" value="{{0,0},{0,00},{0,100},{0,50}}" />
+                        <Property name="Text" value="Cancel" />
+                    </Window>
+                </Window>
+            </Window>
+        </Window>
+</GUILayout>
