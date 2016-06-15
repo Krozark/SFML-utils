@@ -41,10 +41,14 @@ namespace sfutils
             _registerMiniMapCallbacks();
             _registerRightPanelCallbacks();
 
+            _newLayerPopup = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("NewLayer.layout");
+            _registerNewLayerCallbacks();
+
         }
 
         Gui::~Gui()
         {
+            _root->destroy();
             cegui::GuiManager::destroyGUIContext(*_context);
         }
 
@@ -485,6 +489,41 @@ namespace sfutils
 
         void Gui::_registerNewLayerCallbacks()
         {
+            _root->addChild(_newLayerPopup);
+            _newLayerPopup->hide();
+
+            CEGUI::Window* layer = _newLayerPopup->getChild("Layer");
+            assert(layer);
+
+            CEGUI::Listbox* list = static_cast<CEGUI::Listbox*>(layer->getChild("TypeList"));
+            assert(list);
+
+            {
+                CEGUI::Window* layerBtns = layer->getChild("ValidButtonLayer");
+                assert(layerBtns);
+
+                CEGUI::Window* btnOk = layerBtns->getChild("Ok");
+                assert(btnOk);
+                btnOk->subscribeEvent(CEGUI::PushButton::EventClicked,
+                                CEGUI::Event::Subscriber([this](const CEGUI::EventArgs& e){
+                                                         std::cout<<"OK"<<std::endl;
+                                                         _newLayerPopup->hide();
+                                                         _newLayerPopup->setModalState(false);
+                                                         _owner.requestNewLayer();
+                                                         return true;
+                                                         }));
+
+
+                CEGUI::Window* btnCancel = layerBtns->getChild("Cancel");
+                assert(btnCancel);
+                btnCancel->subscribeEvent(CEGUI::PushButton::EventClicked,
+                                CEGUI::Event::Subscriber([this](const CEGUI::EventArgs& e){
+                                                         std::cout<<"Cancel"<<std::endl;
+                                                         _newLayerPopup->hide();
+                                                         _newLayerPopup->setModalState(false);
+                                                         return true;
+                                                         }));
+            }
         }
     }
 }

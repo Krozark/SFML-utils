@@ -287,14 +287,9 @@ namespace sfutils
 
         bool Gui::_event_rightPanel_layers_add()
         {
-            //new layer popup
-            _newLayerPopup = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("NewLayer.layout");
-            _registerNewLayerCallbacks();
-
-            _root->addChild(_newLayerPopup);
+            _newLayerPopup->show();
             _newLayerPopup->setModalState(true);
 
-            //TODO return _owner.requestNewLayer();
             return true;
         }
 

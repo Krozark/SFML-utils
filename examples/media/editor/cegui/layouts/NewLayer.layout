@@ -2,14 +2,14 @@
 
 <GUILayout version="4">
         <Window type="GlossySerpentFHD/FrameWindow" name="Root" >
-            <Property name="Text" value="Console" />
-            <Property name="TitlebarFont" value="DejaVuSans-10" />
-            <Property name="MaxSize" value="{{1,0},{1,0}}" />
             <Property name="TitlebarEnabled" value="True" />
+            <Property name="Text" value="New layer informations" />
+            <Property name="CloseButtonEnabled" value="false" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
             <Property name="Area" value="{{0.25,0},{0.25,0},{0.5,0},{0.25,410}}" />
 
             <Window type="VerticalLayoutContainer" name="Layer">
-                <Window type="GlossySerpentFHD/Editbox" name="name" >
+                <Window type="GlossySerpentFHD/Editbox" name="Name" >
                     <Property name="Area" value="{{0,0},{0,0},{1,0},{0,50}}" />
                     <Property name="Text" value="name" />
                 </Window>
