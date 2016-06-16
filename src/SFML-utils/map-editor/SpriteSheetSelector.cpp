@@ -48,9 +48,7 @@ namespace sfutils
             {
                 utils::json::Object& root = value->asObject();
                 //frames
-                std::cout<<root<<std::endl;
                 utils::json::Array& json_frames = root["frames"].asArray();
-                std::cout<<"Frames"<<std::endl;
                 for(utils::json::Value& value : json_frames)
                 {
                     utils::json::Object& obj = value.asObject();

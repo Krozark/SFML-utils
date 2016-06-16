@@ -19,8 +19,7 @@ namespace sfutils
             _window(mainWindow),
             _root(nullptr),
             _layerList(nullptr),
-            _textureList(nullptr),
-            _newLayerPopup(nullptr)
+            _textureList(nullptr)
         {
             cegui::GuiManager::init("media/editor/cegui/","GlossySerpentFHD","DejaVuSans-10");
             //set mouse
@@ -41,8 +40,6 @@ namespace sfutils
             _registerMiniMapCallbacks();
             _registerRightPanelCallbacks();
 
-            _newLayerPopup = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("NewLayer.layout");
-            _registerNewLayerCallbacks();
 
         }
 
@@ -83,18 +80,19 @@ namespace sfutils
             txt->setText(text);
         }
 
-        void Gui::addLayer(sfutils::map::LayerModel::pointer& layer)
+        void Gui::addLayer(sfutils::map::LayerModel::pointer& layer,bool begin)
         {
             assert(_layerList);
-            CEGUI::ListboxTextItem* newItem = new CEGUI::ListboxTextItem("");
 
-
-            newItem->setTextColours(CEGUI::Colour( 0xFFFFFFFF));
-            newItem->setSelectionColours(CEGUI::Colour(1,0,0));
-            newItem->setSelectionBrushImage("GlossySerpentFHD/ListboxSelectionBrush");
-            newItem->setAutoDeleted(true);
-            newItem->setUserData(layer.get());
-            _layerList->addItem(newItem);
+            auto item = _helperCreateTextItem("",layer.get());
+            if(begin)
+            {
+                _layerList->insertItem(item,nullptr);
+            }
+            else
+            {
+                _layerList->addItem(item);
+            }
 
             _setLayerListItemNames();
 
@@ -119,13 +117,7 @@ namespace sfutils
         {
             assert(_textureList);
 
-            CEGUI::ListboxTextItem* newItem = new CEGUI::ListboxTextItem(tex);
-            newItem->setTextColours(CEGUI::Colour( 0xFFFFFFFF));
-            newItem->setSelectionColours(CEGUI::Colour(1,0,0));
-            newItem->setSelectionBrushImage("GlossySerpentFHD/ListboxSelectionBrush");
-            newItem->setAutoDeleted(true);
-
-            _textureList->addItem(newItem); // Add the new ListBoxTextItem to the ListBox
+            _textureList->addItem(_helperCreateTextItem(tex)); // Add the new ListBoxTextItem to the ListBox
         }
 
         void Gui::delTexture(const std::string& tex)
@@ -183,8 +175,8 @@ namespace sfutils
                     item->setTextColours(CEGUI::Colour(1,1,1,1));
                 }
                 std::stringstream ss;
-                ss<<layer->name.getValue()
-                    <<" (" << std::to_string(layer->zBuffer.getValue())<< ")";
+                ss << std::to_string(layer->zBuffer.getValue())<< " "
+                    <<layer->name.getValue();
                 item->setText(ss.str());
 
             }
@@ -196,6 +188,19 @@ namespace sfutils
         {
             assert(_textureList);
             _textureList->resetList();
+        }
+
+        CEGUI::ListboxTextItem* Gui::_helperCreateTextItem(const std::string& txt, void* userData)
+        {
+            CEGUI::ListboxTextItem* newItem = new CEGUI::ListboxTextItem(txt);
+
+            newItem->setTextColours(CEGUI::Colour( 0xFFFFFFFF));
+            newItem->setSelectionColours(CEGUI::Colour(1,0,0));
+            newItem->setSelectionBrushImage("GlossySerpentFHD/ListboxSelectionBrush");
+            newItem->setAutoDeleted(true);
+            newItem->setUserData(userData);
+
+            return newItem;
         }
 
         //Menu
@@ -290,14 +295,7 @@ namespace sfutils
                     //TODO TEST
                     for(int i=0; i< 25; ++i)
                     {
-                        CEGUI::ListboxTextItem* newItem = new CEGUI::ListboxTextItem("Item #"+std::to_string(i));
-
-                        newItem->setTextColours(CEGUI::Colour( 0xFFFFFFFF));
-                        newItem->setSelectionColours(CEGUI::Colour(1,0,0));
-                        newItem->setSelectionBrushImage("GlossySerpentFHD/ListboxSelectionBrush");
-                        newItem->setAutoDeleted(true);
-
-                        list->addItem(newItem); // Add the new ListBoxTextItem to the ListBox
+                        list->addItem(_helperCreateTextItem("Item #" + std::to_string(i)));
                     }
 
                     bottom->getChild("Add")->subscribeEvent(CEGUI::PushButton::EventClicked,[this](const CEGUI::EventArgs& e){
@@ -320,14 +318,7 @@ namespace sfutils
                     //TODO TEST
                     for(int i=0; i< 25; ++i)
                     {
-                        CEGUI::ListboxTextItem* newItem = new CEGUI::ListboxTextItem("Item #"+std::to_string(i));
-
-                        newItem->setTextColours(CEGUI::Colour( 0xFFFFFFFF));
-                        newItem->setSelectionColours(CEGUI::Colour(1,0,0));
-                        newItem->setSelectionBrushImage("GlossySerpentFHD/ListboxSelectionBrush");
-                        newItem->setAutoDeleted(true);
-
-                        list->addItem(newItem); // Add the new ListBoxTextItem to the ListBox
+                        list->addItem(_helperCreateTextItem("Item #" + std::to_string(i)));
                     }
 
                     bottom->getChild("Add")->subscribeEvent(CEGUI::PushButton::EventClicked,[this](const CEGUI::EventArgs& e){
@@ -350,14 +341,7 @@ namespace sfutils
                     //TODO TEST
                     for(int i=0; i< 25; ++i)
                     {
-                        CEGUI::ListboxTextItem* newItem = new CEGUI::ListboxTextItem("Item #"+std::to_string(i));
-
-                        newItem->setTextColours(CEGUI::Colour( 0xFFFFFFFF));
-                        newItem->setSelectionColours(CEGUI::Colour(1,0,0));
-                        newItem->setSelectionBrushImage("GlossySerpentFHD/ListboxSelectionBrush");
-                        newItem->setAutoDeleted(true);
-
-                        list->addItem(newItem); // Add the new ListBoxTextItem to the ListBox
+                        list->addItem(_helperCreateTextItem("Item #" + std::to_string(i)));
                     }
 
                     bottom->getChild("Add")->subscribeEvent(CEGUI::PushButton::EventClicked,[this](const CEGUI::EventArgs& e){
@@ -448,14 +432,7 @@ namespace sfutils
                     //TODO load brush
                     for(int i=0; i< 25; ++i)
                     {
-                        CEGUI::ListboxTextItem* newItem = new CEGUI::ListboxTextItem("Item #"+std::to_string(i));
-
-                        newItem->setTextColours(CEGUI::Colour( 0xFFFFFFFF));
-                        newItem->setSelectionColours(CEGUI::Colour(1,0,0));
-                        newItem->setSelectionBrushImage("GlossySerpentFHD/ListboxSelectionBrush");
-                        newItem->setAutoDeleted(true);
-
-                        list->addItem(newItem); // Add the new ListBoxTextItem to the ListBox
+                        list->addItem(_helperCreateTextItem("Item #" + std::to_string(i)));
                     }
 
                 }
@@ -472,14 +449,7 @@ namespace sfutils
                     //TODO load edit mode
                     for(int i=0; i< 25; ++i)
                     {
-                        CEGUI::ListboxTextItem* newItem = new CEGUI::ListboxTextItem("Item #"+std::to_string(i));
-
-                        newItem->setTextColours(CEGUI::Colour( 0xFFFFFFFF));
-                        newItem->setSelectionColours(CEGUI::Colour(1,0,0));
-                        newItem->setSelectionBrushImage("GlossySerpentFHD/ListboxSelectionBrush");
-                        newItem->setAutoDeleted(true);
-
-                        list->addItem(newItem); // Add the new ListBoxTextItem to the ListBox
+                        list->addItem(_helperCreateTextItem("Item #" + std::to_string(i)));
                     }
                 }
                 
@@ -487,16 +457,25 @@ namespace sfutils
 
         }
 
-        void Gui::_registerNewLayerCallbacks()
+        void Gui::_showNewLayerPopup()
         {
-            _root->addChild(_newLayerPopup);
-            _newLayerPopup->hide();
+            CEGUI::Window* newLayerPopup = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("NewLayer.layout");
 
-            CEGUI::Window* layer = _newLayerPopup->getChild("Layer");
+            _root->addChild(newLayerPopup);
+            newLayerPopup->show();
+            newLayerPopup->setModalState(true);
+
+            CEGUI::Window* layer = newLayerPopup->getChild("Layer");
             assert(layer);
 
             CEGUI::Listbox* list = static_cast<CEGUI::Listbox*>(layer->getChild("TypeList"));
             assert(list);
+
+            for(auto& ptr : sfutils::map::LayerTypeModel::all())
+            {
+                list->addItem(_helperCreateTextItem(ptr->name.getValue(),ptr.get()));
+            }
+            list->setItemSelectState(list->getListboxItemFromIndex(0),true);
 
             {
                 CEGUI::Window* layerBtns = layer->getChild("ValidButtonLayer");
@@ -505,22 +484,18 @@ namespace sfutils
                 CEGUI::Window* btnOk = layerBtns->getChild("Ok");
                 assert(btnOk);
                 btnOk->subscribeEvent(CEGUI::PushButton::EventClicked,
-                                CEGUI::Event::Subscriber([this](const CEGUI::EventArgs& e){
-                                                         std::cout<<"OK"<<std::endl;
-                                                         _newLayerPopup->hide();
-                                                         _newLayerPopup->setModalState(false);
-                                                         _owner.requestNewLayer();
-                                                         return true;
+                                CEGUI::Event::Subscriber([this,newLayerPopup](const CEGUI::EventArgs& e){
+                                                         bool res =  _event_newLayer_ok(newLayerPopup);
+                                                         _root->destroyChild(newLayerPopup);
+                                                         return res;
                                                          }));
 
 
                 CEGUI::Window* btnCancel = layerBtns->getChild("Cancel");
                 assert(btnCancel);
                 btnCancel->subscribeEvent(CEGUI::PushButton::EventClicked,
-                                CEGUI::Event::Subscriber([this](const CEGUI::EventArgs& e){
-                                                         std::cout<<"Cancel"<<std::endl;
-                                                         _newLayerPopup->hide();
-                                                         _newLayerPopup->setModalState(false);
+                                CEGUI::Event::Subscriber([this,newLayerPopup](const CEGUI::EventArgs& e){
+                                                         _root->destroyChild(newLayerPopup);
                                                          return true;
                                                          }));
             }

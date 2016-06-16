@@ -31,7 +31,7 @@ namespace sfutils
                 void setGeometry(sfutils::map::GeometryModel::pointer& geo);
                 
                 //layers
-                bool newLayer();
+                sfutils::map::LayerModel::pointer newLayer(const std::string& name, const std::string& layerType,bool isStatic, bool isVisible);
 
                 bool delLayer(int index);
 

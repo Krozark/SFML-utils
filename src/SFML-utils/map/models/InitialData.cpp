@@ -96,6 +96,7 @@ namespace sfutils
                     tmpLayer->name = "default";
                     tmpLayer->zBuffer = 1;
                     tmpLayer->isStatic = true;
+                    tmpLayer->isVisible = true;
                     tmpLayer->type = models[0];
                     tmpLayer->map = tmp;
 

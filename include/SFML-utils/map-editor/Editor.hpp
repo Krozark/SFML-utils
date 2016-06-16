@@ -38,7 +38,7 @@ namespace sfutils
                 void setZoom(float value);
                 void setMiniMapZoom(float value);
 
-                bool requestNewLayer();
+                bool requestNewLayer(const std::string& name, const std::string& layerType,bool isStatic, bool isVisible);
                 bool requestDelLayer(int index);
                 bool requestMoveLayer(int from,int to);
                 bool requestVisibilityLayer(int index);

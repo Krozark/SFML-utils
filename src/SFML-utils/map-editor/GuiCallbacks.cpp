@@ -287,9 +287,7 @@ namespace sfutils
 
         bool Gui::_event_rightPanel_layers_add()
         {
-            _newLayerPopup->show();
-            _newLayerPopup->setModalState(true);
-
+            _showNewLayerPopup();
             return true;
         }
 
@@ -451,6 +449,41 @@ namespace sfutils
                 std::cout<<"_event_rightPanel_tab_NPC_selected : "<<item->getText().c_str()<<std::endl;
             }
 
+            return true;
+        }
+
+        bool Gui::_event_newLayer_ok(CEGUI::Window* newLayerPopup)
+        {
+            std::string name;
+            std::string layerType;
+            bool isStatic;
+            bool isVisible;
+            
+            CEGUI::Window* layer = newLayerPopup->getChild("Layer");
+            {
+                CEGUI::Window* w = layer->getChild("Name");
+                name = w->getText().c_str();
+            }
+
+            {
+                CEGUI::Listbox* list = static_cast<CEGUI::Listbox*>(layer->getChild("TypeList"));
+                CEGUI::ListboxItem* type = list->getFirstSelectedItem();
+                layerType = type->getText().c_str();
+            }
+
+            {
+                CEGUI::ToggleButton* btn = dynamic_cast<CEGUI::ToggleButton*>(layer->getChild("isStatic"));
+                assert(btn);
+                isStatic = btn->isSelected();
+            }
+
+            {
+                CEGUI::ToggleButton* btn = dynamic_cast<CEGUI::ToggleButton*>(layer->getChild("isVisible"));
+                assert(btn);
+                isVisible = btn->isSelected();
+            }
+            
+            _owner.requestNewLayer(name,layerType,isStatic,isVisible);
             return true;
         }
 

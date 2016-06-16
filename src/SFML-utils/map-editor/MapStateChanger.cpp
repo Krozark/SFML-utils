@@ -90,14 +90,38 @@ namespace sfutils
             _owner._dbMap->geometry = geo;
         }
 
-        bool MapStateChanger::newLayer()
+        sfutils::map::LayerModel::pointer MapStateChanger::newLayer(const std::string& name, const std::string& layerType,bool isStatic, bool isVisible)
         {
-            std::cout<<"TODO : "<<__FILE__<<":"<<__LINE__<<std::endl;
-            return false;
+            sfutils::map::LayerTypeModel::pointer_array array;
+            sfutils::map::LayerTypeModel::query()
+                .filter(layerType,orm::op::exact,sfutils::map::LayerTypeModel::$name)
+                .get(array);
+            if(array.size() <= 0)
+            {
+                return nullptr;
+            }
+
+            sfutils::map::LayerModel::pointer_array array2;
+            sfutils::map::LayerModel::query()
+                .filter(_owner._dbMap->getPk(),orm::op::exact,sfutils::map::LayerModel::$map)
+                .get(array2);
+
+            auto layer = sfutils::map::LayerModel::create();
+            layer->name = name;
+            layer->zBuffer = array2.size() + 1;
+            layer->isStatic = isStatic;
+            layer->isVisible =isVisible;
+            layer->type = array.front();
+            layer->map = _owner._dbMap;
+
+            layer->save();
+
+            return layer;
         }
 
         bool MapStateChanger::delLayer(int index)
         {
+            std::cout<<"Deleting layer "<<index<<std::endl;
 
             {
                 //internal data
@@ -129,6 +153,7 @@ namespace sfutils
                 //remove tiles
                 for(auto& t : tiles)
                 {
+                    std::cout<<"deleting tile "<<t->x.getValue()<<":"<<t->y.getValue()<<std::endl;
                     t->del();
                 }
                 //remove layer
@@ -146,6 +171,12 @@ namespace sfutils
                 int z = current->zBuffer.getValue();
                 for(auto& l : layers)
                 {
+                    //visual
+                    sfutils::map::VLayer* other = _owner._map->atZ(l->zBuffer.getValue());
+                    assert(other);
+                    other->setZ(z);
+
+                    //db
                     l->zBuffer = z;
                     ++z;
                     l->save();
@@ -158,6 +189,7 @@ namespace sfutils
 
         bool MapStateChanger::moveLayer(int from,int to)
         {
+            std::cout<<"Move layer "<<from<<" to "<<to<<std::endl;
             if(from == to)
             {
                 return false;
@@ -187,19 +219,18 @@ namespace sfutils
             {
                 //update visual map
                 sfutils::map::VLayer* current = _owner._map->atZ(from);
-                sfutils::map::VLayer* other = _owner._map->atZ(to);
-
                 assert(current);
-                assert(other);
-
                 _owner._map->removeLayer(current,false);
-                _owner._map->removeLayer(other,false);
-
                 current->setZ(to);
-                other->setZ(from);
+                _owner._map->addLayer(current);
 
-                _owner._map->addLayer(current,false);
-                _owner._map->addLayer(other);
+                sfutils::map::VLayer* other = _owner._map->atZ(to);
+                if(other != nullptr)
+                {
+                    _owner._map->removeLayer(other,false);
+                    other->setZ(from);
+                    _owner._map->addLayer(other);
+                }
             }
 
             {

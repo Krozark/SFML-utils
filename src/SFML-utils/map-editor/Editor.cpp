@@ -122,9 +122,45 @@ namespace sfutils
             setZoom(value);
         }
 
-        bool Editor::requestNewLayer()
+        bool Editor::requestNewLayer(const std::string& name, const std::string& layerType,bool isStatic, bool isVisible)
         {
-            return _mapStateChanger.newLayer();
+             sfutils::map::LayerModel::pointer ptr = _mapStateChanger.newLayer(name,layerType,isStatic,isVisible);
+             if(ptr == nullptr)
+             {
+                 return false;
+             }
+
+             _gui.addLayer(ptr,true);
+
+             sfutils::map::VLayer* layer = nullptr;
+
+             if(layerType == "tile")
+             {
+                 layer = new sfutils::map::Layer<sfutils::map::Tile>(layerType,ptr->zBuffer.getValue(),isStatic);
+             }
+             else if(layerType == "sprite")
+             {
+                 layer = new sfutils::map::Layer<sf::Sprite>(layerType,ptr->zBuffer.getValue(),isStatic);
+             }
+             else if(layerType == "sprite_ptr")
+             {
+                 layer = new sfutils::map::Layer<sf::Sprite*>(layerType,ptr->zBuffer.getValue(),isStatic);
+             }
+             else if(layerType == "entity")
+             {
+                 layer = new sfutils::map::Layer<sfutils::map::Entity*>(layerType,ptr->zBuffer.getValue(),isStatic);
+             }
+
+             if(not layer)
+             {
+                 std::cerr<<"Unknow content-type "<<layerType<<std::endl;
+                 return false;
+             }
+
+             layer->setVisible(isVisible);
+             _map->addLayer(layer);
+
+             return true;
         }
 
         bool Editor::requestDelLayer(int index)

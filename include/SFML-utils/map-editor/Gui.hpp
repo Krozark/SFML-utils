@@ -11,6 +11,7 @@ namespace CEGUI
     class Window;
     class Listbox;
     class ListboxItem;
+    class ListboxTextItem;
     class GUIContext;
 }
 
@@ -35,7 +36,7 @@ namespace sfutils
                 void setMainInfo(const std::string& text);
                 void setTitle(const std::string& text);
 
-                void addLayer(sfutils::map::LayerModel::pointer& layer);
+                void addLayer(sfutils::map::LayerModel::pointer& layer,bool begin=false);
                 void delLayer(sfutils::map::LayerModel::pointer& layer);
 
                 void addTexture(const std::string& tex);
@@ -58,6 +59,8 @@ namespace sfutils
 
                 CEGUI::Listbox* _textureList;
                 void _clearTextureList();
+
+                static CEGUI::ListboxTextItem* _helperCreateTextItem(const std::string& txt, void* userData = nullptr);
 
                 /*menu*/
                 void _registerMenuBarCallbacks();
@@ -117,8 +120,9 @@ namespace sfutils
 
 
                 /* New Layer Popup */
-                CEGUI::Window* _newLayerPopup;
-                void _registerNewLayerCallbacks();
+                void _showNewLayerPopup();
+                ///events
+                bool _event_newLayer_ok(CEGUI::Window* newLayerWindow);
 
         };
     }
