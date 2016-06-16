@@ -36,7 +36,7 @@ Requirements
 
 * SFML 2.0 +
 * Box2D 2.3 + (optional)
-* CEGUI 0.8.x (optional)
+* CEGUI 0.8.x (Editor optional)
 * cpp-utils : json parser (for map framwork, https://github.com/Krozark/cpp-utils)
 * C++11 compiler
 
@@ -168,3 +168,9 @@ Then another file is use for the trees:
     ]
 }
 ```
+
+Editor
+======
+
+
+<img src="https://raw.githubusercontent.com/Krozark/SFML-utils/master/screen/Editor.png" alt="Editor" width="650px">
