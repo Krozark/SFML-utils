@@ -22,6 +22,8 @@ namespace sfutils
                 int z;
                 sf::Vector2i coord;
                 sf::IntRect textureRect;
+                sf::Vector2f textureCenterCoord;
+
                 std::string texture;
                 std::string type;
                 FuncType func;

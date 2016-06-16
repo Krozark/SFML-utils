@@ -235,29 +235,13 @@ namespace sfutils
             }
             else //need to create it
             {
-                if(_type == "tile")
-                {
-                    layer = new Layer<Tile>(_type,_z,_static);
-                }
-                else if(_type == "sprite")
-                {
-                    layer = new Layer<sf::Sprite>(_type,_z,_static);
-                }
-                else if(_type == "sprite_ptr")
-                {
-                    layer = new Layer<sf::Sprite*>(_type,_z,_static);
-                }
-                else if(_type == "entity")
-                {
-                    layer = new Layer<Entity*>(_type,_z,_static);
-                }
+                layer = VLayer::create(_type,_z,_static,_isVisible);
 
                 if(not layer)
                 {
                     std::cerr<<"Unknow content-type "<<_type<<std::endl;
                     return false;
                 }
-                layer->setVisible(_isVisible);
                 map->addLayer(layer);
             }
             for(std::shared_ptr<MetaLayerData>& data : _data)

@@ -15,7 +15,7 @@ namespace sfutils
                 Layer(const Layer&) = delete;
                 Layer& operator=(const Layer&) = delete;
 
-                Layer(const std::string& type,int z, bool isStatic);
+                Layer(const std::string& type,int z, bool isStatic,bool isVisible);
                 virtual ~Layer();
 
                 CONTENT* add(const CONTENT& content,bool resort=true);
@@ -45,7 +45,7 @@ namespace sfutils
                 Layer(const Layer&) = delete;
                 Layer& operator=(const Layer&) = delete;
 
-                Layer(const std::string& type,int z,bool isStatic);
+                Layer(const std::string& type,int z,bool isStatic,bool isVisible);
                 virtual ~Layer();
 
                 CONTENT* add(CONTENT* content,bool resort=true);

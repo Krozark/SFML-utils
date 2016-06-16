@@ -19,10 +19,10 @@ namespace sfutils
         {
             TileModel::pointer_array models;
             TileModel::query()
-                .filter(orm::Q<TileModel>(x * _map->areaWidth, orm::op::gte, TileModel::$x)
-                         and orm::Q<TileModel>((x+1) * _map->areaWidth, orm::op::lt, TileModel::$x)
-                         and orm::Q<TileModel>(y * _map->areaHeight, orm::op::gte, TileModel::$y)
-                         and orm::Q<TileModel>((y+1) * _map->areaHeight, orm::op::lt, TileModel::$y)
+                .filter(orm::Q<TileModel>(x * _map->areaWidth, orm::op::gte, TileModel::$posX)
+                         and orm::Q<TileModel>((x+1) * _map->areaWidth, orm::op::lt, TileModel::$posX)
+                         and orm::Q<TileModel>(y * _map->areaHeight, orm::op::gte, TileModel::$posY)
+                         and orm::Q<TileModel>((y+1) * _map->areaHeight, orm::op::lt, TileModel::$posY)
                          and orm::Q<TileModel>(_map->getPk(), orm::op::exact, TileModel::$layer, LayerModel::$map))
                 .orderBy(TileModel::$layer)
                 .get(models);
@@ -48,8 +48,8 @@ namespace sfutils
                                                   ));
                 }
                 //TODO
-                std::shared_ptr<MetaLayerData> data(new MetaLayerDataTileRect(tile->texture,sf::IntRect(tile->x -x * _map->areaWidth,
-                                                                                                       tile->y - y * _map->areaHeight
+                std::shared_ptr<MetaLayerData> data(new MetaLayerDataTileRect(tile->texture,sf::IntRect(tile->posX -x * _map->areaWidth,
+                                                                                                       tile->posY - y * _map->areaHeight
                                                                                                        ,1,1)));
                 metaLayer->add(data);
             }

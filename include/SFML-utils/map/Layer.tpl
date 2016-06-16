@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <SFML-utils/map/Map.hpp>
 
 namespace sfutils
 {
@@ -6,7 +7,7 @@ namespace sfutils
     {
         //////////////////////// LAYER /////////////////////////////////////////
         template<typename CONTENT>
-        Layer<CONTENT>::Layer(const std::string& type,int z,bool isStatic) : VLayer(type,z,isStatic)
+        Layer<CONTENT>::Layer(const std::string& type,int z,bool isStatic,bool isVisible) : VLayer(type,z,isStatic,isVisible)
         {
         }
 
@@ -136,7 +137,7 @@ namespace sfutils
         /////////////////////// LAYER PTR ////////////////////////////
         //
         template<typename CONTENT>
-        Layer<CONTENT*>::Layer(const std::string& type,int z,bool isStatic) : VLayer(type,z,isStatic)
+        Layer<CONTENT*>::Layer(const std::string& type,int z,bool isStatic,bool isVisible) : VLayer(type,z,isStatic,isVisible)
         {
             _autofree = false;
         }

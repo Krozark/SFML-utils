@@ -132,24 +132,7 @@ namespace sfutils
 
              _gui.addLayer(ptr,true);
 
-             sfutils::map::VLayer* layer = nullptr;
-
-             if(layerType == "tile")
-             {
-                 layer = new sfutils::map::Layer<sfutils::map::Tile>(layerType,ptr->zBuffer.getValue(),isStatic);
-             }
-             else if(layerType == "sprite")
-             {
-                 layer = new sfutils::map::Layer<sf::Sprite>(layerType,ptr->zBuffer.getValue(),isStatic);
-             }
-             else if(layerType == "sprite_ptr")
-             {
-                 layer = new sfutils::map::Layer<sf::Sprite*>(layerType,ptr->zBuffer.getValue(),isStatic);
-             }
-             else if(layerType == "entity")
-             {
-                 layer = new sfutils::map::Layer<sfutils::map::Entity*>(layerType,ptr->zBuffer.getValue(),isStatic);
-             }
+             sfutils::map::VLayer* layer = sfutils::map::VLayer::create(layerType,ptr->zBuffer.getValue(),isStatic);
 
              if(not layer)
              {
@@ -157,7 +140,6 @@ namespace sfutils
                  return false;
              }
 
-             layer->setVisible(isVisible);
              _map->addLayer(layer);
 
              return true;

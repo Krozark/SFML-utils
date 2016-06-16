@@ -121,8 +121,6 @@ namespace sfutils
 
         bool MapStateChanger::delLayer(int index)
         {
-            std::cout<<"Deleting layer "<<index<<std::endl;
-
             {
                 //internal data
                 auto tileFunc = [index](const TileInfo& i){
@@ -153,7 +151,7 @@ namespace sfutils
                 //remove tiles
                 for(auto& t : tiles)
                 {
-                    std::cout<<"deleting tile "<<t->x.getValue()<<":"<<t->y.getValue()<<std::endl;
+                    std::cout<<"deleting tile "<<t->posX.getValue()<<":"<<t->posY.getValue()<<std::endl;
                     t->del();
                 }
                 //remove layer
@@ -189,7 +187,6 @@ namespace sfutils
 
         bool MapStateChanger::moveLayer(int from,int to)
         {
-            std::cout<<"Move layer "<<from<<" to "<<to<<std::endl;
             if(from == to)
             {
                 return false;
@@ -375,8 +372,8 @@ namespace sfutils
             sfutils::map::TileModel::query()
                 .filter(
                         orm::Q<sfutils::map::TileModel>(layer->getPk(),orm::op::exact,sfutils::map::TileModel::$layer)
-                        && orm::Q<sfutils::map::TileModel>(info.coord.x,orm::op::exact,sfutils::map::TileModel::$x)
-                        && orm::Q<sfutils::map::TileModel>(info.coord.y,orm::op::exact,sfutils::map::TileModel::$y)
+                        && orm::Q<sfutils::map::TileModel>(info.coord.x,orm::op::exact,sfutils::map::TileModel::$posX)
+                        && orm::Q<sfutils::map::TileModel>(info.coord.y,orm::op::exact,sfutils::map::TileModel::$posY)
                 )
                 .get(tiles);
 
@@ -391,8 +388,8 @@ namespace sfutils
         {
             auto tile = sfutils::map::TileModel::create();
             tile->texture = info.texture;
-            tile->x = info.coord.x;
-            tile->y = info.coord.y;
+            tile->posX = info.coord.x;
+            tile->posY = info.coord.y;
             tile->layer = layer;
 
             tile->save();

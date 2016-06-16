@@ -17,11 +17,15 @@ namespace sfutils
 
                 orm::CharField<255> texture;
                 orm::CharField<255> textureFrame;
-                orm::IntegerField x;
-                orm::IntegerField y;
+
+                orm::IntegerField posX;
+                orm::IntegerField posY;
+
                 orm::FK<LayerModel> layer;
                 
-                ORM_MAKE_STATIC_COLUMN(texture,textureFrame,x,y,layer);
+                ORM_MAKE_STATIC_COLUMN(texture,textureFrame,
+                                       posX,posY,
+                                       layer);
 
             private:
         };

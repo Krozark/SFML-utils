@@ -16,7 +16,7 @@ namespace sfutils
                 VLayer(const VLayer&) = delete;
                 VLayer& operator=(const VLayer&) = delete;
 
-                VLayer(const std::string& type,int z,bool isStatic);
+                VLayer(const std::string& type,int z,bool isStatic,bool isVisible);
                 virtual ~VLayer();
 
                 virtual void sort() = 0;
@@ -31,6 +31,8 @@ namespace sfutils
                 bool isStatic()const;
                 bool isVisible() const;
                 void setVisible(bool visibility);
+
+                static VLayer* create(const std::string& type, int z, bool isStatic, bool isVisible = true);
 
             protected:
                 const bool _isStatic;

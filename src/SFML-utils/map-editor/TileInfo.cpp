@@ -7,6 +7,7 @@ namespace sfutils
         TileInfo::TileInfo(int az,const sf::Vector2i& acoord,FuncType f):
             z(az),
             coord(acoord),
+            textureCenterCoord(0.5,1),
             func(f)
         {
         }
