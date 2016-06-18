@@ -5,6 +5,14 @@ ORM_REGISTER_AND_CONSTRUCT_WITH_NAMESPACE(sfutils::map,TileModel,"Tile",
                                       textureFrame,"textureFrame",
                                       posX,"posX",
                                       posY,"posY",
+                                      textureRectTop,"textureRectTop",
+                                      textureRectLeft,"textureRectLeft",
+                                      textureRectWidth,"textureRectWidth",
+                                      textureRectHeigh,"textureRectHeigh",
+
+                                      texureCenterLeft,"texureCenterLeft",
+                                      texureCenterTop,"texureCenterTop",
+                                      
                                       layer,"layer_fk")
 
 namespace sfutils
