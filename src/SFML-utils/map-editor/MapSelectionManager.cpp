@@ -1,8 +1,21 @@
 #include <SFML-utils/map-editor/MapSelectionManager.hpp>
 
 #include <SFML-utils/map-editor/Editor.hpp>
+#include <SFML-utils/map-editor/path.hpp>
 
 #include <algorithm>
+
+extern "C"
+{
+	#include <lua.h>
+	#include <lauxlib.h>
+	#include <lualib.h>
+}
+
+#include <luabind/luabind.hpp>
+#include <luabind/object.hpp>
+#include <luabind/tag_function.hpp>
+
 
 namespace sfutils
 {
@@ -21,11 +34,21 @@ namespace sfutils
             }
         }
 
+        MapSelectionManager::~MapSelectionManager()
+        {
+            if(_luaState != nullptr)
+            {
+                lua_close(_luaState);
+            }
+        }
+
         void MapSelectionManager::reset()
         {
             _map = nullptr;
             _cursorHighlight = nullptr;
             _highlightLayer = nullptr;
+            _luaState = nullptr;
+
             _clickPressedCoord = sf::Vector2i(0,0);
             _clickReleasedCoord = sf::Vector2i(0,0);
             _isPressed = false;
@@ -34,19 +57,21 @@ namespace sfutils
 
         }
 
-        bool MapSelectionManager::processEvent(const sf::Event& event, sfutils::map::MapViewer& viewer)
+        bool MapSelectionManager::processEvent(const sf::Event& event)
         {
+            const sfutils::map::MapViewer& viewer = _owner.getMapViewer();
+
             if(event.type == sf::Event::MouseButtonPressed and event.mouseButton.button == sf::Mouse::Button::Left)
             {
                 _clickPressedCoord = _clickReleasedCoord = viewer.mapScreenToCoords(sf::Vector2i(event.mouseButton.x,event.mouseButton.y));
                 _isPressed = true;
 
-                _updateSelectionArea(viewer);
+                _updateSelectionArea();
             }
             else if(event.type == sf::Event::MouseButtonReleased and event.mouseButton.button == sf::Mouse::Button::Left)
             {
                 _clickReleasedCoord = viewer.mapScreenToCoords(sf::Vector2i(event.mouseButton.x,event.mouseButton.y));
-                _updateSelectionArea(viewer);
+                _updateSelectionArea();
 
                 _valideSelectedArea();
 
@@ -62,7 +87,7 @@ namespace sfutils
                 {
                     _clickReleasedCoord = coord;
 
-                    _updateSelectionArea(viewer);
+                    _updateSelectionArea();
                 }
             }
 
@@ -91,15 +116,50 @@ namespace sfutils
             _map->addLayer(_highlightLayer);
         }
 
-        ///////////////////////////// PRIVATE /////////////////////////////////
-        void MapSelectionManager::_updateSelectionArea(sfutils::map::MapViewer& viewer)
+        void MapSelectionManager::setSelectionBrush(const std::string& brush)
         {
+            if(_luaState != nullptr)
+            {
+                lua_close(_luaState);
+            }
+
+            _luaState = luaL_newstate();
+
+            luaL_openlibs(_luaState);
+            luabind::open(_luaState);
+
+            luabind::module(_luaState)[
+                luabind::def("addToSelection",luabind::tag_function<void(int,int)>([this](int x,int y){
+                             _addSelectedCood(sf::Vector2i(x,y));
+                }))
+            ];
+
+            luaL_dofile(_luaState,(path::DIRECTORY_BRUSH + brush).c_str());
+
+        }
+
+        ///////////////////////////// PRIVATE /////////////////////////////////
+        void MapSelectionManager::_updateSelectionArea()
+        {
+            assert(_luaState);
+
             _resetSelection();
+
+            const sfutils::map::MapViewer& viewer = _owner.getMapViewer();
 
             _clickIndicator[0].position = sf::Vector2f(viewer.mapCoordsToScreen(_clickPressedCoord));
             _clickIndicator[1].position = sf::Vector2f(viewer.mapCoordsToScreen(_clickReleasedCoord));
 
-            _squareSelection(viewer);
+            int y_min = std::min(_clickPressedCoord.y,_clickReleasedCoord.y);
+            int y_max = std::max(_clickPressedCoord.y,_clickReleasedCoord.y);
+            
+            int x_min = std::min(_clickPressedCoord.x,_clickReleasedCoord.x);
+            int x_max = std::max(_clickPressedCoord.x,_clickReleasedCoord.x);
+
+            luabind::call_function<void>(_luaState, "getSelection",x_min,x_max,y_min,y_max);
+            //_squareSelection(viewer);
+
+            _highlightLayer->sort();
 
         }
 
@@ -126,26 +186,29 @@ namespace sfutils
             _selectedCoords.clear();
         }
 
-        void MapSelectionManager::_squareSelection(sfutils::map::MapViewer& viewer)
+        void MapSelectionManager::_squareSelection()
         {
             for(int y = std::min(_clickPressedCoord.y,_clickReleasedCoord.y); y <= std::max(_clickPressedCoord.y,_clickReleasedCoord.y);++y)
             {
                 for(int x = std::min(_clickPressedCoord.x,_clickReleasedCoord.x); x <= std::max(_clickPressedCoord.x,_clickReleasedCoord.x);++x)
                 {
-                    _selectedCoords.emplace_back(x,y);
-
-                    sf::Vector2f pixels = viewer.mapCoordsToPixel(_selectedCoords.back());
-
-                    sf::ConvexShape* ptr = _highlightLayer->add(_map->getGeometry().getShape(),false);
-
-                    ptr->setFillColor(sf::Color(133,202,215,127));
-                    ptr->setPosition(pixels);
-
-                    _selectionHighlight.emplace_back(ptr);
-
+                    _addSelectedCood(sf::Vector2i(x,y));
                 }
             }
-            _highlightLayer->sort();
+        }
+
+        void MapSelectionManager::_addSelectedCood(const sf::Vector2i& coord)
+        {
+            _selectedCoords.emplace_back(coord);
+
+            sf::Vector2f pixels = _owner.getMapViewer().mapCoordsToPixel(_selectedCoords.back());
+
+            sf::ConvexShape* ptr = _highlightLayer->add(_map->getGeometry().getShape(),false);
+
+            ptr->setFillColor(sf::Color(133,202,215,127));
+            ptr->setPosition(pixels);
+
+            _selectionHighlight.emplace_back(ptr);
         }
     }
 }

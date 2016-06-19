@@ -38,8 +38,6 @@ Requirements
 
 * SFML 2.0 +
 * Box2D 2.3 + (optional)
-* CEGUI 0.8.x (Editor optional)
-* cpp-ORM : Cpp ORM (Optional, for editor: https://github.com/Krozark/cpp-ORM)
 * cpp-utils : json parser (for map framwork, https://github.com/Krozark/cpp-utils)
 * C++11 compiler
 
@@ -67,8 +65,19 @@ Square Staggered grid
 <img src="https://raw.githubusercontent.com/Krozark/SFML-utils/master/screen/SquareIsoStaggered.png" alt="Square Iso Staggered grid" width="350px">
 
 
-Map Editor
+Map Editor (optional)
 ======
+
+Requirement:
+-----------
+* all the previous depndencies
+* map framwork
+* CEGUI 0.8.x (Editor optional)
+* cpp-ORM : Cpp ORM (https://github.com/Krozark/cpp-ORM)
+* lua 5.1
+* luabind (https://github.com/Krozark/luabind-deboostified)
+
+
 
 
 <img src="https://raw.githubusercontent.com/Krozark/SFML-utils/master/screen/Editor.png" alt="Editor" width="850px">

@@ -7,19 +7,12 @@
 #include <utils/sys.hpp>
 #include <utils/string.hpp>
 
-#include <SFML-utils/map/DatabaseMapLoader.hpp>
+#include <SFML-utils/map-editor/path.hpp>
 
+#include <SFML-utils/map/DatabaseMapLoader.hpp>
 
 #include <ORM/all.hpp>
 
-const std::string DIRECTORY_MEDIA_NAME = "media/editor";
-const std::string DIRECTORY_MEDIA = DIRECTORY_MEDIA_NAME + "/";
-
-const std::string DIRECTORY_SPRITES_NAME = "sprites";
-const std::string DIRECTORY_SPRITES = DIRECTORY_MEDIA + DIRECTORY_SPRITES_NAME + "/";
-
-const std::string DIRECTORY_SPRITES__SHEETS_NAME = "sheets";
-const std::string DIRECTORY_SPRITES_SHEETS = DIRECTORY_SPRITES + DIRECTORY_SPRITES__SHEETS_NAME + "/";
 
 namespace sfutils
 {
@@ -97,11 +90,21 @@ namespace sfutils
                 _gui.addTexture(tex);
             }
 
+            for(auto& file : _getBrushList())
+            {
+                _gui.addBrush(file);
+            }
+
         }
 
         const sfutils::map::MapModel::pointer Editor::getMap()const
         {
             return _dbMap;
+        }
+
+        const sfutils::map::MapViewer& Editor::getMapViewer()const
+        {
+            return _mapViewer;
         }
 
         MapStateChanger& Editor::getMapStateChanger()
@@ -184,14 +187,14 @@ namespace sfutils
             if(utils::string::endswith(texture,".json"))
             {
                 //json file
-                res = _spriteSheetSelector.setFile(DIRECTORY_SPRITES + texture,_mapManager->getTextureManager());
+                res = _spriteSheetSelector.setFile(path::DIRECTORY_SPRITES + texture,_mapManager->getTextureManager());
                 _spriteSheetSelector.setVisible(res);
             }
             else
             {
                 _spriteSheetSelector.setVisible(false);
                 //image file
-                res = setCurrentSprite(DIRECTORY_SPRITES + texture);
+                res = setCurrentSprite(path::DIRECTORY_SPRITES + texture);
             }
 
             if(res == false)
@@ -200,6 +203,12 @@ namespace sfutils
             }
 
             return res;
+        }
+
+        bool Editor::requestBrushSelected(const std::string& brush)
+        {
+            _mapSelectionManager.setSelectionBrush(brush);
+            return true;
         }
 
         bool Editor::setCurrentSprite(const std::string& spr)
@@ -330,7 +339,7 @@ namespace sfutils
                     }
                     _loadVisiblesAreas(rect);
                 }
-                else if(_mapSelectionManager.processEvent(event,_mapViewer))
+                else if(_mapSelectionManager.processEvent(event))
                 {
                 }
             }
@@ -442,17 +451,26 @@ namespace sfutils
 
         std::list<std::string> Editor::_getTextureList()const
         {
-           std::list<std::string> list = utils::sys::dir::list_files(DIRECTORY_SPRITES);
+           std::list<std::string> list = utils::sys::dir::list_files(path::DIRECTORY_SPRITES);
 
-           std::list<std::string> list2 = utils::sys::dir::list_files(DIRECTORY_SPRITES_SHEETS);
+           std::list<std::string> list2 = utils::sys::dir::list_files(path::DIRECTORY_SPRITES_SHEETS);
 
            for(std::string& f : list2)
            {
                if(utils::string::endswith(f,".json"))
                {
-                   list.emplace_back( DIRECTORY_SPRITES__SHEETS_NAME + "/" + f);
+                   list.emplace_back(path::DIRECTORY_SPRITES__SHEETS_NAME + "/" + f);
                }
            }
+
+           list.sort();
+
+            return list;
+        }
+
+        std::list<std::string> Editor::_getBrushList()const
+        {
+           std::list<std::string> list = utils::sys::dir::list_files(path::DIRECTORY_BRUSH);
 
            list.sort();
 

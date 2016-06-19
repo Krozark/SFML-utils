@@ -39,8 +39,11 @@ namespace sfutils
                 void addLayer(sfutils::map::LayerModel::pointer& layer,bool begin=false);
                 void delLayer(sfutils::map::LayerModel::pointer& layer);
 
-                void addTexture(const std::string& tex);
-                void delTexture(const std::string& tex);
+                void addTexture(const std::string& text);
+                void delTexture(const std::string& text);
+
+                void addBrush(const std::string& text);
+                void delBrush(const std::string& text);
 
                 int getCurrentLayerZIndex() const;
 
@@ -50,15 +53,11 @@ namespace sfutils
                 Editor& _owner;
                 sf::RenderWindow& _window;
                 CEGUI::Window* _root;
-                CEGUI::Window* _newLayer;
                 CEGUI::GUIContext* _context;
 
-                CEGUI::Listbox* _layerList;
-                void _clearLayerList();
-                void _setLayerListItemNames();
-
-                CEGUI::Listbox* _textureList;
-                void _clearTextureList();
+                void _clearListBox(CEGUI::Listbox* list);
+                void _addToList(CEGUI::Listbox* list,const std::string& text,void* userData=nullptr);
+                void _removeFromList(CEGUI::Listbox* list,const std::string& text);
 
                 static CEGUI::ListboxTextItem* _helperCreateTextItem(const std::string& txt, void* userData = nullptr);
 
@@ -79,6 +78,7 @@ namespace sfutils
                 /*left panel*/
                 void _registerLeftPanelCallbacks();
                 ////texture
+                CEGUI::Listbox* _textureList;
                 bool _event_leftPanel_texture_selected();
                 ////Tab
                 bool _event_leftPanel_tab_changed(const std::string& name);
@@ -106,6 +106,9 @@ namespace sfutils
                 void _registerRightPanelCallbacks();
                 ////Layers
                 //bool _event_rightPanel_layer_selected();
+                CEGUI::Listbox* _layerList;
+                void _setLayerListItemNames();
+
                 bool _event_rightPanel_layers_add();
                 bool _event_rightPanel_layers_up();
                 bool _event_rightPanel_layers_down();
@@ -114,12 +117,14 @@ namespace sfutils
                 ////tab
                 bool _event_rightPanel_tab_changed(const std::string& name);
                 //////Brush
-                bool _event_rightPanel_tab_brush_selected(CEGUI::Listbox* box);
+                CEGUI::Listbox* _brushList;
+                bool _event_rightPanel_tab_brush_selected();
                 //////NPC
                 bool _event_rightPanel_tab_NPC_selected(CEGUI::Listbox* box);
 
 
                 /* New Layer Popup */
+                CEGUI::Window* _newLayer;
                 void _showNewLayerPopup();
                 ///events
                 bool _event_newLayer_ok(CEGUI::Window* newLayerWindow);

@@ -5,6 +5,8 @@
 
 #include <SFML-utils/Map.hpp>
 
+struct lua_State;
+
 namespace sfutils
 {
     namespace editor
@@ -17,14 +19,17 @@ namespace sfutils
                 MapSelectionManager& operator=(const MapSelectionManager&) = delete;
 
                 MapSelectionManager(Editor& owner);
+                ~MapSelectionManager();
 
                 void reset();
 
-                bool processEvent(const sf::Event& event, sfutils::map::MapViewer& viewer);
+                bool processEvent(const sf::Event& event);
 
                 void render(sf::RenderTarget& target,sf::RenderStates states=sf::RenderStates::Default);
 
                 void setMap(sfutils::map::Map* map);
+
+                void setSelectionBrush(const std::string& brush);
 
 
             protected:
@@ -36,16 +41,19 @@ namespace sfutils
                 sf::ConvexShape* _cursorHighlight;
                 sfutils::map::Layer<sf::ConvexShape>* _highlightLayer;
 
+                lua_State* _luaState;
+
                 sf::Vector2i _clickPressedCoord;
                 sf::Vector2i _clickReleasedCoord;
                 bool _isPressed;
 
                 sf::VertexArray _clickIndicator;
 
-                void _updateSelectionArea(sfutils::map::MapViewer& viewer);
+                void _updateSelectionArea();
                 void _valideSelectedArea();
                 void _resetSelection();
-                void _squareSelection(sfutils::map::MapViewer& viewer);
+                void _squareSelection();
+                void _addSelectedCood(const sf::Vector2i& coord);
 
                 std::list<sf::Vector2i> _selectedCoords;
                 std::list<sf::ConvexShape*> _selectionHighlight;

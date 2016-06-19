@@ -18,8 +18,10 @@ namespace sfutils
             _owner(owner),
             _window(mainWindow),
             _root(nullptr),
+            _textureList(nullptr),
             _layerList(nullptr),
-            _textureList(nullptr)
+            _brushList(nullptr),
+            _newLayer(nullptr)
         {
             cegui::GuiManager::init("media/editor/cegui/","GlossySerpentFHD","DejaVuSans-10");
             //set mouse
@@ -115,23 +117,24 @@ namespace sfutils
             }
         }
 
-        void Gui::addTexture(const std::string& tex)
+        void Gui::addTexture(const std::string& text)
         {
-            assert(_textureList);
-
-            _textureList->addItem(_helperCreateTextItem(tex)); // Add the new ListBoxTextItem to the ListBox
-
-            _textureList->setItemSelectState(size_t(0),true);
+            _addToList(_textureList,text);
         }
 
-        void Gui::delTexture(const std::string& tex)
+        void Gui::delTexture(const std::string& text)
         {
-            assert(_textureList);
-            CEGUI::ListboxItem* item = _textureList->findItemWithText(tex,nullptr);
-            if(item)
-            {
-                _textureList->removeItem(item);
-            }
+            _removeFromList(_textureList,text);
+        }
+
+        void Gui::addBrush(const std::string& text)
+        {
+            _addToList(_brushList,text);
+        }
+
+        void Gui::delBrush(const std::string& text)
+        {
+            _removeFromList(_brushList,text);
         }
 
         int Gui::getCurrentLayerZIndex() const
@@ -150,16 +153,33 @@ namespace sfutils
         {
             setMainInfo("");
             setTitle("");
-            _clearLayerList();
-            _clearTextureList();
+            _clearListBox(_layerList);
+            _clearListBox(_textureList);
         }
 
         ////////////////////// PRIVATE ///////////////////
 
-        void Gui::_clearLayerList()
+        void Gui::_clearListBox(CEGUI::Listbox* list)
         {
-            assert(_layerList);
-            _layerList->resetList();
+            assert(list);
+            list->resetList();
+        }
+
+        void Gui::_addToList(CEGUI::Listbox* list,const std::string& text,void* userData)
+        {
+            assert(list);
+            list->addItem(_helperCreateTextItem(text,userData));
+            list->setItemSelectState(size_t(0),true);
+        }
+
+        void Gui::_removeFromList(CEGUI::Listbox* list,const std::string& text)
+        {
+            assert(list);
+            CEGUI::ListboxItem* item = list->findItemWithText(text,nullptr);
+            if(item)
+            {
+                list->removeItem(item);
+            }
         }
 
         void Gui::_setLayerListItemNames()
@@ -186,12 +206,6 @@ namespace sfutils
             }
 
             _layerList->handleUpdatedItemData();
-        }
-
-        void Gui::_clearTextureList()
-        {
-            assert(_textureList);
-            _textureList->resetList();
         }
 
         CEGUI::ListboxTextItem* Gui::_helperCreateTextItem(const std::string& txt, void* userData)
@@ -426,19 +440,12 @@ namespace sfutils
 
 
                 {//Brush
-                    CEGUI::Listbox* list = static_cast<CEGUI::Listbox*>(box->getChild("Brush")->getChildRecursive("List"));
-                    assert(list);
+                    _brushList = static_cast<CEGUI::Listbox*>(box->getChild("Brush")->getChildRecursive("List"));
+                    assert(_brushList);
 
-                    list->subscribeEvent(CEGUI::Listbox::EventSelectionChanged,[this,list](const CEGUI::EventArgs& e){
-                        return this->_event_rightPanel_tab_brush_selected(list);
+                    _brushList->subscribeEvent(CEGUI::Listbox::EventSelectionChanged,[this](const CEGUI::EventArgs& e){
+                        return this->_event_rightPanel_tab_brush_selected();
                     });
-
-                    //TODO load brush
-                    for(int i=0; i< 25; ++i)
-                    {
-                        list->addItem(_helperCreateTextItem("Item #" + std::to_string(i)));
-                    }
-
                 }
 
                 {//NPC

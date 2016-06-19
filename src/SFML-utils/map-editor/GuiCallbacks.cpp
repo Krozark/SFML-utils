@@ -428,16 +428,15 @@ namespace sfutils
             return true;
         }
 
-        bool Gui::_event_rightPanel_tab_brush_selected(CEGUI::Listbox* box)
+        bool Gui::_event_rightPanel_tab_brush_selected()
         {
-            //TODO
-            CEGUI::ListboxItem* item = box->getFirstSelectedItem();
+            CEGUI::ListboxItem* item = _brushList->getFirstSelectedItem();
             if(item)
             {
-                std::cout<<"_event_rightPanel_tab_brush_selected : "<<item->getText().c_str()<<std::endl;
+                return _owner.requestBrushSelected(item->getText().c_str());
             }
 
-            return true;
+            return false;
         }
 
         bool Gui::_event_rightPanel_tab_NPC_selected(CEGUI::Listbox* box)

@@ -32,6 +32,7 @@ namespace sfutils
 
                 void setMap(sfutils::map::MapModel::pointer& map);
                 const sfutils::map::MapModel::pointer getMap()const;
+                const sfutils::map::MapViewer& getMapViewer()const;
 
                 MapStateChanger& getMapStateChanger();
 
@@ -49,6 +50,7 @@ namespace sfutils
 
 
                 bool requestTextureSelected(const std::string& texture);
+                bool requestBrushSelected(const std::string& brush);
                 
                 bool setCurrentSprite(const std::string& spr);
                 bool setCurrentSprite(const std::string& spr,const sf::IntRect& rect);
@@ -88,6 +90,8 @@ namespace sfutils
                 sf::IntRect _getVisibleAreaRect()const;
 
                 std::list<std::string> _getTextureList()const;
+
+                std::list<std::string> _getBrushList()const;
 
                 void _reset();
 
