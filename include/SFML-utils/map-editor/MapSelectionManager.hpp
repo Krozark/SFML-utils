@@ -29,7 +29,7 @@ namespace sfutils
 
                 void setMap(sfutils::map::Map* map);
 
-                void setSelectionBrush(const std::string& brush);
+                bool setSelectionBrush(const std::string& brush);
 
 
             protected:

@@ -155,6 +155,7 @@ namespace sfutils
             setTitle("");
             _clearListBox(_layerList);
             _clearListBox(_textureList);
+            _clearListBox(_brushList);
         }
 
         ////////////////////// PRIVATE ///////////////////

@@ -207,8 +207,7 @@ namespace sfutils
 
         bool Editor::requestBrushSelected(const std::string& brush)
         {
-            _mapSelectionManager.setSelectionBrush(brush);
-            return true;
+            return _mapSelectionManager.setSelectionBrush(brush);
         }
 
         bool Editor::setCurrentSprite(const std::string& spr)

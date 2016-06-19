@@ -117,7 +117,7 @@ namespace sfutils
             _map->addLayer(_highlightLayer);
         }
 
-        void MapSelectionManager::setSelectionBrush(const std::string& brush)
+        bool MapSelectionManager::setSelectionBrush(const std::string& brush)
         {
             if(_luaState != nullptr)
             {
@@ -135,7 +135,13 @@ namespace sfutils
                 }))
             ];
 
-            luaL_dofile(_luaState,(path::DIRECTORY_BRUSH + brush).c_str());
+            if(luaL_dofile(_luaState,(path::DIRECTORY_BRUSH + brush).c_str()))
+            {
+                std::cerr<<"ERROR while loading \""<<path::DIRECTORY_BRUSH + brush<<"\" : "<<lua_tostring(_luaState, -1)<<std::endl;;
+                return false;
+            }
+
+            return true;
 
         }
 
