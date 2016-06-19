@@ -17,15 +17,16 @@ namespace sfutils
             public:
                 using FuncType = std::function<void(sfutils::map::LayerModel::pointer&, const TileInfo&)>;
 
-                TileInfo(int z,const sf::Vector2i& coord,FuncType func);
+                TileInfo() = default;
+                TileInfo(int z,const sf::Vector2i& coord,const std::string& textureFile,const sf::IntRect& textRect,const sf::Vector2f& textureCenterCoord);
 
                 int z;
                 sf::Vector2i coord;
+                std::string texture;
                 sf::IntRect textureRect;
                 sf::Vector2f textureCenterCoord;
 
-                std::string texture;
-                std::string type;
+                //std::string type;
                 FuncType func;
 
                 

@@ -94,6 +94,8 @@ namespace sfutils
                 _layerList->addItem(item);
             }
 
+            _layerList->setItemSelectState(size_t(0),true);
+
             _setLayerListItemNames();
 
         }
@@ -118,6 +120,8 @@ namespace sfutils
             assert(_textureList);
 
             _textureList->addItem(_helperCreateTextItem(tex)); // Add the new ListBoxTextItem to the ListBox
+
+            _textureList->setItemSelectState(size_t(0),true);
         }
 
         void Gui::delTexture(const std::string& tex)

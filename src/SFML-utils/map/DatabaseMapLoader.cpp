@@ -47,10 +47,59 @@ namespace sfutils
                                                   tile->layer->isStatic
                                                   ));
                 }
-                //TODO
-                std::shared_ptr<MetaLayerData> data(new MetaLayerDataTileRect(tile->texture,sf::IntRect(tile->posX -x * _map->areaWidth,
-                                                                                                       tile->posY - y * _map->areaHeight
-                                                                                                       ,1,1)));
+                std::shared_ptr<MetaLayerData> data;
+                if(tile->layer->type->name == "tile")
+                {
+                    sf::IntRect textRect(tile->posX -x * _map->areaWidth,tile->posY - y * _map->areaHeight,1,1);
+                    data.reset(new MetaLayerDataTileRect(tile->texture,textRect));
+                }
+                else if(tile->layer->type->name == "sprite" || tile->layer->type->name == "sprite_ptr")
+                {
+                    sf::Vector2i pos(tile->posX,tile->posY);
+                    auto ptr = new MetaLayerDataSprite(tile->texture,pos);
+                    data.reset(ptr);
+
+                    sf::IntRect textRect(tile->textureRectLeft,tile->textureRectTop,tile->textureRectWidth,tile->textureRectHeigh);
+                    if(textRect != sf::IntRect())
+                    {
+                        ptr->setTextureRect(textRect);
+                    }
+
+                    sf::Vector2f textCenter(tile->textureCenterLeft,tile->textureCenterTop);
+                    if(textCenter != sf::Vector2f())
+                    {
+                        ptr->setTextureOrigin(textCenter);
+                    }
+
+                    if(tile->layer->type->name == "sprite_ptr")
+                    {
+                        ptr->setIsPtr(true);
+                    }   
+                }
+                else if(tile->layer->type->name == "entity")
+                {
+                    sf::Vector2i pos(tile->posX,tile->posY);
+                    auto ptr = new MetaLayerDataEntity(tile->texture,pos);
+                    data.reset(ptr);
+
+                    sf::IntRect textRect(tile->textureRectLeft,tile->textureRectTop,tile->textureRectWidth,tile->textureRectHeigh);
+                    if(textRect != sf::IntRect())
+                    {
+                        ptr->setTextureRect(textRect);
+                    }
+
+                    sf::Vector2f textCenter(tile->textureCenterLeft,tile->textureCenterTop);
+                    if(textCenter != sf::Vector2f())
+                    {
+                        ptr->setTextureOrigin(textCenter);
+                    }
+                }
+                else
+                {
+                    std::cerr<<"Unknow layer type "<<tile->layer->type->name.getValue()<<std::endl;
+                    continue;
+                }
+
                 metaLayer->add(data);
             }
 

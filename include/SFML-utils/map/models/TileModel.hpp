@@ -16,7 +16,6 @@ namespace sfutils
                 TileModel();
 
                 orm::CharField<255> texture;
-                orm::CharField<255> textureFrame;
 
                 orm::IntegerField posX;
                 orm::IntegerField posY;
@@ -26,16 +25,16 @@ namespace sfutils
                 orm::IntegerField textureRectWidth;
                 orm::IntegerField textureRectHeigh;
 
-                orm::FloatField texureCenterLeft;
-                orm::FloatField texureCenterTop;
+                orm::FloatField textureCenterLeft;
+                orm::FloatField textureCenterTop;
 
 
                 orm::FK<LayerModel> layer;
                 
-                ORM_MAKE_STATIC_COLUMN(texture,textureFrame,
+                ORM_MAKE_STATIC_COLUMN(texture,
                                        posX,posY,
                                        textureRectTop,textureRectLeft,textureRectWidth,textureRectHeigh,
-                                       texureCenterLeft,texureCenterTop,
+                                       textureCenterLeft,textureCenterTop,
                                        layer);
 
             private:

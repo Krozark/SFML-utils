@@ -12,7 +12,7 @@
 
 #include <ORM/all.hpp>
 
-const std::string DIRECTORY_MEDIA_NAME = "media";
+const std::string DIRECTORY_MEDIA_NAME = "media/editor";
 const std::string DIRECTORY_MEDIA = DIRECTORY_MEDIA_NAME + "/";
 
 const std::string DIRECTORY_SPRITES_NAME = "sprites";
@@ -179,8 +179,7 @@ namespace sfutils
         {
             bool res = true;
             //reset
-            _currentTextureRect = sf::IntRect();
-            _currentTextureFile.clear();
+            _currentTileInfo = TileInfo();
 
             if(utils::string::endswith(texture,".json"))
             {
@@ -205,14 +204,14 @@ namespace sfutils
 
         bool Editor::setCurrentSprite(const std::string& spr)
         {
-            std::cout<<"TODO : "<<__FILE__<<":"<<__LINE__<<std::endl;
-
             bool res = true;
             try
             {
                 sf::Texture& tex = _mapManager->getTextureManager().getOrLoad(spr,spr);
                 tex.setRepeated(true);
-                _currentTextureFile = spr;
+                _currentTileInfo.texture = spr;
+                _currentTileInfo.textureRect = sf::IntRect();
+                _currentTileInfo.textureCenterCoord = sf::Vector2f();
             }
             catch(const std::exception& e)
             {
@@ -225,42 +224,44 @@ namespace sfutils
 
         bool Editor::setCurrentSprite(const std::string& spr,const sf::IntRect& rect)
         {
-            std::cout<<"TODO : "<<__FILE__<<":"<<__LINE__<<std::endl;
+            _currentTileInfo.texture = spr;
+            _currentTileInfo.textureRect = rect;
+            _currentTileInfo.textureCenterCoord = sf::Vector2f(0.5,0.75);
 
-            _currentTextureFile = spr;
-            _currentTextureRect = rect;
-            return false;
+            return true;
         }
 
         void Editor::fillTile(const sf::Vector2i& coord)
         {
-            std::cout<<"TODO : "<<__FILE__<<":"<<__LINE__<<std::endl;
-
             int currentLayerIndex = _gui.getCurrentLayerZIndex();
             std::cout<<"fill tile ("<<coord.x<<":"<<coord.y<<":"<<currentLayerIndex<<")"
-                     <<", Current texture file : "<<_currentTextureFile<<std::endl;
+                     <<", Current texture file : "<<_currentTileInfo.texture<<std::endl;
 
             sfutils::map::VLayer* currentLayer = _map->atZ(currentLayerIndex);
 
-            if((currentLayer != nullptr) && (_currentTextureFile.empty() == false))
+            if((currentLayer != nullptr) && (_currentTileInfo.texture.empty() == false))
             {
                 std::string type = currentLayer->getType();
+                
+                TileInfo info = _currentTileInfo;
+                info.z = currentLayer->getZ();
+                info.coord = coord;
 
                 if(type == "tile")
                 {
-                    _mapStateChanger.addTile(dynamic_cast<sfutils::map::Layer<sfutils::map::Tile>&>(*currentLayer),coord,_currentTextureFile);
+                    _mapStateChanger.addTile(dynamic_cast<sfutils::map::Layer<sfutils::map::Tile>&>(*currentLayer),info);
                 }
                 else if(type == "sprite")
                 {
-                    _mapStateChanger.addSprite(dynamic_cast<sfutils::map::Layer<sf::Sprite>&>(*currentLayer),coord,_currentTextureFile,_currentTextureRect);
+                    _mapStateChanger.addSprite(dynamic_cast<sfutils::map::Layer<sf::Sprite>&>(*currentLayer),info);
                 }
                 else if(type == "sprite_ptr")
                 {
-                    _mapStateChanger.addSpritePtr(dynamic_cast<sfutils::map::Layer<sf::Sprite*>&>(*currentLayer),coord,_currentTextureFile,_currentTextureRect);
+                    _mapStateChanger.addSpritePtr(dynamic_cast<sfutils::map::Layer<sf::Sprite*>&>(*currentLayer),info);
                 }
                 else if(type == "entity")
                 {
-                    _mapStateChanger.addEntity(dynamic_cast<sfutils::map::Layer<sfutils::map::Entity*>&>(*currentLayer),coord,_currentTextureFile);
+                    _mapStateChanger.addEntity(dynamic_cast<sfutils::map::Layer<sfutils::map::Entity*>&>(*currentLayer),info);
                 }
                 else
                 {
@@ -460,8 +461,7 @@ namespace sfutils
 
         void Editor::_reset()
         {
-            _currentTextureRect = sf::IntRect();
-            _currentTextureFile.clear();
+            _currentTileInfo = TileInfo();
 
             _gui.reset();
             _mapStateChanger.reset();

@@ -1,0 +1,48 @@
+{"frames": [
+
+{
+	"filename": "135.png",
+	"frame": {"x":2,"y":2,"w":192,"h":192},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":192,"h":192},
+	"sourceSize": {"w":192,"h":192},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "225.png",
+	"frame": {"x":196,"y":2,"w":192,"h":192},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":192,"h":192},
+	"sourceSize": {"w":192,"h":192},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "315.png",
+	"frame": {"x":390,"y":2,"w":192,"h":192},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":192,"h":192},
+	"sourceSize": {"w":192,"h":192},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "45.png",
+	"frame": {"x":584,"y":2,"w":192,"h":192},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":192,"h":192},
+	"sourceSize": {"w":192,"h":192},
+	"pivot": {"x":0.5,"y":0.5}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "buldings.png",
+	"format": "RGBA8888",
+	"size": {"w":778,"h":196},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:2c5e189e8b073208c02cf08767d72c3f:5327733d47878979de164db6e632403a:d4f419ebace5464bc8b4df917ec9fbeb$"
+}
+}

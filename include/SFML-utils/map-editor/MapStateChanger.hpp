@@ -40,10 +40,10 @@ namespace sfutils
                 bool changeVisibilityLayer(int index);
 
                 //adding tiles contents
-                void addTile(sfutils::map::Layer<sfutils::map::Tile>& layer,const sf::Vector2i& coord,const std::string& textureFile);
-                void addSprite(sfutils::map::Layer<sf::Sprite>& layer,const sf::Vector2i& coord,const std::string& textureFile,const sf::IntRect& textureRect);
-                void addSpritePtr(sfutils::map::Layer<sf::Sprite*>& layer,const sf::Vector2i& coord,const std::string& textureFile,const sf::IntRect& textureRect);
-                void addEntity(sfutils::map::Layer<sfutils::map::Entity*>& layer,const sf::Vector2i& coord,const std::string& textureFile);
+                void addTile(sfutils::map::Layer<sfutils::map::Tile>& layer,const TileInfo& info);
+                void addSprite(sfutils::map::Layer<sf::Sprite>& layer,const TileInfo& info);
+                void addSpritePtr(sfutils::map::Layer<sf::Sprite*>& layer,const TileInfo& info);
+                void addEntity(sfutils::map::Layer<sfutils::map::Entity*>& layer,const TileInfo& info);
 
             protected:
 
@@ -57,6 +57,9 @@ namespace sfutils
                 sfutils::map::LayerModel::pointer _getLayer(int zbuffer);
                 static void _delTile(sfutils::map::LayerModel::pointer& layer,const TileInfo& info);
                 static void _addTile(sfutils::map::LayerModel::pointer& layer,const TileInfo& info);
+
+                static void _delEntity(sfutils::map::LayerModel::pointer& layer,const TileInfo& info);
+                static void _addEntity(sfutils::map::LayerModel::pointer& layer,const TileInfo& info);
 
 
         };

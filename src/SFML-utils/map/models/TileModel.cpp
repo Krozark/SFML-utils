@@ -2,7 +2,6 @@
 
 ORM_REGISTER_AND_CONSTRUCT_WITH_NAMESPACE(sfutils::map,TileModel,"Tile",
                                       texture,"texture",
-                                      textureFrame,"textureFrame",
                                       posX,"posX",
                                       posY,"posY",
                                       textureRectTop,"textureRectTop",
@@ -10,8 +9,8 @@ ORM_REGISTER_AND_CONSTRUCT_WITH_NAMESPACE(sfutils::map,TileModel,"Tile",
                                       textureRectWidth,"textureRectWidth",
                                       textureRectHeigh,"textureRectHeigh",
 
-                                      texureCenterLeft,"texureCenterLeft",
-                                      texureCenterTop,"texureCenterTop",
+                                      textureCenterLeft,"textureCenterLeft",
+                                      textureCenterTop,"textureCenterTop",
                                       
                                       layer,"layer_fk")
 

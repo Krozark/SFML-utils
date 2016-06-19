@@ -4,11 +4,12 @@ namespace sfutils
 {
     namespace editor
     {
-        TileInfo::TileInfo(int az,const sf::Vector2i& acoord,FuncType f):
-            z(az),
-            coord(acoord),
-            textureCenterCoord(0.5,1),
-            func(f)
+        TileInfo::TileInfo(int p_z,const sf::Vector2i& p_coord,const std::string& p_textureFile,const sf::IntRect& p_textRect,const sf::Vector2f& p_textureCenterCoord):
+            z(p_z),
+            coord(p_coord),
+            texture(p_textureFile),
+            textureRect(p_textRect),
+            textureCenterCoord(p_textureCenterCoord)
         {
         }
 

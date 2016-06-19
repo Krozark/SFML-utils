@@ -10,6 +10,7 @@
 #include <SFML-utils/map-editor/SpriteSheetSelector.hpp>
 #include <SFML-utils/map-editor/MapStateChanger.hpp>
 #include <SFML-utils/map-editor/MapSelectionManager.hpp>
+#include <SFML-utils/map-editor/TileInfo.hpp>
 
 #include <utility>
 
@@ -76,8 +77,7 @@ namespace sfutils
 
                 sf::IntRect _lastVisibleRect;
 
-                sf::IntRect _currentTextureRect;
-                std::string _currentTextureFile;
+                TileInfo _currentTileInfo;
 
                 void _processEvents();
                 void _update();
