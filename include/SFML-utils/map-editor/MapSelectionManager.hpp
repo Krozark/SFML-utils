@@ -41,18 +41,17 @@ namespace sfutils
                 sf::ConvexShape* _cursorHighlight;
                 sfutils::map::Layer<sf::ConvexShape>* _highlightLayer;
 
-                lua_State* _luaState;
-
                 sf::Vector2i _clickPressedCoord;
                 sf::Vector2i _clickReleasedCoord;
                 bool _isPressed;
 
                 sf::VertexArray _clickIndicator;
 
+                lua_State* _luaState;
+
                 void _updateSelectionArea();
                 void _valideSelectedArea();
                 void _resetSelection();
-                void _squareSelection();
                 void _addSelectedCood(const sf::Vector2i& coord);
 
                 std::list<sf::Vector2i> _selectedCoords;

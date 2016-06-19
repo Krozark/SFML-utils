@@ -24,7 +24,8 @@ namespace sfutils
         
         MapSelectionManager::MapSelectionManager(Editor& owner) :
             _owner(owner),
-            _clickIndicator(sf::PrimitiveType::Lines,2)
+            _clickIndicator(sf::PrimitiveType::Lines,2),
+            _luaState(nullptr)
         {
             reset();
 
@@ -47,7 +48,7 @@ namespace sfutils
             _map = nullptr;
             _cursorHighlight = nullptr;
             _highlightLayer = nullptr;
-            _luaState = nullptr;
+
 
             _clickPressedCoord = sf::Vector2i(0,0);
             _clickReleasedCoord = sf::Vector2i(0,0);
@@ -150,13 +151,9 @@ namespace sfutils
             _clickIndicator[0].position = sf::Vector2f(viewer.mapCoordsToScreen(_clickPressedCoord));
             _clickIndicator[1].position = sf::Vector2f(viewer.mapCoordsToScreen(_clickReleasedCoord));
 
-            int y_min = std::min(_clickPressedCoord.y,_clickReleasedCoord.y);
-            int y_max = std::max(_clickPressedCoord.y,_clickReleasedCoord.y);
-            
-            int x_min = std::min(_clickPressedCoord.x,_clickReleasedCoord.x);
-            int x_max = std::max(_clickPressedCoord.x,_clickReleasedCoord.x);
-
-            luabind::call_function<void>(_luaState, "getSelection",x_min,x_max,y_min,y_max);
+            luabind::call_function<void>(_luaState, "getSelection",
+                                         _clickPressedCoord.x,_clickPressedCoord.y,
+                                         _clickReleasedCoord.x,_clickReleasedCoord.y);
             //_squareSelection(viewer);
 
             _highlightLayer->sort();
@@ -184,17 +181,6 @@ namespace sfutils
             }
 
             _selectedCoords.clear();
-        }
-
-        void MapSelectionManager::_squareSelection()
-        {
-            for(int y = std::min(_clickPressedCoord.y,_clickReleasedCoord.y); y <= std::max(_clickPressedCoord.y,_clickReleasedCoord.y);++y)
-            {
-                for(int x = std::min(_clickPressedCoord.x,_clickReleasedCoord.x); x <= std::max(_clickPressedCoord.x,_clickReleasedCoord.x);++x)
-                {
-                    _addSelectedCood(sf::Vector2i(x,y));
-                }
-            }
         }
 
         void MapSelectionManager::_addSelectedCood(const sf::Vector2i& coord)

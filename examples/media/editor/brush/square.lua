@@ -1,6 +1,6 @@
-function getSelection(x_min,x_max,y_min,y_max)
-    for y = y_min, y_max, 1 do
-        for x = x_min, x_max, 1 do
+function getSelection(x1, y1, x2, y2)
+    for y = math.min(y1,y2), math.max(y1,y2), 1 do
+        for x = math.min(x1,x2), math.max(x1,x2), 1 do
             addToSelection(x,y)
         end
     end
