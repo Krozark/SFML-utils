@@ -1,3 +1,4 @@
+--from http://www.roguebasin.com/index.php?title=Bresenham%27s_Line_Algorithm
 function bresenham(x1, y1,x2, y2)
     delta_x = x2 - x1
     ix = delta_x > 0 and 1 or -1

@@ -72,7 +72,7 @@ Requirement:
 -----------
 * all the previous depndencies
 * map framwork
-* CEGUI 0.8.x (Editor optional)
+* CEGUI 0.8.x
 * cpp-ORM : Cpp ORM (https://github.com/Krozark/cpp-ORM)
 * lua 5.1
 * luabind (https://github.com/Krozark/luabind-deboostified)
