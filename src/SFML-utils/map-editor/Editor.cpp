@@ -25,7 +25,7 @@ namespace sfutils
             _mapStateChanger(*this),
             _mapSelectionManager(*this),
             _map(nullptr),
-            _mapViewer(_window,nullptr,false)
+            _mapViewer(_window,nullptr,true)
         {
 
             _window.setFramerateLimit(65);
@@ -312,21 +312,9 @@ namespace sfutils
                     _window.close();
                 }
                 ///////////////////map viewer/////////////////////
-                else if(event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::Up)
+                else if(_mapViewer.processEvent(event))
                 {
-                    _mapViewer.move(0,-20);
-                }
-                else if(event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::Down)
-                {
-                    _mapViewer.move(0,20);
-                }
-                else if(event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::Right)
-                {
-                    _mapViewer.move(20,0);
-                }
-                else if(event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::Left)
-                {
-                    _mapViewer.move(-20,0);
+                    reloadAreas = true;
                 }
                 ///////////////////editor logics//////////////////
                 else if(event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::F5)
