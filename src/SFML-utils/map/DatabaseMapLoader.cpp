@@ -48,14 +48,14 @@ namespace sfutils
                                                   ));
                 }
                 std::shared_ptr<MetaLayerData> data;
+                sf::Vector2i pos(tile->posX -x * _map->areaWidth,tile->posY - y * _map->areaHeight);
                 if(tile->layer->type->name == "tile")
                 {
-                    sf::IntRect textRect(tile->posX -x * _map->areaWidth,tile->posY - y * _map->areaHeight,1,1);
+                    sf::IntRect textRect(pos.x,pos.y,1,1);
                     data.reset(new MetaLayerDataTileRect(tile->texture,textRect));
                 }
                 else if(tile->layer->type->name == "sprite" || tile->layer->type->name == "sprite_ptr")
                 {
-                    sf::Vector2i pos(tile->posX,tile->posY);
                     auto ptr = new MetaLayerDataSprite(tile->texture,pos);
                     data.reset(ptr);
 
@@ -78,7 +78,6 @@ namespace sfutils
                 }
                 else if(tile->layer->type->name == "entity")
                 {
-                    sf::Vector2i pos(tile->posX,tile->posY);
                     auto ptr = new MetaLayerDataEntity(tile->texture,pos);
                     data.reset(ptr);
 
