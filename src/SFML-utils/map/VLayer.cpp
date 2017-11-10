@@ -50,7 +50,7 @@ namespace sfutils
 
         VLayer* VLayer::create(const std::string& layerType, int z, bool isStatic, bool isVisible)
         {
-            VLayer* layer;
+            VLayer* layer = nullptr;
             if(layerType == "tile")
             {
                 layer = new sfutils::map::Layer<sfutils::map::Tile>(layerType,z,isStatic,isVisible);

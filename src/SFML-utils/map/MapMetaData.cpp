@@ -173,7 +173,9 @@ namespace sfutils
 
             auto l = dynamic_cast<Layer<Entity*>*>(layer);
             if(not l)
+            {
                 return false;
+            }
 
             sf::Sprite spr(tex,_texRect);
 
@@ -191,7 +193,7 @@ namespace sfutils
 
             createdData.emplace_back(&e);
 
-            return (&e !=nullptr);
+            return true;
         }
 
         void MetaLayerDataEntity::setTextureOrigin(const sf::Vector2f& o)

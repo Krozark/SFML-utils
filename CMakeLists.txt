@@ -56,7 +56,7 @@ endif()
 
 if(SFML_UTILS_BUILD_MODULE_MAP AND SFML_UTILS_BUILD_MODULE_CEGUI AND SFML_UTILS_BUILD_MODULE_MAP_DATABASE)
     set_option(SFML_UTILS_BUILD_MODULE_MAP_EDITOR TRUE BOOL "TRUE to build the map module EDITOR")
-    set_option(ORM_BUILD_SUPPORT_MYSQL TRUE BOOL "TRUE to support Mysql backends, else, Sqlite3")
+    set_option(ORM_BUILD_SUPPORT_MYSQL FALSE BOOL "TRUE to support Mysql backends, else, Sqlite3")
     if(${ORM_BUILD_SUPPORT_MYSQL})
         add_definitions("-DORM_BUILD_SUPPORT_MYSQL")
     endif()

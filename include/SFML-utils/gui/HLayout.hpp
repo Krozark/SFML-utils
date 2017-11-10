@@ -38,7 +38,7 @@ namespace sfutils
                 /**
                  * \brief remove all attached widgets
                  */
-                virtual void clear();
+                virtual void clear() override;
 
             protected:
                 virtual bool processEvent(const sf::Event& event,const sf::Vector2f& parent_pos) override;
