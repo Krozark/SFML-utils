@@ -35,7 +35,13 @@ int main(int argc,char* argv[])
     orm::DB::Default->connect();
 #endif
 
+    // use database map
+     /*auto dbmap = sfutils::map::MapModel::get(1);
+     sfutils::map::MapManager mapManager(std::shared_ptr<sfutils::map::VMapLoader>(new sfutils::map::DatabaseMapLoader(dbmap)));*/
+
+    // use file map
     sfutils::map::MapManager mapManager(std::shared_ptr<sfutils::map::VMapLoader>(new sfutils::map::JsonMapLoader("./media")));
+   
 
     sfutils::map::Map* map = mapManager.getMap();
     mapManager.loadArea(1,0);
