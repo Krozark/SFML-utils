@@ -9,7 +9,7 @@ project (${PROJECT_NAME})
 # setup version numbers
 set(VERSION_MAJOR 0)
 set(VERSION_MINOR 3)
-set(VERSION_PATCH 0)
+set(VERSION_PATCH 1)
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules;${CMAKE_SOURCE_DIR}")
 
